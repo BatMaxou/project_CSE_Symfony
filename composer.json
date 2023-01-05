@@ -1,5 +1,0 @@
-{
-    "require": {
-        "symfony/twig-pack": "^1.0"
-    }
-}
