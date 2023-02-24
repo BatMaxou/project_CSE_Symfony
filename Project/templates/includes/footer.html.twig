@@ -1,0 +1,27 @@
+{% block footer %}
+	<div id="footer">
+		<div class="footer-content">
+			<div class="menu">
+				<div class="img-container">
+					<img src="{{ asset('images/logo.jpg') }}"/>
+				</div>
+				<div class="links">
+					<h4>CSE Lycée Saint-Vincent</h4>
+					<a href="{{ path('partnership')}}">> Partenariats</a>
+					<a href="{{ path('ticketing')}}">> Billetterie</a>
+					<a href="{{ path('aboutUs')}}">> A propos de nous</a>
+					<a href="{{ path('contact')}}">> Contact</a>
+				</div>
+			</div>
+
+			<div class="offer">
+				<h4>Inscrivez-vous aux offres</h4>
+				<p>Recevez un email à chaque nouvelle offre sur le site internet</p>
+				<form action="">
+					<input type="text" placeholder="Saisissez votre email"/>
+					<input type="submit" value="S'inscrire"/>
+				</form>
+			</div>
+		</div>
+	</div>
+{% endblock %}
