@@ -1,0 +1,145 @@
+/*GENERAL*/
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+img {
+    width: 100%;
+    height: auto;
+}
+
+ul {
+    list-style: none;
+}
+
+/*FOOTER*/
+
+#footer {
+    background-color: #b6a886;
+    padding: 10px;
+    display: flex;
+}
+
+#footer .footer-content {
+    margin: 0 auto;
+    display: flex;
+    max-width: 900px;
+    color: #fff;
+}
+
+#footer h4 {
+    font-weight: bold;
+}
+
+#footer .menu {
+    display: flex;
+}
+
+#footer .img-container {
+    max-width: 200px;
+}
+
+#footer .links {
+    padding: 0 5%;
+}
+
+#footer .links h4 {
+    margin-bottom: 15px;
+}
+
+#footer .links a {
+    display: inline-block;
+    width: 140px;
+    margin: 5px 0;
+    color: #fff;
+}
+
+#footer .links a:hover {
+    text-decoration: underline;
+}
+
+#footer .offer p {
+    margin-bottom: 10px;
+}
+
+#footer form input {
+    height: 25px;
+    border: none;
+    border-radius: 10px;
+}
+
+#footer form input[type='text'] {
+    padding-left: 10px;
+    width: 175px;
+}
+
+#footer form input[type='submit'] {
+    width: 80px;
+    background-color: #fff;
+}
+
+@media (max-width: 850px) {
+    #footer .footer-content {
+        width: 100%;
+        display: block;
+    }
+
+    #footer .menu {
+        justify-content: center;
+    }
+
+    #footer .img-container {
+        margin-left: 5%;
+    }
+
+    #footer .links {
+        width: 290px;
+        padding-right: 0;
+    }
+
+    #footer .offer {
+        text-align: center;
+        margin: 15px auto 0;
+        width: 280px;
+    }
+}
+
+@media (max-width: 600px) {
+    #footer .footer-content {
+        width: 100%;
+        display: block;
+        text-align: center;
+    }
+
+    #footer .menu {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #footer .img-container {
+        margin-bottom: 15px;
+    }
+
+    #footer .links {
+        width: 290px;
+        padding-right: 0;
+    }
+
+    #footer .links h4 {
+        margin: 0;
+    }
+
+    #footer .links a {
+        text-align: left;
+    }
+}
