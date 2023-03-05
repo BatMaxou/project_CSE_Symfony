@@ -1,0 +1,14 @@
+{% block navbar %}
+	<div id="navbar">
+		<div class="gray"></div>
+		<div class="blue">
+			<div class="navbar-content">
+				<div class="img-container">
+					<img src="{{ asset('images/logo.jpg') }}" alt="logo-SV"/>
+				</div>
+				{% include "includes/navbar/navbar-menu.html.twig" %}
+			</div>
+			{% include "includes/navbar/navbar-responsive.html.twig" %}
+		</div>
+	</div>
+{% endblock %}
