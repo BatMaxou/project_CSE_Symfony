@@ -60,7 +60,7 @@ ul {
     width: 100%;
     height: 50px;
     padding-inline: 10px;
-    background-color: #19253d;
+    background-color: var(--color-blue);
 }
 
 #navbar .navbar-content {
@@ -127,7 +127,7 @@ ul {
         width: 250px;
         /* A FAIRE EN JS */
         height: 500px;
-        background-color: #19253d;
+        background-color: var(--color-blue);
     }
 
     #navbar .navbar-divider {
@@ -264,6 +264,7 @@ ul {
     border: 30px solid rgba(27, 49, 104, 0.1);
     width: 141px;
     height: 141px;
+    z-index: -1;
 }
 
 .slider-image img {
