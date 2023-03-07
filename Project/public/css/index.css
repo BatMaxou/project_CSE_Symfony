@@ -110,11 +110,19 @@ ul {
         display: block;
         position: absolute;
         top: 100px;
-        left: 0;
+        left: -250px;
         width: 250px;
         /* A FAIRE EN JS */
         height: 500px;
         background-color: #19253d;
+    }
+
+    #navbar .navbar-divider {
+        width: 90%;
+        margin: 0 auto;
+        height: 2px;
+        border-radius: 5px;
+        background-color: #fff;
     }
 
     #navbar ul {
@@ -132,6 +140,46 @@ ul {
         padding-inline: 0;
         text-align: center;
     }
+}
+
+/*NAVBAR TOGGLER*/
+
+#navPerso-toggler {
+    position: relative;
+    margin-left: 10px;
+    margin-top: 5px;
+    width: 40px;
+    height: 40px;
+    border: none !important;
+    background-color: transparent;
+}
+
+.line-toggler {
+    position: absolute;
+    height: 4px;
+    background-color: white;
+    border-radius: 25px;
+}
+
+.line-toggler:nth-child(1) {
+    width: 90%;
+    left: 50%;
+    top: 25%;
+    transform: translate(-50%, -25%);
+}
+
+.line-toggler:nth-child(2) {
+    width: 75%;
+    left: 42.5%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.line-toggler:nth-child(3) {
+    width: 60%;
+    left: 35%;
+    top: 75%;
+    transform: translate(-50%, -75%);
 }
 
 /*FOOTER*/
