@@ -13,7 +13,12 @@
 	</head>
 	<body>
 		{% include "includes/navbar/navbar.html.twig" %}
-		{% block body %}{% endblock %}
+		{% block body %}
+			<div id="body">
+				{% include "includes/sidebar/sidebar.html.twig" %}	
+
+			</div>
+		{% endblock %}
 		{% include "includes/footer.html.twig" %}
 	</body>
 </html>
