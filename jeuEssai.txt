@@ -1,0 +1,134 @@
+INSERT INTO contact (firstname_contact, name_contact, email_contact, message_contact)
+VALUES
+    ("Wyoming", "Blanchard","pede@icloud.couk", "Bonjour, je souhaite me désinscrire de la newslettter, merci."),
+    ("Dorian", "Baker","proin.sed.turpis@protonmail.edu", "Je ne suis plus intéressé par la newsletter, merci."),
+    ("Ignatius", "Chavez","nonummy.ac@icloud.edu", "Bonjour, je souhaite m'inscrire merci."),
+    ("Finn", "Conner","luctus@icloud.ca", "Bonjour, je souhaite postuler pour un stage."),
+    ("Aretha", "Baker","bibendum.sed@protonmail.com", "Bonjour, je suis intéré par l'un de vos ticketing !");
+
+INSERT INTO Admin (email_admin, password_admin, roles_admin)
+VALUES
+    ("pede@icloud.couk", "$argon2i$v=19$m=65536,t=4,p=1$ZTJLaGYvdDJtMUVKTFJCWQ$vHhV73SOuPb24C2fg88oQLwUC1a7eKHnfC4CEHV5Ats", '["ROLE_ADMIN"]'),
+    ("proin.sed.turpis@protonmail.edu", "$argon2i$v=19$m=65536,t=4,p=1$ZnplSklHYU13aC9FSEp3eQ$SHRulI8gt/LqmH7MjBJ1lVZJE3Ec4ReBzNX2Jsq5JGg", '["ROLE_ADMIN"]'),
+    ("nonummy.ac@icloud.edu", "$argon2i$v=19$m=65536,t=4,p=1$YWVmdVREdjR6aDJwbkIvaw$ppluxlgtQ1YVgyEG3vWTlaKVxnJ0qb1h20giVPzHp08", '["ROLE_ADMIN"]'),
+    ("luctus@icloud.ca", "$argon2i$v=19$m=65536,t=4,p=1$OFJ4cFllNnRoc3FxbHVXOA$7k9exvWZ2nPIcsWU/v4Z8h6n18LWL6v8RPSsZIsYbLU", '["ROLE_ADMIN"]'),
+    ("bibendum.sed@protonmail.com", "$argon2i$v=19$m=65536,t=4,p=1$dGpLZ2xyZDZpbXJhNzVGWQ$s0X63CtwYOEm7Jjj4gAkCnE7H2ClGg5AdQcMOvt9f1Y", '["ROLE_ADMIN"]');
+
+pede@icloud.couk : password
+proin.sed.turpis@protonmail.edu : babeudi
+nonummy.ac@icloud.edu : helloworld
+luctus@icloud.ca : admin
+bibendum.sed@protonmail.com : 1234
+
+INSERT INTO partnership (name_partnership, image_partnership, description_partnership, link_partnership)
+VALUES
+    ("Google","image1.jpg", "1er navigateur utilisé dans le monde !", "https://www.google.com/"),
+    ("Pathé","image2.jpg", "Plus gros cinéma de france !", "https://www.pathe.fr/"),
+    ("Mental Works","image3.jpg", "Entreprise de création de visibilité numérique", "https://www.mentalworks.fr/"),
+    ("Macdonald's","image4.jpg", "1er fastfood de france !", "https://www.mcdonalds.fr/"),
+    ("CNIL","image5.jpg", "Expert en sécurité informatique", "https://www.cnil.fr/");
+
+INSERT INTO subscriber (email_subscriber, consent_subscriber)
+VALUES
+    ("malesuada.fames@aol.net", 1),
+    ("integer.in.magna@yahoo.edu", 1),
+    ("erat.eget@protonmail.net", 1),
+    ("faucibus@icloud.org", 1),
+    ("vestibulum@outlook.couk", 1);
+
+INSERT INTO survey (question_survey)
+VALUES
+    ("Aimeriez-vous avoir des déjeuner tous les matins ?"),
+    ("Quel est votre fastfood préféré ?"),
+    ("Quel est votre parc d'attraction préféré ?"),
+    ("Quel est la couleur du cheval blanc d'Henri 4 ?"),
+    ("Quelle est la couleur de tes chaussettes ?");
+
+
+INSERT INTO response (text_response, id_survey)
+VALUES
+    ("Toujours", 1),
+    ("Jamais", 1),
+    ("De temps en temps", 1),
+    ("Macdo", 2),
+    ("Burger King", 2),
+    ("KFC", 2),
+    ("Disney", 3),
+    ("Astérix", 3),
+    ("La mer de sable", 3),
+    ("Rouge", 4),
+    ("Blanc", 4),
+    ("Noir", 4),
+    ("Bleu", 5),
+    ("Vert", 5),
+    ("Jaune", 5);
+
+INSERT INTO user_response (datetime_user_response, id_response)
+VALUES
+    ("2023-03-07 15:37:33", 1),
+    ("2023-01-03 12:25:58", 2),
+    ("2021-11-25 09:37:21", 3),
+    ("2022-08-24 11:34:33", 2),
+    ("2022-06-08 15:41:11", 3),
+    ("2021-11-05 17:58:19", 4),
+    ("2022-01-21 16:46:16", 5),
+    ("2023-02-30 08:32:25", 5),
+    ("2023-05-26 03:23:29", 6),
+    ("2021-08-29 11:10:21", 4),
+    ("2023-09-02 16:14:35", 7),
+    ("2021-12-03 23:23:23", 9),
+    ("2023-03-06 22:22:22", 8),
+    ("2021-04-09 15:41:46", 8),
+    ("2022-07-16 12:12:41", 8),
+    ("2022-01-18 14:06:10", 10),
+    ("2023-06-24 19:39:15", 10),
+    ("2023-06-05 20:01:13", 10),
+    ("2021-10-25 21:05:31", 10),
+    ("2021-10-02 00:45:49", 11),
+    ("2022-10-03 05:49:12", 14),
+    ("2022-03-27 06:36:14", 13),
+    ("2022-07-05 09:42:21", 15),
+    ("2021-10-09 10:16:46", 15),
+    ("2023-09-03 12:19:57", 15);
+
+INSERT INTO ticketing (name_ticketing, text_ticketing, date_start_ticketing, date_end_ticketing, number_min_place_ticketing, type_ticketing)
+VALUES
+    ("Cinéma", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "2022-10-17", "2023-07-05", 50, 0),
+    ("Parc d'astérix", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "2022-10-17", "2023-07-05", 20, 0),
+    ("Bon decathlon", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "2022-10-17", "2023-07-05", 25, 0),
+    ("Voyage Rome", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "2022-10-17", "2023-07-05", 10, 0),
+    ("Convention manga", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "2022-10-17", "2023-07-05", 30, 0);
+
+INSERT INTO ticketing (text_ticketing, date_start_ticketing, date_end_ticketing, order_number_ticketing, type_ticketing)
+VALUES
+    ("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "2022-10-17", "2023-07-05", 1, 1),
+    ("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "2023-01-23", "2023-10-28", 2, 1),
+    ("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "2023-02-05", "2023-06-23", 3, 1),
+    ("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "2022-08-12", "2023-11-29", 4, 1),
+    ("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "2021-10-06", "2023-09-14", 5, 1);
+
+INSERT INTO image_ticketing (name_image_ticketing, id_ticketing)
+VALUES
+    ("image1.jpg", 1),
+    ("image2.jpg", 2),
+    ("image3.jpg", 3),
+    ("image4.jpg", 4),
+    ("image5.jpg", 5),
+    ("image6.jpg", 6),
+    ("image7.jpg", 7),
+    ("image8.jpg", 8),
+    ("image9.jpg", 9),
+    ("image10.jpg", 10),
+    ("image11.jpg", 7),
+    ("image12.jpg", 7),
+    ("image13.jpg", 6),
+    ("image14.jpg", 1),
+    ("image15.jpg", 3);
+
+INSERT INTO ckeditor (name_page_ckeditor, zone_ckeditor, content_ckeditor)
+VALUES
+    ("HomePage", "zone1", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."),
+    ("About us", "zone1", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."),
+    ("About us", "zone2", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."),
+    ("About us", "zone3", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."),
+    ("About us", "zone4", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
