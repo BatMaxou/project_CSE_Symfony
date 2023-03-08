@@ -12,10 +12,11 @@
 		<link rel="stylesheet" href="{{ asset('css/index.css') }}">
 	</head>
 	<body>
+		<script src="{{ asset('js/init.js') }}"></script>
 		{% include "includes/navbar/navbar.html.twig" %}
 		{% block body %}
 			<div id="body">
-				{% include "includes/sidebar/sidebar.html.twig" %}	
+				{% include "includes/sidebar/sidebar.html.twig" %}
 
 			</div>
 		{% endblock %}

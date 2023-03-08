@@ -1,9 +1,12 @@
+//initialisé la hauteur du menu burger
+const nav = document.querySelector(".navbar-responsive")
+nav.style.height = height + "px"
+
 //animation au click du bouton toggle
 const button = document.querySelector("#navPerso-toggler")
 const line1 = document.querySelector(".line-toggler:nth-child(1)")
 const line2 = document.querySelector(".line-toggler:nth-child(2)")
 const line3 = document.querySelector(".line-toggler:nth-child(3)")
-const nav = document.querySelector(".navbar-responsive")
 
 var togglerIsDefault = "true"
 
