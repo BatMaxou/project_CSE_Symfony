@@ -15,5 +15,16 @@
 			</div>
 			{% include "includes/navbar/navbar-responsive.html.twig" %}
 		</div>
+		<div class="current-navigation">
+			<img src="{{asset('images/home.svg')}}" alt="home">
+			<ul>
+				{% for nav in currentNav %}
+					<li>
+						<img src="{{asset('images/left-chevron.svg')}}" alt="chevron">
+						<a href="#">{{ nav }}</a>
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
 	</div>
 {% endblock %}

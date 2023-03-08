@@ -12,7 +12,11 @@ class HomeController extends AbstractController
     #[Route(path: '/', name: 'home')]
     public function home(): Response
     {
-        return $this->render('base.html.twig');
+        $currentNav = ['Accueil'];
+
+        return $this->render('homePage/index.html.twig', [
+            'currentNav' => $currentNav,
+        ]);
     }
 
     #[Route(path: '/partenariat', name: 'partnership')]

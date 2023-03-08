@@ -2,7 +2,8 @@
 
 #body {
     max-width: 1020px;
-    margin: 0 auto;
+    margin: 150px auto 0;
+    display: flex;
 }
 
 body {
@@ -100,6 +101,30 @@ ul {
 
 #navbar .navbar-menu a:hover {
     background-color: #b6a886;
+}
+
+#navbar .current-navigation {
+    max-width: 1000px;
+    padding-inline: 10px;
+    margin: 0 auto;
+}
+
+#navbar .current-navigation,
+#navbar .current-navigation ul,
+#navbar .current-navigation li {
+    display: flex;
+}
+
+#navbar .current-navigation {
+    height: 50px;
+}
+
+#navbar .current-navigation img {
+    width: 25px;
+}
+
+#navbar .current-navigation ul {
+    padding: 0;
 }
 
 #navbar .navbar-responsive {
@@ -209,7 +234,7 @@ ul {
 
 .sidebar {
     max-width: 200px;
-    margin: 150px 0 50px 10px
+    margin: 0 0 50px 10px
 }
 
 .sidebar ul {
@@ -218,7 +243,7 @@ ul {
 
 .sidebar li {
     padding: 5px 0;
-    list-style-image: url(../images/Chevron\ suite.svg);
+    list-style-image: url(../images/left-chevron.svg);
 }
 
 .sidebar a {
