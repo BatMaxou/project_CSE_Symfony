@@ -3,7 +3,8 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>
-			{% block title %}Welcome!
+			{% block title %}
+				CSE
 			{% endblock %}
 		</title>
 		<link
@@ -14,9 +15,15 @@
 	<body>
 		<script src="{{ asset('js/init.js') }}"></script>
 		{% include "includes/navbar/navbar.html.twig" %}
-		{% block body %}
-			<div id="body"></div>
-		{% endblock %}
+
+		<div id="body">
+			{% block sidebar %}
+				{# include sidebar #}
+			{% endblock %}
+			{% block body %}
+				{# Override content #}
+			{% endblock %}
+		</div>
 		{% include "includes/footer.html.twig" %}
 	</body>
 </html>

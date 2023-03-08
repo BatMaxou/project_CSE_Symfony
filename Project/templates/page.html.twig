@@ -1,7 +1,9 @@
 {% extends "base.html.twig" %}
 
+{% block sidebar %}
+	{% include "includes/sidebar/sidebar.html.twig" %}
+{% endblock %}
+
 {% block body %}
-	<div id="body">
-		{% include "includes/sidebar/sidebar.html.twig" %}
-	</div>
+	{# Override content #}
 {% endblock %}
