@@ -1,24 +1,36 @@
 // Récupérer les éléments du DOM
-var slides = document.querySelectorAll('.slider-image');
-var prevBtn = document.querySelector('.prev');
-var nextBtn = document.querySelector('.next');
+var slides = null
+var prevBtn = null
+var nextBtn = null
+
+if (width > 850) {
+    slides = document.querySelectorAll('#body .slider-image');
+    prevBtn = document.querySelector('#body .prev');
+    nextBtn = document.querySelector('#body .next');
+} else {
+    slides = document.querySelectorAll('#navbar .slider-image');
+    prevBtn = document.querySelector('#navbar .prev');
+    nextBtn = document.querySelector('#navbar .next');
+}
 
 // Initialiser le compteur
 var currentSlide = 0;
 
 // Afficher la première diapositive
-showSlide(currentSlide);
+if (slides.length !== 0) {
+    showSlide(currentSlide);
+}
 
 // Fonction pour afficher une diapositive
 function showSlide(index) {
     // Masquer toutes les diapositives
-    TweenLite.set(slides, {display: 'none', opacity: 0});
+    gsap.set(slides, { display: 'none', opacity: 0 });
 
     // Afficher la diapositive actuelle
-    TweenLite.set(slides[index], {display: 'block'});
+    gsap.set(slides[index], { display: 'block' });
 
     // Animer l'opacité de la diapositive actuelle
-    TweenLite.to(slides[index], 0.5, {opacity: 1});
+    gsap.to(slides[index], 0.5, { opacity: 1 });
 }
 
 // Fonction pour passer à la diapositive suivante
@@ -50,8 +62,10 @@ function prevSlide() {
 }
 
 // Ajouter des écouteurs d'événements sur les flèches de navigation
-nextBtn.addEventListener('click', nextSlide);
-prevBtn.addEventListener('click', prevSlide);
+if (nextBtn && prevBtn) {
+    nextBtn.addEventListener('click', nextSlide);
+    prevBtn.addEventListener('click', prevSlide);
+}
 
 // Définir un intervalle pour passer automatiquement à la diapositive suivante
-var interval = setInterval(nextSlide, 3000);
+var interval = setInterval(prevSlide, 3000);

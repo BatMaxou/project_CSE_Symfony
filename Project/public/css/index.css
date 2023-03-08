@@ -48,6 +48,7 @@ ul {
     top: 0;
     left: 0;
     width: 100%;
+    z-index: 1;
 }
 
 #navbar .gray {
@@ -81,23 +82,23 @@ ul {
     height: 103px;
 }
 
-#navbar ul {
+#navbar .navbar-menu {
     margin: 0;
     margin-left: 200px;
     padding: 0;
 }
 
-#navbar ul li {
+#navbar .navbar-menu li {
     display: inline-block;
 }
 
-#navbar ul a {
+#navbar .navbar-menu a {
     display: block;
     padding: 15.8px 25px;
     color: #fff;
 }
 
-#navbar ul a:hover {
+#navbar .navbar-menu a:hover {
     background-color: #b6a886;
 }
 
@@ -125,9 +126,12 @@ ul {
         top: 100px;
         left: -250px;
         width: 250px;
-        /* A FAIRE EN JS */
-        height: 500px;
         background-color: var(--color-blue);
+        overflow-y: scroll;
+    }
+
+    #navbar .navbar-responsive::-webkit-scrollbar {
+        width: 0;
     }
 
     #navbar .navbar-divider {
@@ -138,18 +142,18 @@ ul {
         background-color: #fff;
     }
 
-    #navbar ul {
+    #navbar .navbar-menu {
         margin: 0;
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
     }
 
-    #navbar ul li {
+    #navbar .navbar-menu li {
         width: 50%;
     }
 
-    #navbar ul a {
+    #navbar .navbar-menu a {
         padding-inline: 0;
         text-align: center;
     }
@@ -195,12 +199,17 @@ ul {
     transform: translate(-50%, -75%);
 }
 
+@media (min-width: 850px) {
+    #navPerso-toggler {
+        display: none;
+    }
+}
+
 /*SIDEBAR*/
 
 .sidebar {
-    margin-top: 150px;
     max-width: 200px;
-    margin-left: 10px;
+    margin: 150px 0 50px 10px
 }
 
 .sidebar ul {
@@ -209,7 +218,7 @@ ul {
 
 .sidebar li {
     padding: 5px 0;
-    list-style-image: url(../images/Chevron\ suite.svg)
+    list-style-image: url(../images/Chevron\ suite.svg);
 }
 
 .sidebar a {
@@ -218,6 +227,36 @@ ul {
 
 .sidebar a:hover {
     color: var(--color-blue);
+}
+
+@media (max-width: 850px) {
+    .sidebar {
+        display: none;
+    }
+
+    #navbar .sidebar {
+        display: block;
+        height: 1000px;
+        margin: 0 auto 100px;
+    }
+
+    #navbar .sidebar-servey {
+        margin-top: 15px;
+        border: 3px solid #EFEDED;
+    }
+
+    #navbar .sidebar-servey button {
+        background-color: var(--color-blue);
+        color: #fff;
+        border: none;
+    }
+
+    #navbar .sidebar li,
+    #navbar .sidebar .next,
+    #navbar .sidebar .prev,
+    #navbar .sidebar-slider a {
+        filter: invert(1);
+    }
 }
 
 /*SONDAGE*/
@@ -264,7 +303,6 @@ ul {
     border: 30px solid rgba(27, 49, 104, 0.1);
     width: 141px;
     height: 141px;
-    z-index: -1;
 }
 
 .slider-image img {
