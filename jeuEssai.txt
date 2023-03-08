@@ -6,6 +6,12 @@ VALUES
     ("Finn", "Conner","luctus@icloud.ca", "Bonjour, je souhaite postuler pour un stage."),
     ("Aretha", "Baker","bibendum.sed@protonmail.com", "Bonjour, je suis intéré par l'un de vos ticketing !");
 
+-- pede@icloud.couk : password
+-- proin.sed.turpis@protonmail.edu : babeudi
+-- nonummy.ac@icloud.edu : helloworld
+-- luctus@icloud.ca : admin
+-- bibendum.sed@protonmail.com : 1234
+
 INSERT INTO Admin (email_admin, password_admin, roles_admin)
 VALUES
     ("pede@icloud.couk", "$argon2i$v=19$m=65536,t=4,p=1$ZTJLaGYvdDJtMUVKTFJCWQ$vHhV73SOuPb24C2fg88oQLwUC1a7eKHnfC4CEHV5Ats", '["ROLE_ADMIN"]'),
