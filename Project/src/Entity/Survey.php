@@ -16,6 +16,9 @@ class Survey
     #[ORM\Column(length: 255)]
     private ?string $questionSurvey = null;
 
+    #[ORM\Column]
+    private ?bool $isActiveSurvey = null;
+
     public function getIdSurvey(): ?int
     {
         return $this->idSurvey;
@@ -29,6 +32,18 @@ class Survey
     public function setQuestionSurvey(string $questionSurvey): self
     {
         $this->questionSurvey = $questionSurvey;
+
+        return $this;
+    }
+
+    public function isIsActiveSurvey(): ?bool
+    {
+        return $this->isActiveSurvey;
+    }
+
+    public function setIsActiveSurvey(?bool $isActiveSurvey): self
+    {
+        $this->isActiveSurvey = $isActiveSurvey;
 
         return $this;
     }
