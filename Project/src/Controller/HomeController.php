@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\TicketingRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -10,36 +11,54 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class HomeController extends AbstractController
 {
     #[Route(path: '/', name: 'home')]
-    public function home(): Response
+    public function home(TicketingRepository $rep): Response
     {
-        $currentNav = ['Accueil'];
+        $path = [['Accueil', 'home']];
+        $ticketing = $rep->findAll();
 
         return $this->render('homePage/index.html.twig', [
-            'currentNav' => $currentNav,
+            'path' => $path,
+            'ticketing' => $ticketing,
         ]);
     }
 
     #[Route(path: '/partenariat', name: 'partnership')]
     public function partnership(): Response
     {
-        return $this->render('base.html.twig');
+        $path = [['Accueil', 'home'], ['Partenariat', 'partnership']];
+
+        return $this->render('base.html.twig', [
+            'path' => $path,
+        ]);
     }
 
     #[Route(path: '/a_propos', name: 'aboutUs')]
     public function about(): Response
     {
-        return $this->render('base.html.twig');
+        $path = [['Accueil', 'home'], ['A propos de nous', 'aboutUs']];
+
+        return $this->render('base.html.twig', [
+            'path' => $path,
+        ]);
     }
 
     #[Route(path: '/billeterie', name: 'ticketing')]
     public function ticketing(): Response
     {
-        return $this->render('base.html.twig');
+        $path = [['Accueil', 'home'], ['Billeterie', 'ticketing']];
+
+        return $this->render('base.html.twig', [
+            'path' => $path,
+        ]);
     }
 
     #[Route(path: '/contact', name: 'contact')]
     public function contact(): Response
     {
-        return $this->render('base.html.twig');
+        $path = [['Accueil', 'home'], ['Contact', 'contact']];
+
+        return $this->render('base.html.twig', [
+            'path' => $path,
+        ]);
     }
 }

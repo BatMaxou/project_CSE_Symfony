@@ -68,4 +68,4 @@ if (nextBtn && prevBtn) {
 }
 
 // Définir un intervalle pour passer automatiquement à la diapositive suivante
-var interval = setInterval(prevSlide, 3000);
+var interval = setInterval(nextSlide, 3000);

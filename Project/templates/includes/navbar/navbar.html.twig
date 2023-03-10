@@ -9,22 +9,24 @@
 					<span class="line-toggler"></span>
 				</button>
 				<div class="img-container">
-					<img src="{{ asset('images/logo.jpg') }}" alt="logo-SV"/>
+					<a href="{{ path('home') }}">
+						<img src="{{ asset('images/logo.jpg') }}" alt="logo-SV"/>
+					</a>
 				</div>
 				{% include "includes/navbar/navbar-menu.html.twig" %}
 			</div>
 			{% include "includes/navbar/navbar-responsive.html.twig" %}
 		</div>
-		<div class="current-navigation">
-			<img src="{{asset('images/home.svg')}}" alt="home">
-			<ul>
-				{% for nav in currentNav %}
-					<li>
-						<img src="{{asset('images/left-chevron.svg')}}" alt="chevron">
-						<a href="#">{{ nav }}</a>
-					</li>
-				{% endfor %}
-			</ul>
-		</div>
+	</div>
+	<div id="current-navigation">
+		<img src="{{ asset('images/home.svg') }}" alt="home">
+		<ul>
+			{% for path in path %}
+				<li>
+					<img src="{{ asset('images/left-chevron.svg') }}" alt="chevron">
+					<a href="{{ path(path[1]) }}">{{ path[0] }}</a>
+				</li>
+			{% endfor %}
+		</ul>
 	</div>
 {% endblock %}

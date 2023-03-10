@@ -2,7 +2,8 @@
 
 #body {
     max-width: 1020px;
-    margin: 150px auto 0;
+    margin: 0 auto;
+    padding: 0 10px;
     display: flex;
 }
 
@@ -103,28 +104,38 @@ ul {
     background-color: #b6a886;
 }
 
-#navbar .current-navigation {
+#current-navigation {
     max-width: 1000px;
     padding-inline: 10px;
     margin: 0 auto;
 }
 
-#navbar .current-navigation,
-#navbar .current-navigation ul,
-#navbar .current-navigation li {
+#current-navigation,
+#current-navigation ul,
+#current-navigation li {
     display: flex;
 }
 
-#navbar .current-navigation {
+#current-navigation {
     height: 50px;
+    margin-top: 100px;
 }
 
-#navbar .current-navigation img {
+#current-navigation img {
     width: 25px;
 }
 
-#navbar .current-navigation ul {
+#current-navigation ul {
     padding: 0;
+}
+
+#current-navigation li a {
+    color: var(--color-h2);
+    font-weight: bold;
+}
+
+#current-navigation li a:hover {
+    text-decoration: underline;
 }
 
 #navbar .navbar-responsive {
@@ -234,7 +245,7 @@ ul {
 
 .sidebar {
     max-width: 200px;
-    margin: 0 0 50px 10px
+    margin: 0 20px 50px 0
 }
 
 .sidebar ul {
@@ -265,12 +276,12 @@ ul {
         margin: 0 auto 100px;
     }
 
-    #navbar .sidebar-servey {
+    #navbar .sidebar-survey {
         margin-top: 15px;
         border: 3px solid #EFEDED;
     }
 
-    #navbar .sidebar-servey button {
+    #navbar .sidebar-survey button {
         background-color: var(--color-blue);
         color: #fff;
         border: none;
@@ -284,24 +295,24 @@ ul {
     }
 }
 
-/*SONDAGE*/
+/*SURVEY*/
 
-.sidebar-servey {
+.sidebar-survey {
     margin-bottom: 15px;
 }
 
-.sidebar-servey h2 {
+.sidebar-survey h2 {
     color: #fff;
     background-color: #1B3168;
     text-align: center;
     padding: 15px;
 }
 
-.sidebar-servey legend {
+.sidebar-survey legend {
     text-align: center;
 }
 
-.sidebar-servey form legend,
+.sidebar-survey form legend,
 .response {
     padding: 15px 10px 0 10px;
     background-color: #EFEDED;
@@ -311,8 +322,8 @@ ul {
     padding-bottom: 15px;
 }
 
-.sidebar-servey button {
-    background-color: white;
+.sidebar-survey button {
+    background-color: #fff;
     border: 3px solid var(--color-blue);
     color: var(--color-blue);
     cursor: pointer;
@@ -362,11 +373,87 @@ ul {
     margin-top: 5px;
 }
 
+/*CARD*/
+
+.card {
+    position: relative;
+    background-color: #EFEDED;
+    margin-bottom: 20px;
+    padding: 15px;
+}
+
+.card .card-header,
+.card .card-footer a {
+    display: flex;
+}
+
+.card .card-header .card-tag {
+    background-color: var(--color-blue);
+    color: #fff;
+    font-size: 12px;
+    text-transform: uppercase;
+    padding: 0;
+    padding: 5px 15px;
+    border-radius: 7px;
+    height: 13px;
+}
+
+.card .card-header .card-date {
+    padding: 5px 10px;
+    font-size: 14px;
+}
+
+.card .card-body {
+    margin: 10px 0 25px;
+}
+
+.card .card-body h3 {
+    margin-bottom: 10px;
+}
+
+.card .card-footer a {
+    position: absolute;
+    right: 15px;
+    bottom: 15px;
+    text-transform: uppercase;
+    font-size: 12px;
+    color: #000;
+}
+
+.card .card-footer a:hover {
+    color: var(--color-h2);
+}
+
+.card .card-footer img {
+    width: 12px;
+    margin-left: 5px;
+}
+
+@media (max-width: 600px) {
+    .card .card-header {
+        flex-wrap: wrap;
+    }
+
+    .card .card-header .card-date {
+        padding-left: 0;
+        width: 100%;
+    }
+}
+
+/*HOMEPAGE*/
+
+#homepage {
+    width: 100%;
+}
+
+#homepage h2 {
+    color: var(--color-blue);
+    margin-bottom: 10px;
+}
+
 /*FOOTER*/
 
 #footer {
-    /* A CHANGER QUAND CONTENU PRESENT */
-    margin-top: 300px;
     background-color: #b6a886;
     padding: 10px;
     display: flex;
