@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\CkeditorRepository;
 use App\Repository\TicketingRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -11,13 +12,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class HomeController extends AbstractController
 {
     #[Route(path: '/', name: 'home')]
-    public function home(TicketingRepository $rep): Response
+    public function home(TicketingRepository $ticketingRep, CkeditorRepository $ckeditorRep): Response
     {
         $path = [['Accueil', 'home']];
-        $ticketing = $rep->findAll();
+        $ckeditor = $ckeditorRep->findByPage('HomePage');
+        $ticketing = $ticketingRep->findAll();
 
         return $this->render('homePage/index.html.twig', [
             'path' => $path,
+            'ckeditor' => $ckeditor,
             'ticketing' => $ticketing,
         ]);
     }
