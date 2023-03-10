@@ -1,0 +1,23 @@
+{% block javascript %}
+    <script type="text/javascript" src="{{ asset('js/flash.js') }}"></script>
+{% endblock javascript %}
+
+{% if app.session.flashBag.has('success') %}
+    {% for message in app.flashes('success') %}
+        <div class="alert-success">
+            <span class="closebtn" onclick="close()">&times;</span> 
+            <strong>Information !</strong>
+            <br>
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% elseif app.session.flashBag.has('error') %}
+        {% for message in app.flashes('error') %}
+            <div class="alert-error">
+                <span class="closebtn" onclick="close()">&times;</span> 
+                <strong>Alert !</strong>
+                <br>
+                {{ message }}
+            </div>
+        {% endfor %}
+{% endif %}

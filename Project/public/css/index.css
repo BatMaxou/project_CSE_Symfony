@@ -42,6 +42,36 @@ ul {
     list-style: none;
 }
 
+/* FLASH */
+.alert-error {
+    padding: 20px;
+    background-color: hsl(0, 85%, 49%);
+    color: white;
+    display: block;
+}
+
+.alert-success {
+    padding: 20px;
+    background-color: hsl(112, 100%, 27%);
+    color: white;
+    display: block;
+}
+
+.closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.closebtn:hover {
+    color: black;
+}
+
 /*NAVBAR*/
 
 #navbar {
@@ -288,6 +318,10 @@ ul {
 
 .sidebar-servey {
     margin-bottom: 15px;
+}
+
+.sidebar-servey label {
+    cursor: pointer;
 }
 
 .sidebar-servey h2 {

@@ -3,22 +3,17 @@
         <div class="sidebar-flex">
             <div class="sidebar-servey">
                 <h2>Votre avis compte</h2>
-                <form action="" method="post">
-                    <legend>Pour quel parc d'attraction souhaiteriez-vous obtenir des prix ?</legend>
-                    <div class="response">
-                        <input type="radio" id="radio_1" name="radio_response" value="1">
-                        <label for="radio_1">Le parc Astérix</label>
-                    </div>
-                    <div class="response">
-                        <input type="radio" id="radio_2" name="radio_response" value="2">
-                        <label for="radio_2">Le parc Disneyland</label>
-                    </div>
-                    <div class="response">
-                        <input type="radio" id="radio_3" name="radio_response" value="3">
-                        <label for="radio_3">Le Futuroscope</label>
-                    </div>
+                {% include "includes/_flash.html.twig" %}
+                {{form_start(form)}}
+                    <legend>{{ question.questionSurvey }}</legend>
+                    {% for item in response %}
+                        <div class="response">
+                            <input type="radio" id="radio_{{item.idResponse}}" name="radio_response" value="{{ item.textResponse }}">
+                            <label for="radio_{{item.idResponse}}">{{ item.textResponse }}</label>
+                        </div>
+                    {% endfor %}
                     <button type="submit">Envoyer ma réponse</button>
-                </form>
+                {{form_end(form)}}
             </div>
             <div class="sidebar-access">
                 <h2>Accés rapide</h2>
@@ -48,15 +43,11 @@
             <div class="sidebar-slider">
                 <h2>Nos partenaires</h2>
                 <div class="slider">
-                    <div class="slider-image">
-                        <img src="{{ asset("images/Leonidas.svg") }}">
-                    </div>
-                    <div class="slider-image">
-                        <img src="{{ asset("images/starbucks.png") }}">
-                    </div>
-                    <div class="slider-image">
-                        <img src="{{ asset("images/LEGO_logo.png") }}">
-                    </div>
+                    {% for item in image %}
+                        <div class="slider-image">
+                            <img src="{{ asset("imagesTest/" ~ item.image_partnership) }}">
+                        </div>
+                    {% endfor %}
                     <img class="prev" src="{{ asset("images/slider-arrow-left.svg") }}" alt="arrow direction slider">
                     <img class="next" src="{{ asset("images/slider-arrow-right.svg") }}" alt="arrow direction slider">
                 </div>
