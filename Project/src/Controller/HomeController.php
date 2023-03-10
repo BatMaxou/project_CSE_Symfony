@@ -4,9 +4,10 @@ namespace App\Controller;
 
 use App\Repository\CkeditorRepository;
 use App\Repository\TicketingRepository;
+use App\Repository\PartnershipRepository;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class HomeController extends AbstractController
@@ -26,12 +27,14 @@ class HomeController extends AbstractController
     }
 
     #[Route(path: '/partenariat', name: 'partnership')]
-    public function partnership(): Response
+    public function partnership(PartnershipRepository $partnershipRepo): Response
     {
         $path = [['Accueil', 'home'], ['Partenariat', 'partnership']];
+        $partnership = $partnershipRepo->findAll();
 
-        return $this->render('base.html.twig', [
+        return $this->render('partnership/partnership.html.twig', [
             'path' => $path,
+            'partnership' => $partnership,
         ]);
     }
 
