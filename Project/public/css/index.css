@@ -440,16 +440,38 @@ ul {
     }
 }
 
+/* CARD PARTNERSHIP */
+#partnership .card-body {
+    display: flex;
+    gap: 20px;
+}
+
+#partnership .card-image img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+}
+
+@media(max-width: 850px) {
+    #partnership .card-body {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+
 /*HOMEPAGE*/
 
-#homepage {
+#homepage, #partnership {
     width: 100%;
 }
 
-#homepage h2 {
+#homepage h2, #partnership h2 {
     color: var(--color-blue);
     margin-bottom: 10px;
 }
+
+
 
 /*FOOTER*/
 
