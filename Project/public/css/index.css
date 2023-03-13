@@ -462,11 +462,13 @@ ul {
 
 /*HOMEPAGE*/
 
-#homepage, #partnership {
+#homepage,
+#partnership {
     width: 100%;
 }
 
-#homepage h2, #partnership h2 {
+#homepage h2,
+#partnership h2 {
     color: var(--color-blue);
     margin-bottom: 10px;
 }
@@ -594,5 +596,80 @@ ul {
 
     #footer .links a {
         text-align: left;
+    }
+}
+
+/*LOGIN*/
+
+.loginForm {
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+    margin: 50px auto 100px;
+    padding: 30px 20px;
+    height: 40vh;
+    background-color: #EFEDED;
+}
+
+.loginForm h1 {
+    font-weight: normal;
+}
+
+.elementLogin {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    margin: auto;
+    background-color: #EFEDED;
+    border: none;
+    border-bottom: 1px solid black;
+    height: 40px;
+    padding: 0 10px;
+    outline: none;
+}
+
+.submitLogin {
+    background-color: white;
+    height: 50px;
+    font-size: 18px;
+    width: 90%;
+    border: none;
+    margin: 0 auto;
+    cursor: pointer;
+}
+
+.buttonLogout {
+    color: var(--color-h2);
+    font-weight: bold;
+}
+
+.buttonLogout:hover {
+    text-decoration: underline;
+}
+
+.loginForm .tm-div {
+    display: none;
+}
+
+@media (max-width: 650px) {
+    .loginForm {
+        width: 60%;
+    }
+
+    .elementLogin {
+        width: 90%;
+    }
+}
+
+@media (max-width: 440px) {
+    .loginForm {
+        width: 90%;
+    }
+
+    .elementLogin {
+        max-width: 260px;
     }
 }
