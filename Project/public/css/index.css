@@ -1,7 +1,7 @@
 /*GENERAL*/
 
 #body {
-    max-width: 1020px;
+    max-width: 1000px;
     margin: 0 auto;
     padding: 0 10px;
     display: flex;
@@ -41,6 +41,22 @@ img {
 
 ul {
     list-style: none;
+}
+
+.form {
+    display: flex;
+}
+
+.form-group {
+    position: relative;
+}
+
+.input-error {
+    position: absolute;
+    left: 50%;
+    bottom: -20px;
+    transform: translateX(-50%);
+    width: max-content;
 }
 
 /*NAVBAR*/
@@ -96,7 +112,7 @@ ul {
 
 #navbar .navbar-menu a {
     display: block;
-    padding: 15.8px 25px;
+    padding: 15.8px 22px;
     color: #fff;
 }
 
@@ -497,7 +513,7 @@ ul {
     text-decoration: underline;
 }
 
-#footer .offer p {
+#footer .inscription p {
     margin-bottom: 10px;
 }
 
@@ -508,7 +524,7 @@ ul {
 }
 
 #footer form input[type='text'] {
-    padding-left: 10px;
+    padding: 0 0 0 10px;
     width: 175px;
 }
 
@@ -537,7 +553,7 @@ ul {
         padding-right: 0;
     }
 
-    #footer .offer {
+    #footer .inscription {
         text-align: center;
         margin: 15px auto 0;
         width: 280px;

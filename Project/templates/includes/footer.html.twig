@@ -14,14 +14,20 @@
 				</div>
 			</div>
 
-			<div class="offer">
+			<div class="inscription">
 				<h4>Inscrivez-vous aux offres</h4>
 				<p>Recevez un email à chaque nouvelle offre sur le site internet</p>
-				<form action="">
-					<input type="text" placeholder="Saisissez votre email"/>
-					<input type="submit" value="S'inscrire"/>
+				<form class='form' action="">
+					<div class='form-group'>
+						<input type="text" name="footer-inscription-mail" placeholder="Saisissez votre email"/>
+						<span class='input-error'></span>
+					</div>
+					<div class="form-group">
+						<input type="submit" name="footer-inscription-submit" value="S'inscrire"/>
+					</div>
 				</form>
 			</div>
 		</div>
 	</div>
+	<script src="{{ asset('js/inscription.js') }}"></script>
 {% endblock %}
