@@ -12,6 +12,10 @@ class BackOfficeController extends AbstractController
     #[Route(path: '/admin', name: 'backoffice')]
     public function login(): Response
     {
-        return $this->render('backoffice/index.html.twig');
+        $path = [['Tableau de bord', 'backoffice']];
+
+        return $this->render('backoffice/index.html.twig', [
+            'path' => $path
+        ]);
     }
 }
