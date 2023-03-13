@@ -39,6 +39,20 @@ class SurveyRepository extends ServiceEntityRepository
         }
     }
 
+    // return an Survey object associated of the survey active
+    public function findQuestionActive(): Survey
+    {
+        $active = 1;
+
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.isActiveSurvey = :active')
+            ->setParameter('active', $active)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
 //    /**
 //     * @return Survey[] Returns an array of Survey objects
 //     */
