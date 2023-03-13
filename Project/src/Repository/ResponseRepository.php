@@ -3,8 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Response;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Response>
@@ -37,6 +38,28 @@ class ResponseRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    // return an array of the response associated of the survey is active
+    public function findResponseById($id): array
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.survey = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    // return an Response object associated of the name 
+    public function findIdResponseOfName($name): Response
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.textResponse = :name')
+            ->setParameter('name', $name)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
     }
 
 //    /**

@@ -39,6 +39,18 @@ class PartnershipRepository extends ServiceEntityRepository
         }
     }
 
+    // return 3 random images 
+    public function imagePartner(): array
+    {
+        $co = $this->getEntityManager()->getConnection();
+
+        $request = 'SELECT image_partnership FROM partnership ORDER BY rand() LIMIT 3';
+        $staitment = $co->prepare($request);
+        $result = $staitment->executeQuery();
+
+        return $result->fetchAllAssociative();
+    }
+
 //    /**
 //     * @return Partnership[] Returns an array of Partnership objects
 //     */
