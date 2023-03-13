@@ -1,0 +1,26 @@
+{% extends "page.html.twig" %}
+
+{% block content %}
+	<div id="partnership">
+		<h2>Partenariats</h2>
+		{% for i in 0..2 %}
+			<div class="card">
+				<div class="card-body">
+                    <div class="card-image">
+                        <img src="{{ asset('imagesTest/' ~ partnership[i].imagePartnership) }}" alt="{{ partnership[i].imagePartnership }}">
+                    </div>
+                    <div class="card-content">
+                        <h3>{{ partnership[i].namePartnership }}</h3>
+                        <p>{{ partnership[i].descriptionPartnership }}</p>
+                    </div>
+				</div>
+				<div class="card-footer">
+					<a href="{{ partnership[i].linkPartnership }}" target="_blanck">
+						<p>Consulter le site du partenaire</p>
+						<img src="{{ asset('images/left-chevron.svg')}}" alt="chevron">
+					</a>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+{% endblock %}

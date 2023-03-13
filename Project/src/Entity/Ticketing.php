@@ -35,6 +35,9 @@ class Ticketing
     #[ORM\Column(length: 255)]
     private ?string $typeTicketing = null;
 
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $dateCreateTicketing = null;
+
     public function getIdTicketing(): ?int
     {
         return $this->idTicketing;
@@ -120,6 +123,18 @@ class Ticketing
     public function setTypeTicketing(string $typeTicketing): self
     {
         $this->typeTicketing = $typeTicketing;
+
+        return $this;
+    }
+
+    public function getDateCreateTicketing(): ?\DateTimeInterface
+    {
+        return $this->dateCreateTicketing;
+    }
+
+    public function setDateCreateTicketing(?\DateTimeInterface $dateCreateTicketing): self
+    {
+        $this->dateCreateTicketing = $dateCreateTicketing;
 
         return $this;
     }

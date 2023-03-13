@@ -1,19 +1,19 @@
 {% block navbarMenu %}
 	<ul class="navbar-menu">
 		<li>
-			<a href="">Accueil</a>
+			<a href="{{ path('home') }}">Accueil</a>
 		</li>
 		<li>
-			<a href="">Partenariats</a>
+			<a href="{{ path('partnership') }}">Partenariats</a>
 		</li>
 		<li>
-			<a href="">A propos de nous</a>
+			<a href="{{ path('aboutUs') }}">A propos de nous</a>
 		</li>
 		<li>
-			<a href="">Billeterie</a>
+			<a href="{{ path('ticketing') }}">Billeterie</a>
 		</li>
 		<li>
-			<a href="">Contact</a>
+			<a href="{{ path('contact') }}">Contact</a>
 		</li>
 	</ul>
 {% endblock %}
