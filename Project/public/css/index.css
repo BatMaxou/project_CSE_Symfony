@@ -1,7 +1,7 @@
 /*GENERAL*/
 
 #body {
-    max-width: 1020px;
+    max-width: 1000px;
     margin: 0 auto;
     padding: 0 10px;
     display: flex;
@@ -43,17 +43,36 @@ ul {
     list-style: none;
 }
 
+.form {
+    display: flex;
+}
+
+.form-group {
+    position: relative;
+}
+
+.input-error {
+    position: absolute;
+    left: 0;
+    bottom: -23px;
+    font-size: 14px;
+    width: max-content;
+    color: #e71313;
+    font-weight: bold;
+}
+
 /* FLASH */
+
 .alert-error {
     padding: 20px;
-    background-color: hsl(0, 85%, 49%);
+    background-color: #e71313;
     color: white;
     display: block;
 }
 
 .alert-success {
     padding: 20px;
-    background-color: hsl(112, 100%, 27%);
+    background-color: #128a00;
     color: white;
     display: block;
 }
@@ -126,7 +145,7 @@ ul {
 
 #navbar .navbar-menu a {
     display: block;
-    padding: 15.8px 25px;
+    padding: 15.8px 22px;
     color: #fff;
 }
 
@@ -220,15 +239,6 @@ ul {
         padding-inline: 0;
         text-align: center;
     }
-
-    /* #navbar .sidebar-contact {
-        margin: 0 auto 100px;
-    }
-
-    #navbar .sidebar-contact li {
-        padding: 5px 0;
-        list-style-image: url(../images/left-chevron.svg);
-    } */
 }
 
 /*NAVBAR TOGGLER*/
@@ -502,6 +512,7 @@ ul {
 }
 
 /* CARD PARTNERSHIP */
+
 #partnership .card-body {
     display: flex;
     gap: 20px;
@@ -520,7 +531,6 @@ ul {
     }
 }
 
-
 /*HOMEPAGE*/
 
 #homepage,
@@ -536,6 +546,7 @@ ul {
 }
 
 /* OFFER */
+
 .offer-card-place {
     padding-bottom: 35px;
 }
@@ -587,7 +598,7 @@ ul {
 
 #footer {
     background-color: #b6a886;
-    padding: 10px;
+    padding: 20px 10px 30px;
     display: flex;
 }
 
@@ -629,25 +640,42 @@ ul {
     text-decoration: underline;
 }
 
-#footer .offer p {
+#footer .inscription p {
     margin-bottom: 10px;
 }
 
-#footer form input {
+#footer label {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 25px;
+    width: 300px;
+}
+
+#footer .footer-group {
+    display: flex;
+}
+
+#footer input {
     height: 25px;
     border: none;
     border-radius: 10px;
 }
 
-#footer form input[type='text'] {
-    padding-left: 10px;
+#footer input[type='text'] {
+    padding: 0 0 0 10px;
     width: 175px;
+    margin-right: 25px;
 }
 
-#footer form input[type='submit'] {
+#footer input[type='submit'] {
     width: 80px;
     background-color: #fff;
     cursor: pointer;
+}
+
+#footer .input-error {
+    color: var(--color-blue);
 }
 
 @media (max-width: 850px) {
@@ -669,7 +697,7 @@ ul {
         padding-right: 0;
     }
 
-    #footer .offer {
+    #footer .inscription {
         text-align: center;
         margin: 15px auto 0;
         width: 280px;

@@ -14,14 +14,27 @@
 				</div>
 			</div>
 
-			<div class="offer">
+			<div class="inscription">
 				<h4>Inscrivez-vous aux offres</h4>
 				<p>Recevez un email à chaque nouvelle offre sur le site internet</p>
-				<form action="">
-					<input type="text" placeholder="Saisissez votre email"/>
-					<input type="submit" value="S'inscrire"/>
-				</form>
+
+				{{ form_start(formSub) }}
+				<div class="form-group">
+					<label for="censent">J'accepte de recevoir les nouvelles offres</label>
+					<input type="checkbox" name="consent"/>
+				</div>
+				<div class="footer-group">
+					<div class='form-group'>
+						<input type="text" name="footer-inscription-mail" placeholder="Saisissez votre email"/>
+						<span class='input-error'></span>
+					</div>
+					<div class="form-group">
+						<input type="submit" name="footer-inscription-submit" value="S'inscrire"/>
+					</div>
+				</div>
+				{{ form_end(formSub) }}
 			</div>
 		</div>
 	</div>
+	<script src="{{ asset('js/inscription.js') }}"></script>
 {% endblock %}

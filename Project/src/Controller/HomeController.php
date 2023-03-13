@@ -2,23 +2,21 @@
 
 namespace App\Controller;
 
+use Exception;
 use App\Entity\Survey;
+use App\Entity\Subscriber;
 use App\Entity\UserResponse;
 use App\Repository\SurveyRepository;
-
 use App\Repository\CkeditorRepository;
 use App\Repository\ResponseRepository;
 use App\Repository\TicketingRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\PartnershipRepository;
-
-use App\Entity\Response as ResponseSurvey;
-
 use App\Repository\ImageTicketingRepository;
-
+use App\Entity\Response as ResponseSurvey;
+use App\Form\UserResponseType\SubscriberType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
 use App\Form\UserResponseType\UserResponseType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -54,7 +52,7 @@ class HomeController extends AbstractController
                 $manager->flush();
 
                 $this->addFlash('success', 'Réponse enregistrée, merci de votre participation !');
-            } catch (\Throwable $th) {
+            } catch (Exception) {
                 $this->addFlash('error', 'Une erreur imprévu est survenu, veillez recharger la puis réessayer.');
             }
         }
@@ -67,6 +65,7 @@ class HomeController extends AbstractController
             'question' => $questionActive,
             'response' => $responseQuestion,
             'form' => $form->createView(),
+            'formSub' => $formSub->createView(),
         ]);
     }
 

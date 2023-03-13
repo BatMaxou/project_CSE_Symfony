@@ -1,4 +1,4 @@
-window.addEventListener('load', function() {
+window.addEventListener('load', function () {
     var alert_success = document.getElementsByClassName('alert-success');
     var alert_error = document.getElementsByClassName('alert-error');
 
@@ -12,18 +12,18 @@ window.addEventListener('load', function() {
     }
 
     var ind = 0;
-    var button = document.querySelectorAll('.closebtn'); 
+    var button = document.querySelectorAll('.closebtn');
     if (button) {
-        button.forEach(function(button) {
-            button.addEventListener('click', function() {
+        button.forEach(function (button) {
+            button.addEventListener('click', function () {
                 close(ind);
-                ind ++;
+                ind++;
             });
         });
     }
 
     setTimeout(() => {
-        if (alert_success) {
+        if (alert_success[ind]) {
             alert_success[ind].style.display = 'none';
         }
     }, 4000);
