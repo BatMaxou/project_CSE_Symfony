@@ -2,23 +2,26 @@
 
 namespace App\Controller;
 
+use Exception;
 use App\Entity\Survey;
+use App\Entity\Subscriber;
 use App\Entity\UserResponse;
-use App\Entity\Response as ResponseSurvey;
 
 use App\Repository\SurveyRepository;
-use App\Repository\ResponseRepository;
 use App\Repository\CkeditorRepository;
+use App\Repository\ResponseRepository;
 use App\Repository\TicketingRepository;
-use App\Repository\PartnershipRepository;
-
-use App\Form\UserResponseType\UserResponseType;
-
 use Doctrine\ORM\EntityManagerInterface;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use App\Repository\PartnershipRepository;
 
+use App\Entity\Response as ResponseSurvey;
+
+use App\Form\UserResponseType\SubscriberType;
+use Symfony\Component\HttpFoundation\Request;
+
+use Symfony\Component\HttpFoundation\Response;
+use App\Form\UserResponseType\UserResponseType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -37,22 +40,26 @@ class HomeController extends AbstractController
         $questionActive = $surveyRepo->findQuestionActive();
         // get response associated at the question of the survey
         $responseQuestion = $responseRepo->findResponseById($questionActive->getIdSurvey());
-        
+
         $userResponse = new UserResponse();
         $form = $this->createForm(UserResponseType::class, $userResponse);
         $form->handleRequest($request);
-        
+
+        $footerSub = new Subscriber();
+        $formSub = $this->createForm(SubscriberType::class, $footerSub);
+        $formSub->handleRequest($request);
+
         if ($form->isSubmitted()) {
             try {
                 // get id of the respons by a search name for set response of the create UserResponse
                 $response = $responseRepo->findIdResponseOfName($request->get("radio_response"));
-                
+
                 $userResponse->setResponse($response);
                 $manager->persist($userResponse);
                 $manager->flush();
-    
+
                 $this->addFlash('success', 'Réponse enregistrée, merci de votre participation !');
-            } catch (\Throwable $th) {
+            } catch (Exception) {
                 $this->addFlash('error', 'Une erreur imprévu est survenu, veillez recharger la puis réessayer.');
             }
         }
@@ -65,6 +72,7 @@ class HomeController extends AbstractController
             'question' => $questionActive,
             'response' => $responseQuestion,
             'form' => $form->createView(),
+            'formSub' => $formSub->createView(),
         ]);
     }
 
@@ -79,20 +87,20 @@ class HomeController extends AbstractController
         $questionActive = $surveyRepo->findQuestionActive();
         // get response associated at the question of the survey
         $responseQuestion = $responseRepo->findResponseById($questionActive->getIdSurvey());
-        
+
         $userResponse = new UserResponse();
         $form = $this->createForm(UserResponseType::class, $userResponse);
         $form->handleRequest($request);
-        
+
         if ($form->isSubmitted()) {
             try {
                 // get id of the respons by a search name for set response of the create UserResponse
                 $response = $responseRepo->findIdResponseOfName($request->get("radio_response"));
-                
+
                 $userResponse->setResponse($response);
                 $manager->persist($userResponse);
                 $manager->flush();
-    
+
                 $this->addFlash('success', 'Réponse enregistrée, merci de votre participation !');
             } catch (\Throwable $th) {
                 $this->addFlash('error', 'Une erreur imprévu est survenu, veillez recharger la puis réessayer.');
