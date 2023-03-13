@@ -42,6 +42,10 @@ class HomeController extends AbstractController
         $form = $this->createForm(UserResponseType::class, $userResponse);
         $form->handleRequest($request);
 
+        $sub = new Subscriber();
+        $formSub = $this->createForm(SubscriberType::class, $sub);
+        $formSub->handleRequest($request);
+
         if ($form->isSubmitted()) {
             try {
                 // get id of the respons by a search name for set response of the create UserResponse
