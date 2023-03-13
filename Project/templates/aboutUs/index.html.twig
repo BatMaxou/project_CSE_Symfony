@@ -1,0 +1,42 @@
+{% extends 'page.html.twig' %}
+
+{% block title %}Tableau de bord
+{% endblock %}
+
+{% block content %}
+
+<div id="aboutus">
+    <h2>A propos de nous</h2>
+
+    {% for ckeditor in ckeditors %}
+    {% if (ckeditor.zoneCkeditor == "actions") %}
+    <div class="card">
+        <div class="card-header">
+            <h5>Actions menées par le CSE</h5>
+            <button>Voir le règlements</button>
+        </div>
+        <div class="card-body">
+            <div class="card-content">
+                <p>{{ ckeditor.contentCkeditor }}</p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+
+    {% for ckeditor in ckeditors %}
+    {% if (ckeditor.zoneCkeditor == "membres") %}
+    <div class="card">
+        <div class="card-header">
+            <h5>Membres</h5>
+        </div>
+        <div class="card-body">
+            <div class="card-content">
+                <p>{{ ckeditor.contentCkeditor }}</p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+</div>
+{% endblock %}

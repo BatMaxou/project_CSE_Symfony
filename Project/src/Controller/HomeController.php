@@ -34,25 +34,25 @@ class HomeController extends AbstractController
 
         // get 3 random image from database
         $imgPartner = $partnerRepo->imagePartner();
-        
+
         // get the question active of the survey
         $questionActive = $surveyRepo->findQuestionActive();
         // get response associated at the question of the survey
         $responseQuestion = $responseRepo->findResponseById($questionActive->getIdSurvey());
-        
+
         $userResponse = new UserResponse();
         $form = $this->createForm(UserResponseType::class, $userResponse);
         $form->handleRequest($request);
-        
+
         if ($form->isSubmitted()) {
             try {
                 // get id of the respons by a search name for set response of the create UserResponse
                 $response = $responseRepo->findIdResponseOfName($request->get("radio_response"));
-                
+
                 $userResponse->setResponse($response);
                 $manager->persist($userResponse);
                 $manager->flush();
-    
+
                 $this->addFlash('success', 'Réponse enregistrée, merci de votre participation !');
             } catch (\Throwable $th) {
                 $this->addFlash('error', 'Une erreur imprévu est survenu, veillez recharger la puis réessayer.');
@@ -83,20 +83,20 @@ class HomeController extends AbstractController
         $questionActive = $surveyRepo->findQuestionActive();
         // get response associated at the question of the survey
         $responseQuestion = $responseRepo->findResponseById($questionActive->getIdSurvey());
-        
+
         $userResponse = new UserResponse();
         $form = $this->createForm(UserResponseType::class, $userResponse);
         $form->handleRequest($request);
-        
+
         if ($form->isSubmitted()) {
             try {
                 // get id of the respons by a search name for set response of the create UserResponse
                 $response = $responseRepo->findIdResponseOfName($request->get("radio_response"));
-                
+
                 $userResponse->setResponse($response);
                 $manager->persist($userResponse);
                 $manager->flush();
-    
+
                 $this->addFlash('success', 'Réponse enregistrée, merci de votre participation !');
             } catch (\Throwable $th) {
                 $this->addFlash('error', 'Une erreur imprévu est survenu, veillez recharger la puis réessayer.');
@@ -114,12 +114,47 @@ class HomeController extends AbstractController
     }
 
     #[Route(path: '/a_propos', name: 'aboutUs')]
-    public function about(): Response
+    public function about(Request $request, PartnershipRepository $partnershipRepo, SurveyRepository $surveyRepo, ResponseRepository $responseRepo, EntityManagerInterface $manager, CkeditorRepository $ckeditorRep): Response
     {
         $path = [['Accueil', 'home'], ['A propos de nous', 'aboutUs']];
+        $ckeditors = $ckeditorRep->findByPage('AboutUs');
 
-        return $this->render('base.html.twig', [
+        $partnership = $partnershipRepo->findAll();
+        // get 3 random image from database
+        $imgPartner = $partnershipRepo->imagePartner();
+
+        // get the question active of the survey
+        $questionActive = $surveyRepo->findQuestionActive();
+        // get response associated at the question of the survey
+        $responseQuestion = $responseRepo->findResponseById($questionActive->getIdSurvey());
+
+        $userResponse = new UserResponse();
+        $form = $this->createForm(UserResponseType::class, $userResponse);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            try {
+                // get id of the respons by a search name for set response of the create UserResponse
+                $response = $responseRepo->findIdResponseOfName($request->get("radio_response"));
+
+                $userResponse->setResponse($response);
+                $manager->persist($userResponse);
+                $manager->flush();
+
+                $this->addFlash('success', 'Réponse enregistrée, merci de votre participation !');
+            } catch (\Throwable $th) {
+                $this->addFlash('error', 'Une erreur imprévu est survenu, veillez recharger la puis réessayer.');
+            }
+        }
+
+        return $this->render('aboutUs/index.html.twig', [
             'path' => $path,
+            'ckeditors' => $ckeditors,
+            'partnership' => $partnership,
+            'image' => $imgPartner,
+            'question' => $questionActive,
+            'response' => $responseQuestion,
+            'form' => $form->createView(),
         ]);
     }
 
@@ -139,39 +174,39 @@ class HomeController extends AbstractController
         $path = [['Accueil', 'home'], ['Billeterie', 'ticketing']];
         // get info associated at the id in the url of the ticketing
         $offer = $ticketingRepo->find($id);
-        
+
         // get 3 random image from database
         $imgPartner = $partnershipRepo->imagePartner();
-        
+
         // get the question active of the survey
         $questionActive = $surveyRepo->findQuestionActive();
-        
+
         // get response associated at the question of the survey
         $responseQuestion = $responseRepo->findResponseById($questionActive->getIdSurvey());
-        
+
         $userResponse = new UserResponse();
         $form = $this->createForm(UserResponseType::class, $userResponse);
         $form->handleRequest($request);
-        
+
         if ($form->isSubmitted()) {
             try {
                 // get id of the respons by a search name for set response of the create UserResponse
                 $response = $responseRepo->findIdResponseOfName($request->get("radio_response"));
-                
+
                 $userResponse->setResponse($response);
                 $manager->persist($userResponse);
                 $manager->flush();
-                
+
                 $this->addFlash('success', 'Réponse enregistrée, merci de votre participation !');
             } catch (\Throwable $th) {
                 $this->addFlash('error', 'Une erreur imprévu est survenu, veillez recharger la puis réessayer.');
             }
         }
-        
-        if (($offer != NULL) AND (is_numeric($id))) {
+
+        if (($offer != NULL) and (is_numeric($id))) {
             // get image associated at the id in the url of the ticketing
             $imgOffer = $imgTicketingRepo->findImageTicketing($id);
-            
+
             return $this->render('ticketing/offer.html.twig', [
                 'path' => $path,
                 'image' => $imgPartner,
@@ -191,7 +226,7 @@ class HomeController extends AbstractController
     {
         $path = [['Accueil', 'home'], ['Contact', 'contact']];
 
-        return $this->render('base.html.twig', [
+        return $this->render('page.html.twig', [
             'path' => $path,
         ]);
     }

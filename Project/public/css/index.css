@@ -781,3 +781,20 @@ ul {
         max-width: 260px;
     }
 }
+
+/* ABOUT US */
+
+#aboutus .card-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+#aboutus h2 {
+    color: var(--color-blue);
+    margin-bottom: 10px
+}
+
+#aboutus .card-header button {
+    border: none;
+    cursor: pointer;
+}
