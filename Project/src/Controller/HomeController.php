@@ -91,6 +91,10 @@ class HomeController extends AbstractController
         $form = $this->createForm(UserResponseType::class, $userResponse);
         $form->handleRequest($request);
 
+        $sub = new Subscriber();
+        $formSub = $this->createForm(SubscriberType::class, $sub);
+        $formSub->handleRequest($request);
+
         if ($form->isSubmitted()) {
             try {
                 // get id of the respons by a search name for set response of the create UserResponse
@@ -113,6 +117,7 @@ class HomeController extends AbstractController
             'question' => $questionActive,
             'response' => $responseQuestion,
             'form' => $form->createView(),
+            'formSub' => $formSub->createView(),
         ]);
     }
 
@@ -134,6 +139,10 @@ class HomeController extends AbstractController
         $userResponse = new UserResponse();
         $form = $this->createForm(UserResponseType::class, $userResponse);
         $form->handleRequest($request);
+
+        $sub = new Subscriber();
+        $formSub = $this->createForm(SubscriberType::class, $sub);
+        $formSub->handleRequest($request);
 
         if ($form->isSubmitted()) {
             try {
@@ -158,16 +167,22 @@ class HomeController extends AbstractController
             'question' => $questionActive,
             'response' => $responseQuestion,
             'form' => $form->createView(),
+            'formSub' => $formSub->createView(),
         ]);
     }
 
     #[Route(path: '/billeterie', name: 'ticketing')]
-    public function ticketing(): Response
+    public function ticketing(Request $request): Response
     {
         $path = [['Accueil', 'home'], ['Billeterie', 'ticketing']];
 
+        $sub = new Subscriber();
+        $formSub = $this->createForm(SubscriberType::class, $sub);
+        $formSub->handleRequest($request);
+
         return $this->render('base.html.twig', [
             'path' => $path,
+            'formSub' => $formSub->createView(),
         ]);
     }
 
@@ -190,6 +205,10 @@ class HomeController extends AbstractController
         $userResponse = new UserResponse();
         $form = $this->createForm(UserResponseType::class, $userResponse);
         $form->handleRequest($request);
+
+        $sub = new Subscriber();
+        $formSub = $this->createForm(SubscriberType::class, $sub);
+        $formSub->handleRequest($request);
 
         if ($form->isSubmitted()) {
             try {
@@ -218,6 +237,7 @@ class HomeController extends AbstractController
                 'form' => $form->createView(),
                 'offer' => $offer,
                 'imgOffer' => $imgOffer,
+                'formSub' => $formSub->createView(),
             ]);
         } else {
             return $this->redirectToRoute('home');
