@@ -310,9 +310,8 @@ ul {
     }
 
     .sidebar-access,
-    .sidebar-contact {
+    #body .sidebar-contact {
         display: none;
-        width: 100%;
     }
 
     .sidebar {
@@ -330,7 +329,7 @@ ul {
 
     #navbar .sidebar-contact {
         max-width: 200px;
-        margin: 0 auto 100px
+        margin: 20px auto 100px
     }
 
     #navbar .sidebar-contact ul {
@@ -355,6 +354,7 @@ ul {
 /*SURVEY*/
 
 .sidebar-survey {
+    max-width: 250px;
     margin-bottom: 15px;
 }
 
