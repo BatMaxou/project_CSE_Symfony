@@ -22,7 +22,7 @@
 					<p>{{ticketing[i].textTicketing}}</p>
 				</div>
 				<div class="card-footer">
-					<a href="">
+					<a href="{{ path('offer', {id: ticketing[i].idTicketing}) }}">
 						<p>en savoir plus</p>
 						<img src="{{ asset('images/left-chevron.svg')}}" alt="chevron">
 					</a>
