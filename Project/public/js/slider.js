@@ -3,15 +3,9 @@ var slides = null
 var prevBtn = null
 var nextBtn = null
 
-if (width > 850) {
-    slides = document.querySelectorAll('#body .slider-image');
-    prevBtn = document.querySelector('#body .prev');
-    nextBtn = document.querySelector('#body .next');
-} else {
-    slides = document.querySelectorAll('#navbar .slider-image');
-    prevBtn = document.querySelector('#navbar .prev');
-    nextBtn = document.querySelector('#navbar .next');
-}
+slides = document.querySelectorAll('#body .slider-image');
+prevBtn = document.querySelector('#body .prev');
+nextBtn = document.querySelector('#body .next');
 
 // Initialiser le compteur
 var currentSlide = 0;

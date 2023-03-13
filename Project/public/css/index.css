@@ -43,6 +43,36 @@ ul {
     list-style: none;
 }
 
+/* FLASH */
+.alert-error {
+    padding: 20px;
+    background-color: hsl(0, 85%, 49%);
+    color: white;
+    display: block;
+}
+
+.alert-success {
+    padding: 20px;
+    background-color: hsl(112, 100%, 27%);
+    color: white;
+    display: block;
+}
+
+.closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.closebtn:hover {
+    color: black;
+}
+
 .form {
     display: flex;
 }
@@ -196,19 +226,25 @@ ul {
 
     #navbar .navbar-menu {
         margin: 0;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
     }
 
     #navbar .navbar-menu li {
-        width: 50%;
+        width: 100%;
     }
 
     #navbar .navbar-menu a {
         padding-inline: 0;
         text-align: center;
     }
+
+    /* #navbar .sidebar-contact {
+        margin: 0 auto 100px;
+    }
+
+    #navbar .sidebar-contact li {
+        padding: 5px 0;
+        list-style-image: url(../images/left-chevron.svg);
+    } */
 }
 
 /*NAVBAR TOGGLER*/
@@ -264,57 +300,82 @@ ul {
     margin: 0 20px 50px 0
 }
 
-.sidebar ul {
+.sidebar ul,
+#navbar .sidebar-contact ul {
     padding-left: 20px;
 }
 
-.sidebar li {
+.sidebar li,
+#navbar .sidebar-contact li {
     padding: 5px 0;
     list-style-image: url(../images/left-chevron.svg);
 }
 
-.sidebar a {
+.sidebar a,
+#navbar .sidebar-contact a {
     color: var(--color-a-no-hover);
 }
 
 .sidebar a:hover {
-    color: var(--color-blue);
+    color: var(--color-h2);
 }
 
 @media (max-width: 850px) {
-    .sidebar {
+    #body {
+        flex-direction: column-reverse;
+    }
+
+    .sidebar-access,
+    #body .sidebar-contact {
         display: none;
     }
 
-    #navbar .sidebar {
-        display: block;
-        height: 1000px;
-        margin: 0 auto 100px;
+    .sidebar {
+        max-width: 100%;
+        margin: 50px 0;
     }
 
-    #navbar .sidebar-survey {
-        margin-top: 15px;
-        border: 3px solid #EFEDED;
+    .sidebar-flex {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: space-around;
     }
 
-    #navbar .sidebar-survey button {
-        background-color: var(--color-blue);
-        color: #fff;
-        border: none;
+    #navbar .sidebar-contact {
+        max-width: 200px;
+        margin: 20px auto 100px
     }
 
-    #navbar .sidebar li,
-    #navbar .sidebar .next,
-    #navbar .sidebar .prev,
-    #navbar .sidebar-slider a {
+    #navbar .sidebar-contact ul {
+        padding-left: 20px;
+    }
+
+    #navbar .sidebar-contact li {
+        padding: 5px 0;
+        list-style-image: url(../images/left-chevron.svg);
         filter: invert(1);
+    }
+
+    #navbar .sidebar-contact a {
+        color: var(--color-a-no-hover);
+    }
+
+    #navbar .sidebar-contact a:hover {
+        color: var(--color-blue);
     }
 }
 
 /*SURVEY*/
 
 .sidebar-survey {
+    max-width: 250px;
     margin-bottom: 15px;
+}
+
+.sidebar-survey label {
+    cursor: pointer;
 }
 
 .sidebar-survey h2 {
@@ -339,7 +400,7 @@ ul {
 }
 
 .sidebar-survey button {
-    background-color: #fff;
+    background-color: white;
     border: 3px solid var(--color-blue);
     color: var(--color-blue);
     cursor: pointer;
@@ -456,16 +517,40 @@ ul {
     }
 }
 
+/* CARD PARTNERSHIP */
+#partnership .card-body {
+    display: flex;
+    gap: 20px;
+}
+
+#partnership .card-image img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+}
+
+@media(max-width: 850px) {
+    #partnership .card-body {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+
 /*HOMEPAGE*/
 
-#homepage {
+#homepage,
+#partnership {
     width: 100%;
 }
 
-#homepage h2 {
+#homepage h2,
+#partnership h2 {
     color: var(--color-blue);
     margin-bottom: 10px;
 }
+
+
 
 /*FOOTER*/
 

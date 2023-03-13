@@ -7,7 +7,9 @@
 		{% for i in 0..2 %}
 			<div class="card">
 				<div class="card-header">
-					<span class="card-tag">offre ponctuelle</span>
+					<span class="card-tag">offre
+						{{ ticketing[i].typeTicketing }}
+					</span>
 					<span class="card-date">Publié le
 						{{ ticketing[i].dateCreateTicketing|format_datetime(locale='fr', pattern='dd MMMM')}}
 						- Du

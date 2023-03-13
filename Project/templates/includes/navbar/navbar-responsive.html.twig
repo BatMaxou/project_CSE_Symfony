@@ -3,7 +3,23 @@
 		<div class="navbar-divider"></div>
 		{% include "includes/navbar/navbar-menu.html.twig" %}
 		<div class="navbar-divider"></div>
-		{% include "includes/sidebar/sidebar.html.twig" %}
+		<div class="sidebar-contact">
+			<h2>Informations de contact</h2>
+			<ul>
+				<li>
+					Par téléphone :
+					<a href="tel:+33303030303">+33303030303</a>
+				</li>
+				<li>
+					Par mail :
+					<a href="mailto:cse@lyceestvincent.fr">cse@lyceestvincent.fr</a>
+				</li>
+				<li>
+					Au lycée : Bureau du CSE - 1er étage bâtiment Saint-Vincent
+				</li>
+			</ul>
+
+		</div>
 	</div>
 	<script src="{{ asset('js/toggler.js')}}"></script>
 {% endblock %}
