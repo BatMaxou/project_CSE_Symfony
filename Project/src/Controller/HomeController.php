@@ -105,7 +105,7 @@ class HomeController extends AbstractController
 
         return $this->render('partnership/partnership.html.twig', [
             'path' => $path,
-            'partnership' => $partnership,
+            'partnerships' => $partnership,
             'image' => $imgPartner,
             'question' => $questionActive,
             'response' => $responseQuestion,
