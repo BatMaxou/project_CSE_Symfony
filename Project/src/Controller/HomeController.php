@@ -69,14 +69,43 @@ class HomeController extends AbstractController
     }
 
     #[Route(path: '/partenariat', name: 'partnership')]
-    public function partnership(PartnershipRepository $partnershipRepo): Response
+    public function partnership(PartnershipRepository $partnershipRepo, Request $request, SurveyRepository $surveyRepo, ResponseRepository $responseRepo, EntityManagerInterface $manager): Response
     {
         $path = [['Accueil', 'home'], ['Partenariat', 'partnership']];
         $partnership = $partnershipRepo->findAll();
 
+        $imgPartner = $partnershipRepo->imagePartner();
+        // get the question active of the survey
+        $questionActive = $surveyRepo->findQuestionActive();
+        // get response associated at the question of the survey
+        $responseQuestion = $responseRepo->findResponseById($questionActive->getIdSurvey());
+        
+        $userResponse = new UserResponse();
+        $form = $this->createForm(UserResponseType::class, $userResponse);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted()) {
+            try {
+                // get id of the respons by a search name for set response of the create UserResponse
+                $response = $responseRepo->findIdResponseOfName($request->get("radio_response"));
+                
+                $userResponse->setResponse($response);
+                $manager->persist($userResponse);
+                $manager->flush();
+    
+                $this->addFlash('success', 'Réponse enregistrée, merci de votre participation !');
+            } catch (\Throwable $th) {
+                $this->addFlash('error', 'Une erreur imprévu est survenu, veillez recharger la puis réessayer.');
+            }
+        }
+
         return $this->render('partnership/partnership.html.twig', [
             'path' => $path,
             'partnership' => $partnership,
+            'image' => $imgPartner,
+            'question' => $questionActive,
+            'response' => $responseQuestion,
+            'form' => $form->createView(),
         ]);
     }
 
