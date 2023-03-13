@@ -70,7 +70,7 @@ class HomeController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/partenariat', name: 'partnership')]
+    #[Route(path: '/partenariat', name: 'partnership', methods: ['GET', 'POST'])]
     public function partnership(PartnershipRepository $partnershipRepo, Request $request, SurveyRepository $surveyRepo, ResponseRepository $responseRepo, EntityManagerInterface $manager): Response
     {
         $path = [['Accueil', 'home'], ['Partenariat', 'partnership']];
@@ -133,23 +133,19 @@ class HomeController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/billeterie/{id}', name: 'offer')]
-    public function offer(PartnershipRepository $partnershipRepo, TicketingRepository $ticketingRepo, int $id, Request $request, SurveyRepository $surveyRepo, ResponseRepository $responseRepo, EntityManagerInterface $manager, ImageTicketingRepository $imgTicketingRepo): Response
+    #[Route(path: '/billeterie/{id}', name: 'offer', methods: ['GET', 'POST'])]
+    public function offer(PartnershipRepository $partnershipRepo, TicketingRepository $ticketingRepo, string $id, Request $request, SurveyRepository $surveyRepo, ResponseRepository $responseRepo, EntityManagerInterface $manager, ImageTicketingRepository $imgTicketingRepo): Response
     {
         $path = [['Accueil', 'home'], ['Billeterie', 'ticketing']];
-        
         // get info associated at the id in the url of the ticketing
         $offer = $ticketingRepo->find($id);
-
-        // get image associated at the id in the url of the ticketing
-        $imgOffer = $imgTicketingRepo->findImageTicketing($id);
-
+        
         // get 3 random image from database
         $imgPartner = $partnershipRepo->imagePartner();
-
+        
         // get the question active of the survey
         $questionActive = $surveyRepo->findQuestionActive();
-
+        
         // get response associated at the question of the survey
         $responseQuestion = $responseRepo->findResponseById($questionActive->getIdSurvey());
         
@@ -165,22 +161,29 @@ class HomeController extends AbstractController
                 $userResponse->setResponse($response);
                 $manager->persist($userResponse);
                 $manager->flush();
-    
+                
                 $this->addFlash('success', 'Réponse enregistrée, merci de votre participation !');
             } catch (\Throwable $th) {
                 $this->addFlash('error', 'Une erreur imprévu est survenu, veillez recharger la puis réessayer.');
             }
         }
-
-        return $this->render('ticketing/offer.html.twig', [
-            'path' => $path,
-            'image' => $imgPartner,
-            'question' => $questionActive,
-            'response' => $responseQuestion,
-            'form' => $form->createView(),
-            'offer' => $offer,
-            'imgOffer' => $imgOffer,
-        ]);
+        
+        if (($offer != NULL) AND (is_numeric($id))) {
+            // get image associated at the id in the url of the ticketing
+            $imgOffer = $imgTicketingRepo->findImageTicketing($id);
+            
+            return $this->render('ticketing/offer.html.twig', [
+                'path' => $path,
+                'image' => $imgPartner,
+                'question' => $questionActive,
+                'response' => $responseQuestion,
+                'form' => $form->createView(),
+                'offer' => $offer,
+                'imgOffer' => $imgOffer,
+            ]);
+        } else {
+            return $this->redirectToRoute('home');
+        }
     }
 
     #[Route(path: '/contact', name: 'contact')]
