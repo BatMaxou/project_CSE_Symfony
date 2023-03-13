@@ -19,7 +19,9 @@
 					</span>
 				</span>
 				<span class="offer-card-img-partnership">
-					<img src="{{ asset('images/Leonidas.svg') }}" alt="image offer">
+					{% if offer.partnership.imagePartnership is defined and offer.partnership.imagePartnership is not null %}
+						<img src="{{ asset('imagesTest/' ~ offer.partnership.imagePartnership) }}" alt="image offer">
+					{% endif %}
 				</span>
 			</div>
 			<div class="offer-card-place">Nombre de place minimum à prendre :
