@@ -928,7 +928,7 @@ textarea:focus::placeholder {
     justify-content: space-between;
 }
 
-#aboutus h2 {
+.title-about-us {
     color: var(--color-blue);
     margin-bottom: 10px
 }
@@ -936,4 +936,93 @@ textarea:focus::placeholder {
 #aboutus .card-header button {
     border: none;
     cursor: pointer;
+}
+
+.modal-open {
+    padding: 0;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    display: none;
+}
+
+.modal h2 {
+    margin: 0;
+    color: var(--color-primary);
+}
+
+.modal-content {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%) !important;
+    background-color: #fff;
+    border-radius: 5px;
+    min-width: 300px;
+    max-width: 600px;
+}
+
+.modal-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--color-primary);
+    font-size: 20px;
+}
+
+.modal-header {
+    border: none;
+    border-bottom: 1px solid #1B3168;
+    padding: 20px;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.modal-footer {
+    border-top: 1px solid #1B3168;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btnClose {
+    background-color: #1B3168;
+    padding: 10px 20px;
+    border: none;
+    color: white;
+    font-size: 14px;
+    max-width: 85px;
+    max-height: 37px;
+}
+
+@media (max-width: 750px) {
+    .modal-content {
+        top: 35%;
+    }
+
+    .modal-footer {
+        border-top: 1px solid #1B3168;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .btnClose {
+        width: 100%;
+        max-width: none;
+        margin-top: 20px;
+    }
 }
