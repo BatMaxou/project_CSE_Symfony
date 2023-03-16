@@ -27,7 +27,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class HomeController extends AbstractController
 {
     #[Route(path: '/', name: 'home', methods: ['GET', 'POST'])]
-    public function home(Request $request, PartnershipRepository $partnerRepo, SurveyRepository $surveyRepo, ResponseRepository $responseRepo, EntityManagerInterface $manager, TicketingRepository $ticketingRep, CkeditorRepository $ckeditorRep): Response
+    public function home(PartnershipRepository $partnerRepo, SurveyRepository $surveyRepo, ResponseRepository $responseRepo, TicketingRepository $ticketingRep, CkeditorRepository $ckeditorRep): Response
     {
         $path = [['Accueil', 'home']];
         $ckeditor = $ckeditorRep->findByPage('HomePage');
@@ -42,28 +42,9 @@ class HomeController extends AbstractController
         // get response associated at the question of the survey
         $responseQuestion = $responseRepo->findResponseById($questionActive->getIdSurvey());
 
-        $userResponse = new UserResponse();
-        $form = $this->createForm(UserResponseType::class, $userResponse);
-        $form->handleRequest($request);
+        $form = $this->createForm(UserResponseType::class);
 
-        $sub = new Subscriber();
-        $formSub = $this->createForm(SubscriberType::class, $sub);
-        $formSub->handleRequest($request);
-
-        if ($form->isSubmitted()) {
-            try {
-                // get id of the respons by a search name for set response of the create UserResponse
-                $response = $responseRepo->findIdResponseOfName($request->get("radio_response"));
-
-                $userResponse->setResponse($response);
-                $manager->persist($userResponse);
-                $manager->flush();
-
-                $this->addFlash('success', 'Réponse enregistrée, merci de votre participation !');
-            } catch (Exception) {
-                $this->addFlash('error', 'Une erreur imprévu est survenu, veillez recharger la puis réessayer.');
-            }
-        }
+        $formSub = $this->createForm(SubscriberType::class);
 
         return $this->render('homePage/index.html.twig', [
             'path' => $path,
@@ -92,28 +73,9 @@ class HomeController extends AbstractController
         // get response associated at the question of the survey
         $responseQuestion = $responseRepo->findResponseById($questionActive->getIdSurvey());
 
-        $userResponse = new UserResponse();
-        $form = $this->createForm(UserResponseType::class, $userResponse);
-        $form->handleRequest($request);
+        $form = $this->createForm(UserResponseType::class);
 
-        $sub = new Subscriber();
-        $formSub = $this->createForm(SubscriberType::class, $sub);
-        $formSub->handleRequest($request);
-
-        if ($form->isSubmitted()) {
-            try {
-                // get id of the respons by a search name for set response of the create UserResponse
-                $response = $responseRepo->findIdResponseOfName($request->get("radio_response"));
-
-                $userResponse->setResponse($response);
-                $manager->persist($userResponse);
-                $manager->flush();
-
-                $this->addFlash('success', 'Réponse enregistrée, merci de votre participation !');
-            } catch (\Throwable $th) {
-                $this->addFlash('error', 'Une erreur imprévu est survenu, veillez recharger la puis réessayer.');
-            }
-        }
+        $formSub = $this->createForm(SubscriberType::class);
 
         return $this->render('partnership/partnership.html.twig', [
             'path' => $path,
@@ -304,14 +266,14 @@ class HomeController extends AbstractController
                         }
                     }
                 }
-                
+
                 $contact = $formContact->getData();
-                
+
                 $manager->persist($contact);
                 $manager->flush();
-                
+
                 $this->addFlash('success', 'Votre message a bien été envoyé !');
-                
+
                 return $this->redirectToRoute('contact');
             } catch (\Throwable $th) {
                 $this->addFlash('error', 'Une erreur imprévu est survenu, veillez recharger la puis réessayer.');

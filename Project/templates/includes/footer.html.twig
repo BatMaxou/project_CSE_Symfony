@@ -20,8 +20,8 @@
 
 				{{ form_start(formSub) }}
 				<div class="form-group">
-					<label for="censent">J'accepte de recevoir les nouvelles offres</label>
-					<input type="checkbox" name="consent"/>
+					<input type="checkbox" id="consent" name="consent"/>
+					<label for="consent">J'accepte de recevoir les nouvelles offres</label>
 				</div>
 				<div class="footer-group">
 					<div class='form-group'>
@@ -36,5 +36,4 @@
 			</div>
 		</div>
 	</div>
-	<script src="{{ asset('js/inscription.js') }}"></script>
 {% endblock %}

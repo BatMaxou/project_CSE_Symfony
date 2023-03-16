@@ -1,10 +1,10 @@
-INSERT INTO contact (firstname_contact, name_contact, email_contact, message_contact)
+INSERT INTO contact (firstname_contact, name_contact, email_contact, message_contact, consent_contact)
 VALUES
-    ("Wyoming", "Blanchard","pede@icloud.couk", "Bonjour, je souhaite me désinscrire de la newslettter, merci."),
-    ("Dorian", "Baker","proin.sed.turpis@protonmail.edu", "Je ne suis plus intéressé par la newsletter, merci."),
-    ("Ignatius", "Chavez","nonummy.ac@icloud.edu", "Bonjour, je souhaite m'inscrire merci."),
-    ("Finn", "Conner","luctus@icloud.ca", "Bonjour, je souhaite postuler pour un stage."),
-    ("Aretha", "Baker","bibendum.sed@protonmail.com", "Bonjour, je suis intéré par l'un de vos ticketing !");
+    ("Wyoming", "Blanchard","pede@icloud.couk", "Bonjour, je souhaite me désinscrire de la newslettter, merci.", 1),
+    ("Dorian", "Baker","proin.sed.turpis@protonmail.edu", "Je ne suis plus intéressé par la newsletter, merci.", 1),
+    ("Ignatius", "Chavez","nonummy.ac@icloud.edu", "Bonjour, je souhaite m'inscrire merci.", 1),
+    ("Finn", "Conner","luctus@icloud.ca", "Bonjour, je souhaite postuler pour un stage.", 1),
+    ("Aretha", "Baker","bibendum.sed@protonmail.com", "Bonjour, je suis intéré par l'un de vos ticketing !", 1);
 
 -- pede@icloud.couk : password
 -- proin.sed.turpis@protonmail.edu : babeudi
@@ -12,7 +12,7 @@ VALUES
 -- luctus@icloud.ca : admin
 -- bibendum.sed@protonmail.com : 1234
 
-INSERT INTO Admin (email_admin, password_admin, roles_admin)
+INSERT INTO admin (email_admin, password_admin, roles_admin)
 VALUES
     ("pede@icloud.couk", "$argon2i$v=19$m=65536,t=4,p=1$ZTJLaGYvdDJtMUVKTFJCWQ$vHhV73SOuPb24C2fg88oQLwUC1a7eKHnfC4CEHV5Ats", '["ROLE_ADMIN"]'),
     ("proin.sed.turpis@protonmail.edu", "$argon2i$v=19$m=65536,t=4,p=1$ZnplSklHYU13aC9FSEp3eQ$SHRulI8gt/LqmH7MjBJ1lVZJE3Ec4ReBzNX2Jsq5JGg", '["ROLE_ADMIN"]'),
@@ -92,21 +92,18 @@ VALUES
     ("2021-10-09 10:16:46", 15),
     ("2023-09-03 12:19:57", 15);
 
-INSERT INTO ticketing (name_ticketing, text_ticketing, date_start_ticketing, date_end_ticketing, number_min_place_ticketing, type_ticketing)
+INSERT INTO ticketing (id_ticketing, name_ticketing, text_ticketing, date_start_ticketing, date_end_ticketing, date_create_ticketing, number_min_place_ticketing, order_number_ticketing, type_ticketing, id_partnership)
 VALUES
-    ("Cinéma", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "2022-10-17", "2023-07-05", 50, 0),
-    ("Parc d'astérix", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "2022-10-17", "2023-07-05", 20, 0),
-    ("Bon decathlon", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "2022-10-17", "2023-07-05", 25, 0),
-    ("Voyage Rome", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "2022-10-17", "2023-07-05", 10, 0),
-    ("Convention manga", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "2022-10-17", "2023-07-05", 30, 0);
-
-INSERT INTO ticketing (text_ticketing, date_start_ticketing, date_end_ticketing, order_number_ticketing, type_ticketing)
-VALUES
-    ("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "2022-10-17", "2023-07-05", 1, 1),
-    ("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "2023-01-23", "2023-10-28", 2, 1),
-    ("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "2023-02-05", "2023-06-23", 3, 1),
-    ("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "2022-08-12", "2023-11-29", 4, 1),
-    ("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "2021-10-06", "2023-09-14", 5, 1);
+    (1, 'Cinéma', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', '2022-10-17', '2023-07-05', '2023-03-14', 50, NULL, 'permanente', NULL),
+    (2, 'Parc d\'astérix', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', '2022-10-17', '2023-07-05', '2022-09-14', 20, NULL, 'permanente', NULL),
+    (3, 'Bon decathlon', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', '2022-10-17', '2023-07-05', '2022-09-28', 25, NULL, 'permanente', NULL),
+    (4, 'Voyage Rome', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', '2022-10-17', '2023-07-05', '2022-03-01', 10, NULL, 'permanente', NULL),
+    (5, 'Convention manga', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', '2022-10-17', '2023-07-05', '2022-05-25', 30, NULL, 'permanente', NULL),
+    (6, NULL, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', '2022-10-17', '2023-07-05', '2022-08-07', NULL, 1, 'limitée', NULL),
+    (7, NULL, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', '2023-01-23', '2023-10-28', '2023-03-29', NULL, 2, 'limitée', NULL),
+    (8, NULL, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', '2023-02-05', '2023-06-23', '2023-01-23', NULL, 3, 'limitée', NULL),
+    (9, NULL, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', '2022-08-12', '2023-11-29', '2022-06-29', NULL, 4, 'limitée', NULL),
+    (10, NULL, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', '2021-10-06', '2023-09-14', '2021-07-14', NULL, 5, 'limitée', NULL);
 
 INSERT INTO image_ticketing (name_image_ticketing, id_ticketing)
 VALUES
