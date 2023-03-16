@@ -63,7 +63,7 @@ const surveyInputs = document.querySelectorAll('.sidebar-survey input[type="radi
 
 const handleSurveyClick = (e) => {
     e.preventDefault()
-    let selected = null
+    let selected = { value: null }
 
     surveyInputs.forEach(input => {
         if (input.checked) {
@@ -75,6 +75,7 @@ const handleSurveyClick = (e) => {
         const request = prepareRequest()
 
         request.onreadystatechange = () => {
+
             if (request.status === 200) {
                 selected.checked = false
                 createFlash('alert-success', request.response)
