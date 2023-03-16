@@ -1,0 +1,65 @@
+{% extends "page.html.twig" %}
+
+{% block content %}
+	<div id="contact">
+		<h2>Contactez-nous</h2>
+		{% include "includes/_flash.html.twig" %}
+		<div class="card">
+			<div class="contact-flex">
+				<div class="contact-img">
+					<img src="{{ asset('images/lyceestvincent.png') }}" alt="">
+				</div>
+				<div class="contact-header">
+					<ul>
+						<li>
+							Par téléphone :
+							<a href="tel:+33303030303">+33303030303</a>
+						</li>
+						<li>
+							Par mail :
+							<a href="mailto:cse@lyceestvincent.fr">cse@lyceestvincent.fr</a>
+						</li>
+						<li>
+							Au lycée : Bureau du CSE (1er étage bâtiment Saint-Vincent)
+						</li>
+					</ul>
+					<div class="contact-form">
+						{{ form_start(formContact) }}
+
+						{{ form_errors(formContact.nameContact) }}
+						{{ form_errors(formContact.firstnameContact) }}
+						{{ form_errors(formContact.emailContact) }}
+						{{ form_errors(formContact.messageContact) }}
+						{{ form_errors(formContact.consentContact) }}
+
+						{{ form_label(formContact.nameContact) }}
+						{{ form_widget(formContact.nameContact, {'attr': {'class': 'elementLogin', 'placeholder': 'Prénom'}}) }}
+
+						{{ form_label(formContact.firstnameContact) }}
+						{{ form_widget(formContact.firstnameContact, {'attr': {'class': 'elementLogin', 'placeholder': 'Nom'}}) }}
+
+						{{ form_label(formContact.emailContact) }}
+						{{ form_widget(formContact.emailContact, {'attr': {'class': 'elementLogin', 'placeholder': 'Adresse mail'}}) }}
+
+						{{ form_label(formContact.messageContact) }}
+						{{ form_widget(formContact.messageContact, {'attr': {'class': 'elementLogin', 'placeholder': 'Message'}}) }}
+
+						<div class="form-contact-checkbox">
+							{{ form_widget(formContact.consentContact) }}
+							{{ form_label(formContact.consentContact) }}
+						</div>
+
+						<div class="form-contact-checkbox">
+							<input type="checkbox" name="consent" id="newsletterConsentFormContact">
+							<label for="newsletterConsentFormContact">Je m'inscrit à la newsletter pour recevoir par mail les nouvelles offres</label>
+						</div>
+
+						{{ form_row(formContact.submit, {'attr': {'class': 'submitLogin'}}) }}
+
+						{{ form_end(formContact) }}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
