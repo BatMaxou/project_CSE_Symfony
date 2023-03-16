@@ -1,9 +1,21 @@
 {% extends "base.html.twig" %}
 
+{% block title %}
+	CSE
+{% endblock %}
+
+{% block navbar %}
+	{% include "includes/navbar/_navbar.html.twig" with {'menu': 'base'}%}
+{% endblock %}
+
 {% block sidebar %}
 	{% include "includes/sidebar/_sidebar.html.twig" %}
 {% endblock %}
 
 {% block content %}
 	{# Override content #}
+{% endblock %}
+
+{% block footer %}
+	{% include "includes/_footer.html.twig" %}
 {% endblock %}

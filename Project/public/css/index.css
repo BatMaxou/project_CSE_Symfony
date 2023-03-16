@@ -11,9 +11,11 @@ body {
     margin: 0;
     padding: 0;
     font-family: Arial, Helvetica, sans-serif;
-    --color-a-no-hover: black;
-    --color-blue: #1B3168;
-    --color-h2: #b6a886;
+    /* --color-a-no-hover: black;
+    --color-primary: #1B3168;
+    --color-secondary: #b6a886; */
+    --color-primary: #1b3168;
+    --color-secondary: #b6a886;
 }
 
 h1,
@@ -27,7 +29,7 @@ p {
 }
 
 h2 {
-    color: var(--color-h2);
+    color: var(--color-secondary);
 }
 
 a {
@@ -44,7 +46,7 @@ ul {
 }
 
 input {
-    accent-color: var(--color-blue);
+    accent-color: var(--color-primary);
 }
 
 input:focus::placeholder,
@@ -133,7 +135,7 @@ textarea:focus::placeholder {
     width: 100%;
     height: 50px;
     padding-inline: 10px;
-    background-color: var(--color-blue);
+    background-color: var(--color-primary);
 }
 
 #navbar .navbar-content {
@@ -166,7 +168,7 @@ textarea:focus::placeholder {
 
 #navbar .navbar-menu a {
     display: block;
-    padding: 15.8px 22px;
+    padding: 15.8px 20px;
     color: #fff;
 }
 
@@ -200,7 +202,7 @@ textarea:focus::placeholder {
 }
 
 #current-navigation li a {
-    color: var(--color-h2);
+    color: var(--color-secondary);
     font-weight: bold;
 }
 
@@ -232,7 +234,7 @@ textarea:focus::placeholder {
         top: 100px;
         left: -250px;
         width: 250px;
-        background-color: var(--color-blue);
+        background-color: var(--color-primary);
         overflow-y: scroll;
     }
 
@@ -328,11 +330,11 @@ textarea:focus::placeholder {
 
 .sidebar a,
 #navbar .sidebar-contact a {
-    color: var(--color-a-no-hover);
+    color: #000;
 }
 
 .sidebar a:hover {
-    color: var(--color-h2);
+    color: var(--color-secondary);
 }
 
 @media (max-width: 850px) {
@@ -374,11 +376,11 @@ textarea:focus::placeholder {
     }
 
     #navbar .sidebar-contact a {
-        color: var(--color-a-no-hover);
+        color: #000;
     }
 
     #navbar .sidebar-contact a:hover {
-        color: var(--color-blue);
+        color: var(--color-primary);
     }
 }
 
@@ -446,7 +448,7 @@ textarea:focus::placeholder {
 }
 
 .contact-header li a:hover {
-    color: var(--color-h2);
+    color: var(--color-secondary);
 }
 
 
@@ -494,8 +496,8 @@ textarea:focus::placeholder {
 
 .sidebar-survey button {
     background-color: white;
-    border: 3px solid var(--color-blue);
-    color: var(--color-blue);
+    border: 3px solid var(--color-primary);
+    color: var(--color-primary);
     cursor: pointer;
     width: 100%;
     height: 40px;
@@ -558,7 +560,7 @@ textarea:focus::placeholder {
 }
 
 .card .card-header .card-tag {
-    background-color: var(--color-blue);
+    background-color: var(--color-primary);
     color: #fff;
     font-size: 12px;
     text-transform: uppercase;
@@ -591,7 +593,7 @@ textarea:focus::placeholder {
 }
 
 .card .card-footer a:hover {
-    color: var(--color-h2);
+    color: var(--color-secondary);
 }
 
 .card .card-footer img {
@@ -642,7 +644,7 @@ textarea:focus::placeholder {
 #homepage h2,
 #partnership h2,
 #contact h2 {
-    color: var(--color-blue);
+    color: var(--color-primary);
     margin-bottom: 10px;
 }
 
@@ -782,7 +784,7 @@ textarea:focus::placeholder {
 }
 
 #footer .input-error {
-    color: var(--color-blue);
+    color: var(--color-primary);
 }
 
 @media (max-width: 850px) {
@@ -889,7 +891,7 @@ textarea:focus::placeholder {
 }
 
 .buttonLogout {
-    color: var(--color-h2);
+    color: var(--color-secondary);
     font-weight: bold;
 }
 
@@ -929,7 +931,7 @@ textarea:focus::placeholder {
 }
 
 #aboutus h2 {
-    color: var(--color-blue);
+    color: var(--color-primary);
     margin-bottom: 10px
 }
 
