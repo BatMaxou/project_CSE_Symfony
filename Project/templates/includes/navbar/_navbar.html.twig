@@ -1,6 +1,8 @@
 {% block navbar %}
 	<div id="navbar">
-		<div class="gray"></div>
+		<div class="gray">
+			{% include "includes/_flash.html.twig" %}
+		</div>
 		<div class="blue">
 			<div class="navbar-content">
 				<button id="navPerso-toggler" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -13,9 +15,9 @@
 						<img src="{{ asset('images/logo.jpg') }}" alt="logo-SV"/>
 					</a>
 				</div>
-				{% include "includes/navbar/navbar-menu.html.twig" %}
+				{% include "includes/navbar/_navbar-menu.html.twig" %}
 			</div>
-			{% include "includes/navbar/navbar-responsive.html.twig" %}
+			{% include "includes/navbar/_navbar-responsive.html.twig" %}
 		</div>
 	</div>
 	<div id="current-navigation">

@@ -14,7 +14,7 @@
 	</head>
 	<body>
 		<script src="{{ asset('js/init.js') }}"></script>
-		{% include "includes/navbar/navbar.html.twig" %}
+		{% include "includes/navbar/_navbar.html.twig" %}
 
 		<div id="body">
 			{% block sidebar %}
@@ -25,7 +25,7 @@
 			{% endblock %}
 		</div>
 
-		{% include "includes/footer.html.twig" %}
+		{% include "includes/_footer.html.twig" %}
 		<script src="{{ asset('js/request.js') }}"></script>
 	</body>
 </html>

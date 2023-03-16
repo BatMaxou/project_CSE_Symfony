@@ -72,16 +72,30 @@ textarea:focus::placeholder {
 
 /* FLASH */
 
-.alert-error {
-    padding: 20px;
-    background-color: #e71313;
+.flash {
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 50px;
+    padding: 25px;
+    z-index: 9999;
     color: white;
 }
 
+.flash-header {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    width: 95%;
+    margin-right: 15px;
+}
+
+.alert-error {
+    background-color: #e71313;
+}
+
 .alert-success {
-    padding: 20px;
     background-color: #128a00;
-    color: white;
 }
 
 .closebtn {
