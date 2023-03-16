@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Connexion
+{% endblock %}
+
+{% block navbar %}
+	{% include "includes/navbar/_navbar.html.twig" with {'menu': 'base'} %}
+{% endblock %}
+
+{% block content %}
+	<form class="loginForm" method="post">
+
+		<h1 class="h3 mb-3 font-weight-normal">Connexion</h1>
+
+		{% if error %}
+			<div class="alert-error">Votre email ou votre mot de passe est incorrect !</div>
+		{% endif %}
+
+		<div>
+			<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="elementLogin" placeholder="Email" autocomplete="email" required autofocus>
+
+			<input type="password" name="password" id="inputPassword" class="elementLogin" placeholder="Mot de passe" autocomplete="current-password" required>
+		</div>
+
+		<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+		<button class="submitLogin" type="submit">
+			Se connecter
+		</button>
+
+		{% if app.user %}
+			<div class="mb-3">
+				<p>Vous êtes déjà connecté(e) en tant que
+					{{ app.user.userIdentifier }}
+				</p>
+				<a href="{{ path('app_logout') }}" class="buttonLogout">Se déconnecter</a>
+			</div>
+		{% endif %}
+	</form>
+{% endblock %}
