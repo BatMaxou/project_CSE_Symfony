@@ -26,6 +26,9 @@ class Contact
     #[ORM\Column(type: Types::TEXT)]
     private ?string $messageContact = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $consentContact = null;
+
     public function getIdContact(): ?int
     {
         return $this->idContact;
@@ -75,6 +78,18 @@ class Contact
     public function setMessageContact(string $messageContact): self
     {
         $this->messageContact = $messageContact;
+
+        return $this;
+    }
+
+    public function isConsentContact(): ?bool
+    {
+        return $this->consentContact;
+    }
+
+    public function setConsentContact(?bool $consentContact): self
+    {
+        $this->consentContact = $consentContact;
 
         return $this;
     }

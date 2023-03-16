@@ -43,6 +43,10 @@ ul {
     list-style: none;
 }
 
+input {
+    accent-color: var(--color-blue);
+}
+
 .form {
     display: flex;
 }
@@ -379,6 +383,10 @@ ul {
     padding: 15px;
 }
 
+.sidebar-survey .flash {
+    display: none;
+}
+
 .sidebar-survey legend {
     text-align: center;
 }
@@ -649,11 +657,12 @@ ul {
     top: 50%;
     transform: translateY(-50%);
     left: 25px;
-    width: 300px;
+    max-width: 300px;
 }
 
 #footer .footer-group {
     display: flex;
+    margin-top: 5px;
 }
 
 #footer input {
@@ -671,6 +680,11 @@ ul {
 #footer input[type='submit'] {
     width: 80px;
     background-color: #fff;
+    cursor: pointer;
+}
+
+#footer label,
+#consent {
     cursor: pointer;
 }
 
@@ -701,6 +715,10 @@ ul {
         text-align: center;
         margin: 15px auto 0;
         width: 280px;
+    }
+
+    #footer .form-group {
+        text-align: left;
     }
 }
 
