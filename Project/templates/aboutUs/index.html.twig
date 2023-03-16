@@ -1,81 +1,77 @@
 {% extends 'page.html.twig' %}
 
-{% block title %}Tableau de bord
-{% endblock %}
-
 {% block content %}
+	<div id="aboutus">
+		<h2 class="title-about-us">A propos de nous</h2>
 
-<div id="aboutus">
-    <h2 class="title-about-us">A propos de nous</h2>
+		{% for ckeditor in ckeditors %}
+			{% if (ckeditor.zoneCkeditor == "actions") %}
+				<div class="card">
+					<div class="card-header">
+						<h5>Actions menées par le CSE</h5>
+						<button class="modal-open">Voir le règlements</button>
+					</div>
+					<div class="card-body">
+						<div class="card-content">
+							<p>{{ ckeditor.contentCkeditor }}</p>
+						</div>
+					</div>
+				</div>
+			{% endif %}
+		{% endfor %}
 
-    {% for ckeditor in ckeditors %}
-    {% if (ckeditor.zoneCkeditor == "actions") %}
-    <div class="card">
-        <div class="card-header">
-            <h5>Actions menées par le CSE</h5>
-            <button class="modal-open">Voir le règlements</button>
-        </div>
-        <div class="card-body">
-            <div class="card-content">
-                <p>{{ ckeditor.contentCkeditor }}</p>
-            </div>
-        </div>
-    </div>
-    {% endif %}
-    {% endfor %}
+		<div class="modal">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button class="modal-close">X</button>
+					<h2>Règlement du CSE</h2>
+				</div>
+				<div class="modal-body">
+					{% for ckeditor in ckeditors %}
 
-    <div class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button class="modal-close">X</button>
-                <h2>Règlement du CSE</h2>
-            </div>
-            <div class="modal-body">
-                {% for ckeditor in ckeditors %}
+						{# Text du règlement #}
+						{% if (ckeditor.zoneCkeditor == "reglement") %}
+							<p>{{ ckeditor.contentCkeditor }}</p>
+						{% endif %}
 
-                {# Text du règlement #}
-                {% if (ckeditor.zoneCkeditor == "règlement") %}
-                <p>{{ ckeditor.contentCkeditor }}</p>
-                {% endif %}
+					{% endfor %}
 
-                {% endfor %}
+				</div>
+				<div class="modal-footer">
 
-            </div>
-            <div class="modal-footer">
+					{% for ckeditor in ckeditors %}
 
-                {% for ckeditor in ckeditors %}
+						{# Email du CSE #}
+						{% if (ckeditor.zoneCkeditor == "email") %}
+							{% set mailto = "mailto:" ~ ckeditor.contentCkeditor %}
+							<p>
+								Pour toutes informations supplémentaires, veuillez nous contacter à l'adresse mail :
+								<a href={{ mailto }} target="_blank" title="Envoyer un email">
+									{{ ckeditor.contentCkeditor }}
+								</a>
+							</p>
+						{% endif %}
 
-                {# Email du CSE #}
-                {% if (ckeditor.zoneCkeditor == "email") %}
-                {% set mailto = "mailto:" ~ ckeditor.contentCkeditor %}
-                <p>
-                    Pour toutes informations supplémentaires, veuillez nous contacter à l'adresse mail :
-                    <a href={{ mailto }} target="_blank" title="Envoyer un email">
-                        {{ ckeditor.contentCkeditor }}
-                    </a>
-                </p>
-                {% endif %}
+					{% endfor %}
 
-                {% endfor %}
+					<button class="btnClose">Fermer</button>
+				</div>
+			</div>
+		</div>
 
-                <button class="btnClose">Fermer</button>
-            </div>
-        </div>
-    </div>
-
-    {% for ckeditor in ckeditors %}
-    {% if (ckeditor.zoneCkeditor == "membres") %}
-    <div class="card">
-        <div class="card-header">
-            <h5>Membres</h5>
-        </div>
-        <div class="card-body">
-            <div class="card-content">
-                <p>{{ ckeditor.contentCkeditor }}</p>
-            </div>
-        </div>
-    </div>
-    {% endif %}
-    {% endfor %}
-</div>
+		{% for ckeditor in ckeditors %}
+			{% if (ckeditor.zoneCkeditor == "membres") %}
+				<div class="card">
+					<div class="card-header">
+						<h5>Membres</h5>
+					</div>
+					<div class="card-body">
+						<div class="card-content">
+							<p>{{ ckeditor.contentCkeditor }}</p>
+						</div>
+					</div>
+				</div>
+			{% endif %}
+		{% endfor %}
+	</div>
 {% endblock %}
