@@ -6,23 +6,23 @@ function createFlash(type, response) {
 
     // add the css and the content to the flash
     alert.classList.add(type)
-    alert.style.display = 'block';
+    alert.style.display = 'block'
     message.textContent = response
 
-    closeButton.addEventListener('click', closeFlash(alert))
+    closeButton.addEventListener('click', () => closeFlash(alert, type, message))
 
     // made the disaparition of the flash
     setTimeout(() => {
         if (alert) {
-            alert.classList.remove(type)
-            message.textContent = ''
-            alert.style.display = 'none';
+            closeFlash(alert, type, message)
         }
-    }, 4000);
+    }, 4000)
 }
 
 // permite to close a flash
-function closeFlash(alert) {
+function closeFlash(alert, type, message) {
+    alert.classList.remove(type)
+    message.textContent = ''
     alert.style.display = 'none'
 }
 

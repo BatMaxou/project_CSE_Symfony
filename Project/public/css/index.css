@@ -47,6 +47,11 @@ input {
     accent-color: var(--color-blue);
 }
 
+input:focus::placeholder,
+textarea:focus::placeholder {
+    color: transparent;
+}
+
 .form {
     display: flex;
 }
@@ -71,14 +76,12 @@ input {
     padding: 20px;
     background-color: #e71313;
     color: white;
-    display: block;
 }
 
 .alert-success {
     padding: 20px;
     background-color: #128a00;
     color: white;
-    display: block;
 }
 
 .closebtn {
