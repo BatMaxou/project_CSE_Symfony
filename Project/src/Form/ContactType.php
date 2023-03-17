@@ -6,6 +6,7 @@ use Assert\Email;
 use App\Entity\Contact;
 use App\Entity\Subscriber;
 use Symfony\Component\Form\AbstractType;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -21,28 +22,33 @@ final class ContactType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('nameContact', TextType::class, [
-                    'label' => 'Prénom',
-                    'required'   => true,
-                ])
-                ->add('firstnameContact', TextType::class, [
-                    'label' => 'Nom',
-                    'required'   => true,
-                ])
-                ->add('emailContact', EmailType::class, [
-                    'label' => 'Adresse mail',
-                    'required'   => true,
-                ])
-                ->add('messageContact', TextareaType::class, [
-                    'label' => 'Message',
-                    'required'   => true,
-                ])
-                ->add('consentContact', CheckboxType::class, [
-                    'label'    => 'J\'accepte que le site utilise mes informations personnelles ci-dessus afin de me contacter',
-                    'required' => true,
-                ])
-                ->add('submit', SubmitType::class, [
-                    'label' => 'Envoyer mon message'
-                ]);
+            'label' => 'Prénom',
+            'required'   => true,
+        ])
+            ->add('firstnameContact', TextType::class, [
+                'label' => 'Nom',
+                'required'   => true,
+            ])
+            ->add('emailContact', EmailType::class, [
+                'label' => 'Adresse mail',
+                'required'   => true,
+            ])
+            // ->add('messageContact', TextareaType::class, [
+            //     'label' => 'Message',
+            //     'required'   => true,
+            // ])
+            ->add('consentContact', CheckboxType::class, [
+                'label'    => 'J\'accepte que le site utilise mes informations personnelles ci-dessus afin de me contacter',
+                'required' => true,
+            ])
+            ->add('submit', SubmitType::class, [
+                'label' => 'Envoyer mon message'
+            ])
+            ->add('messageContact', CKEditorType::class, array(
+                'config' => array(
+                    'uiCmessageContactolor' => '#ffffff'
+                )
+            ));
     }
 
     public function configureOptions(OptionsResolver $resolver): void

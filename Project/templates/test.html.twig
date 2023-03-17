@@ -1,0 +1,7 @@
+{% extends "base.html.twig" %}
+
+{% block footer %}
+	{% for contact in contacts %}
+		<div class="card">{{contact.messageContact|raw}}</div>
+	{% endfor %}
+{% endblock %}
