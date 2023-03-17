@@ -1,0 +1,46 @@
+<div id="navbar">
+	<div class="gray">
+		{% block flash %}
+			{% include "includes/_flash.html.twig" %}
+		{% endblock %}
+	</div>
+	<div class="blue">
+		<div class="navbar-content">
+			<button id="navPerso-toggler" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="line-toggler"></span>
+				<span class="line-toggler"></span>
+				<span class="line-toggler"></span>
+			</button>
+			<div class="img-container">
+				<a href="{{ path('home') }}">
+					<img src="{{ asset('images/logo.jpg') }}" alt="logo-SV"/>
+				</a>
+			</div>
+			{% block menu %}
+				{% if menu == 'base' %}
+					{% include "includes/navbar/_navbar-menu.html.twig" %}
+				{% elseif menu == 'back' %}
+					{% include "includes/navbar/_navbar-backoffice-menu.html.twig" %}
+				{% endif %}
+			{% endblock %}
+		</div>
+		{% block navbarResponsive %}
+			{% include "includes/navbar/_navbar-responsive.html.twig" with {'menu': menu }%}
+		{% endblock %}
+	</div>
+</div>
+<div id="current-navigation">
+	{% if menu == 'base' %}
+		<img src="{{ asset('images/home.svg') }}" alt="home">
+	{% elseif menu == 'back' %}
+		<img src="{{ asset('images/gear.svg') }}" alt="gear">
+	{% endif %}
+	<ul>
+		{% for path in path %}
+			<li>
+				<img src="{{ asset('images/left-chevron.svg') }}" alt="chevron">
+				<a href="{{ path(path[1]) }}">{{ path[0] }}</a>
+			</li>
+		{% endfor %}
+	</ul>
+</div>

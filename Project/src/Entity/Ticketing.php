@@ -38,6 +38,10 @@ class Ticketing
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $dateCreateTicketing = null;
 
+    #[ORM\OneToOne(targetEntity: Partnership::class, cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(name: "id_partnership", referencedColumnName: 'id_partnership', nullable: true)]
+    private ?Partnership $partnership = null;
+
     public function getIdTicketing(): ?int
     {
         return $this->idTicketing;
@@ -135,6 +139,18 @@ class Ticketing
     public function setDateCreateTicketing(?\DateTimeInterface $dateCreateTicketing): self
     {
         $this->dateCreateTicketing = $dateCreateTicketing;
+
+        return $this;
+    }
+
+    public function getPartnership(): ?Partnership
+    {
+        return $this->partnership;
+    }
+
+    public function setPartnership(?Partnership $partnership): self
+    {
+        $this->partnership = $partnership;
 
         return $this;
     }

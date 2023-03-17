@@ -9,9 +9,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BackOfficeController extends AbstractController
 {
-    #[Route(path: '/admin', name: 'login')]
+    #[Route(path: '/admin', name: 'backoffice')]
     public function login(): Response
     {
-        return $this->render('base.html.twig');
+        $path = [['Tableau de bord', 'backoffice']];
+
+        return $this->render('backoffice/index.html.twig', [
+            'path' => $path
+        ]);
     }
 }

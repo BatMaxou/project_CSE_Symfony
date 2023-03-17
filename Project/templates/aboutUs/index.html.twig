@@ -1,0 +1,40 @@
+{% extends 'page.html.twig' %}
+
+{% block content %}
+	<div id="aboutus">
+		<h2 class="title-about-us">A propos de nous</h2>
+
+		{% for ckeditor in ckeditors %}
+			{% if (ckeditor.zoneCkeditor == "actions") %}
+				<div class="card">
+					<div class="card-header">
+						<h5>Actions menées par le CSE</h5>
+						<button class="modal-open">Voir le règlements</button>
+					</div>
+					<div class="card-body">
+						<div class="card-content">
+							<p>{{ ckeditor.contentCkeditor }}</p>
+						</div>
+					</div>
+				</div>
+			{% endif %}
+		{% endfor %}
+
+		{% include "includes/_modal.html.twig" with {'ckeditors': ckeditors} %}
+
+		{% for ckeditor in ckeditors %}
+			{% if (ckeditor.zoneCkeditor == "membres") %}
+				<div class="card">
+					<div class="card-header">
+						<h5>Membres</h5>
+					</div>
+					<div class="card-body">
+						<div class="card-content">
+							<p>{{ ckeditor.contentCkeditor }}</p>
+						</div>
+					</div>
+				</div>
+			{% endif %}
+		{% endfor %}
+	</div>
+{% endblock %}

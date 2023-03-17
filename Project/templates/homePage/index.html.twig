@@ -2,12 +2,14 @@
 
 {% block content %}
 	<div id="homepage">
-		<div class="card">CKEditor</div>
+		<div class="card">{{ ckeditor[0].contentCkeditor }}</div>
 		<h2>Dernières offres ponctuelles</h2>
 		{% for i in 0..2 %}
 			<div class="card">
 				<div class="card-header">
-					<span class="card-tag">offre ponctuelle</span>
+					<span class="card-tag">offre
+						{{ ticketing[i].typeTicketing }}
+					</span>
 					<span class="card-date">Publié le
 						{{ ticketing[i].dateCreateTicketing|format_datetime(locale='fr', pattern='dd MMMM')}}
 						- Du
@@ -20,7 +22,7 @@
 					<p>{{ticketing[i].textTicketing}}</p>
 				</div>
 				<div class="card-footer">
-					<a href="">
+					<a href="{{ path('offer', {id: ticketing[i].idTicketing}) }}">
 						<p>en savoir plus</p>
 						<img src="{{ asset('images/left-chevron.svg')}}" alt="chevron">
 					</a>

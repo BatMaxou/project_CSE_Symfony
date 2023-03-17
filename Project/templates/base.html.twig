@@ -4,26 +4,33 @@
 		<meta charset="UTF-8">
 		<title>
 			{% block title %}
-				CSE
+				{# Override title #}
 			{% endblock %}
 		</title>
 		<link
 		rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
 		{# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
 		<link rel="stylesheet" href="{{ asset('css/index.css') }}">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
 	</head>
 	<body>
 		<script src="{{ asset('js/init.js') }}"></script>
-		{% include "includes/navbar/navbar.html.twig" %}
+		{% block navbar %}
+			{# Override navbar #}
+		{% endblock %}
 
 		<div id="body">
 			{% block sidebar %}
-				{# include sidebar #}
+				{# Override sidebar #}
 			{% endblock %}
 			{% block content %}
 				{# Override content #}
 			{% endblock %}
 		</div>
-		{% include "includes/footer.html.twig" %}
+
+		{% block footer %}
+			{# Override navbar #}
+		{% endblock %}
+		<script src="{{ asset('js/request.js') }}"></script>
 	</body>
 </html>

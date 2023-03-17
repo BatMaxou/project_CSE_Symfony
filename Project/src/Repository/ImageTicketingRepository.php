@@ -39,6 +39,17 @@ class ImageTicketingRepository extends ServiceEntityRepository
         }
     }
 
+    // return an array associated of the image associated at the ticketing
+    public function findImageTicketing(int $id): array
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.ticketing = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 //    /**
 //     * @return ImageTicketing[] Returns an array of ImageTicketing objects
 //     */

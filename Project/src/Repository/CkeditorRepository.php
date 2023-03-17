@@ -39,28 +39,41 @@ class CkeditorRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Ckeditor[] Returns an array of Ckeditor objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('c.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    //    /**
+    //     * @return Ckeditor[] Returns an array of Ckeditor objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('c')
+    //            ->andWhere('c.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('c.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
 
-//    public function findOneBySomeField($value): ?Ckeditor
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    //    public function findOneBySomeField($value): ?Ckeditor
+    //    {
+    //        return $this->createQueryBuilder('c')
+    //            ->andWhere('c.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
+
+    /**
+     * @return Ckeditor[] Returns an array of Ckeditor objects
+     */
+    public function findByPage($page): array
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.namePageCkeditor = :val')
+            ->setParameter('val', $page)
+            ->orderBy('c.idCkeditor', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 }

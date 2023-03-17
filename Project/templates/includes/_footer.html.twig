@@ -14,13 +14,24 @@
 				</div>
 			</div>
 
-			<div class="offer">
+			<div class="inscription">
 				<h4>Inscrivez-vous aux offres</h4>
 				<p>Recevez un email à chaque nouvelle offre sur le site internet</p>
-				<form action="">
-					<input type="text" placeholder="Saisissez votre email"/>
-					<input type="submit" value="S'inscrire"/>
-				</form>
+
+				{{ form_start(formSub) }}
+				<div class="form-group">
+					<input type="checkbox" id="consent" name="consent"/>
+					<label for="consent">J'accepte de recevoir les nouvelles offres</label>
+				</div>
+				<div class="footer-group">
+					<div class='form-group'>
+						<input type="text" name="footer-inscription-mail" placeholder="Saisissez votre email"/>
+					</div>
+					<div class="form-group">
+						<input type="submit" name="footer-inscription-submit" value="S'inscrire"/>
+					</div>
+				</div>
+				{{ form_end(formSub) }}
 			</div>
 		</div>
 	</div>

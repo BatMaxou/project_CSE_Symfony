@@ -1,0 +1,41 @@
+<div class="modal-background">
+	<div class="modal">
+		<div class="modal-header">
+			<button class="modal-close">X</button>
+			<h2>Règlement du CSE</h2>
+		</div>
+		<div class="modal-body">
+			{% if ckeditors %}
+				{% for ckeditor in ckeditors %}
+
+					{# Text du règlement #}
+					{% if (ckeditor.zoneCkeditor == "reglement") %}
+						<p>{{ ckeditor.contentCkeditor }}</p>
+					{% endif %}
+
+				{% endfor %}
+			{% endif %}
+		</div>
+		<div class="modal-footer">
+			{% if ckeditors %}
+				{% for ckeditor in ckeditors %}
+
+					{# Email du CSE #}
+					{% if (ckeditor.zoneCkeditor == "email") %}
+						{% set mailto = "mailto:" ~ ckeditor.contentCkeditor %}
+						<p>
+							Pour toutes informations supplémentaires, veuillez nous contacter à l'adresse mail :
+							<a href={{ mailto }} target="_blank" title="Envoyer un email">
+								{{ ckeditor.contentCkeditor }}
+							</a>
+						</p>
+					{% endif %}
+
+				{% endfor %}
+			{% endif %}
+			<button class="btnClose">Fermer</button>
+		</div>
+	</div>
+</div>
+
+<script src="{{ asset('js/modal.js') }}"></script>

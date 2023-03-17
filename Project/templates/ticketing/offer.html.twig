@@ -1,0 +1,41 @@
+{% extends "page.html.twig" %}
+
+{% block content %}
+	<div id="offer">
+		<h2>{{ offer.nameTicketing }}
+			- Offre
+			{{ offer.typeTicketing }}</h2>
+		<div class="card">
+			<div class="offer-card-header">
+				<span class="offer-card-date">
+					Disponible du
+					{{ offer.dateStartTicketing|date('d/m/Y')}}
+					au
+					{{ offer.dateEndTicketing|date('d/m/Y')}}
+					<br>
+					<span>
+						Publié le
+						{{ offer.dateCreateTicketing|format_datetime(locale='fr', pattern='dd MMMM')}}
+					</span>
+				</span>
+				<span class="offer-card-img-partnership">
+					{% if offer.partnership.imagePartnership is defined and offer.partnership.imagePartnership is not null %}
+						<img src="{{ asset('imagesTest/' ~ offer.partnership.imagePartnership) }}" alt="image offer">
+					{% endif %}
+				</span>
+			</div>
+			<div class="offer-card-place">Nombre de place minimum à prendre :
+				{{ offer.numberMinPlaceTicketing }}
+			</div>
+			<div class="offer-card-body">
+				<h3>Description</h3>
+				<p>{{offer.textTicketing}}</p>
+			</div>
+			<div class="offer-card-footer">
+				{% for img in imgOffer %}
+					<img src="{{ asset('imagesTest/' ~ img.nameImageTicketing) }}" alt="image offer">
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+{% endblock %}
