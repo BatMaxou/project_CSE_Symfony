@@ -944,7 +944,7 @@ textarea:focus::placeholder {
     padding: 0;
 }
 
-.modal {
+.modal-background {
     position: fixed;
     top: 0;
     left: 0;
@@ -955,16 +955,16 @@ textarea:focus::placeholder {
     display: none;
 }
 
-.modal h2 {
+.modal-background h2 {
     margin: 0;
     color: var(--color-primary);
 }
 
-.modal-content {
+.modal {
     position: absolute;
     top: 30%;
     left: 50%;
-    transform: translate(-50%, -50%) !important;
+    transform: translate(-50%, -50%);
     background-color: #fff;
     border-radius: 5px;
     min-width: 300px;
@@ -1008,10 +1008,11 @@ textarea:focus::placeholder {
     font-size: 14px;
     max-width: 85px;
     max-height: 37px;
+    cursor: pointer;
 }
 
 @media (max-width: 750px) {
-    .modal-content {
+    .modal {
         top: 35%;
     }
 
