@@ -15,34 +15,42 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use PixelOpen\CloudflareTurnstileBundle\Type\TurnstileType;
 
 final class ContactType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('nameContact', TextType::class, [
-                    'label' => 'Prénom',
-                    'required'   => true,
-                ])
-                ->add('firstnameContact', TextType::class, [
-                    'label' => 'Nom',
-                    'required'   => true,
-                ])
-                ->add('emailContact', EmailType::class, [
-                    'label' => 'Adresse mail',
-                    'required'   => true,
-                ])
-                ->add('messageContact', TextareaType::class, [
-                    'label' => 'Message',
-                    'required'   => true,
-                ])
-                ->add('consentContact', CheckboxType::class, [
-                    'label'    => 'J\'accepte que le site utilise mes informations personnelles ci-dessus afin de me contacter',
-                    'required' => true,
-                ])
-                ->add('submit', SubmitType::class, [
-                    'label' => 'Envoyer mon message'
-                ]);
+            'label' => 'Prénom',
+            'required' => true,
+        ])
+            ->add('firstnameContact', TextType::class, [
+                'label' => 'Nom',
+                'required' => true,
+            ])
+            ->add('emailContact', EmailType::class, [
+                'label' => 'Adresse mail',
+                'required' => true,
+            ])
+            ->add('messageContact', TextareaType::class, [
+                'label' => 'Message',
+                'required' => true,
+            ])
+            ->add('consentContact', CheckboxType::class, [
+                'label' => 'J\'accepte que le site utilise mes informations personnelles ci-dessus afin de me contacter',
+                'required' => true,
+            ])
+            ->add('captcha', TurnstileType::class, [
+                'attr' => [
+                    'data-action' => 'contact',
+                    'data-theme' => 'dark'
+                ],
+                'label' => false
+            ])
+            ->add('submit', SubmitType::class, [
+                'label' => 'Envoyer mon message'
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
