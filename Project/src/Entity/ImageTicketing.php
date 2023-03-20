@@ -16,8 +16,8 @@ class ImageTicketing
     #[ORM\Column(length: 255)]
     private ?string $nameImageTicketing = null;
 
-    #[ORM\ManyToOne(targetEntity: Ticketing::class)]
-    #[ORM\JoinColumn(name: "id_ticketing", referencedColumnName: 'id_ticketing', nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Ticketing::class, inversedBy: 'imageTicketings')]
+    #[ORM\JoinColumn(name: 'id_ticketing', referencedColumnName: 'id_ticketing', nullable: false)]
     private ?Ticketing $ticketing = null;
 
     public function getIdImageTicketing(): ?int

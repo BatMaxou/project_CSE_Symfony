@@ -63,4 +63,23 @@ class TicketingRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    public function findByPermanent(): array
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere("t.typeTicketing = 'permanente'")
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findByLimited(): array
+    {
+        return $this->createQueryBuilder('t')
+            ->Where("t.typeTicketing = 'limitée'")
+            ->andWhere("t.orderNumberTicketing BETWEEN 1 AND 10")
+            ->orderBy('t.orderNumberTicketing', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+    }
 }
