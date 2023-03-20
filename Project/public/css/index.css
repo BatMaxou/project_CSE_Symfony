@@ -1000,6 +1000,10 @@ textarea:focus::placeholder {
     outline: none;
 }
 
+.loginForm #inputEmail {
+    margin-bottom: 20px;
+}
+
 .submitLogin {
     background-color: white;
     height: 50px;
@@ -1148,4 +1152,130 @@ textarea:focus::placeholder {
         max-width: none;
         margin-top: 20px;
     }
+}
+
+/* TICKETING */
+
+.ticketing {
+    width: 100%;
+}
+
+.div-title-ticketing {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0;
+    width: 100%;
+}
+
+.div-title-ticketing h2 {
+    color: var(--color-primary);
+    padding: 0;
+    font-weight: bold;
+}
+
+.ul-ticketing {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    gap: 10px;
+    position: relative;
+}
+
+.ticketing-underline {
+    border-top: 2px solid var(--color-secondary);
+    position: absolute;
+    width: 50px;
+    top: 25px;
+}
+
+.ul-ticketing li {
+    text-decoration: none;
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    color: var(--color-primary);
+    justify-content: center;
+}
+
+.ticketing-all-button {
+    width: 50px;
+}
+
+.ticketing-permanent-button {
+    width: 105px;
+}
+
+.ticketing-limited-button {
+    width: 60px;
+}
+
+.li-ticketing-active {
+    color: var(--color-secondary) !important;
+    font-weight: bold;
+}
+
+.div-ticketing {
+    margin: 20px 0;
+    gap: 20px;
+}
+
+.div-ticketing {
+    margin: 20px 0;
+    gap: 20px;
+}
+
+.div-ticketing .card {
+    display: flex;
+    gap: 20px;
+}
+
+.div-ticketing .card-image img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+}
+
+.div-ticketing .card-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.div-ticketing .card-body {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.div-ticketing .card-description-ticketing {
+    overflow: hidden;
+    line-height: 20px;
+    height: calc(3 * 20px);
+    position: relative;
+}
+
+.div-ticketing .card-description-ticketing::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    height: 24px;
+    width: 75%;
+    background: linear-gradient(90deg, transparent, #EFEDED);
+}
+
+.div-ticketing a {
+    position: absolute;
+    right: 15px;
+    bottom: 15px;
+    text-transform: uppercase;
+    font-size: 12px;
+    color: #000;
+}
+
+.div-ticketing .card-footer img {
+    width: 12px;
+    margin-left: 5px;
 }
