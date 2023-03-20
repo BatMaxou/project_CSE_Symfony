@@ -15,6 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use PixelOpen\CloudflareTurnstileBundle\Type\TurnstileType;
 
 final class ContactType extends AbstractType
 {
@@ -22,22 +23,22 @@ final class ContactType extends AbstractType
     {
         $builder->add('nameContact', TextType::class, [
             'label' => 'Prénom',
-            'required'   => true,
+            'required' => true,
         ])
             ->add('firstnameContact', TextType::class, [
                 'label' => 'Nom',
-                'required'   => true,
+                'required' => true,
             ])
             ->add('emailContact', EmailType::class, [
                 'label' => 'Adresse mail',
-                'required'   => true,
+                'required' => true,
             ])
             ->add('messageContact', TextareaType::class, [
                 'label' => 'Message',
-                'required'   => true,
+                'required' => true,
             ])
             ->add('consentContact', CheckboxType::class, [
-                'label'    => 'J\'accepte que le site utilise mes informations personnelles ci-dessus afin de me contacter',
+                'label'  => 'J\'accepte que le site utilise mes informations personnelles ci-dessus afin de me contacter',
                 'required' => true,
             ])
             ->add('submit', SubmitType::class, [

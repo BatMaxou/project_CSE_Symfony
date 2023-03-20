@@ -53,6 +53,11 @@
 							<label for="newsletterConsentFormContact">Je m'inscrit à la newsletter pour recevoir par mail les nouvelles offres</label>
 						</div>
 
+						<div class="form-contact-checkbox">
+							{{ form_widget(formContact.captcha) }}
+							{{ form_label(formContact.captcha) }}
+						</div>
+
 						{{ form_row(formContact.submit, {'attr': {'class': 'submitLogin'}}) }}
 
 						{{ form_end(formContact) }}
