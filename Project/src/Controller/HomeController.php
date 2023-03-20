@@ -26,40 +26,65 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class HomeController extends AbstractController
 {
-    #[Route(path: '/', name: 'home', methods: ['GET', 'POST'])]
-    public function home(PartnershipRepository $partnerRepo, SurveyRepository $surveyRepo, ResponseRepository $responseRepo, TicketingRepository $ticketingRep, CkeditorRepository $ckeditorRep): Response
+    public function formNewsletter(): Response
     {
-        $path = [['Accueil', 'home']];
-        $ckeditor = $ckeditorRep->findByPage('HomePage');
-        $ticketing = $ticketingRep->findAll();
+        $form = $this->createForm(SubscriberType::class, null, [
+            'action' => '/post/newsletter',
+            'method' => 'POST'
+        ]);
 
-        // get 3 random image from database
-        $imgPartner = $partnerRepo->imagePartner();
+        return $this->render('includes/form/_newsletter.html.twig', [
+            'form' => $form,
+        ]);
+    }
 
+    public function formSurvey(SurveyRepository $surveyRepo, ResponseRepository $responseRepo): Response
+    {
         // get the question active of the survey
         $questionActive = $surveyRepo->findQuestionActive();
 
         // get response associated at the question of the survey
         $responseQuestion = $responseRepo->findResponseById($questionActive->getIdSurvey());
 
-        $form = $this->createForm(UserResponseType::class);
+        $form = $this->createForm(UserResponseType::class, null, [
+            'action' => '/post/survey',
+            'method' => 'POST'
+        ]);
 
-        $formSub = $this->createForm(SubscriberType::class);
+        return $this->render('includes/form/_survey.html.twig', [
+            'form' => $form,
+            'question' => $questionActive,
+            'response' => $responseQuestion,
+        ]);
+    }
+
+    #[Route(path: '/', name: 'home', methods: ['GET'])]
+    public function home(PartnershipRepository $partnerRepo, TicketingRepository $ticketingRep, CkeditorRepository $ckeditorRep): Response
+    {
+        /*
+        * knp menu bundle
+        */
+        $path = [['Accueil', 'home']];
+        $ckeditor = $ckeditorRep->findByPage('HomePage');
+        $ticketing = $ticketingRep->findByType('permanente');
+        $nbOffer = count($ticketing);
+        // counting the number of pages with 3 offers per page
+        $nbPage = ($nbOffer % 3 === 0 || $nbOffer < 0) ? $nbOffer / 3 : intdiv($nbOffer, 3) + 1;
+        // get 3 random image from database
+        $imgPartner = $partnerRepo->imagePartner();
 
         return $this->render('homePage/index.html.twig', [
             'path' => $path,
             'ckeditor' => $ckeditor,
             'ticketing' => $ticketing,
+            'nbOffer' => $nbOffer,
+            'nbPage' => $nbPage,
             'image' => $imgPartner,
-            'question' => $questionActive,
-            'response' => $responseQuestion,
-            'form' => $form->createView(),
-            'formSub' => $formSub->createView(),
         ]);
     }
 
-    #[Route(path: '/partenariat', name: 'partnership', methods: ['GET', 'POST'])]
-    public function partnership(PartnershipRepository $partnershipRepo, Request $request, SurveyRepository $surveyRepo, ResponseRepository $responseRepo, EntityManagerInterface $manager): Response
+    #[Route(path: '/partenariat', name: 'partnership', methods: ['GET'])]
+    public function partnership(PartnershipRepository $partnershipRepo): Response
     {
         $path = [['Accueil', 'home'], ['Partenariat', 'partnership']];
         $partnership = $partnershipRepo->findAll();
@@ -67,29 +92,15 @@ class HomeController extends AbstractController
         // get 3 random image from database
         $imgPartner = $partnershipRepo->imagePartner();
 
-        // get the question active of the survey
-        $questionActive = $surveyRepo->findQuestionActive();
-
-        // get response associated at the question of the survey
-        $responseQuestion = $responseRepo->findResponseById($questionActive->getIdSurvey());
-
-        $form = $this->createForm(UserResponseType::class);
-
-        $formSub = $this->createForm(SubscriberType::class);
-
-        return $this->render('partnership/partnership.html.twig', [
+        return $this->render('partnership/index.html.twig', [
             'path' => $path,
             'partnerships' => $partnership,
-            'image' => $imgPartner,
-            'question' => $questionActive,
-            'response' => $responseQuestion,
-            'form' => $form->createView(),
-            'formSub' => $formSub->createView(),
+            'image' => $imgPartner
         ]);
     }
 
-    #[Route(path: '/a_propos', name: 'aboutUs')]
-    public function about(Request $request, PartnershipRepository $partnershipRepo, SurveyRepository $surveyRepo, ResponseRepository $responseRepo, EntityManagerInterface $manager, CkeditorRepository $ckeditorRep): Response
+    #[Route(path: '/a_propos_de_nous', name: 'aboutUs', methods: ['GET'])]
+    public function about(PartnershipRepository $partnershipRepo, CkeditorRepository $ckeditorRep): Response
     {
         $path = [['Accueil', 'home'], ['A propos de nous', 'aboutUs']];
         $ckeditors = $ckeditorRep->findByPage('AboutUs');
@@ -98,48 +109,15 @@ class HomeController extends AbstractController
         // get 3 random image from database
         $imgPartner = $partnershipRepo->imagePartner();
 
-        // get the question active of the survey
-        $questionActive = $surveyRepo->findQuestionActive();
-
-        // get response associated at the question of the survey
-        $responseQuestion = $responseRepo->findResponseById($questionActive->getIdSurvey());
-
-        $userResponse = new UserResponse();
-        $form = $this->createForm(UserResponseType::class, $userResponse);
-        $form->handleRequest($request);
-
-        $sub = new Subscriber();
-        $formSub = $this->createForm(SubscriberType::class, $sub);
-        $formSub->handleRequest($request);
-
-        if ($form->isSubmitted()) {
-            try {
-                // get id of the respons by a search name for set response of the create UserResponse
-                $response = $responseRepo->findIdResponseOfName($request->get("radio_response"));
-
-                $userResponse->setResponse($response);
-                $manager->persist($userResponse);
-                $manager->flush();
-
-                $this->addFlash('success', 'Réponse enregistrée, merci de votre participation !');
-            } catch (\Throwable $th) {
-                $this->addFlash('error', 'Une erreur imprévu est survenu, veillez recharger la puis réessayer.');
-            }
-        }
-
         return $this->render('aboutUs/index.html.twig', [
             'path' => $path,
             'ckeditors' => $ckeditors,
             'partnership' => $partnership,
-            'image' => $imgPartner,
-            'question' => $questionActive,
-            'response' => $responseQuestion,
-            'form' => $form->createView(),
-            'formSub' => $formSub->createView(),
+            'image' => $imgPartner
         ]);
     }
 
-    #[Route(path: '/billeterie', name: 'ticketing')]
+    #[Route(path: '/billeterie', name: 'ticketing', methods: ['GET'])]
     public function ticketing(Request $request): Response
     {
         $path = [['Accueil', 'home'], ['Billeterie', 'ticketing']];
@@ -154,8 +132,8 @@ class HomeController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/billeterie/{id}', name: 'offer', methods: ['GET', 'POST'])]
-    public function offer(PartnershipRepository $partnershipRepo, TicketingRepository $ticketingRepo, string $id, Request $request, SurveyRepository $surveyRepo, ResponseRepository $responseRepo, EntityManagerInterface $manager, ImageTicketingRepository $imgTicketingRepo): Response
+    #[Route(path: '/billeterie/{id}', name: 'offer', methods: ['GET'])]
+    public function offer(PartnershipRepository $partnershipRepo, TicketingRepository $ticketingRepo, string $id, ImageTicketingRepository $imgTicketingRepo): Response
     {
         $path = [['Accueil', 'home'], ['Billeterie', 'ticketing']];
         // get info associated at the id in the url of the ticketing
@@ -163,35 +141,6 @@ class HomeController extends AbstractController
 
         // get 3 random image from database
         $imgPartner = $partnershipRepo->imagePartner();
-
-        // get the question active of the survey
-        $questionActive = $surveyRepo->findQuestionActive();
-
-        // get response associated at the question of the survey
-        $responseQuestion = $responseRepo->findResponseById($questionActive->getIdSurvey());
-
-        $userResponse = new UserResponse();
-        $form = $this->createForm(UserResponseType::class, $userResponse);
-        $form->handleRequest($request);
-
-        $sub = new Subscriber();
-        $formSub = $this->createForm(SubscriberType::class, $sub);
-        $formSub->handleRequest($request);
-
-        if ($form->isSubmitted()) {
-            try {
-                // get id of the respons by a search name for set response of the create UserResponse
-                $response = $responseRepo->findIdResponseOfName($request->get("radio_response"));
-
-                $userResponse->setResponse($response);
-                $manager->persist($userResponse);
-                $manager->flush();
-
-                $this->addFlash('success', 'Réponse enregistrée, merci de votre participation !');
-            } catch (\Throwable $th) {
-                $this->addFlash('error', 'Une erreur imprévu est survenu, veillez recharger la puis réessayer.');
-            }
-        }
 
         // si $offer retourne quelque chose et que l'id est un numérique alors on render sinon redirect
         if (($offer != NULL) and (is_numeric($id))) {
@@ -201,58 +150,28 @@ class HomeController extends AbstractController
             return $this->render('ticketing/offer.html.twig', [
                 'path' => $path,
                 'image' => $imgPartner,
-                'question' => $questionActive,
-                'response' => $responseQuestion,
-                'form' => $form->createView(),
                 'offer' => $offer,
-                'imgOffer' => $imgOffer,
-                'formSub' => $formSub->createView(),
+                'imgOffer' => $imgOffer
             ]);
         } else {
             return $this->redirectToRoute('home');
         }
     }
 
-    #[Route(path: '/contact', name: 'contact')]
-    public function contact(PartnershipRepository $partnershipRepo, Request $request, SurveyRepository $surveyRepo, ResponseRepository $responseRepo, EntityManagerInterface $manager, SubscriberRepository $subscriberRepo): Response
+    /*
+    *ajax a faire
+    */
+    #[Route(path: '/contact', name: 'contact', methods: ['GET'])]
+    public function contact(PartnershipRepository $partnershipRepo, Request $request, EntityManagerInterface $manager, SubscriberRepository $subscriberRepo): Response
     {
         $path = [['Accueil', 'home'], ['Contact', 'contact']];
 
         // get 3 random image from database
         $imgPartner = $partnershipRepo->imagePartner();
 
-        // get the question active of the survey
-        $questionActive = $surveyRepo->findQuestionActive();
-
-        // get response associated at the question of the survey
-        $responseQuestion = $responseRepo->findResponseById($questionActive->getIdSurvey());
-
-        $userResponse = new UserResponse();
-        $form = $this->createForm(UserResponseType::class, $userResponse);
-        $form->handleRequest($request);
-
-        $sub = new Subscriber();
-        $formSub = $this->createForm(SubscriberType::class, $sub);
-        $formSub->handleRequest($request);
-
         $contact = new Contact();
         $formContact = $this->createForm(ContactType::class, $contact);
         $formContact->handleRequest($request);
-
-        if ($form->isSubmitted()) {
-            try {
-                // get id of the respons by a search name for set response of the create UserResponse
-                $response = $responseRepo->findIdResponseOfName($request->get("radio_response"));
-
-                $userResponse->setResponse($response);
-                $manager->persist($userResponse);
-                $manager->flush();
-
-                $this->addFlash('success', 'Réponse enregistrée, merci de votre participation !');
-            } catch (\Throwable $th) {
-                $this->addFlash('error', 'Une erreur imprévu est survenu, veillez recharger la puis réessayer.');
-            }
-        }
 
         if ($formContact->isSubmitted() && $formContact->isValid()) {
             try {
@@ -283,10 +202,6 @@ class HomeController extends AbstractController
         return $this->render('contact/contact.html.twig', [
             'path' => $path,
             'image' => $imgPartner,
-            'question' => $questionActive,
-            'response' => $responseQuestion,
-            'form' => $form->createView(),
-            'formSub' => $formSub->createView(),
             'formContact' => $formContact->createView(),
         ]);
     }

@@ -1,0 +1,39 @@
+{% extends 'backoffice-page.html.twig' %}
+
+{% block content %}
+
+	<div id="backoffice-partnership">
+		<h2>Gestion des partenaires</h2>
+
+		{% for partnership in partnerships %}
+			<div class="card">
+				<div class="card-body">
+					<div class="card-image">
+						<img src="{{ asset('imagesTest/' ~ partnership.imagePartnership) }}" alt="logo du partenaire">
+					</div>
+					<div
+						class="card-content">
+						{# render(controller) #}
+						{{ form_start(formPartnership) }}
+						<input type="hidden" id="modify-id-partnership" name="modify-id-partnership" value="{{ partnership.idPartnership }}">
+						<input type="text" name="modify-name-partnership-{{ partnership.idPartnership }}" value="{{ partnership.namePartnership }}">
+						<textarea name="modify-description-partnership-{{ partnership.idPartnership }}" id="">
+							{{ partnership.descriptionPartnership }}
+						</textarea>
+						<input type="text" id="modify-link-partnership" name="modify-link-partnership-{{ partnership.idPartnership }}" value="{{ partnership.linkPartnership }}">
+						<input type="submit" name="modify-submit-partnership-{{ partnership.idPartnership }}" value="Sauvegarder">
+						{{ form_end(formPartnership) }}
+					</div>
+				</div>
+				<div class="card-footer">
+					<div>
+						<button class="btn btn-edit">Modifier</button>
+						<button class="btn btn-delete">Supprimer</button>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+
+	</div>
+
+{% endblock %}

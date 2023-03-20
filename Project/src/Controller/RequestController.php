@@ -6,52 +6,74 @@ use App\Entity\Subscriber;
 use App\Entity\UserResponse;
 use App\Repository\ResponseRepository;
 use App\Repository\SubscriberRepository;
+use App\Repository\PartnershipRepository;
 use App\Repository\UserResponseRepository;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class RequestController extends AbstractController
 {
-    #[Route(path: '/post', name: 'post')]
-    public function post(
-        SubscriberRepository $subRep,
-        ResponseRepository $respRep,
-        UserResponseRepository $userRespRep
-    ): Response {
+    #[Route(path: '/post/newsletter', name: 'post-newsletter', methods: ['POST'])]
+    public function postNewsletter(SubscriberRepository $subRep, Request $request): Response
+    {
+        // json response
+        if ($request->get('consent') !== NULL && $request->get('consent') === 'on') {
+            // validator
+            if (preg_match('/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i', $request->get('mail'))) {
+                if ($subRep->countByMail($request->get('mail')) === 0) {
+                    $sub = new Subscriber();
+                    $sub->setEmailSubscriber($request->get('mail'));
+                    $sub->setConsentSubscriber(1);
+                    $subRep->save($sub, true);
+
+                    return new Response('Vous avez été abonné à la newsletter', 200);
+                }
+                return new Response('Ce mail est déjà abonné', 400);
+            }
+            return new Response('Veuillez renseigner un mail conforme', 400);
+        }
+        return new Response('Veuillez accepter les conditions', 400);
+    }
+
+    #[Route(path: '/post/survey', name: 'post-survey', methods: ['POST'])]
+    public function postSurvey(ResponseRepository $respRep, UserResponseRepository $userRespRep, Request $request): Response
+    {
+        try {
+            // get id of the respons by a search name for set response of the create UserResponse
+            $response = $respRep->findIdResponseOfName($request->get('radio_response'));
+
+            $userResp = new UserResponse();
+            $userResp->setResponse($response);
+            $userRespRep->save($userResp, true);
+
+            return new Response('Réponse enregistrée, merci de votre participation !', 200);
+        } catch (\Throwable $th) {
+            return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
+        }
+    }
+
+    /*
+    * ajax + request
+    */
+    #[Route(path: '/post/partnership', name: 'post-survey', methods: ['POST'])]
+    public function postPartnership(PartnershipRepository $partnershipRepo): Response
+    {
         header('Access-Control-Allow-Origin: *');
 
-        if (isset($_POST['newsletter']) && $_POST['newsletter'] === 'true') {
-            if (isset($_POST['consent']) && $_POST['consent'] === 'true') {
-                if (preg_match('/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i', $_POST['mail'])) {
-                    if ($subRep->countByMail($_POST['mail']) === 0) {
-                        $sub = new Subscriber();
-                        $sub->setEmailSubscriber($_POST['mail']);
-                        $sub->setConsentSubscriber(1);
-                        $subRep->save($sub, true);
+        $partner = $partnershipRepo->find($_POST['id']);
 
-                        return new Response('Vous avez été abonné à la newsletter', 200);
-                    }
-                    return new Response('Ce mail est déjà abonné', 400);
-                }
-                return new Response('Veuillez renseigner un mail conforme', 400);
-            }
-            return new Response('Veuillez accepter les conditions', 400);
-        }
+        try {
 
-        if (isset($_POST['survey']) && $_POST['survey'] === 'true') {
-            try {
-                // get id of the respons by a search name for set response of the create UserResponse
-                $response = $respRep->findIdResponseOfName($_POST['response']);
+            $partner->setNamePartnership($_POST['title']);
+            $partner->setDescriptionPartnership($_POST['description']);
+            $partner->setLinkPartnership($_POST['link']);
+            $partnershipRepo->save($partner, true);
 
-                $userResp = new UserResponse();
-                $userResp->setResponse($response);
-                $userRespRep->save($userResp, true);
-
-                return new Response('Réponse enregistrée, merci de votre participation !', 200);
-            } catch (\Throwable $th) {
-                return new Response('Une erreur imprévu est survenu, veillez recharger la page et réessayer.', 400);
-            }
+            return new Response('Réponse enregistrée, merci de votre participation !', 200);
+        } catch (\Throwable $th) {
+            return new Response('Une erreur imprévu est survenu, veillez recharger la page et réessayer.', 400);
         }
     }
 }

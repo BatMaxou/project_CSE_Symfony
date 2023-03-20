@@ -1,38 +1,23 @@
-{% block footer %}
-	<div id="footer">
-		<div class="footer-content">
-			<div class="menu">
-				<div class="img-container">
-					<img src="{{ asset('images/logo.jpg') }}" alt="logo-SV"/>
-				</div>
-				<div class="links">
-					<h4>CSE Lycée Saint-Vincent</h4>
-					<a href="{{ path('partnership')}}">> Partenariats</a>
-					<a href="{{ path('ticketing')}}">> Billetterie</a>
-					<a href="{{ path('aboutUs')}}">> A propos de nous</a>
-					<a href="{{ path('contact')}}">> Contact</a>
-				</div>
+<div id="footer">
+	<div class="footer-content">
+		<div class="menu">
+			<div class="img-container">
+				<img src="{{ asset('images/logo.jpg') }}" alt="logo-SV"/>
 			</div>
-
-			<div class="inscription">
-				<h4>Inscrivez-vous aux offres</h4>
-				<p>Recevez un email à chaque nouvelle offre sur le site internet</p>
-
-				{{ form_start(formSub) }}
-				<div class="form-group">
-					<input type="checkbox" id="consent" name="consent"/>
-					<label for="consent">J'accepte de recevoir les nouvelles offres</label>
-				</div>
-				<div class="footer-group">
-					<div class='form-group'>
-						<input type="text" name="footer-inscription-mail" placeholder="Saisissez votre email"/>
-					</div>
-					<div class="form-group">
-						<input type="submit" name="footer-inscription-submit" value="S'inscrire"/>
-					</div>
-				</div>
-				{{ form_end(formSub) }}
+			<div class="links">
+				<h4>CSE Lycée Saint-Vincent</h4>
+				<a href="{{ path('partnership')}}">> Partenariats</a>
+				<a href="{{ path('ticketing')}}">> Billetterie</a>
+				<a href="{{ path('aboutUs')}}">> A propos de nous</a>
+				<a href="{{ path('contact')}}">> Contact</a>
 			</div>
 		</div>
+
+		<div class="inscription">
+			<h4>Inscrivez-vous aux offres</h4>
+			<p>Recevez un email à chaque nouvelle offre sur le site internet</p>
+
+			{{ render(controller('App\\Controller\\HomeController::formNewsletter')) }}
+		</div>
 	</div>
-{% endblock %}
+</div>

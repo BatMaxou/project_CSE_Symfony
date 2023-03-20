@@ -1,0 +1,16 @@
+{% if form != null %}
+	{{ form_start(form) }}
+	<div class="form-group">
+		<input type="checkbox" id="consent" name="consent"/>
+		<label for="consent">J'accepte de recevoir les nouvelles offres</label>
+	</div>
+	<div class="footer-group">
+		<div class='form-group'>
+			<input type="text" name="mail" placeholder="Saisissez votre email"/>
+		</div>
+		<div class="form-group">
+			<input type="submit" value="S'inscrire"/>
+		</div>
+	</div>
+	{{ form_end(form) }}
+{% endif %}

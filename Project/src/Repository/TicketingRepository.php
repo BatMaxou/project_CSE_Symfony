@@ -63,4 +63,16 @@ class TicketingRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    /**
+     * @return Ticketing[] Returns an array of Ticketing objects
+     */
+    public function findByType($type): array
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.typeTicketing = :val')
+            ->setParameter('val', $type)
+            ->getQuery()
+            ->getResult();
+    }
 }

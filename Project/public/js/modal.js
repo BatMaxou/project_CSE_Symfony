@@ -23,6 +23,8 @@ function closeModal() {
     modalBackground.style.display = 'none';
 }
 
+console.log(modalOpen);
+
 modalOpen.addEventListener('click', openModal);
 modalClose.addEventListener('click', closeModal);
 btnClose.addEventListener('click', closeModal);

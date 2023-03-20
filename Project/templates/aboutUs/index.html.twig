@@ -4,12 +4,16 @@
 	<div id="aboutus">
 		<h2 class="title-about-us">A propos de nous</h2>
 
+		{% block modal %}
+			{% include "includes/_modal.html.twig" with {'ckeditors': ckeditors} %}
+		{% endblock %}
+
 		{% for ckeditor in ckeditors %}
 			{% if (ckeditor.zoneCkeditor == "actions") %}
 				<div class="card">
 					<div class="card-header">
 						<h5>Actions menées par le CSE</h5>
-						<button class="modal-open">Voir le règlements</button>
+						<button class="modal-open">Voir le règlement</button>
 					</div>
 					<div class="card-body">
 						<div class="card-content">
@@ -19,8 +23,6 @@
 				</div>
 			{% endif %}
 		{% endfor %}
-
-		{% include "includes/_modal.html.twig" with {'ckeditors': ckeditors} %}
 
 		{% for ckeditor in ckeditors %}
 			{% if (ckeditor.zoneCkeditor == "membres") %}
@@ -37,4 +39,6 @@
 			{% endif %}
 		{% endfor %}
 	</div>
+
+	<script src="{{ asset('js/modal.js') }}"></script>
 {% endblock %}

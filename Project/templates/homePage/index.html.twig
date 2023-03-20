@@ -2,32 +2,47 @@
 
 {% block content %}
 	<div id="homepage">
-		<div class="card">{{ ckeditor[0].contentCkeditor }}</div>
+
+		{% if ckeditor != null %}
+			<div class="card">{{ ckeditor[0].contentCkeditor }}</div>
+		{% endif %}
+
 		<h2>Dernières offres ponctuelles</h2>
-		{% for i in 0..2 %}
-			<div class="card">
-				<div class="card-header">
-					<span class="card-tag">offre
-						{{ ticketing[i].typeTicketing }}
-					</span>
-					<span class="card-date">Publié le
-						{{ ticketing[i].dateCreateTicketing|format_datetime(locale='fr', pattern='dd MMMM')}}
-						- Du
-						{{ ticketing[i].dateStartTicketing|date('d/m/Y')}}
-						Au
-						{{ ticketing[i].dateEndTicketing|date('d/m/Y')}}</span>
+
+		{% block paging %}
+			{% include "includes/_paging.html.twig" %}
+			{# the script is placed after the creation of the offers #}
+		{% endblock %}
+
+		{% if ticketing != null %}
+			{% for offer in ticketing %}
+				<div class="card card-paging">
+					<div class="card-header">
+						<span class="card-tag">offre
+							{{ offer.typeTicketing }}
+						</span>
+						<span class="card-date">Publié le
+							{{ offer.dateCreateTicketing|format_datetime(locale='fr', pattern='dd MMMM')}}
+							- Du
+							{{ offer.dateStartTicketing|date('d/m/Y')}}
+							Au
+							{{ offer.dateEndTicketing|date('d/m/Y')}}</span>
+					</div>
+					<div class="card-body">
+						<h3>{{offer.nameTicketing}}</h3>
+						<p>{{offer.textTicketing}}</p>
+					</div>
+					<div class="card-footer">
+						<a href="{{ path('offer', {id: offer.idTicketing}) }}">
+							<p>en savoir plus</p>
+							<img src="{{ asset('images/left-chevron.svg')}}" alt="chevron">
+						</a>
+					</div>
 				</div>
-				<div class="card-body">
-					<h3>{{ticketing[i].nameTicketing}}</h3>
-					<p>{{ticketing[i].textTicketing}}</p>
-				</div>
-				<div class="card-footer">
-					<a href="{{ path('offer', {id: ticketing[i].idTicketing}) }}">
-						<p>en savoir plus</p>
-						<img src="{{ asset('images/left-chevron.svg')}}" alt="chevron">
-					</a>
-				</div>
-			</div>
-		{% endfor %}
+			{% endfor %}
+		{% endif %}
+
+		<script src="{{ asset('js/paging.js') }}"></script>
+
 	</div>
 {% endblock %}

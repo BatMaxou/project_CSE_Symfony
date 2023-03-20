@@ -1,43 +1,35 @@
-{% block sidebar %}
-	<div class="sidebar">
-		<div class="sidebar-flex">
-			<div class="sidebar-survey">
-				<h2>Votre avis compte</h2>
-				
-				{{form_start(form)}}
-				<legend>{{ question.questionSurvey }}</legend>
-				{% for item in response %}
-					<div class="response">
-						<input type="radio" id="radio_{{item.idResponse}}" name="radio_response" value="{{ item.textResponse }}">
-						<label for="radio_{{item.idResponse}}">{{ item.textResponse }}</label>
-					</div>
-				{% endfor %}
-				<button type="submit">Envoyer ma réponse</button>
-				{{form_end(form)}}
-			</div>
-			<div class="sidebar-access">
-				<h2>Accés rapide</h2>
-				<ul>
-					<li><ahref="{{path("ticketing")}}">Offres permanentes / Billeterie</a></li>
-					<li><ahref="{{path("contact")}}">Nous contacter</a></li>
-				</ul>
-			</div>
-			<div class="sidebar-contact">
-				<h2>Informations de contact</h2>
-				<ul>
-					<li>
-						Par téléphone :
-						<a href="tel:+33303030303">+33303030303</a>
-					</li>
-					<li>
-						Par mail :
-						<a href="mailto:cse@lyceestvincent.fr">cse@lyceestvincent.fr</a>
-					</li>
-					<li>
-						Au lycée : Bureau du CSE - 1er étage bâtiment Saint-Vincent
-					</li>
-				</ul>
-			</div>
+<div class="sidebar">
+	<div class="sidebar-flex">
+		<div class="sidebar-survey">
+
+			{{ render(controller('App\\Controller\\HomeController::formSurvey')) }}
+
+		</div>
+		<div class="sidebar-access">
+			<h2>Accés rapide</h2>
+			<ul>
+				<li><ahref="{{path("ticketing")}}">Offres permanentes / Billeterie</a></li>
+				<li><ahref="{{path("contact")}}">Nous contacter</a></li>
+			</ul>
+		</div>
+		<div class="sidebar-contact">
+			<h2>Informations de contact</h2>
+			<ul>
+				<li>
+					Par téléphone :
+					<a href="tel:+33303030303">+33303030303</a>
+				</li>
+				<li>
+					Par mail :
+					<a href="mailto:cse@lyceestvincent.fr">cse@lyceestvincent.fr</a>
+				</li>
+				<li>
+					Au lycée : Bureau du CSE - 1er étage bâtiment Saint-Vincent
+				</li>
+			</ul>
+		</div>
+
+		{% if image != null %}
 			<div class="sidebar-slider">
 				<h2>Nos partenaires</h2>
 				<div class="slider">
@@ -57,6 +49,6 @@
 					<script src="{{ asset('js/slider.js') }}"></script>
 				{% endblock %}
 			</div>
-		</div>
+		{% endif %}
 	</div>
-{% endblock %}
+</div>

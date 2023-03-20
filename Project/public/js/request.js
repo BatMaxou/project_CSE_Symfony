@@ -1,3 +1,15 @@
+//permite to prepare a request to the RequestController
+function prepareRequest() {
+    const request = new XMLHttpRequest()
+
+    request.open("POST", "https://127.0.0.1:8000/post")
+    // A tester si problème d'accès
+    // request.open("POST", "http://127.0.0.1:8000/post")
+    request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
+
+    return request
+}
+
 // permite to create a flash
 function createFlash(type, response) {
     const closeButton = document.querySelector('.closebtn')
@@ -21,6 +33,8 @@ function createFlash(type, response) {
     // on remonte le flash au dessus du top puis display none après 3s 
     tl.to(alert, { y: "-100%", display: "none", duration: 0.5, delay: 3 });
 
+    tl.add(() => closeFlash(alert, type, message))
+
     // pour jouer l'animation
     tl.play();
 }
@@ -29,40 +43,43 @@ function createFlash(type, response) {
 function closeFlash(alert, type, message) {
     alert.classList.remove(type)
     alert.style.display = "none";
-    tl.play();
 }
 
 // newsletter inscription request
+const inscriptionForm = document.querySelector('#footer .inscription form')
 const inscriptionSubmit = document.querySelector('#footer .inscription input[type="submit"]')
 const inscriptionInput = document.querySelector('#footer .inscription input[type="text"]')
 const consentInput = document.querySelector('#footer .inscription input[type="checkbox"]')
 const inscriptionError = document.querySelector('#footer .inscription .input-error')
 
-const handleInscriptionClick = (e) => {
+const handleInscriptionSubmit = async (e) => {
     e.preventDefault()
-    const request = prepareRequest()
 
-    request.onreadystatechange = () => {
-        // inscriptionError.textContent = request.response
-        if (request.status === 200) {
-            consentInput.checked = false
-            inscriptionInput.value = ''
-            createFlash('alert-success', request.response)
-        } else {
-            createFlash('alert-error', request.response)
-        }
+    const response = await fetch(inscriptionForm.getAttribute('action'), {
+        method: inscriptionForm.getAttribute('method'),
+        body: new FormData(e.target)
+    })
+
+    const msg = await response.text()
+
+    if (response.status === 200) {
+        consentInput.checked = false
+        inscriptionInput.value = ''
+        createFlash('alert-success', msg)
+    } else {
+        createFlash('alert-error', msg)
     }
-    request.send('newsletter=true&mail=' + inscriptionInput.value + '&consent=' + consentInput.checked)
 }
 
-inscriptionSubmit.addEventListener('click', handleInscriptionClick)
+inscriptionForm.addEventListener('submit', handleInscriptionSubmit)
 
 // survey user response request
-const surveySubmit = document.querySelector('.sidebar-survey button[type="submit"]')
+const surveyForm = document.querySelector('.sidebar-survey form')
 const surveyInputs = document.querySelectorAll('.sidebar-survey input[type="radio"]')
 
-const handleSurveyClick = (e) => {
+const handleSurveySubmit = async (e) => {
     e.preventDefault()
+
     let selected = { value: null }
 
     surveyInputs.forEach(input => {
@@ -72,22 +89,22 @@ const handleSurveyClick = (e) => {
     })
 
     if (selected.value) {
-        const request = prepareRequest()
+        const response = await fetch(surveyForm.getAttribute('action'), {
+            method: surveyForm.getAttribute('method'),
+            body: new FormData(e.target)
+        })
 
-        request.onreadystatechange = () => {
+        const msg = await response.text()
 
-            if (request.status === 200) {
-                selected.checked = false
-                createFlash('alert-success', request.response)
-            } else {
-                createFlash('alert-error', request.response)
-            }
+        if (response.status === 200) {
+            selected.checked = false
+            createFlash('alert-success', msg)
+        } else {
+            createFlash('alert-error', msg)
         }
-
-        request.send('survey=true&response=' + selected.value)
     } else {
         createFlash('alert-error', 'Veuillez choisir une option.')
     }
 }
 
-surveySubmit.addEventListener('click', handleSurveyClick)
+surveyForm.addEventListener('submit', handleSurveySubmit)
