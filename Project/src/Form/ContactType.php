@@ -41,6 +41,13 @@ final class ContactType extends AbstractType
                 'label'  => 'J\'accepte que le site utilise mes informations personnelles ci-dessus afin de me contacter',
                 'required' => true,
             ])
+            ->add('captcha', TurnstileType::class, [
+                'attr' => [
+                    'data-action' => 'contact',
+                    'data-theme' => 'dark'
+                ],
+                'label' => false
+            ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Envoyer mon message'
             ]);
