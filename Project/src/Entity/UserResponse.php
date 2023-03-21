@@ -12,35 +12,18 @@ class UserResponse
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $idUserResponse = null;
+    private ?int $id = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $datetimeUserResponse = null;
+    private ?\DateTimeInterface $datetime = null;
 
     #[ORM\ManyToOne(targetEntity: Response::class)]
-    #[ORM\JoinColumn(name: "id_response", referencedColumnName: 'id_response', nullable: false)]
+    #[ORM\JoinColumn(name: "id_response", referencedColumnName: 'id', nullable: false)]
     private ?Response $response = null;
 
     public function __construct()
     {
-        $this->datetimeUserResponse = new \DateTimeImmutable();
-    }
-
-    public function getIdUserResponse(): ?int
-    {
-        return $this->idUserResponse;
-    }
-
-    public function getDateUserResponse(): ?\DateTimeInterface
-    {
-        return $this->datetimeUserResponse;
-    }
-
-    public function setDateUserResponse(\DateTimeInterface $dateUserResponse): self
-    {
-        $this->datetimeUserResponse = $dateUserResponse;
-
-        return $this;
+        $this->datetime = new \DateTimeImmutable();
     }
 
     public function getResponse(): ?Response
@@ -51,6 +34,23 @@ class UserResponse
     public function setResponse(?Response $response): self
     {
         $this->response = $response;
+
+        return $this;
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getDatetime(): ?\DateTimeInterface
+    {
+        return $this->datetime;
+    }
+
+    public function setDatetime(\DateTimeInterface $datetime): self
+    {
+        $this->datetime = $datetime;
 
         return $this;
     }

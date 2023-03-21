@@ -44,7 +44,7 @@ class HomeController extends AbstractController
         $questionActive = $surveyRepo->findQuestionActive();
 
         // get response associated at the question of the survey
-        $responseQuestion = $responseRepo->findResponseById($questionActive->getIdSurvey());
+        $responseQuestion = $responseRepo->findResponseById($questionActive->getId());
 
         $form = $this->createForm(UserResponseType::class, null, [
             'action' => '/post/survey',
@@ -133,7 +133,7 @@ class HomeController extends AbstractController
         $questionActive = $surveyRepo->findQuestionActive();
 
         // get response associated at the question of the survey
-        $responseQuestion = $responseRepo->findResponseById($questionActive->getIdSurvey());
+        $responseQuestion = $responseRepo->findResponseById($questionActive->getId());
 
         $userResponse = new UserResponse();
         $form = $this->createForm(UserResponseType::class, $userResponse);
@@ -201,7 +201,7 @@ class HomeController extends AbstractController
     /*
      *ajax a faire
      */
-    #[Route(path: '/contact', name: 'contact', methods: ['GET'])]
+    #[Route(path: '/contact', name: 'contact', methods: ['GET', 'POST'])]
     public function contact(PartnershipRepository $partnershipRepo, Request $request, EntityManagerInterface $manager, SubscriberRepository $subscriberRepo): Response
     {
         $path = [['Accueil', 'home'], ['Contact', 'contact']];
@@ -219,8 +219,8 @@ class HomeController extends AbstractController
                     if (preg_match('/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i', $formContact->getData()->getEmailContact())) {
                         if ($subscriberRepo->countByMail($formContact->getData()->getEmailContact()) === 0) {
                             $sub = new Subscriber();
-                            $sub->setEmailSubscriber($formContact->getData()->getEmailContact());
-                            $sub->setConsentSubscriber(1);
+                            $sub->setEmail($formContact->getData()->getEmailContact());
+                            $sub->setConsent(1);
                             $subscriberRepo->save($sub, true);
                         }
                     }
@@ -239,7 +239,7 @@ class HomeController extends AbstractController
             }
         }
 
-        return $this->render('contact/contact.html.twig', [
+        return $this->render('contact/index.html.twig', [
             'path' => $path,
             'image' => $imgPartner,
             'formContact' => $formContact->createView(),

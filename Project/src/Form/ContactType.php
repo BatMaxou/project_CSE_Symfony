@@ -21,24 +21,32 @@ final class ContactType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->add('nameContact', TextType::class, [
+        $builder->add('name', TextType::class, [
             'label' => 'Prénom',
             'required' => true,
         ])
-            ->add('firstnameContact', TextType::class, [
+            ->add('firstname', TextType::class, [
                 'label' => 'Nom',
                 'required' => true,
             ])
-            ->add('emailContact', EmailType::class, [
+            ->add('email', EmailType::class, [
                 'label' => 'Adresse mail',
                 'required' => true,
             ])
-            ->add('messageContact', TextareaType::class, [
+            ->add('message', TextareaType::class, [
                 'label' => 'Message',
                 'required' => true,
             ])
-            ->add('consentContact', CheckboxType::class, [
-                'label'  => 'J\'accepte que le site utilise mes informations personnelles ci-dessus afin de me contacter',
+            ->add('consent', CheckboxType::class, [
+                'label' => 'J\'accepte que le site utilise mes informations personnelles ci-dessus afin de me contacter',
+                'required' => true,
+            ])
+            ->add('captcha', TurnstileType::class, [
+                'attr' => [
+                    'data-action' => 'contact',
+                    'data-theme' => 'dark'
+                ],
+                'label' => false,
                 'required' => true,
             ])
             ->add('captcha', TurnstileType::class, [

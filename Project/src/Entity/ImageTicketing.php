@@ -11,31 +11,14 @@ class ImageTicketing
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $idImageTicketing = null;
+    private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $nameImageTicketing = null;
+    private ?string $name = null;
 
     #[ORM\ManyToOne(targetEntity: Ticketing::class, inversedBy: 'imageTicketings')]
-    #[ORM\JoinColumn(name: 'id_ticketing', referencedColumnName: 'id_ticketing', nullable: false)]
+    #[ORM\JoinColumn(name: 'id_ticketing', referencedColumnName: 'id', nullable: false)]
     private ?Ticketing $ticketing = null;
-
-    public function getIdImageTicketing(): ?int
-    {
-        return $this->idImageTicketing;
-    }
-
-    public function getNameImageTicketing(): ?string
-    {
-        return $this->nameImageTicketing;
-    }
-
-    public function setNameImageTicketing(string $nameImageTicketing): self
-    {
-        $this->nameImageTicketing = $nameImageTicketing;
-
-        return $this;
-    }
 
     public function getTicketing(): ?Ticketing
     {
@@ -45,6 +28,23 @@ class ImageTicketing
     public function setTicketing(?Ticketing $ticketing): self
     {
         $this->ticketing = $ticketing;
+
+        return $this;
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
 
         return $this;
     }

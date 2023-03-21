@@ -4,7 +4,7 @@
 	<div id="homepage">
 
 		{% if ckeditor != null %}
-			<div class="card">{{ ckeditor[0].contentCkeditor }}</div>
+			<div class="card">{{ ckeditor[0].content }}</div>
 		{% endif %}
 
 		<h2>Dernières offres ponctuelles</h2>
@@ -19,21 +19,21 @@
 				<div class="card card-paging">
 					<div class="card-header">
 						<span class="card-tag">offre
-							{{ offer.typeTicketing }}
+							{{ offer.type }}
 						</span>
 						<span class="card-date">Publié le
-							{{ offer.dateCreateTicketing|format_datetime(locale='fr', pattern='dd MMMM')}}
+							{{ offer.dateCreate|format_datetime(locale='fr', pattern='dd MMMM')}}
 							- Du
-							{{ offer.dateStartTicketing|date('d/m/Y')}}
+							{{ offer.dateStart|date('d/m/Y')}}
 							Au
-							{{ offer.dateEndTicketing|date('d/m/Y')}}</span>
+							{{ offer.dateEnd|date('d/m/Y')}}</span>
 					</div>
 					<div class="card-body">
-						<h3>{{offer.nameTicketing}}</h3>
-						<p>{{offer.textTicketing}}</p>
+						<h3>{{offer.name}}</h3>
+						<p>{{offer.text}}</p>
 					</div>
 					<div class="card-footer">
-						<a href="{{ path('offer', {id: offer.idTicketing}) }}">
+						<a href="{{ path('offer', {id: offer.id}) }}">
 							<p>en savoir plus</p>
 							<img src="{{ asset('images/left-chevron.svg')}}" alt="chevron">
 						</a>

@@ -70,7 +70,7 @@ class TicketingRepository extends ServiceEntityRepository
     public function findByType($type): array
     {
         return $this->createQueryBuilder('t')
-            ->andWhere('t.typeTicketing = :val')
+            ->andWhere('t.type = :val')
             ->setParameter('val', $type)
             ->getQuery()
             ->getResult();
@@ -79,7 +79,7 @@ class TicketingRepository extends ServiceEntityRepository
     public function findByPermanent(): array
     {
         return $this->createQueryBuilder('t')
-            ->andWhere("t.typeTicketing = 'permanente'")
+            ->andWhere("t.type = 'permanente'")
             ->getQuery()
             ->getResult();
     }
@@ -87,9 +87,9 @@ class TicketingRepository extends ServiceEntityRepository
     public function findByLimited(): array
     {
         return $this->createQueryBuilder('t')
-            ->Where("t.typeTicketing = 'limitée'")
-            ->andWhere("t.orderNumberTicketing BETWEEN 1 AND 10")
-            ->orderBy('t.orderNumberTicketing', 'ASC')
+            ->Where("t.type = 'limitée'")
+            ->andWhere("t.orderNumber BETWEEN 1 AND 10")
+            ->orderBy('t.orderNumber', 'ASC')
             ->setMaxResults(10)
             ->getQuery()
             ->getResult();

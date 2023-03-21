@@ -14,39 +14,39 @@ class Subscriber
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $idSubscriber = null;
+    private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $emailSubscriber = null;
+    private ?string $email = null;
 
     #[ORM\Column]
-    private ?bool $consentSubscriber = null;
+    private ?bool $consent = null;
 
-    public function getIdSubscriber(): ?int
+    public function getId(): ?int
     {
-        return $this->idSubscriber;
+        return $this->id;
     }
 
-    public function getEmailSubscriber(): ?string
+    public function getEmail(): ?string
     {
-        return $this->emailSubscriber;
+        return $this->email;
     }
 
-    public function setEmailSubscriber(string $emailSubscriber): self
+    public function setEmail(string $email): self
     {
-        $this->emailSubscriber = $emailSubscriber;
+        $this->email = $email;
 
         return $this;
     }
 
-    public function isConsentSubscriber(): ?bool
+    public function isConsent(): ?bool
     {
-        return $this->consentSubscriber;
+        return $this->consent;
     }
 
-    public function setConsentSubscriber(bool $consentSubscriber): self
+    public function setConsent(bool $consent): self
     {
-        $this->consentSubscriber = $consentSubscriber;
+        $this->consent = $consent;
 
         return $this;
     }

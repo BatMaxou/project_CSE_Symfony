@@ -8,15 +8,15 @@
 				<div class="card">
 					<div class="card-body">
 						<div class="card-image">
-							<img src="{{ asset('imagesTest/' ~ partnership.imagePartnership) }}" alt="{{ partnership.imagePartnership }}">
+							<img src="{{ asset('imagesTest/' ~ partnership.image) }}" alt="{{ partnership.image }}">
 						</div>
 						<div class="card-content">
-							<h3>{{ partnership.namePartnership }}</h3>
-							<p>{{ partnership.descriptionPartnership }}</p>
+							<h3>{{ partnership.name }}</h3>
+							<p>{{ partnership.description }}</p>
 						</div>
 					</div>
 					<div class="card-footer">
-						<a href="{{ partnership.linkPartnership }}" target="_blanck">
+						<a href="{{ partnership.link }}" target="_blanck">
 							<p>Consulter le site du partenaire</p>
 							<img src="{{ asset('images/left-chevron.svg')}}" alt="chevron">
 						</a>

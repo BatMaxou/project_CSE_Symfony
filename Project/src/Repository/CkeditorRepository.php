@@ -70,9 +70,9 @@ class CkeditorRepository extends ServiceEntityRepository
     public function findByPage($page): array
     {
         return $this->createQueryBuilder('c')
-            ->andWhere('c.namePageCkeditor = :val')
+            ->andWhere('c.namePage = :val')
             ->setParameter('val', $page)
-            ->orderBy('c.idCkeditor', 'ASC')
+            ->orderBy('c.id', 'ASC')
             ->getQuery()
             ->getResult();
     }

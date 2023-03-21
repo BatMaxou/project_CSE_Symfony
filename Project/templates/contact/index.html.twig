@@ -25,27 +25,27 @@
 					<div class="contact-form">
 						{{ form_start(formContact) }}
 
-						{{ form_errors(formContact.nameContact) }}
-						{{ form_errors(formContact.firstnameContact) }}
-						{{ form_errors(formContact.emailContact) }}
-						{{ form_errors(formContact.messageContact) }}
-						{{ form_errors(formContact.consentContact) }}
+						{{ form_errors(formContact.name) }}
+						{{ form_errors(formContact.firstname) }}
+						{{ form_errors(formContact.email) }}
+						{{ form_errors(formContact.message) }}
+						{{ form_errors(formContact.consent) }}
 
-						{{ form_label(formContact.nameContact) }}
-						{{ form_widget(formContact.nameContact, {'attr': {'class': 'elementLogin', 'placeholder': 'Prénom'}}) }}
+						{{ form_label(formContact.name) }}
+						{{ form_widget(formContact.name, {'attr': {'class': 'elementLogin', 'placeholder': 'Prénom'}}) }}
 
-						{{ form_label(formContact.firstnameContact) }}
-						{{ form_widget(formContact.firstnameContact, {'attr': {'class': 'elementLogin', 'placeholder': 'Nom'}}) }}
+						{{ form_label(formContact.firstname) }}
+						{{ form_widget(formContact.firstname, {'attr': {'class': 'elementLogin', 'placeholder': 'Nom'}}) }}
 
-						{{ form_label(formContact.emailContact) }}
-						{{ form_widget(formContact.emailContact, {'attr': {'class': 'elementLogin', 'placeholder': 'Adresse mail'}}) }}
+						{{ form_label(formContact.email) }}
+						{{ form_widget(formContact.email, {'attr': {'class': 'elementLogin', 'placeholder': 'Adresse mail'}}) }}
 
-						{{ form_label(formContact.messageContact) }}
-						{{ form_widget(formContact.messageContact, {'attr': {'class': 'elementLogin', 'placeholder': 'Message'}}) }}
+						{{ form_label(formContact.message) }}
+						{{ form_widget(formContact.message, {'attr': {'class': 'elementLogin', 'placeholder': 'Message'}}) }}
 
 						<div class="form-contact-checkbox">
-							{{ form_widget(formContact.consentContact) }}
-							{{ form_label(formContact.consentContact) }}
+							{{ form_widget(formContact.consent) }}
+							{{ form_label(formContact.consent) }}
 						</div>
 
 						<div class="form-contact-checkbox">

@@ -9,8 +9,8 @@
 				{% for ckeditor in ckeditors %}
 
 					{# Text du règlement #}
-					{% if (ckeditor.zoneCkeditor == "reglement") %}
-						<p>{{ ckeditor.contentCkeditor }}</p>
+					{% if (ckeditor.zone == "reglement") %}
+						<p>{{ ckeditor.content }}</p>
 					{% endif %}
 
 				{% endfor %}
@@ -21,12 +21,12 @@
 				{% for ckeditor in ckeditors %}
 
 					{# Email du CSE #}
-					{% if (ckeditor.zoneCkeditor == "email") %}
-						{% set mailto = "mailto:" ~ ckeditor.contentCkeditor %}
+					{% if (ckeditor.zone == "email") %}
+						{% set mailto = "mailto:" ~ ckeditor.content %}
 						<p>
 							Pour toutes informations supplémentaires, veuillez nous contacter à l'adresse mail :
 							<a href={{ mailto }} target="_blank" title="Envoyer un email">
-								{{ ckeditor.contentCkeditor }}
+								{{ ckeditor.content }}
 							</a>
 						</p>
 					{% endif %}

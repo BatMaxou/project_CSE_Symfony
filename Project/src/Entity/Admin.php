@@ -17,36 +17,36 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $idAdmin = null;
+    private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
-    private ?string $emailAdmin = null;
+    private ?string $email = null;
 
     #[ORM\Column]
-    private array $rolesAdmin = [];
+    private array $roles = [];
 
     /**
      * @var string The hashed password
      */
     #[ORM\Column]
-    private ?string $passwordAdmin = null;
+    private ?string $password = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $lastLoginAdmin = null;
+    private ?\DateTimeInterface $lastLogin = null;
 
-    public function getIdAdmin(): ?int
+    public function getId(): ?int
     {
-        return $this->idAdmin;
+        return $this->id;
     }
 
     public function getEmail(): ?string
     {
-        return $this->emailAdmin;
+        return $this->email;
     }
 
-    public function setEmail(string $emailAdmin): self
+    public function setEmail(string $email): self
     {
-        $this->emailAdmin = $emailAdmin;
+        $this->email = $email;
 
         return $this;
     }
@@ -58,7 +58,7 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->emailAdmin;
+        return (string) $this->email;
     }
 
     /**
@@ -66,16 +66,16 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getRoles(): array
     {
-        $rolesAdmin = $this->rolesAdmin;
+        $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $rolesAdmin[] = 'ROLE_USER';
+        $roles[] = 'ROLE_USER';
 
-        return array_unique($rolesAdmin);
+        return array_unique($roles);
     }
 
-    public function setRoles(array $rolesAdmin): self
+    public function setRoles(array $roles): self
     {
-        $this->rolesAdmin = $rolesAdmin;
+        $this->roles = $roles;
 
         return $this;
     }
@@ -85,12 +85,12 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getPassword(): string
     {
-        return $this->passwordAdmin;
+        return $this->password;
     }
 
-    public function setPassword(string $passwordAdmin): self
+    public function setPassword(string $password): self
     {
-        $this->passwordAdmin = $passwordAdmin;
+        $this->password = $password;
 
         return $this;
     }
@@ -104,14 +104,14 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    public function getLastLoginAdmin(): ?\DateTimeInterface
+    public function getLastLogin(): ?\DateTimeInterface
     {
-        return $this->lastLoginAdmin;
+        return $this->lastLogin;
     }
 
-    public function setLastLoginAdmin(?\DateTimeInterface $lastLoginAdmin): self
+    public function setLastLogin(?\DateTimeInterface $lastLogin): self
     {
-        $this->lastLoginAdmin = $lastLoginAdmin;
+        $this->lastLogin = $lastLogin;
 
         return $this;
     }

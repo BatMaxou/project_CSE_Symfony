@@ -2,20 +2,20 @@
 
 {% block content %}
 	<div id="offer">
-		<h2>{{ offer.nameTicketing }}
+		<h2>{{ offer.name }}
 			- Offre
-			{{ offer.typeTicketing }}</h2>
+			{{ offer.type }}</h2>
 		<div class="card">
 			<div class="offer-card-header">
 				<span class="offer-card-date">
 					Disponible du
-					{{ offer.dateStartTicketing|date('d/m/Y')}}
+					{{ offer.dateStart|date('d/m/Y')}}
 					au
-					{{ offer.dateEndTicketing|date('d/m/Y')}}
+					{{ offer.dateEnd|date('d/m/Y')}}
 					<br>
 					<span>
 						Publié le
-						{{ offer.dateCreateTicketing|format_datetime(locale='fr', pattern='dd MMMM')}}
+						{{ offer.dateCreate|format_datetime(locale='fr', pattern='dd MMMM')}}
 					</span>
 				</span>
 				<span class="offer-card-img-partnership">
@@ -25,15 +25,15 @@
 				</span>
 			</div>
 			<div class="offer-card-place">Nombre de place minimum à prendre :
-				{{ offer.numberMinPlaceTicketing }}
+				{{ offer.numberMinPlace }}
 			</div>
 			<div class="offer-card-body">
 				<h3>Description</h3>
-				<p>{{offer.textTicketing}}</p>
+				<p>{{offer.text}}</p>
 			</div>
 			<div class="offer-card-footer">
 				{% for img in imgOffer %}
-					<img src="{{ asset('imagesTest/' ~ img.nameImageTicketing) }}" alt="image offer">
+					<img src="{{ asset('imagesTest/' ~ img.name) }}" alt="image offer">
 				{% endfor %}
 			</div>
 		</div>
