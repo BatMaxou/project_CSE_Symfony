@@ -11,39 +11,39 @@ class Survey
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $idSurvey = null;
+    private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $questionSurvey = null;
+    private ?string $question = null;
 
     #[ORM\Column]
-    private ?bool $isActiveSurvey = null;
+    private ?bool $isActive = null;
 
-    public function getIdSurvey(): ?int
+    public function getId(): ?int
     {
-        return $this->idSurvey;
+        return $this->id;
     }
 
-    public function getQuestionSurvey(): ?string
+    public function getQuestion(): ?string
     {
-        return $this->questionSurvey;
+        return $this->question;
     }
 
-    public function setQuestionSurvey(string $questionSurvey): self
+    public function setQuestion(string $question): self
     {
-        $this->questionSurvey = $questionSurvey;
+        $this->question = $question;
 
         return $this;
     }
 
-    public function isIsActiveSurvey(): ?bool
+    public function isIsActive(): ?bool
     {
-        return $this->isActiveSurvey;
+        return $this->isActive;
     }
 
-    public function setIsActiveSurvey(?bool $isActiveSurvey): self
+    public function setIsActive(bool $isActive): self
     {
-        $this->isActiveSurvey = $isActiveSurvey;
+        $this->isActive = $isActive;
 
         return $this;
     }

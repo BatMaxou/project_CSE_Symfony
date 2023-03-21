@@ -11,31 +11,14 @@ class Response
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $idResponse = null;
+    private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $textResponse = null;
+    private ?string $text = null;
 
     #[ORM\ManyToOne(targetEntity: Survey::class)]
-    #[ORM\JoinColumn(name: "id_survey", referencedColumnName: 'id_survey', nullable: false)]
+    #[ORM\JoinColumn(name: "id_survey", referencedColumnName: 'id', nullable: false)]
     private ?Survey $survey = null;
-
-    public function getIdResponse(): ?int
-    {
-        return $this->idResponse;
-    }
-
-    public function getTextResponse(): ?string
-    {
-        return $this->textResponse;
-    }
-
-    public function setTextResponse(string $textResponse): self
-    {
-        $this->textResponse = $textResponse;
-
-        return $this;
-    }
 
     public function getSurvey(): ?Survey
     {
@@ -45,6 +28,23 @@ class Response
     public function setSurvey(?Survey $survey): self
     {
         $this->survey = $survey;
+
+        return $this;
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getText(): ?string
+    {
+        return $this->text;
+    }
+
+    public function setText(string $text): self
+    {
+        $this->text = $text;
 
         return $this;
     }

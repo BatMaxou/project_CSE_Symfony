@@ -13,118 +13,118 @@ class Contact
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $idContact = null;
+    private ?int $id = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\Length(
-        min: 2,
-        max: 50,
-        minMessage: 'Vous devez écrire au moins 2 caractères pour le prénom.',
-        maxMessage: 'Vous devez écrire moins de 50 caractères pour le prénom.',
+    min: 2,
+    max: 50,
+    minMessage: 'Vous devez écrire au moins 2 caractères pour le prénom.',
+    maxMessage: 'Vous devez écrire moins de 50 caractères pour le prénom.',
     )]
     #[Assert\NotBlank(
-        message: 'Le prénom ne peut pas être vide, veuillez le renseigner.',
+    message: 'Le prénom ne peut pas être vide, veuillez le renseigner.',
     )]
-    private ?string $nameContact = null;
+    private ?string $name = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\Length(
-        min: 2,
-        max: 50,
-        minMessage: 'Vous devez écrire au moins 2 caractères pour le nom.',
-        maxMessage: 'Vous devez écrire moins de 50 caractères pour le nom.',
+    min: 2,
+    max: 50,
+    minMessage: 'Vous devez écrire au moins 2 caractères pour le nom.',
+    maxMessage: 'Vous devez écrire moins de 50 caractères pour le nom.',
     )]
     #[Assert\NotBlank(
-        message: 'Le nom ne peut pas être vide, veuillez le renseigner.',
+    message: 'Le nom ne peut pas être vide, veuillez le renseigner.',
     )]
-    private ?string $firstnameContact = null;
+    private ?string $firstname = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\Email(
-        message: 'Adresse mail invalid.',
+    message: 'Adresse mail invalid.',
     )]
     #[Assert\NotBlank(
-        message: 'L\'adresse mail ne peut pas être vide, veuillez le renseigner.',
+    message: 'L\'adresse mail ne peut pas être vide, veuillez le renseigner.',
     )]
-    private ?string $emailContact = null;
+    private ?string $email = null;
 
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\Length(
-        min: 2,
-        minMessage: 'Vous devez écrire au moins 2 caractères pour le message.',
+    min: 2,
+    minMessage: 'Vous devez écrire au moins 2 caractères pour le message.',
     )]
     #[Assert\NotBlank(
-        message: 'Le message ne peut pas être vide, veuillez le renseigner.',
+    message: 'Le message ne peut pas être vide, veuillez le renseigner.',
     )]
-    private ?string $messageContact = null;
+    private ?string $message = null;
 
     #[ORM\Column(nullable: true)]
     #[Assert\NotBlank(
-        message: 'Vous êtes obligé d\'accepter que le site utilise vos informations renseignés afin de prendre contact avec vous.',
+    message: 'Vous êtes obligé d\'accepter que le site utilise vos informations renseignés afin de prendre contact avec vous.',
     )]
-    private ?bool $consentContact = null;
+    private ?bool $consent = null;
 
-    public function getIdContact(): ?int
+    public function getId(): ?int
     {
-        return $this->idContact;
+        return $this->id;
     }
 
-    public function getNameContact(): ?string
+    public function getName(): ?string
     {
-        return $this->nameContact;
+        return $this->name;
     }
 
-    public function setNameContact(string $nameContact): self
+    public function setName(string $name): self
     {
-        $this->nameContact = $nameContact;
+        $this->name = $name;
 
         return $this;
     }
 
-    public function getFirstnameContact(): ?string
+    public function getFirstname(): ?string
     {
-        return $this->firstnameContact;
+        return $this->firstname;
     }
 
-    public function setFirstnameContact(string $firstnameContact): self
+    public function setFirstname(string $firstname): self
     {
-        $this->firstnameContact = $firstnameContact;
+        $this->firstname = $firstname;
 
         return $this;
     }
 
-    public function getEmailContact(): ?string
+    public function getEmail(): ?string
     {
-        return $this->emailContact;
+        return $this->email;
     }
 
-    public function setEmailContact(string $emailContact): self
+    public function setEmail(string $email): self
     {
-        $this->emailContact = $emailContact;
+        $this->email = $email;
 
         return $this;
     }
 
-    public function getMessageContact(): ?string
+    public function getMessage(): ?string
     {
-        return $this->messageContact;
+        return $this->message;
     }
 
-    public function setMessageContact(string $messageContact): self
+    public function setMessage(string $message): self
     {
-        $this->messageContact = $messageContact;
+        $this->message = $message;
 
         return $this;
     }
 
-    public function isConsentContact(): ?bool
+    public function isConsent(): ?bool
     {
-        return $this->consentContact;
+        return $this->consent;
     }
 
-    public function setConsentContact(?bool $consentContact): self
+    public function setConsent(?bool $consent): self
     {
-        $this->consentContact = $consentContact;
+        $this->consent = $consent;
 
         return $this;
     }

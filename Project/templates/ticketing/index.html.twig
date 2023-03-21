@@ -2,142 +2,142 @@
 
 {% block content %}
 
-<div class="ticketing">
+	<div class="ticketing">
 
-    <div class="div-title-ticketing">
+		<div class="div-title-ticketing">
 
-        <h2 class="title-ticketing">Offres</h2>
-        <ul class="ul-ticketing">
+			<h2 class="title-ticketing">Offres</h2>
+			<ul class="ul-ticketing">
 
-            <li class="ticketing-all-button li-ticketing li-ticketing-active">Toutes</li>
-            <li class="separator-ticketing">|</li>
-            <li class="ticketing-permanent-button li-ticketing">Permanentes</li>
-            <li class="separator-ticketing">|</li>
-            <li class="ticketing-limited-button li-ticketing">Limitées</li>
+				<li class="ticketing-all-button li-ticketing li-ticketing-active">Toutes</li>
+				<li class="separator-ticketing">|</li>
+				<li class="ticketing-permanent-button li-ticketing">Permanentes</li>
+				<li class="separator-ticketing">|</li>
+				<li class="ticketing-limited-button li-ticketing">Limitées</li>
 
-            <div class="ticketing-underline"></div>
-        </ul>
+				<div class="ticketing-underline"></div>
+			</ul>
 
-    </div>
+		</div>
 
-    <div class="div-ticketing">
+		<div class="div-ticketing">
 
-        <div class="div-ticketing-permanent">
+			<div class="div-ticketing-permanent">
 
-            {% for ticketingPermanent in ticketingsPermanent %}
+				{% for ticketingPermanent in ticketingsPermanent %}
 
-            <div class="card">
+					<div class="card">
 
-                <div class="card-image">
+						<div class="card-image">
 
-                    {% if ticketingPermanent.imageTicketings[0].Ticketing.idTicketing == ticketingPermanent.idTicketing
+							{% if ticketingPermanent.imageTicketings[0].Ticketing.id == ticketingPermanent.id
                     %}
 
-                    <img src={{ asset('imagesTest/' ~ ticketingPermanent.imageTicketings[0].nameImageTicketing) }}
-                        alt="">
+								<img src={{ asset('imagesTest/' ~ ticketingPermanent.imageTicketings[0].name) }} alt="">
 
-                    {% endif %}
+							{% endif %}
 
-                </div>
+						</div>
 
-                <div class="card-content">
+						<div class="card-content">
 
-                    <div class="card-header">
+							<div class="card-header">
 
-                        <span class="card-tag">offre
-                            {{ ticketingPermanent.typeTicketing }}
-                        </span>
-                        <span class="card-date">Publié le
-                            {{ ticketingPermanent.dateCreateTicketing|format_datetime(locale='fr', pattern='dd MMMM')}}
-                            - Du
-                            {{ ticketingPermanent.dateStartTicketing|date('d/m/Y')}}
-                            au
-                            {{ ticketingPermanent.dateEndTicketing|date('d/m/Y')}}</span>
+								<span class="card-tag">offre
+									{{ ticketingPermanent.type }}
+								</span>
+								<span class="card-date">Publié le
+									{{ ticketingPermanent.dateCreate|format_datetime(locale='fr', pattern='dd MMMM')}}
+									- Du
+									{{ ticketingPermanent.dateStart|date('d/m/Y')}}
+									au
+									{{ ticketingPermanent.dateEnd|date('d/m/Y')}}</span>
 
-                    </div>
+							</div>
 
-                    <div class="card-body">
+							<div class="card-body">
 
-                        <p>{{ ticketingPermanent.nameTicketing }}</p>
-                        <p class="card-description-ticketing">{{ ticketingPermanent.textTicketing }}</p>
-                        <p>Le nombre de place minimum requis est {{ ticketingPermanent.numberMinPlaceTicketing }}.</p>
+								<p>{{ ticketingPermanent.name }}</p>
+								<p class="card-description-ticketing">{{ ticketingPermanent.text }}</p>
+								<p>Le nombre de place minimum requis est
+									{{ ticketingPermanent.numberMinPlace }}.</p>
 
-                    </div>
+							</div>
 
-                    <div class="card-footer">
+							<div class="card-footer">
 
-                        <a href="{{ path('offer', {id: ticketingPermanent.idTicketing}) }}">
-                            <p>En savoir plus</p>
-                            <img src="{{ asset('images/left-chevron.svg')}}" alt="chevron">
-                        </a>
+								<a href="{{ path('offer', {id: ticketingPermanent.id}) }}">
+									<p>En savoir plus</p>
+									<img src="{{ asset('images/left-chevron.svg')}}" alt="chevron">
+								</a>
 
-                    </div>
+							</div>
 
-                </div>
-            </div>
+						</div>
+					</div>
 
-            {% endfor %}
+				{% endfor %}
 
-        </div>
+			</div>
 
-        <div class="div-ticketing-limited">
+			<div class="div-ticketing-limited">
 
-            {% for ticketingLimited in ticketingsLimited %}
+				{% for ticketingLimited in ticketingsLimited %}
 
-            <div class="card">
+					<div class="card">
 
-                <div class="card-image">
+						<div class="card-image">
 
-                    {% if ticketingLimited.imageTicketings[0].Ticketing.idTicketing == ticketingLimited.idTicketing
+							{% if ticketingLimited.imageTicketings[0].Ticketing.id == ticketingLimited.id
                     %}
 
-                    <img src={{ asset('imagesTest/' ~ ticketingLimited.imageTicketings[0].nameImageTicketing) }} alt="">
+								<img src={{ asset('imagesTest/' ~ ticketingLimited.imageTicketings[0].name) }} alt="">
 
-                    {% endif %}
+							{% endif %}
 
-                </div>
+						</div>
 
-                <div class="card-content">
+						<div class="card-content">
 
-                    <div class="card-header">
+							<div class="card-header">
 
-                        <span class="card-tag">offre
-                            {{ ticketingLimited.typeTicketing }}
-                        </span>
-                        <span class="card-date">Publié le
-                            {{ ticketingLimited.dateCreateTicketing|format_datetime(locale='fr', pattern='dd MMMM')}}
-                            - Du
-                            {{ ticketingLimited.dateStartTicketing|date('d/m/Y')}}
-                            au
-                            {{ ticketingLimited.dateEndTicketing|date('d/m/Y')}}</span>
+								<span class="card-tag">offre
+									{{ ticketingLimited.type }}
+								</span>
+								<span class="card-date">Publié le
+									{{ ticketingLimited.dateCreate|format_datetime(locale='fr', pattern='dd MMMM')}}
+									- Du
+									{{ ticketingLimited.dateStart|date('d/m/Y')}}
+									au
+									{{ ticketingLimited.dateEnd|date('d/m/Y')}}</span>
 
-                    </div>
+							</div>
 
-                    <div class="card-body">
+							<div class="card-body">
 
-                        <p class="card-description-ticketing">{{ ticketingLimited.textTicketing }}</p>
+								<p class="card-description-ticketing">{{ ticketingLimited.text }}</p>
 
-                    </div>
+							</div>
 
-                    <div class="card-footer">
+							<div class="card-footer">
 
-                        <a href="{{ path('offer', {id: ticketingLimited.idTicketing}) }}">
-                            <p>En savoir plus</p>
-                            <img src="{{ asset('images/left-chevron.svg')}}" alt="chevron">
-                        </a>
+								<a href="{{ path('offer', {id: ticketingLimited.id}) }}">
+									<p>En savoir plus</p>
+									<img src="{{ asset('images/left-chevron.svg')}}" alt="chevron">
+								</a>
 
-                    </div>
+							</div>
 
-                </div>
-            </div>
+						</div>
+					</div>
 
-            {% endfor %}
+				{% endfor %}
 
-        </div>
+			</div>
 
-    </div>
-</div>
+		</div>
+	</div>
 
-<script src="{{ asset('js/ticketing.js') }}"></script>
+	<script src="{{ asset('js/ticketing.js') }}"></script>
 
 {% endblock %}

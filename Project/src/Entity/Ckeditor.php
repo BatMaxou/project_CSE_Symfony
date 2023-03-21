@@ -15,54 +15,54 @@ class Ckeditor
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $idCkeditor = null;
+    private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $namePageCkeditor = null;
+    private ?string $namePage = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $zoneCkeditor = null;
+    private ?string $zone = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    private ?string $contentCkeditor = null;
+    private ?string $content = null;
 
-    public function getIdCkeditor(): ?int
+    public function getId(): ?int
     {
-        return $this->idCkeditor;
+        return $this->id;
     }
 
-    public function getNamePageCkeditor(): ?string
+    public function getNamePage(): ?string
     {
-        return $this->namePageCkeditor;
+        return $this->namePage;
     }
 
-    public function setNamePageCkeditor(string $namePageCkeditor): self
+    public function setNamePage(string $namePage): self
     {
-        $this->namePageCkeditor = $namePageCkeditor;
+        $this->namePage = $namePage;
 
         return $this;
     }
 
-    public function getZoneCkeditor(): ?string
+    public function getZone(): ?string
     {
-        return $this->zoneCkeditor;
+        return $this->zone;
     }
 
-    public function setZoneCkeditor(string $zoneCkeditor): self
+    public function setZone(string $zone): self
     {
-        $this->zoneCkeditor = $zoneCkeditor;
+        $this->zone = $zone;
 
         return $this;
     }
 
-    public function getContentCkeditor(): ?string
+    public function getContent(): ?string
     {
-        return $this->contentCkeditor;
+        return $this->content;
     }
 
-    public function setContentCkeditor(string $contentCkeditor): self
+    public function setContent(string $content): self
     {
-        $this->contentCkeditor = $contentCkeditor;
+        $this->content = $content;
 
         return $this;
     }

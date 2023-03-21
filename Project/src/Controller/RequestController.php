@@ -24,8 +24,8 @@ class RequestController extends AbstractController
             if (preg_match('/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i', $request->get('mail'))) {
                 if ($subRep->countByMail($request->get('mail')) === 0) {
                     $sub = new Subscriber();
-                    $sub->setEmailSubscriber($request->get('mail'));
-                    $sub->setConsentSubscriber(1);
+                    $sub->setEmail($request->get('mail'));
+                    $sub->setConsent(1);
                     $subRep->save($sub, true);
 
                     return new Response('Vous avez été abonné à la newsletter', 200);
@@ -55,9 +55,9 @@ class RequestController extends AbstractController
     }
 
     /*
-    * ajax + request
-    */
-    #[Route(path: '/post/partnership', name: 'post-survey', methods: ['POST'])]
+     * ajax + request
+     */
+    #[Route(path: '/post/partnership', name: 'post-partnership', methods: ['POST'])]
     public function postPartnership(PartnershipRepository $partnershipRepo): Response
     {
         header('Access-Control-Allow-Origin: *');
@@ -66,9 +66,9 @@ class RequestController extends AbstractController
 
         try {
 
-            $partner->setNamePartnership($_POST['title']);
-            $partner->setDescriptionPartnership($_POST['description']);
-            $partner->setLinkPartnership($_POST['link']);
+            $partner->setName($_POST['title']);
+            $partner->setDescription($_POST['description']);
+            $partner->setLink($_POST['link']);
             $partnershipRepo->save($partner, true);
 
             return new Response('Réponse enregistrée, merci de votre participation !', 200);

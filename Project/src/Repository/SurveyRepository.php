@@ -45,7 +45,7 @@ class SurveyRepository extends ServiceEntityRepository
         $active = 1;
 
         return $this->createQueryBuilder('s')
-            ->andWhere('s.isActiveSurvey = :active')
+            ->andWhere('s.isActive = :active')
             ->setParameter('active', $active)
             ->setMaxResults(1)
             ->getQuery()

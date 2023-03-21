@@ -14,34 +14,37 @@ class Ticketing
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $idTicketing = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $nameTicketing = null;
-
-    #[ORM\Column(type: Types::TEXT)]
-    private ?string $textTicketing = null;
-
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $dateStartTicketing = null;
-
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $dateEndTicketing = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?int $numberMinPlaceTicketing = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?int $orderNumberTicketing = null;
+    private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $typeTicketing = null;
+    private ?string $slug = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $name = null;
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $text = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $dateCreateTicketing = null;
+    private ?\DateTimeInterface $dateStart = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $dateEnd = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $numberMinPlace = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $orderNumber = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $type = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $dateCreate = null;
 
     #[ORM\OneToOne(targetEntity: Partnership::class, cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(name: "id_partnership", referencedColumnName: 'id_partnership', nullable: true)]
+    #[ORM\JoinColumn(name: "id_partnership", referencedColumnName: 'id', nullable: true)]
     private ?Partnership $partnership = null;
 
     #[ORM\OneToMany(mappedBy: 'ticketing', targetEntity: ImageTicketing::class)]
@@ -50,107 +53,6 @@ class Ticketing
     public function __construct()
     {
         $this->imageTicketings = new ArrayCollection();
-    }
-
-    public function getIdTicketing(): ?int
-    {
-        return $this->idTicketing;
-    }
-
-    public function getNameTicketing(): ?string
-    {
-        return $this->nameTicketing;
-    }
-
-    public function setNameTicketing(string $nameTicketing): self
-    {
-        $this->nameTicketing = $nameTicketing;
-
-        return $this;
-    }
-
-    public function getTextTicketing(): ?string
-    {
-        return $this->textTicketing;
-    }
-
-    public function setTextTicketing(string $textTicketing): self
-    {
-        $this->textTicketing = $textTicketing;
-
-        return $this;
-    }
-
-    public function getDateStartTicketing(): ?\DateTimeInterface
-    {
-        return $this->dateStartTicketing;
-    }
-
-    public function setDateStartTicketing(?\DateTimeInterface $dateStartTicketing): self
-    {
-        $this->dateStartTicketing = $dateStartTicketing;
-
-        return $this;
-    }
-
-    public function getDateEndTicketing(): ?\DateTimeInterface
-    {
-        return $this->dateEndTicketing;
-    }
-
-    public function setDateEndTicketing(?\DateTimeInterface $dateEndTicketing): self
-    {
-        $this->dateEndTicketing = $dateEndTicketing;
-
-        return $this;
-    }
-
-    public function getNumberMinPlaceTicketing(): ?int
-    {
-        return $this->numberMinPlaceTicketing;
-    }
-
-    public function setNumberMinPlaceTicketing(?int $numberMinPlaceTicketing): self
-    {
-        $this->numberMinPlaceTicketing = $numberMinPlaceTicketing;
-
-        return $this;
-    }
-
-    public function getOrderNumberTicketing(): ?int
-    {
-        return $this->orderNumberTicketing;
-    }
-
-    public function setOrderNumberTicketing(?int $orderNumberTicketing): self
-    {
-        $this->orderNumberTicketing = $orderNumberTicketing;
-
-        return $this;
-    }
-
-    public function getTypeTicketing(): ?string
-    {
-        return $this->typeTicketing;
-    }
-
-    public function setTypeTicketing(string $typeTicketing): self
-    {
-        $this->typeTicketing = $typeTicketing;
-
-        return $this;
-    }
-
-    public function getDateCreateTicketing(): ?\DateTimeInterface
-    {
-        return $this->dateCreateTicketing;
-    }
-
-    public function setDateCreateTicketing(?\DateTimeInterface $dateCreateTicketing): self
-    {
-        $this->dateCreateTicketing = $dateCreateTicketing;
-
-        return $this;
     }
 
     public function getPartnership(): ?Partnership
@@ -191,6 +93,119 @@ class Ticketing
                 $imageTicketing->setTicketing(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(?string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getText(): ?string
+    {
+        return $this->text;
+    }
+
+    public function setText(string $text): self
+    {
+        $this->text = $text;
+
+        return $this;
+    }
+
+    public function getDateStart(): ?\DateTimeInterface
+    {
+        return $this->dateStart;
+    }
+
+    public function setDateStart(?\DateTimeInterface $dateStart): self
+    {
+        $this->dateStart = $dateStart;
+
+        return $this;
+    }
+
+    public function getDateEnd(): ?\DateTimeInterface
+    {
+        return $this->dateEnd;
+    }
+
+    public function setDateEnd(?\DateTimeInterface $dateEnd): self
+    {
+        $this->dateEnd = $dateEnd;
+
+        return $this;
+    }
+
+    public function getNumberMinPlace(): ?int
+    {
+        return $this->numberMinPlace;
+    }
+
+    public function setNumberMinPlace(?int $numberMinPlace): self
+    {
+        $this->numberMinPlace = $numberMinPlace;
+
+        return $this;
+    }
+
+    public function getOrderNumber(): ?int
+    {
+        return $this->orderNumber;
+    }
+
+    public function setOrderNumber(?int $orderNumber): self
+    {
+        $this->orderNumber = $orderNumber;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function getDateCreate(): ?\DateTimeInterface
+    {
+        return $this->dateCreate;
+    }
+
+    public function setDateCreate(?\DateTimeInterface $dateCreate): self
+    {
+        $this->dateCreate = $dateCreate;
 
         return $this;
     }

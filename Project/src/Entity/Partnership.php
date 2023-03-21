@@ -13,69 +13,69 @@ class Partnership
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $idPartnership = null;
+    private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $namePartnership = null;
+    private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $imagePartnership = null;
+    private ?string $image = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    private ?string $descriptionPartnership = null;
+    private ?string $description = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $linkPartnership = null;
+    private ?string $link = null;
 
-    public function getIdPartnership(): ?int
+    public function getId(): ?int
     {
-        return $this->idPartnership;
+        return $this->id;
     }
 
-    public function getNamePartnership(): ?string
+    public function getName(): ?string
     {
-        return $this->namePartnership;
+        return $this->name;
     }
 
-    public function setNamePartnership(string $namePartnership): self
+    public function setName(string $name): self
     {
-        $this->namePartnership = $namePartnership;
+        $this->name = $name;
 
         return $this;
     }
 
-    public function getImagePartnership(): ?string
+    public function getImage(): ?string
     {
-        return $this->imagePartnership;
+        return $this->image;
     }
 
-    public function setImagePartnership(string $imagePartnership): self
+    public function setImage(string $image): self
     {
-        $this->imagePartnership = $imagePartnership;
+        $this->image = $image;
 
         return $this;
     }
 
-    public function getDescriptionPartnership(): ?string
+    public function getDescription(): ?string
     {
-        return $this->descriptionPartnership;
+        return $this->description;
     }
 
-    public function setDescriptionPartnership(string $descriptionPartnership): self
+    public function setDescription(string $description): self
     {
-        $this->descriptionPartnership = $descriptionPartnership;
+        $this->description = $description;
 
         return $this;
     }
 
-    public function getLinkPartnership(): ?string
+    public function getLink(): ?string
     {
-        return $this->linkPartnership;
+        return $this->link;
     }
 
-    public function setLinkPartnership(string $linkPartnership): self
+    public function setLink(string $link): self
     {
-        $this->linkPartnership = $linkPartnership;
+        $this->link = $link;
 
         return $this;
     }

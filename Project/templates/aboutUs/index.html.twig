@@ -9,7 +9,7 @@
 		{% endblock %}
 
 		{% for ckeditor in ckeditors %}
-			{% if (ckeditor.zoneCkeditor == "actions") %}
+			{% if (ckeditor.zone == "actions") %}
 				<div class="card">
 					<div class="card-header">
 						<h5>Actions menées par le CSE</h5>
@@ -17,7 +17,7 @@
 					</div>
 					<div class="card-body">
 						<div class="card-content">
-							<p>{{ ckeditor.contentCkeditor }}</p>
+							<p>{{ ckeditor.content }}</p>
 						</div>
 					</div>
 				</div>
@@ -25,14 +25,14 @@
 		{% endfor %}
 
 		{% for ckeditor in ckeditors %}
-			{% if (ckeditor.zoneCkeditor == "membres") %}
+			{% if (ckeditor.zone == "membres") %}
 				<div class="card">
 					<div class="card-header">
 						<h5>Membres</h5>
 					</div>
 					<div class="card-body">
 						<div class="card-content">
-							<p>{{ ckeditor.contentCkeditor }}</p>
+							<p>{{ ckeditor.content }}</p>
 						</div>
 					</div>
 				</div>
