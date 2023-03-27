@@ -3,3 +3,62 @@
 twig:
     form_themes:
         - '@FOSCKEditor/Form/ckeditor_widget.html.twig'
+
+fos_ck_editor:
+    input_sync: true
+    configs:
+        custom_config:
+            toolbar: "custom"
+    toolbars:
+        configs:
+            custom: [ "@text", "/", "@file" , "-", "@media" ]
+        items:
+            text: [
+                "Format",
+                "Font",
+                "-",
+                "TextColor",
+                "BGColor",
+                "-",
+                "Bold",
+                "Italic",
+                "Underline",
+                "-",
+                "NumberedList",
+                "BulletedList",
+                "-",
+                "Outdent",
+                "Indent",
+                "-",
+                "Blockquote",
+                "-",
+                "JustifyLeft",
+                "JustifyCenter",
+                "JustifyRight",
+                "JustifyBlock",
+                "-",
+                "Link",
+                "Unlink",
+                "Anchor"               
+                ]
+            file: [
+                "ExportPdf",
+                "Maximize",
+                "Preview",
+                "Cut",
+                "Copy",
+                "Paste",
+                "-",
+                "Undo",
+                "Redo"
+            ]
+            media: [
+                "Image",
+                "Flash",
+                "Table",
+                "HorizontalRule",
+                "SpecialChar",
+                "Smiley",
+                "PageBreak",
+                "Iframe"
+            ]

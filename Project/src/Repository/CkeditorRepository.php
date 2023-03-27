@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Ckeditor;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 
 /**
  * @extends ServiceEntityRepository<Ckeditor>
@@ -75,5 +76,16 @@ class CkeditorRepository extends ServiceEntityRepository
             ->orderBy('c.id', 'ASC')
             ->getQuery()
             ->getResult();
+    }
+
+    public function findByZone($page, $zone): ?CKEditor
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.namePage = :page')
+            ->andWhere('c.zone = :zone')
+            ->setParameter('page', $page)
+            ->setParameter('zone', $zone)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 }

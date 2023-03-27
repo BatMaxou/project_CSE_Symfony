@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\ContactType;
+namespace App\Form;
 
 use Assert\Email;
 use App\Entity\Contact;

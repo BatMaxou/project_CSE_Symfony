@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\UserResponseType;
+namespace App\Form;
 
 use App\Entity\UserResponse;
 use Symfony\Component\Form\AbstractType;

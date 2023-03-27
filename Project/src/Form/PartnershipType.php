@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\PartnershipType;
+namespace App\Form;
 
 use App\Entity\Partnership;
 use Symfony\Component\Form\AbstractType;

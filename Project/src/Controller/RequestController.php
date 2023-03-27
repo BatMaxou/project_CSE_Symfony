@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Ckeditor;
 use App\Entity\Subscriber;
 use App\Entity\UserResponse;
+use App\Repository\CkeditorRepository;
 use App\Repository\ResponseRepository;
 use App\Repository\SubscriberRepository;
 use App\Repository\PartnershipRepository;
@@ -54,26 +56,27 @@ class RequestController extends AbstractController
         }
     }
 
-    /*
-     * ajax + request
-     */
-    #[Route(path: '/post/partnership', name: 'post-partnership', methods: ['POST'])]
-    public function postPartnership(PartnershipRepository $partnershipRepo): Response
+    #[Route(path: '/post/backoffice/texts', name: 'post-texts', methods: ['POST'])]
+    public function postTexts(CkeditorRepository $rep, Request $request): Response
     {
-        header('Access-Control-Allow-Origin: *');
-
-        $partner = $partnershipRepo->find($_POST['id']);
-
         try {
+            $texts = [
+                'homepage' => $rep->findByZone('HomePage', 'zone'),
+                'email' => $rep->findByZone('AboutUs', 'email'),
+                'actions' => $rep->findByZone('AboutUs', 'actions'),
+                'rules' => $rep->findByZone('AboutUs', 'reglement'),
+            ];
 
-            $partner->setName($_POST['title']);
-            $partner->setDescription($_POST['description']);
-            $partner->setLink($_POST['link']);
-            $partnershipRepo->save($partner, true);
+            $rep->save($texts['homepage']->setContent($request->get('text')['homepage']), true);
+            $rep->save($texts['email']->setContent($request->get('text')['email']), true);
+            $rep->save($texts['actions']->setContent($request->get('text')['actions']), true);
+            $rep->save($texts['rules']->setContent($request->get('text')['rules']), true);
+
+            // $userRespRep->save($userResp, true);
 
             return new Response('Réponse enregistrée, merci de votre participation !', 200);
         } catch (\Throwable $th) {
-            return new Response('Une erreur imprévu est survenu, veillez recharger la page et réessayer.', 400);
+            return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
         }
     }
 }
