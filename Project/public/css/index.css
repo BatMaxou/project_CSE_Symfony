@@ -1291,3 +1291,96 @@ textarea:focus::placeholder {
     width: 12px;
     margin-left: 5px;
 }
+
+@media (max-width: 990px) {
+    .ticketing .card-header {
+        flex-direction: column;
+    }
+
+    .ticketing .card-tag {
+        width: 128px;
+    }
+
+    .ticketing .card-date {
+        padding: 5px 0 !important;
+    }
+}
+
+/* backoffice admin */
+
+#backoffice-admin {
+    width: 100%;
+}
+
+#backoffice-admin h1 {
+    color: var(--color-primary);
+}
+
+.div-admin form {
+    display: flex;
+    justify-content: space-between;
+    background-color: #EFEDED;
+    margin: 20px 0;
+    padding: 20px;
+}
+
+.div-admin form div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.div-admin label {
+    color: var(--color-secondary);
+    font-weight: bold;
+    padding: 0;
+}
+
+.div-admin input {
+    outline: none;
+    background-color: #EFEDED;
+    border: none;
+    border-bottom: 1px solid black;
+    padding: 5px 0;
+}
+
+.password-form {
+    gap: 10px !important;
+}
+
+.crud-admin {
+    width: 125px;
+    justify-content: space-evenly;
+}
+
+.crud-admin div {
+    align-items: end;
+}
+
+.crud-admin a {
+    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+}
+
+.crud-admin button {
+    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    padding: 0;
+    margin: 0;
+    border: none;
+    cursor: pointer;
+}
+
+.crud-admin img {
+    width: 22px;
+    height: 22px;
+}
+
+@media (max-width: 800px) {
+    .div-admin form {
+        flex-direction: column;
+    }
+}

@@ -1,0 +1,50 @@
+{% extends 'backoffice-page.html.twig' %}
+
+{% block content %}
+
+	<div id="backoffice-admin">
+		<h1>Gestion des administrateurs</h1>
+
+		<div class="div-admin">
+
+			{% for key, admin in admins %}
+
+				{{ form_start(forms[key]) }}
+
+				{{ form_widget(forms[key].id, {value: admin.id}) }}
+
+				{{ form_row(forms[key].email, {value: admin.email}) }}
+
+				{{ form_row(forms[key].plainPassword, {}) }}
+
+				{% if admin.roles[0] == "ROLE_ADMIN" %}
+					{{ form_row(forms[key].roles, {value: 1}) }}
+				{% else %}
+					{{ form_row(forms[key].roles, {value: 2}) }}
+				{% endif %}
+
+				<div class="crud-admin">
+
+					<div class="edit-admin">
+						<button type="submit">
+							Modifier
+							<img src="{{ asset('images/Edit.svg') }}" alt="Icon modifier">
+						</button>
+					</div>
+					<div class="delete-admin">
+						<a href="{{ path('adminDelete', {id: admin.id}) }}">
+							Supprimer
+							<img src="{{ asset('images/Delete.svg') }}" alt="Icon supprimer">
+						</a>
+					</div>
+
+				</div>
+
+				{{ form_end(forms[key]) }}
+			{% endfor %}
+
+		</div>
+
+	</div>
+
+{% endblock %}
