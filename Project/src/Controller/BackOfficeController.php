@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Form\TextType;
+
 use App\Entity\Partnership;
 use App\Entity\Admin;
 use App\Repository\AdminRepository;
@@ -9,6 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\PartnershipRepository;
 use App\Form\PartnershipType\PartnershipType;
 use App\Form\AdminFormType;
+use App\Repository\CkeditorRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,17 +21,29 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class BackOfficeController extends AbstractController
 {
-    #[Route(path: '/admin', name: 'backoffice')]
-    public function login(): Response
+    #[Route(path: '/admin/texts', name: 'texts')]
+    public function texts(CkeditorRepository $rep): Response
     {
-        $path = [['Tableau de bord', 'backoffice']];
+        $path = [['Tableau de bord', 'texts'], ['Textes', 'texts']];
 
-        return $this->render('backoffice/index.html.twig', [
-            'path' => $path
+        $texts = [
+            'homepage' => $rep->findByZone('HomePage', 'zone'),
+            'email' => $rep->findByZone('AboutUs', 'email'),
+            'actions' => $rep->findByZone('AboutUs', 'actions'),
+            'rules' => $rep->findByZone('AboutUs', 'reglement'),
+        ];
+
+        $form = $this->createForm(TextType::class, null, [
+            'action' => '/post/backoffice/texts',
+            'method' => 'POST'
         ]);
-    }
+        return $this->render('backoffice/texts/index.html.twig', [
+            'path' => $path,
+            'texts' => $texts,
+            'form' => $form->createView(),
+        ]);
 
-    // Page d'affichage / modification d'un admin
+        // Page d'affichage / modification d'un admin
     // #[Route(path: "/admin/adminGestion/add", name: "adminAdd")]
     #[Route('/admin/adminGestion', name: 'adminGestion')]
     public function adminGestion(Request $request, UserPasswordHasherInterface $adminPasswordHasher, EntityManagerInterface $entityManager, AdminRepository $adminRepository = null, int $id = null): Response
@@ -52,7 +67,7 @@ class BackOfficeController extends AbstractController
             'path' => $path,
             'forms' => $forms,
             'admins' => $admins,
-        ]);
+        ]); 
     }
 
     // Page de suppression d'un admin
@@ -76,35 +91,5 @@ class BackOfficeController extends AbstractController
             'path' => $path,
         ]);
     }
-
-    /*
-     * ajax a faire
-     */
-    #[Route(path: '/admin/partenariat', name: 'backoffice_partnership')]
-    public function partnership(PartnershipRepository $partnershipRepo, Request $request, EntityManagerInterface $manager): Response
-    {
-        $path = [['Infos', 'backoffice'], ['Partenariat', 'backoffice_partnership']];
-
-        $partnerships = $partnershipRepo->findAll();
-
-        // form a creer
-        $partnership = new Partnership();
-        $formPartner = $this->createForm(PartnershipType::class, $partnership);
-        $formPartner->handleRequest($request);
-
-        $id = $request->get('modify-id-partnership');
-        if ($formPartner->isValid()) {
-            $partner = $partnershipRepo->find($id);
-            $partner->setName($request->get('modify-name-partnership-' . $id));
-            $partner->setDescription($request->get('modify-description-partnership-' . $id));
-            $partner->setLink($request->get('modify-link-partnership-' . $id));
-            $partnershipRepo->save($partner, true);
-        }
-
-        return $this->render('backoffice/partnership/partnership.html.twig', [
-            'path' => $path,
-            'partnerships' => $partnerships,
-            'formPartnership' => $formPartner->createView(),
-        ]);
     }
 }

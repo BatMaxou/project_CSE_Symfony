@@ -4,7 +4,7 @@
 	<div id="homepage">
 
 		{% if ckeditor != null %}
-			<div class="card">{{ ckeditor[0].content }}</div>
+			<div class="card">{{ ckeditor[0].content|raw }}</div>
 		{% endif %}
 
 		<h2>Dernières offres ponctuelles</h2>
