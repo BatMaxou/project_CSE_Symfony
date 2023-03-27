@@ -1,17 +1,17 @@
 {% extends "base.html.twig" %}
 
 {% block title %}
-Tableau de bord
+	Tableau de bord
 {% endblock %}
 
 {% block navbar %}
-{% include "includes/navbar/_navbar.html.twig" with {'menu': 'back'}%}
+	{% include "includes/navbar/_navbar.html.twig" with {'menu': 'back'}%}
 {% endblock %}
 
 {% block content %}
-{# Override content #}
+	{# Override content #}
 {% endblock %}
 
 {% block request %}
-<script src="{{ asset('js/requestBackoffice.js') }}"></script>
+	<script src="{{ asset('js/requestBackoffice.js') }}"></script>
 {% endblock %}

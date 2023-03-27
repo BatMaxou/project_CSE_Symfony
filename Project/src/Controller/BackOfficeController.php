@@ -4,12 +4,8 @@ namespace App\Controller;
 
 use App\Form\TextType;
 
-use App\Entity\Partnership;
-use App\Entity\Admin;
 use App\Repository\AdminRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Repository\PartnershipRepository;
-use App\Form\PartnershipType\PartnershipType;
 use App\Form\AdminFormType;
 use App\Repository\CkeditorRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +13,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 class BackOfficeController extends AbstractController
 {
@@ -37,16 +32,18 @@ class BackOfficeController extends AbstractController
             'action' => '/post/backoffice/texts',
             'method' => 'POST'
         ]);
+
         return $this->render('backoffice/texts/index.html.twig', [
             'path' => $path,
             'texts' => $texts,
             'form' => $form->createView(),
         ]);
+    }
 
-        // Page d'affichage / modification d'un admin
+    // Page d'affichage / modification d'un admin
     // #[Route(path: "/admin/adminGestion/add", name: "adminAdd")]
-    #[Route('/admin/adminGestion', name: 'adminGestion')]
-    public function adminGestion(Request $request, UserPasswordHasherInterface $adminPasswordHasher, EntityManagerInterface $entityManager, AdminRepository $adminRepository = null, int $id = null): Response
+    #[Route(path: '/admin/adminGestion', name: 'adminGestion')]
+    public function adminGestion(AdminRepository $adminRepository = null): Response
     {
         $path = [['Tableau de bord', 'backoffice'], ['Gestion des admins', 'adminGestion']];
 
@@ -67,12 +64,12 @@ class BackOfficeController extends AbstractController
             'path' => $path,
             'forms' => $forms,
             'admins' => $admins,
-        ]); 
+        ]);
     }
 
     // Page de suppression d'un admin
     #[Route(path: "/admin/adminGestion/delete/{id}", name: "adminDelete")]
-    public function adminDelete(Request $request, AdminRepository $adminRepository, EntityManagerInterface $manager, int $id): Response
+    public function adminDelete(AdminRepository $adminRepository, int $id): Response
     {
         $path = [['Tableau de bord', 'backoffice'], ['Gestion des admins', 'adminGestion']];
 
@@ -84,12 +81,10 @@ class BackOfficeController extends AbstractController
             );
         }
 
-        $manager->remove($admin);
-        $manager->flush();
+        $adminRepository->remove($admin, true);
 
         return $this->redirectToRoute('adminGestion', [
             'path' => $path,
         ]);
-    }
     }
 }
