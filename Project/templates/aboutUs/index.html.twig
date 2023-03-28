@@ -8,32 +8,36 @@
 			{% include "includes/_modal.html.twig" with {'ckeditors': ckeditors} %}
 		{% endblock %}
 
+		<div class="card">
+			<div class="card-header">
+				<h3>Membres</h3>
+			</div>
+			<div class="card-body">
+				<div class="members-container">
+					{% for member in members %}
+						<div class="profil">
+							<div class="member-profil-container">
+								<img src="{{ asset('imagesTest/' ~ member.profil)}}" alt="Membre">
+							</div>
+							<div class="member-infos">
+								<h3>{{ member.firstName ~ ' ' ~ member.lastName}}</h3>
+								<p>{{ member.function }}</p>
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+
 		{% for ckeditor in ckeditors %}
 			{% if (ckeditor.zone == "actions") %}
 				<div class="card">
 					<div class="card-header">
-						<h5>Actions menées par le CSE</h5>
+						<h3>Actions menées par le CSE</h3>
 						<button class="modal-open">Voir le règlement</button>
 					</div>
 					<div class="card-body">
-						<div class="card-content">
-							<p>{{ ckeditor.content|raw }}</p>
-						</div>
-					</div>
-				</div>
-			{% endif %}
-		{% endfor %}
-
-		{% for ckeditor in ckeditors %}
-			{% if (ckeditor.zone == "membres") %}
-				<div class="card">
-					<div class="card-header">
-						<h5>Membres</h5>
-					</div>
-					<div class="card-body">
-						<div class="card-content">
-							<p>{{ ckeditor.content }}</p>
-						</div>
+						<p>{{ ckeditor.content|raw }}</p>
 					</div>
 				</div>
 			{% endif %}

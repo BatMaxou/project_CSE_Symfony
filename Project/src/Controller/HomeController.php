@@ -21,6 +21,7 @@ use App\Form\SubscriberType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Form\UserResponseType;
+use App\Repository\MemberRepository;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -100,20 +101,21 @@ class HomeController extends AbstractController
     }
 
     #[Route(path: '/a_propos_de_nous', name: 'aboutUs', methods: ['GET'])]
-    public function about(PartnershipRepository $partnershipRepo, CkeditorRepository $ckeditorRep): Response
+    public function about(PartnershipRepository $partnershipRepo, CkeditorRepository $ckeditorRep, MemberRepository $memberRep): Response
     {
         $path = [['Accueil', 'home'], ['A propos de nous', 'aboutUs']];
         $ckeditors = $ckeditorRep->findByPage('AboutUs');
 
-        $partnership = $partnershipRepo->findAll();
         // get 3 random image from database
         $imgPartner = $partnershipRepo->imagePartner();
+
+        $members = $memberRep->findAll();
 
         return $this->render('aboutUs/index.html.twig', [
             'path' => $path,
             'ckeditors' => $ckeditors,
-            'partnership' => $partnership,
-            'image' => $imgPartner
+            'image' => $imgPartner,
+            'members' => $members
         ]);
     }
 
