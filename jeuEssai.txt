@@ -95,7 +95,7 @@ VALUES
 
 INSERT INTO ticketing (slug, name, text, date_start, date_end, date_create, number_min_place, order_number, type, id_partnership)
 VALUES
-    ('GaumontPathe', 'Cinéma', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', '2022-10-17', '2023-07-05', '2023-03-14', 50, NULL, 'permanente', NULL),
+    ('GaumontPathe', 'Cinéma', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', '2022-10-17', '2023-07-05', '2023-03-14', 50, NULL, 'permanente', 2),
     ('Astérix', 'Parc d\'astérix', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', '2022-10-17', '2023-07-05', '2022-09-14', 20, NULL, 'permanente', NULL),
     ('Decathlon', 'Bon decathlon', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', '2022-10-17', '2023-07-05', '2022-09-28', 25, NULL, 'permanente', NULL),
     ('VoyageRome', 'Voyage Rome', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', '2022-10-17', '2023-07-05', '2022-03-01', 10, NULL, 'permanente', NULL),

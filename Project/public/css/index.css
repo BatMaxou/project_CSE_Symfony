@@ -83,6 +83,7 @@ textarea:focus::placeholder {
 
 #homepage h2,
 #partnership h2,
+#offer h2,
 #contact h2,
 #texts h2 {
     margin-bottom: 10px;
@@ -791,7 +792,7 @@ textarea:focus::placeholder {
 /* OFFER */
 
 .offer-card-place {
-    padding-bottom: 35px;
+    padding: 15px 0;
 }
 
 .offer-card-body {
@@ -803,7 +804,14 @@ textarea:focus::placeholder {
 }
 
 .offer-card-date span {
-    font-size: small;
+    font-size: 13px;
+    display: block;
+    margin-bottom: 2px;
+}
+
+.offer-card-img-partnership {
+    position: absolute;
+    right: 15px;
 }
 
 .offer-card-footer {

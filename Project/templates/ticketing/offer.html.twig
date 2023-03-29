@@ -7,22 +7,21 @@
 			{{ offer.type }}</h2>
 		<div class="card">
 			<div class="offer-card-header">
-				<span class="offer-card-date">
-					Disponible du
-					{{ offer.dateStart|date('d/m/Y')}}
-					au
-					{{ offer.dateEnd|date('d/m/Y')}}
-					<br>
+				<div class="offer-card-date">
 					<span>
 						Publié le
 						{{ offer.dateCreate|format_datetime(locale='fr', pattern='dd MMMM')}}
 					</span>
-				</span>
-				<span class="offer-card-img-partnership">
-					{% if offer.partnership.imagePartnership is defined and offer.partnership.imagePartnership is not null %}
-						<img src="{{ asset('imagesTest/' ~ offer.partnership.imagePartnership) }}" alt="image offer">
+					Disponible du
+					{{ offer.dateStart|date('d/m/Y')}}
+					au
+					{{ offer.dateEnd|date('d/m/Y')}}
+				</div>
+				<div class="offer-card-img-partnership">
+					{% if offer.partnership.image is defined and offer.partnership.image is not null %}
+						<img src="{{ asset('imagesTest/' ~ offer.partnership.image) }}" alt="image offer">
 					{% endif %}
-				</span>
+				</div>
 			</div>
 			<div class="offer-card-place">Nombre de place minimum à prendre :
 				{{ offer.numberMinPlace }}
