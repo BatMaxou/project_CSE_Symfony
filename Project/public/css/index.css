@@ -84,7 +84,8 @@ textarea:focus::placeholder {
 #offer,
 #contact,
 #backoffice-partnership,
-#texts {
+#texts,
+#backoffice-survey {
     width: 100%;
 }
 
@@ -104,7 +105,7 @@ textarea:focus::placeholder {
 }
 
 .btn {
-    padding: 16px 32px !important;
+    padding: 16px 32px;
     color: white;
     border: none;
     cursor: pointer;
@@ -621,6 +622,10 @@ textarea:focus::placeholder {
     padding: 15px;
 }
 
+.card ul {
+    list-style: disc;
+}
+
 .card .card-header,
 .card .card-footer a {
     display: flex;
@@ -682,12 +687,14 @@ textarea:focus::placeholder {
 /* CARD PARTNERSHIP */
 
 #partnership .card-body,
-#backoffice-text .card-body {
+#backoffice-partnership .card-body,
+#backoffice-survey .card-body {
     display: flex;
     gap: 20px;
 }
 
-#partnership .card-image img {
+#partnership .card-image img,
+#backoffice-partnership .card-body img {
     width: 200px;
     height: 200px;
     object-fit: cover;
@@ -696,7 +703,8 @@ textarea:focus::placeholder {
 @media(max-width: 850px) {
 
     #partnership .card-body,
-    #backoffice-text .card-body {
+    #backoffice-partnership .card-body,
+    #backoffice-survey .card-body {
         flex-direction: column;
         align-items: center;
     }
@@ -866,93 +874,10 @@ textarea:focus::placeholder {
     }
 }
 
-/* CHART SURVEY */
-#backoffice-text .card-content ul {
-    padding: 0;
-}
-
-#backoffice-text .card-content {
-    width: 100%;
-}
-
-#backoffice-text .card-body {
-    align-items: center;
-}
-
-#backoffice-text .info-survey {
+/* BACKOFFICE PARTNERSHIP */
+#backoffice-partnership .card-footer {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-}
-
-.chart {
-    width: 250px;
-    height: 250px;
-}
-
-.response-1,
-.response-2,
-.response-3,
-.response-4,
-.response-5,
-.response-6,
-.response-7 {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.response-1 .label,
-.response-2 .label,
-.response-3 .label,
-.response-4 .label,
-.response-5 .label,
-.response-6 .label,
-.response-7 .label {
-    width: 50px;
-    height: 50px;
-}
-
-@media(max-width: 600px) {
-
-    .response-1 .label,
-    .response-2 .label,
-    .response-3 .label,
-    .response-4 .label,
-    .response-5 .label,
-    .response-6 .label,
-    .response-7 .label {
-        width: 30px;
-        height: 30px;
-    }
-}
-
-.response-1 .label {
-    background-color: var(--diagram-1);
-}
-
-.response-2 .label {
-    background-color: var(--diagram-2);
-}
-
-.response-3 .label {
-    background-color: var(--diagram-3);
-}
-
-.response-4 .label {
-    background-color: var(--diagram-4);
-}
-
-.response-5 .label {
-    background-color: var(--diagram-5);
-}
-
-.response-6 .label {
-    background-color: var(--diagram-6);
-}
-
-.response-7 .label {
-    background-color: var(--diagram-7);
+    justify-content: flex-end;
 }
 
 /*FOOTER*/
@@ -1518,6 +1443,81 @@ textarea:focus::placeholder {
     }
 }
 
+/* CHART SURVEY */
+#backoffice-survey .card-content ul {
+    padding: 0;
+    list-style: none;
+}
+
+#backoffice-survey .card-content li {
+    margin-bottom: 15px;
+}
+
+#backoffice-survey .card-content {
+    width: 100%;
+}
+
+#backoffice-survey .card-body {
+    align-items: center;
+}
+
+#backoffice-survey .info-survey {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.chart {
+    width: 250px;
+    height: 250px;
+}
+
+.survey-response {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.survey-response .label {
+    width: 50px;
+    height: 50px;
+}
+
+@media(max-width: 600px) {
+
+    .survey-response .label {
+        width: 30px;
+        height: 30px;
+    }
+}
+
+.survey-response-1 .label {
+    background-color: var(--diagram-1);
+}
+
+.survey-response-2 .label {
+    background-color: var(--diagram-2);
+}
+
+.survey-response-3 .label {
+    background-color: var(--diagram-3);
+}
+
+.survey-response-4 .label {
+    background-color: var(--diagram-4);
+}
+
+.survey-response-5 .label {
+    background-color: var(--diagram-5);
+}
+
+.survey-response-6 .label {
+    background-color: var(--diagram-6);
+}
+
+.survey-response-7 .label {
+    background-color: var(--diagram-7);
+}
 
 /* BACK TEXTS */
 

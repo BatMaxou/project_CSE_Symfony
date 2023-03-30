@@ -50,7 +50,7 @@ class BackOfficeController extends AbstractController
     #[Route(path: '/admin/adminGestion', name: 'adminGestion')]
     public function adminGestion(AdminRepository $adminRepository = null): Response
     {
-        $path = [['Tableau de bord', 'backoffice'], ['Gestion des admins', 'adminGestion']];
+        $path = [['Tableau de bord', 'texts'], ['Gestion des admins', 'adminGestion']];
 
         $admins = $adminRepository->findAll();
 
@@ -76,7 +76,7 @@ class BackOfficeController extends AbstractController
     #[Route(path: "/admin/adminGestion/delete/{id}", name: "adminDelete")]
     public function adminDelete(AdminRepository $adminRepository, int $id): Response
     {
-        $path = [['Tableau de bord', 'backoffice'], ['Gestion des admins', 'adminGestion']];
+        $path = [['Tableau de bord', 'texts'], ['Gestion des admins', 'adminGestion']];
 
         $admin = $adminRepository->find($id);
 
@@ -96,7 +96,7 @@ class BackOfficeController extends AbstractController
     #[Route(path: '/admin/sondage', name: 'backoffice_sondage')]
     public function survey(SurveyRepository $surveyRepo): Response
     {
-        $path = [['Infos', 'backoffice'], ['Sondage', 'backoffice_sondage']];
+        $path = [['Infos', 'texts'], ['Sondage', 'backoffice_sondage']];
 
         $questions = $surveyRepo->totalResponseBySurvey();
         $responses = $surveyRepo->totalResponseByQuestion();
