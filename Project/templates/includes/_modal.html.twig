@@ -2,37 +2,30 @@
 	<div class="modal">
 		<div class="modal-header">
 			<button class="modal-close">X</button>
-			<h2>Règlement du CSE</h2>
+			<h2>{{ title }}</h2>
 		</div>
 		<div class="modal-body">
-			{% if ckeditors %}
-				{% for ckeditor in ckeditors %}
-
-					{# Text du règlement #}
-					{% if (ckeditor.zone == "reglement") %}
-						{{ ckeditor.content|raw }}
-					{% endif %}
-
-				{% endfor %}
-			{% endif %}
+			{{ content|raw }}
 		</div>
 		<div class="modal-footer">
-			{% if ckeditors %}
-				{% for ckeditor in ckeditors %}
 
-					{# Email du CSE #}
-					{% if (ckeditor.zone == "email") %}
-						<div>
-							<p>
-								Pour toutes informations supplémentaires, veuillez nous contacter à l'adresse mail :
-							</p>
-							{{ ckeditor.content|raw }}
-						</div>
-					{% endif %}
-
-				{% endfor %}
+			{% if options.texteFooter is defined %}
+				{{ options.texteFooter|raw }}
 			{% endif %}
-			<button class="btnClose">Fermer</button>
+
+			<div class="btn-container">
+
+				{% if options.modifButton is defined and options.modifButton == true %}
+					<button type="sumbit" class="btn btn-modal btn-edit">Modifier</button>
+				{% endif %}
+
+				{% if options.suppButton is defined and options.suppButton == true  %}
+					<button type="sumbit" class="btn btn-modal btn-delete">Supprimer</button>
+				{% endif %}
+
+				<button class="btn btn-modal btn-close">Fermer</button>
+
+			</div>
 		</div>
 	</div>
 </div>

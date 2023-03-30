@@ -5,7 +5,21 @@
 		<h2 class="title-about-us">A propos de nous</h2>
 
 		{% block modal %}
-			{% include "includes/_modal.html.twig" with {'ckeditors': ckeditors} %}
+			{% include "includes/_modal.html.twig" with {
+				title: 'Règlement du CSE', 
+				content: rules, 
+				options: {
+					texteFooter: "
+					<div>
+						<p>
+							Pour toutes informations supplémentaires, veuillez nous contacter à l'adresse mail :
+						</p>"
+						~ email ~ 
+					"</div>", 
+					suppButton: false, 
+					modifButton: false
+				}
+			} %}
 		{% endblock %}
 
 		<div class="card">
@@ -28,20 +42,15 @@
 				</div>
 			</div>
 		</div>
-
-		{% for ckeditor in ckeditors %}
-			{% if (ckeditor.zone == "actions") %}
-				<div class="card">
-					<div class="card-header">
-						<h3>Actions menées par le CSE</h3>
-						<button class="modal-open">Voir le règlement</button>
-					</div>
-					<div class="card-body">
-						<p>{{ ckeditor.content|raw }}</p>
-					</div>
-				</div>
-			{% endif %}
-		{% endfor %}
+		<div class="card">
+			<div class="card-header">
+				<h3>Actions menées par le CSE</h3>
+				<button class="modal-open">Voir le règlement</button>
+			</div>
+			<div class="card-body">
+				<p>{{ actions|raw }}</p>
+			</div>
+		</div>
 	</div>
 
 	<script src="{{ asset('js/modal.js') }}"></script>

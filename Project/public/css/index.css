@@ -90,11 +90,22 @@ textarea:focus::placeholder {
 }
 
 /* BTN */
+
+.btn-container {
+    display: flex;
+    margin-left: 10px;
+}
+
 .btn {
     padding: 16px 32px;
     color: white;
     border: none;
     cursor: pointer;
+}
+
+.btn-modal {
+    padding: 10px 20px;
+    margin-inline: 5px;
 }
 
 .btn-edit {
@@ -103,6 +114,10 @@ textarea:focus::placeholder {
 
 .btn-delete {
     background-color: var(--color-danger);
+}
+
+.btn-close {
+    background-color: var(--color-primary);
 }
 
 /* FLASH */
@@ -1157,17 +1172,6 @@ textarea:focus::placeholder {
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-.btnClose {
-    background-color: var(--color-primary);
-    padding: 10px 20px;
-    border: none;
-    color: white;
-    font-size: 14px;
-    max-width: 85px;
-    max-height: 37px;
-    cursor: pointer;
 }
 
 #aboutus .members-container {

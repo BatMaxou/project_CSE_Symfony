@@ -106,6 +106,18 @@ class HomeController extends AbstractController
         $path = [['Accueil', 'home'], ['A propos de nous', 'aboutUs']];
         $ckeditors = $ckeditorRep->findByPage('AboutUs');
 
+        foreach ($ckeditors as $ckeditor) {
+            if ($ckeditor->getZone() == "actions") {
+                $actions = $ckeditor->getContent();
+            }
+            if ($ckeditor->getZone() == "email") {
+                $email = $ckeditor->getContent();
+            }
+            if ($ckeditor->getZone() == "rules") {
+                $rules = $ckeditor->getContent();
+            }
+        }
+
         // get 3 random image from database
         $imgPartner = $partnershipRepo->imagePartner();
 
@@ -113,9 +125,11 @@ class HomeController extends AbstractController
 
         return $this->render('aboutUs/index.html.twig', [
             'path' => $path,
-            'ckeditors' => $ckeditors,
             'image' => $imgPartner,
-            'members' => $members
+            'members' => $members,
+            'actions' => $actions,
+            'email' => $email,
+            'rules' => $rules,
         ]);
     }
 
