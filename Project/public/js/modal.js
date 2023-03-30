@@ -5,7 +5,7 @@ const modal = document.querySelector('.modal');
 const modalHeader = modal.querySelector('.modal-header');
 const modalBody = modal.querySelector('.modal-body');
 const modalFooter = modal.querySelector('.modal-footer');
-const btnClose = document.querySelector('.btnClose');
+const btnClose = document.querySelector('.btn-close');
 
 // gestion hauteur du modal
 let modalHeaderHeight = 0

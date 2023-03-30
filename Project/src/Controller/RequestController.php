@@ -64,7 +64,7 @@ class RequestController extends AbstractController
                 'homepage' => $rep->findByZone('HomePage', 'zone'),
                 'email' => $rep->findByZone('AboutUs', 'email'),
                 'actions' => $rep->findByZone('AboutUs', 'actions'),
-                'rules' => $rep->findByZone('AboutUs', 'reglement'),
+                'rules' => $rep->findByZone('AboutUs', 'rules'),
             ];
 
             $rep->save($texts['homepage']->setContent($request->get('text')['homepage']), true);
