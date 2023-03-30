@@ -3,17 +3,33 @@
 namespace App\Controller;
 
 use App\Entity\Partnership;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\SurveyRepository;
 
+use App\Repository\CkeditorRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\PartnershipRepository;
+use App\Repository\UserResponseRepository;
 use App\Form\PartnershipType\PartnershipType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BackOfficeController extends AbstractController
 {
+    public function formEditPartnership(): Response
+    {
+        $form = $this->createForm(PartnershipType::class, null, [
+            'action' => '/post/editPartnership',
+            'method' => 'POST'
+        ]);
+
+        return $this->render('backoffice/partnership/partnership.html.twig', [
+            'formPartnership' => $form,
+        ]);
+    }
+
     #[Route(path: '/admin', name: 'backoffice')]
     public function login(): Response
     {
@@ -24,9 +40,6 @@ class BackOfficeController extends AbstractController
         ]);
     }
 
-    /*
-    * ajax a faire
-    */
     #[Route(path: '/admin/partenariat', name: 'backoffice_partnership')]
     public function partnership(PartnershipRepository $partnershipRepo, Request $request, EntityManagerInterface $manager): Response
     {
@@ -34,24 +47,38 @@ class BackOfficeController extends AbstractController
 
         $partnerships = $partnershipRepo->findAll();
 
-        // form a creer
-        $partnership = new Partnership();
-        $formPartner = $this->createForm(PartnershipType::class, $partnership);
-        $formPartner->handleRequest($request);
+        $form = $this->createForm(PartnershipType::class, null, [
+            'action' => '/post/edit-partnership',
+            'method' => 'POST',
+        ]);
 
-        $id = $request->get('modify-id-partnership');
-        if ($formPartner->isValid()) {
-            $partner = $partnershipRepo->find($id);
-            $partner->setNamePartnership($request->get('modify-name-partnership-' . $id));
-            $partner->setDescriptionPartnership($request->get('modify-description-partnership-' . $id));
-            $partner->setLinkPartnership($request->get('modify-link-partnership-' . $id));
-            $partnershipRepo->save($partner, true);
+        $forms = array();
+
+        for ($i = 0; $i < count($partnerships); $i++) {
+            $forms[] = $form->createView();
         }
 
         return $this->render('backoffice/partnership/partnership.html.twig', [
             'path' => $path,
             'partnerships' => $partnerships,
-            'formPartnership' => $formPartner->createView(),
+            'formPartnership' => $forms,
+        ]);
+    }
+
+    #[Route(path: '/admin/sondage', name: 'backoffice_sondage')]
+    public function survey(SurveyRepository $surveyRepo): Response
+    {
+        $path = [['Infos', 'backoffice'], ['Sondage', 'backoffice_sondage']];
+
+        $questions = $surveyRepo->totalResponseBySurvey();
+        $responses = $surveyRepo->totalResponseByQuestion();
+
+        return $this->render('backoffice/survey/survey.html.twig', [
+            'path' => $path,
+            'questions' => $questions,
+            'responses' => $responses,
+            // encode responses en JSON pour l'utiliser en JS
+            'responses_json' => json_encode($responses),
         ]);
     }
 }
