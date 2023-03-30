@@ -2,15 +2,20 @@
 
 namespace App\Controller;
 
-use App\Form\TextType;
-
-use App\Repository\AdminRepository;
+use App\Entity\Partnership;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Form\AdminFormType;
+
+use App\Form\TextType;
+use App\Repository\SurveyRepository;
+use App\Repository\AdminRepository;
+use App\Repository\UserResponseRepository;
 use App\Repository\CkeditorRepository;
+use App\Repository\PartnershipRepository;
+use App\Form\PartnershipType\PartnershipType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -85,6 +90,23 @@ class BackOfficeController extends AbstractController
 
         return $this->redirectToRoute('adminGestion', [
             'path' => $path,
+        ]);
+    }
+
+    #[Route(path: '/admin/sondage', name: 'backoffice_sondage')]
+    public function survey(SurveyRepository $surveyRepo): Response
+    {
+        $path = [['Infos', 'backoffice'], ['Sondage', 'backoffice_sondage']];
+
+        $questions = $surveyRepo->totalResponseBySurvey();
+        $responses = $surveyRepo->totalResponseByQuestion();
+
+        return $this->render('backoffice/survey/survey.html.twig', [
+            'path' => $path,
+            'questions' => $questions,
+            'responses' => $responses,
+            // encode responses en JSON pour l'utiliser en JS
+            'responses_json' => json_encode($responses),
         ]);
     }
 }

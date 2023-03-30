@@ -15,6 +15,13 @@ body {
     --color-secondary: #b6a886;
     --color-danger: #C85353;
     --color-black-fog: rgba(0, 0, 0, 0.5);
+    --diagram-1: #36a2eb;
+    --diagram-2: #ff6384;
+    --diagram-3: #4bc0c0;
+    --diagram-4: #ff9f40;
+    --diagram-5: #9966ff;
+    --diagram-6: #ffcd56;
+    --diagram-7: #c9cbcf;
 }
 
 h1,
@@ -97,7 +104,7 @@ textarea:focus::placeholder {
 }
 
 .btn {
-    padding: 16px 32px;
+    padding: 16px 32px !important;
     color: white;
     border: none;
     cursor: pointer;
@@ -675,13 +682,12 @@ textarea:focus::placeholder {
 /* CARD PARTNERSHIP */
 
 #partnership .card-body,
-#backoffice-partnership .card-body {
+#backoffice-text .card-body {
     display: flex;
     gap: 20px;
 }
 
-#partnership .card-image img,
-#backoffice-partnership .card-body img {
+#partnership .card-image img {
     width: 200px;
     height: 200px;
     object-fit: cover;
@@ -690,7 +696,7 @@ textarea:focus::placeholder {
 @media(max-width: 850px) {
 
     #partnership .card-body,
-    #backoffice-partnership .card-body {
+    #backoffice-text .card-body {
         flex-direction: column;
         align-items: center;
     }
@@ -860,10 +866,93 @@ textarea:focus::placeholder {
     }
 }
 
-/* BACKOFFICE PARTNERSHIP */
-#backoffice-partnership .card-footer {
+/* CHART SURVEY */
+#backoffice-text .card-content ul {
+    padding: 0;
+}
+
+#backoffice-text .card-content {
+    width: 100%;
+}
+
+#backoffice-text .card-body {
+    align-items: center;
+}
+
+#backoffice-text .info-survey {
     display: flex;
-    justify-content: flex-end;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.chart {
+    width: 250px;
+    height: 250px;
+}
+
+.response-1,
+.response-2,
+.response-3,
+.response-4,
+.response-5,
+.response-6,
+.response-7 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.response-1 .label,
+.response-2 .label,
+.response-3 .label,
+.response-4 .label,
+.response-5 .label,
+.response-6 .label,
+.response-7 .label {
+    width: 50px;
+    height: 50px;
+}
+
+@media(max-width: 600px) {
+
+    .response-1 .label,
+    .response-2 .label,
+    .response-3 .label,
+    .response-4 .label,
+    .response-5 .label,
+    .response-6 .label,
+    .response-7 .label {
+        width: 30px;
+        height: 30px;
+    }
+}
+
+.response-1 .label {
+    background-color: var(--diagram-1);
+}
+
+.response-2 .label {
+    background-color: var(--diagram-2);
+}
+
+.response-3 .label {
+    background-color: var(--diagram-3);
+}
+
+.response-4 .label {
+    background-color: var(--diagram-4);
+}
+
+.response-5 .label {
+    background-color: var(--diagram-5);
+}
+
+.response-6 .label {
+    background-color: var(--diagram-6);
+}
+
+.response-7 .label {
+    background-color: var(--diagram-7);
 }
 
 /*FOOTER*/
