@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\SurveyRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: SurveyRepository::class)]
@@ -18,6 +19,9 @@ class Survey
 
     #[ORM\Column]
     private ?bool $isActive = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $datetime = null;
 
     public function getId(): ?int
     {
@@ -44,6 +48,18 @@ class Survey
     public function setIsActive(bool $isActive): self
     {
         $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    public function getDatetime(): ?\DateTimeInterface
+    {
+        return $this->datetime;
+    }
+
+    public function setDatetime(?\DateTimeInterface $datetime): self
+    {
+        $this->datetime = $datetime;
 
         return $this;
     }
