@@ -2,15 +2,17 @@
 
 namespace App\Controller;
 
-use App\Entity\Partnership;
-use Doctrine\ORM\EntityManagerInterface;
-
 use App\Form\TextType;
-use App\Repository\SurveyRepository;
+use App\Form\MemberType;
+use App\Form\AdminFormType;
+use App\Entity\Partnership;
 use App\Repository\AdminRepository;
-use App\Repository\UserResponseRepository;
+use App\Repository\MemberRepository;
+use App\Repository\SurveyRepository;
 use App\Repository\CkeditorRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\PartnershipRepository;
+use App\Repository\UserResponseRepository;
 use App\Form\PartnershipType\PartnershipType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,7 +23,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class BackOfficeController extends AbstractController
 {
-    #[Route(path: '/admin/texts', name: 'texts')]
+    #[Route(path: '/admin/textes', name: 'texts')]
     public function texts(CkeditorRepository $rep): Response
     {
         $path = [['Tableau de bord', 'texts'], ['Textes', 'texts']];
@@ -107,6 +109,31 @@ class BackOfficeController extends AbstractController
             'responses' => $responses,
             // encode responses en JSON pour l'utiliser en JS
             'responses_json' => json_encode($responses),
+        ]);
+    }
+
+    #[Route(path: '/admin/membres', name: 'backoffice_member')]
+    public function member(MemberRepository $rep): Response
+    {
+        $path = [['Tableau de bord', 'texts'], ['Membre', 'backoffice_member']];
+
+        $members = $rep->findAll();
+
+        $form = $this->createForm(MemberType::class, null, [
+            'action' => '/post/backoffice/member',
+            'method' => 'POST',
+        ]);
+
+        $forms = array();
+
+        for ($i = 0; $i < count($members); $i++) {
+            $forms[] = $form->createView();
+        }
+
+        return $this->render('backoffice/member/index.html.twig', [
+            'path' => $path,
+            'members' => $members,
+            'forms' => $forms,
         ]);
     }
 }
