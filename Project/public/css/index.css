@@ -89,11 +89,12 @@ textarea:focus::placeholder {
     width: 100%;
 }
 
-#homepage h2,
-#partnership h2,
-#offer h2,
-#contact h2,
-#texts h2 {
+#homepage h1,
+#partnership h1,
+#offer h1,
+#contact h1,
+#texts h1,
+#backoffice-survey h1 {
     margin-bottom: 10px;
 }
 

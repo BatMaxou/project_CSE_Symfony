@@ -1,9 +1,13 @@
 {% extends "page.html.twig" %}
 
+{% block title %}
+	CSE - Partenaires
+{% endblock %}
+
 {% block content %}
 	{% if partnerships %}
 		<div id="partnership">
-			<h2>Partenariats</h2>
+			<h1>Partenariats</h1>
 			{% for partnership in partnerships %}
 				<div class="card">
 					<div class="card-body">

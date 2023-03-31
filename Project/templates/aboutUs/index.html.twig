@@ -1,8 +1,12 @@
 {% extends 'page.html.twig' %}
 
+{% block title %}
+	CSE - A propos de nous
+{% endblock %}
+
 {% block content %}
 	<div id="aboutus">
-		<h2 class="title-about-us">A propos de nous</h2>
+		<h1 class="title-about-us">A propos de nous</h1>
 
 		{% block modal %}
 			{% include "includes/_modal.html.twig" with {

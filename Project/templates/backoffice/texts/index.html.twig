@@ -1,7 +1,12 @@
 {% extends "backoffice-page.html.twig" %}
 
+{% block title %}
+	CSE - Backoffice texts
+{% endblock %}
+
 {% block content %}
 	<div id="texts">
+		<h1>Gestions des texts</h1>
 		{{ form_start(form) }}
 		<div class="card">
 			<h2>{{ form_label(form.email) }}</h2>

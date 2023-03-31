@@ -6,10 +6,17 @@
 
 		</div>
 		<div class="sidebar-access">
-			<h2>Accés rapide</h2>
+			<h2>Accès rapide</h2>
 			<ul>
-				<li><ahref="{{path("ticketing")}}">Offres permanentes / Billeterie</a></li>
-				<li><ahref="{{path("contact")}}">Nous contacter</a></li>
+				<li>
+					{# lien pour la page billeterie #}
+					<a href="{{ path("ticketing") }}">Offres permanentes / Billeterie</a>
+				</li>
+
+				<li>
+					{# lien pour la page contact #}
+					<a href="{{ path("contact") }}">Nous contacter</a>
+				</li>
 			</ul>
 		</div>
 		<div class="sidebar-contact">

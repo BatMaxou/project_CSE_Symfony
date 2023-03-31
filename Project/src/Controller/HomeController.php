@@ -5,6 +5,7 @@ namespace App\Controller;
 use Exception;
 use App\Entity\Survey;
 use App\Entity\Contact;
+use App\Entity\ImageTicketing;
 use App\Entity\Subscriber;
 use App\Entity\UserResponse;
 use App\Repository\SurveyRepository;
@@ -62,12 +63,9 @@ class HomeController extends AbstractController
     #[Route(path: '/', name: 'home', methods: ['GET'])]
     public function home(PartnershipRepository $partnerRepo, TicketingRepository $ticketingRep, CkeditorRepository $ckeditorRep): Response
     {
-        /*
-         * knp menu bundle
-         */
         $path = [['Accueil', 'home']];
         $ckeditor = $ckeditorRep->findByPage('HomePage');
-        $ticketing = $ticketingRep->findByType('permanente');
+        $ticketing = $ticketingRep->findByType('limitée');
         $nbOffer = count($ticketing);
         // counting the number of pages with 3 offers per page
         $nbPage = ($nbOffer % 3 === 0 || $nbOffer < 0) ? $nbOffer / 3 : intdiv($nbOffer, 3) + 1;
@@ -188,20 +186,17 @@ class HomeController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/billeterie/{id}', name: 'offer', methods: ['GET'])]
-    public function offer(PartnershipRepository $partnershipRepo, TicketingRepository $ticketingRepo, string $id, ImageTicketingRepository $imgTicketingRepo): Response
+    #[Route(path: '/billeterie/{slug}', name: 'offer', methods: ['GET'])]
+    public function offer(PartnershipRepository $partnershipRepo, TicketingRepository $ticketingRepo, string $slug): Response
     {
-        $path = [['Accueil', 'home'], ['Billeterie', 'ticketing']];
+        $offer = $ticketingRepo->findBySlug($slug);
+        $path = [['Accueil', 'home'], ['Billeterie', 'ticketing'], [$offer->getName(), 'offer', $offer->getSlug()]];
         // get info associated at the id in the url of the ticketing
-        $offer = $ticketingRepo->find($id);
-
-        // get 3 random image from database
         $imgPartner = $partnershipRepo->imagePartner();
 
         // si $offer retourne quelque chose et que l'id est un numérique alors on render sinon redirect
-        if (($offer != NULL) and (is_numeric($id))) {
-            // get image associated at the id in the url of the ticketing
-            $imgOffer = $imgTicketingRepo->findImageTicketing($id);
+        if ($offer != NULL and is_string($slug)) {
+            $imgOffer = $offer->getImageTicketings();
 
             return $this->render('ticketing/offer.html.twig', [
                 'path' => $path,

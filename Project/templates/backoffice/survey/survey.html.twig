@@ -1,8 +1,12 @@
 {% extends 'backoffice-page.html.twig' %}
 
+{% block title %}
+	CSE - Backoffice sondage
+{% endblock %}
+
 {% block content %}
 	<div id="backoffice-survey">
-		<h2>Statistique des sondages</h2>
+		<h1>Statistique des sondages</h1>
 
 		{# initialise une variable unique_questions à un tableau vide qui sera utilisé pour stocker chaque question unique une seule fois #}
 		{% set unique_questions = [] %}
@@ -37,11 +41,11 @@
 													{{ response.responses * 100 // question.total_responses }}
 													%
 													{# ({{ response.responses }}
-																																																																																																																																																																																																																																																																																																																																																																																																																			{% if response.responses > 1 %}
-																																																																																																																																																																																																																																																																																																																																																																																																																				votes)
-																																																																																																																																																																																																																																																																																																																																																																																																																			{% else %}
-																																																																																																																																																																																																																																																																																																																																																																																																																				vote)
-																																																																																																																																																																																																																																																																																																																																																																																																																			{% endif %} #}
+																																																																																																																																																																																																																																																																																																																																																																																																																																																										{% if response.responses > 1 %}
+																																																																																																																																																																																																																																																																																																																																																																																																																																																											votes)
+																																																																																																																																																																																																																																																																																																																																																																																																																																																										{% else %}
+																																																																																																																																																																																																																																																																																																																																																																																																																																																											vote)
+																																																																																																																																																																																																																																																																																																																																																																																																																																																										{% endif %} #}
 												</span>
 											</div>
 										</li>

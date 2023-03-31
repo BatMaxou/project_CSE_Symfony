@@ -1,13 +1,18 @@
 {% extends "page.html.twig" %}
 
+{% block title %}
+	CSE - Accueil
+{% endblock %}
+
 {% block content %}
 	<div id="homepage">
+		<h1>CSE - Saint-Vincent</h1>
 
 		{% if ckeditor != null %}
 			<div class="card">{{ ckeditor[0].content|raw }}</div>
 		{% endif %}
 
-		<h2>Dernières offres ponctuelles</h2>
+		<h2>Dernières offres limitées</h2>
 
 		{% block paging %}
 			{% include "includes/_paging.html.twig" %}
@@ -33,7 +38,7 @@
 						<p>{{offer.text}}</p>
 					</div>
 					<div class="card-footer">
-						<a href="{{ path('offer', {id: offer.id}) }}">
+						<a href="{{ path('offer', {slug: offer.slug}) }}">
 							<p>en savoir plus</p>
 							<img src="{{ asset('images/left-chevron.svg')}}" alt="chevron">
 						</a>

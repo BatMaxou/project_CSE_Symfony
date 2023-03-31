@@ -1,10 +1,17 @@
 {% extends "page.html.twig" %}
 
+{% block title %}
+	CSE - Offre
+	{{ offer.type }}
+	-
+	{{ offer.name }}
+{% endblock %}
+
 {% block content %}
 	<div id="offer">
-		<h2>{{ offer.name }}
+		<h1>{{ offer.name }}
 			- Offre
-			{{ offer.type }}</h2>
+			{{ offer.type }}</h1>
 		<div class="card">
 			<div class="offer-card-header">
 				<div class="offer-card-date">
@@ -23,8 +30,11 @@
 					{% endif %}
 				</div>
 			</div>
-			<div class="offer-card-place">Nombre de place minimum à prendre :
-				{{ offer.numberMinPlace }}
+			<div class="offer-card-place">
+				{% if offer.type == "permanente" %}
+					Nombre de place minimum à prendre :
+					{{ offer.numberMinPlace }}
+				{% endif %}
 			</div>
 			<div class="offer-card-body">
 				<h3>Description</h3>

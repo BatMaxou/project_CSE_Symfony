@@ -1,9 +1,13 @@
 {% extends 'backoffice-page.html.twig' %}
 
+{% block title %}
+	CSE - Backoffice gestion des partenaires
+{% endblock %}
+
 {% block content %}
 
 	<div id="backoffice-partnership">
-		<h2>Gestion des partenaires</h2>
+		<h1>Gestion des partenaires</h1>
 
 		{% for partnership in partnerships %}
 			<div class="card">

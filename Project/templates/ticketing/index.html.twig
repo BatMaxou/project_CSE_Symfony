@@ -1,12 +1,16 @@
 {% extends 'page.html.twig' %}
 
+{% block title %}
+	CSE - Billeterie
+{% endblock %}
+
 {% block content %}
 
 	<div class="ticketing">
 
 		<div class="div-title-ticketing">
 
-			<h2 class="title-ticketing">Offres</h2>
+			<h1 class="title-ticketing">Offres</h1>
 			<ul class="ul-ticketing">
 
 				<li class="ticketing-all-button li-ticketing li-ticketing-active">Toutes</li>
@@ -30,8 +34,7 @@
 
 						<div class="card-image">
 
-							{% if ticketingPermanent.imageTicketings[0].Ticketing.id == ticketingPermanent.id
-                    %}
+							{% if ticketingPermanent.imageTicketings[0].Ticketing.id == ticketingPermanent.id %}
 
 								<img src={{ asset('imagesTest/' ~ ticketingPermanent.imageTicketings[0].name) }} alt="">
 
@@ -59,14 +62,14 @@
 
 								<p>{{ ticketingPermanent.name }}</p>
 								<p class="card-description-ticketing">{{ ticketingPermanent.text }}</p>
-								<p>Le nombre de place minimum requis est
+								<p>Nombre de place minimum requis :
 									{{ ticketingPermanent.numberMinPlace }}.</p>
 
 							</div>
 
 							<div class="card-footer">
 
-								<a href="{{ path('offer', {id: ticketingPermanent.id}) }}">
+								<a href="{{ path('offer', {slug: ticketingPermanent.slug}) }}">
 									<p>En savoir plus</p>
 									<img src="{{ asset('images/left-chevron.svg')}}" alt="chevron">
 								</a>
@@ -88,8 +91,7 @@
 
 						<div class="card-image">
 
-							{% if ticketingLimited.imageTicketings[0].Ticketing.id == ticketingLimited.id
-                    %}
+							{% if ticketingLimited.imageTicketings[0].Ticketing.id == ticketingLimited.id %}
 
 								<img src={{ asset('imagesTest/' ~ ticketingLimited.imageTicketings[0].name) }} alt="">
 
@@ -121,7 +123,7 @@
 
 							<div class="card-footer">
 
-								<a href="{{ path('offer', {id: ticketingLimited.id}) }}">
+								<a href="{{ path('offer', {slug: ticketingLimited.slug}) }}">
 									<p>En savoir plus</p>
 									<img src="{{ asset('images/left-chevron.svg')}}" alt="chevron">
 								</a>

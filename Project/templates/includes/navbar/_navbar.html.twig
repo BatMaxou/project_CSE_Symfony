@@ -39,7 +39,12 @@
 		{% for path in path %}
 			<li>
 				<img src="{{ asset('images/left-chevron.svg') }}" alt="chevron">
-				<a href="{{ path(path[1]) }}">{{ path[0] }}</a>
+				{% if path[2] is defined %}
+					<a href="{{ path(path[1], {slug: path[2]}) }}">{{ path[0] }}</a>
+				{% else %}
+					<a href="{{ path(path[1]) }}">{{ path[0] }}</a>
+				{% endif %}
+
 			</li>
 		{% endfor %}
 	</ul>

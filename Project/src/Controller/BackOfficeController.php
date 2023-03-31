@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Partnership;
 use Doctrine\ORM\EntityManagerInterface;
-
+use App\Form\AdminFormType;
 use App\Form\TextType;
 use App\Repository\SurveyRepository;
 use App\Repository\AdminRepository;
