@@ -60,6 +60,31 @@ textarea:focus::placeholder {
     color: transparent;
 }
 
+.form-input {
+    outline: none;
+    background-color: #EFEDED;
+    border: none;
+    border-bottom: 1px solid black;
+    padding: 5px 0;
+}
+
+.form-file-input {
+    display: none;
+}
+
+.form-file-label {
+    cursor: pointer;
+    border: 1px solid var(--color-primary);
+    padding: 5px;
+    color: var(--color-primary);
+    font-size: 13px;
+}
+
+.form-file-label:hover {
+    background-color: var(--color-primary);
+    color: #fff;
+}
+
 .form {
     display: flex;
 }
@@ -85,7 +110,8 @@ textarea:focus::placeholder {
 #contact,
 #backoffice-partnership,
 #texts,
-#backoffice-survey {
+#backoffice-survey,
+#member {
     width: 100%;
 }
 
@@ -627,6 +653,12 @@ textarea:focus::placeholder {
     list-style: disc;
 }
 
+.card-image img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+}
+
 .card .card-header,
 .card .card-footer a {
     display: flex;
@@ -692,13 +724,6 @@ textarea:focus::placeholder {
 #backoffice-survey .card-body {
     display: flex;
     gap: 20px;
-}
-
-#partnership .card-image img,
-#backoffice-partnership .card-body img {
-    width: 200px;
-    height: 200px;
-    object-fit: cover;
 }
 
 @media(max-width: 850px) {
@@ -1301,12 +1326,6 @@ textarea:focus::placeholder {
     gap: 20px;
 }
 
-.div-ticketing .card-image img {
-    width: 200px;
-    height: 200px;
-    object-fit: cover;
-}
-
 .div-ticketing .card-content {
     display: flex;
     flex-direction: column;
@@ -1525,4 +1544,87 @@ textarea:focus::placeholder {
 #texts button[type="submit"] {
     float: right;
     margin-bottom: 20px;
+}
+
+/* BACK MEMBER */
+
+#member {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#member .card {
+    width: 45%;
+    margin-inline: 10px;
+}
+
+#member .card-body {
+    display: flex;
+    margin: 0;
+}
+
+#member .card-image label {
+    display: block;
+    margin: 10px 0;
+    text-align: center;
+}
+
+#member .card-content {
+    padding: 20px 5px 20px 20px;
+}
+
+#member .card-content input {
+    width: 100%;
+    margin: 10px 0;
+}
+
+#member .card-footer {
+    display: flex;
+    justify-content: end;
+}
+
+#member .card-footer .btn {
+    margin-inline: 5px;
+}
+
+@media(max-width: 1050px) {
+    #member {
+        justify-content: center;
+    }
+
+    #member .card {
+        width: 43%;
+    }
+}
+
+@media(max-width: 850px) {
+    #member {
+        justify-content: center;
+    }
+
+    #member .card {
+        width: 100%;
+    }
+}
+
+@media(max-width: 850px) and (min-width: 700px) {
+    #member .card-content {
+        text-align: center;
+    }
+
+    #member .card-content input {
+        width: 35%;
+        margin: 25px;
+    }
+}
+
+@media(max-width: 450px) {
+    #member .card-body {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    #member .card-content {
+        margin-right: 20px
+    }
 }

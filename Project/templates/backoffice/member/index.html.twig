@@ -1,0 +1,32 @@
+{% extends "backoffice-page.html.twig" %}
+
+{% block title %}
+	CSE - Gestion des Membres
+{% endblock %}
+
+{% block content %}
+	<div id="member">
+		{% for key, member in members %}
+			<div class="card">
+				{{ form_start(forms[key]) }}
+				<div class="card-body">
+					<div class="card-image">
+						<img src="{{ asset('imagesTest/' ~ member.profil)}}" alt="{{ member.firstName }}">
+						{{ form_label(forms[key].profil) }}
+						{{ form_widget(forms[key].profil) }}
+					</div>
+					<div class="card-content">
+						{{ form_widget(forms[key].firstName) }}
+						{{ form_widget(forms[key].lastName) }}
+						{{ form_widget(forms[key].function) }}
+					</div>
+				</div>
+				<div class="card-footer">
+					<button class='btn btn-edit'>Sauvegarder</button>
+					<button class='btn btn-delete'>Supprimer</button>
+				</div>
+				{{ form_end(forms[key]) }}
+			</div>
+		{% endfor %}
+	</div>
+{% endblock %}
