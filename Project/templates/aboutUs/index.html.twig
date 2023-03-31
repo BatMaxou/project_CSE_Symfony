@@ -28,6 +28,16 @@
 
 		<div class="card">
 			<div class="card-header">
+				<h3>Actions menées par le CSE</h3>
+				<button class="modal-open">Voir le règlement</button>
+			</div>
+			<div class="card-body">
+				<p>{{ actions|raw }}</p>
+			</div>
+		</div>
+
+		<div class="card">
+			<div class="card-header">
 				<h3>Membres</h3>
 			</div>
 			<div class="card-body">
@@ -44,15 +54,6 @@
 						</div>
 					{% endfor %}
 				</div>
-			</div>
-		</div>
-		<div class="card">
-			<div class="card-header">
-				<h3>Actions menées par le CSE</h3>
-				<button class="modal-open">Voir le règlement</button>
-			</div>
-			<div class="card-body">
-				<p>{{ actions|raw }}</p>
 			</div>
 		</div>
 	</div>
