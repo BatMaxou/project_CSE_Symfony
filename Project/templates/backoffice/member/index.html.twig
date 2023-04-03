@@ -16,17 +16,20 @@
 						{{ form_widget(forms[key].profil) }}
 					</div>
 					<div class="card-content">
-						{{ form_widget(forms[key].firstName) }}
-						{{ form_widget(forms[key].lastName) }}
-						{{ form_widget(forms[key].function) }}
+						{{ form_widget(forms[key].firstName, { 'value': member.firstName }) }}
+						{{ form_widget(forms[key].lastName, { 'value': member.lastName }) }}
+						{{ form_widget(forms[key].function, { 'value': member.function }) }}
 					</div>
 				</div>
 				<div class="card-footer">
-					<button class='btn btn-edit'>Sauvegarder</button>
+					<button class='btn btn-edit btn-save'>Sauvegarder</button>
+					<button class='btn btn-edit btn-actived'>Modifier</button>
 					<button class='btn btn-delete'>Supprimer</button>
 				</div>
 				{{ form_end(forms[key]) }}
 			</div>
 		{% endfor %}
 	</div>
+
+	<script src="{{ asset('js/cardAnimation.js') }}"></script>
 {% endblock %}

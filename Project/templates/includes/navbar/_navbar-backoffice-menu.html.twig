@@ -1,20 +1,29 @@
 <ul class="navbar-menu">
 	<li>
-		<a href="#">Accueil</a>
+		<a href="#">Dashboard</a>
 	</li>
 	<li>
-		<a href="#">Partenariats</a>
+		<a href="{{ path('backoffice_text') }}">Textes enrichis</a>
+	</li>
+	<li>
+		<a href="{{ path('backoffice_member') }}">Membres</a>
+	</li>
+	<li>
+		<a href="">Partenariats</a>
 	</li>
 	<li>
 		<a href="#">Billeterie</a>
 	</li>
 	<li>
-		<a href="#">Sondage</a>
+		<a href="{{ path('backoffice_survey') }}">Sondage</a>
 	</li>
 	<li>
-		<a href="#">Contact</a>
+		<a href="#">Messages</a>
 	</li>
 	<li>
-		<a href="#">Compte</a>
+		<a href="{{ path('backoffice_account') }}">Comptes</a>
+	</li>
+	<li>
+		<a href="{{ path('app_logout') }}">Déconnexion</a>
 	</li>
 </ul>
