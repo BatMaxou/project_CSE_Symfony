@@ -80,6 +80,37 @@ class SurveyRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
+    // retourne le nombre total de réponse associé à un survey
+    public function totalResponseBySurveyActive(): array
+    {
+        $qb = $this->createQueryBuilder('survey');
+
+        $qb->select('survey.question', 'survey.datetime', 'COUNT(user_response.id) AS total_responses')
+            ->innerJoin('App\Entity\Response', 'response', 'WITH', 'response.survey = survey.id')
+            ->innerJoin('App\Entity\UserResponse', 'user_response', 'WITH', 'user_response.response = response.id')
+            ->where('survey.isActive = :is_active')
+            ->setParameter('is_active', 1)
+            ->groupBy('survey.question');
+
+        return $qb->getQuery()->getResult();
+    }
+
+    // retourne le nombre total de réponse associé à une question associé à un survey
+    public function totalResponseByQuestionActive(): array
+    {
+
+        $qb = $this->createQueryBuilder('survey');
+
+        $qb->select('survey.question', 'response.text', 'COUNT(user_response.id) AS responses')
+            ->innerJoin('App\Entity\Response', 'response', 'WITH', 'response.survey = survey.id')
+            ->innerJoin('App\Entity\UserResponse', 'user_response', 'WITH', 'user_response.response = response.id')
+            ->where('survey.isActive = :is_active')
+            ->setParameter('is_active', 1)
+            ->groupBy('survey.question, response.text');
+
+        return $qb->getQuery()->getResult();
+    }
+
 
 
 

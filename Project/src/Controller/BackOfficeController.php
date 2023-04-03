@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Form\TextType;
+use App\Form\TextType;
 use App\Form\MemberType;
 use App\Entity\Partnership;
 use App\Form\AdminFormType;
+use App\Form\PartnershipType;
 use App\Repository\AdminRepository;
 use App\Repository\MemberRepository;
 use App\Repository\SurveyRepository;
@@ -13,7 +15,6 @@ use App\Repository\CkeditorRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\PartnershipRepository;
 use App\Repository\UserResponseRepository;
-use App\Form\PartnershipType\PartnershipType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -26,7 +27,7 @@ class BackOfficeController extends AbstractController
     #[Route(path: '/admin/textes', name: 'texts')]
     public function texts(CkeditorRepository $rep): Response
     {
-        $path = [['Tableau de bord', 'texts'], ['Textes', 'texts']];
+        $path = [['Tableau de bord', 'backoffice_dashboard'], ['Textes', 'texts']];
 
         $texts = [
             'homepage' => $rep->findByZone('HomePage', 'zone'),
@@ -52,7 +53,7 @@ class BackOfficeController extends AbstractController
     #[Route(path: '/admin/adminGestion', name: 'adminGestion')]
     public function adminGestion(AdminRepository $adminRepository = null): Response
     {
-        $path = [['Tableau de bord', 'texts'], ['Gestion des admins', 'adminGestion']];
+        $path = [['Tableau de bord', 'backoffice_dashboard'], ['Gestion des admins', 'adminGestion']];
 
         $admins = $adminRepository->findAll();
 
@@ -78,7 +79,7 @@ class BackOfficeController extends AbstractController
     #[Route(path: "/admin/adminGestion/delete/{id}", name: "adminDelete")]
     public function adminDelete(AdminRepository $adminRepository, int $id): Response
     {
-        $path = [['Tableau de bord', 'texts'], ['Gestion des admins', 'adminGestion']];
+        $path = [['Tableau de bord', 'backoffice_dashboard'], ['Gestion des admins', 'adminGestion']];
 
         $admin = $adminRepository->find($id);
 
@@ -98,7 +99,7 @@ class BackOfficeController extends AbstractController
     #[Route(path: '/admin/sondage', name: 'backoffice_sondage')]
     public function survey(SurveyRepository $surveyRepo): Response
     {
-        $path = [['Infos', 'texts'], ['Sondage', 'backoffice_sondage']];
+        $path = [['Tableau de bord', 'backoffice_dashboard'], ['Sondage', 'backoffice_sondage']];
 
         $questions = $surveyRepo->totalResponseBySurvey();
         $responses = $surveyRepo->totalResponseByQuestion();
@@ -134,6 +135,28 @@ class BackOfficeController extends AbstractController
             'path' => $path,
             'members' => $members,
             'forms' => $forms,
+        ]);
+    }
+
+    #[Route(path: '/admin/dashboard', name: 'backoffice_dashboard')]
+    public function dashboard(SurveyRepository $surveyRepo, CkeditorRepository $ckeditorRepo, ContactRepository $contactRepo): Response
+    {
+        $path = [['Tableau de bord', 'backoffice_dashboard']];
+
+        $ckeditor = $ckeditorRepo->findByPage('HomePage');
+        $message = $contactRepo->getLastMessage();
+
+        $questions = $surveyRepo->totalResponseBySurveyActive();
+        $responses = $surveyRepo->totalResponseByQuestionActive();
+
+        return $this->render('backoffice/index.html.twig', [
+            'path' => $path,
+            'questions' => $questions,
+            'responses' => $responses,
+            'ckeditor' => $ckeditor,
+            'message' => $message,
+            // encode responses en JSON pour l'utiliser en JS
+            'responses_json' => json_encode($responses),
         ]);
     }
 }

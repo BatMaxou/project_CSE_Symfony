@@ -1,3 +1,234 @@
 {% extends 'backoffice-page.html.twig' %}
 
-{% block content %}{% endblock %}
+{% block title %}
+	CSE - Dashboard
+{% endblock %}
+
+{% block content %}
+
+	<div id="dashboard">
+		<h1>Bienvenue sur votre espace admin</h1>
+		<div id="presentation-logout">
+			<div class="card" id="text-cse-presentation">
+				{{ ckeditor[0].content|raw }}
+			</div>
+			<div class="card" id="profil-logout">
+				<div class="card-body">
+					<div class="card-content">
+						<p>
+							Vous êtes connecté avec l’adresse mail :
+							{{ app.user.email }}
+							avec le
+							{{ app.user.roles[0]|replace({'_': ' '})|lower }}
+						</p>
+						<a href="{{ path('app_logout') }}" class="btn btn-edit">Se déconnecter</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="msg-stat-survey">
+			<div id="msg-stat">
+				<h2>Dernier message reçu</h2>
+				{% if message is empty %}
+					<div id="no-message">
+						<div class="card">
+							<h3>Aucun nouveau message pour le moment</h3>
+							<div class="card-content">
+								<a class="btn btn-edit" href="{{ path('contact') }}">Consulter tous les messages</a>
+							</div>
+						</div>
+					</div>
+				{% else %}
+					{% for msg in message %}
+						<div class="card" id="last-message">
+							<div class="card-body">
+								<div class="card-content">
+									<div class="card-body">
+										<p>
+											De :
+											{{ msg.email }}
+										</p>
+										<p id="p-msg">
+											Message :
+											{{ msg.message }}
+										</p>
+									</div>
+									<div class="card-footer">
+										<a class="btn btn-edit" href=" {{ path('contact') }} ">Consulter tous les messages</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					{% endfor %}
+				{% endif %}
+
+				<div id="stat-cse-dashboard">
+					<h2>Le CSE en quelques chiffres</h2>
+					<div class="card">
+						<div class="card-content">
+							<div>
+								<canvas id="stat-cse"></canvas>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			{% if responses is empty and questions is empty %}
+				<div id="no-survey">
+					<div class="card">
+						<h3>Pas de sondage activé pour le moment</h3>
+						<div class="card-content">
+							<a class="btn btn-edit" href="{{ path('backoffice_sondage') }}">Activer ou ajouter un sondage</a>
+						</div>
+					</div>
+				</div>
+			{% else %}
+				<div
+					id="survey-active-dashboard">
+					{# initialise une variable unique_questions à un tableau vide qui sera utilisé pour stocker chaque question unique une seule fois #}
+					{% set unique_questions = [] %}
+
+					{% for question in questions %}
+						{# vérifie si la question a déjà été ajoutée à la liste unique_questions #}
+						{% if question not in unique_questions %}
+							{# si la question n'a pas encore été ajoutée, elle est ajoutée à la liste unique_questions #}
+							{% set unique_questions = unique_questions|merge([question]) %}
+
+							<div class="card">
+								<div class="card-content">
+									<h2 class="question">{{ question.question }}</h2>
+									<div class="content-chart">
+										<canvas class="chart" data-question="{{ question.question }}"></canvas>
+									</div>
+									<ul>
+										{% set i = 1 %}
+										{% for response in responses %}
+											{# vérifie si la réponse correspond à la question #}
+											{% if response.question == question.question %}
+												<li>
+													<div class="survey-response-{{i}} survey-response">
+														<div class="label"></div>
+														<p>
+															{{ response.text }}
+														</p>
+														<span class="resultResponse">
+															{{ response.responses * 100 // question.total_responses }}
+															%
+														</span>
+													</div>
+												</li>
+												{% set i = i + 1 %}
+											{% endif %}
+										{% endfor %}
+									</ul>
+									<div class="info-survey">
+										<p>
+											Sondage crée le
+											{{ question.datetime|date('d/m/Y') }}
+										</p>
+										<p>
+											{{ question.total_responses }}
+											réponses au total
+										</p>
+									</div>
+								</div>
+							</div>
+						{% endif %}
+					{% endfor %}
+				</div>
+
+
+			{% endif %}
+
+
+		</div>
+
+
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script>
+		// on récupère les réponses depuis le twig converties en json
+const responses = JSON.parse('{{ responses_json|e('js') }}');
+const charts = document.querySelectorAll('.chart');
+
+charts.forEach(chart => {
+const question = chart.dataset.question;
+// on va créer un tableau qui va contenir uniquement les réponses qui sont associé à la question
+const questionResponses = responses.filter(response => response.question === question);
+
+// la fonction map va permettre de recupérer le text de chaque objet et de placer ce text dans un tableau
+const data = { // labels: questionResponses.map(response => response.text),
+datasets: [
+{ // labels: question,
+data: questionResponses.map(response => response.responses),
+label: [' Nombre de vote '],
+backgroundColor: [
+'#36a2eb',
+'#ff6384',
+'#4bc0c0',
+'#ff9f40',
+'#9966ff',
+'#ffcd56',
+'#c9cbcf'
+],
+// plus c'est grand plus ça met de l'espace entre chaque section du grave au hover
+hoverOffset: 5
+}
+]
+
+
+};
+
+new Chart(chart, {
+type: 'doughnut',
+data: data,
+// options: {
+// interaction: {
+// enabled: false
+// /},
+// pour retirer le hover
+// interaction: {mode: null},
+// }
+});
+});
+
+const ctx = document.getElementById('stat-cse');
+
+new Chart(ctx, {
+type: 'bar',
+data: {
+labels: [
+'Red',
+'Blue',
+'Yellow',
+'Green',
+'Purple',
+'Orange'
+],
+datasets: [
+{
+label: '# of Votes',
+data: [
+12,
+19,
+3,
+5,
+2,
+3
+],
+borderWidth: 1
+}
+]
+},
+options: {
+scales: {
+y: {
+beginAtZero: true
+}
+}
+}
+});
+	</script>
+{% endblock %}
