@@ -17,34 +17,38 @@ final class MemberType extends AbstractType
             ->add('firstName', TextType::class, [
                 'label' => 'Prénom',
                 'required' => true,
+                'disabled' => true,
                 'attr' => [
                     'placeholder' => "Prénom",
-                    'class' => 'form-input'
+                    'class' => 'form-input form-input-disabled'
                 ]
             ])
             ->add('lastName', TextType::class, [
                 'label' => 'Nom',
                 'required' => true,
+                'disabled' => true,
                 'attr' => [
                     'placeholder' => "Nom",
-                    'class' => 'form-input'
+                    'class' => 'form-input form-input-disabled'
                 ]
             ])
             ->add('function', TextType::class, [
                 'label' => 'Fonction',
                 'required' => true,
+                'disabled' => true,
                 'attr' => [
                     'placeholder' => "Fonction",
-                    'class' => 'form-input'
+                    'class' => 'form-input form-input-disabled'
                 ]
             ])
             ->add('profil', FileType::class, [
                 'label' => 'Choisir une image',
+                'disabled' => true,
                 'attr' => [
                     'class' => 'form-file-input'
                 ],
                 'label_attr' => [
-                    'class' => 'form-file-label'
+                    'class' => 'form-file-label form-file-label-disabled'
                 ]
             ]);
     }

@@ -1,18 +1,27 @@
+{% block flash %}
+	{% include "includes/_flash.html.twig" %}
+{% endblock %}
+
 <div id="navbar">
-	<div class="gray">
-		{% block flash %}
-			{% include "includes/_flash.html.twig" %}
-		{% endblock %}
-	</div>
-	<div class="blue">
+	<div class="gray"></div>
+
+	{% if menu == 'base' %}
+		{% set back = '' %}
+		{% set pathLogo = 'home' %}
+	{% elseif menu == 'back' %}
+		{% set back = '-backoffice' %}
+		{% set pathLogo = 'backoffice_text' %}
+	{% endif %}
+
+	<div class="{{ 'blue' ~ back }}">
 		<div class="navbar-content">
-			<button id="navPerso-toggler" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+			<button id="navbar-toggler" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="line-toggler"></span>
 				<span class="line-toggler"></span>
 				<span class="line-toggler"></span>
 			</button>
-			<div class="img-container">
-				<a href="{{ path('home') }}">
+			<div class="{{ 'img-container' ~ back }}">
+				<a href="{{ path(pathLogo) }}">
 					<img src="{{ asset('images/logo.jpg') }}" alt="logo-SV"/>
 				</a>
 			</div>
@@ -29,7 +38,7 @@
 		{% endblock %}
 	</div>
 </div>
-<div id="current-navigation">
+<div id="{{ 'current-navigation' ~ back }}">
 	{% if menu == 'base' %}
 		<img src="{{ asset('images/home.svg') }}" alt="home">
 	{% elseif menu == 'back' %}

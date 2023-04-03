@@ -34,6 +34,10 @@ p {
     margin: 0;
 }
 
+h1 {
+    color: var(--color-primary);
+}
+
 h2 {
     color: var(--color-primary);
 }
@@ -65,7 +69,13 @@ textarea:focus::placeholder {
     background-color: #EFEDED;
     border: none;
     border-bottom: 1px solid black;
-    padding: 5px 0;
+    padding: 5px;
+}
+
+.form-input-disabled,
+.form-file-label-disabled {
+    background-color: rgba(0, 0, 0, 0.1);
+    color: #000;
 }
 
 .form-file-input {
@@ -73,15 +83,21 @@ textarea:focus::placeholder {
 }
 
 .form-file-label {
-    cursor: pointer;
-    border: 1px solid var(--color-primary);
     padding: 5px;
-    color: var(--color-primary);
     font-size: 13px;
 }
 
-.form-file-label:hover {
-    background-color: var(--color-primary);
+.form-file-label-disabled {
+    border: 1px solid transparent;
+}
+
+.form-file-label-active {
+    cursor: pointer;
+    border: 1px solid var(--color-primary);
+}
+
+.form-file-label-active:hover {
+    background-color: var(--color-primary) !important;
     color: #fff;
 }
 
@@ -217,11 +233,19 @@ textarea:focus::placeholder {
     background-color: #d4d4d4;
 }
 
-#navbar .blue {
+#navbar .blue,
+#navbar .blue-backoffice {
     width: 100%;
-    height: 50px;
     padding-inline: 10px;
     background-color: var(--color-primary);
+}
+
+#navbar .blue {
+    height: 50px;
+}
+
+#navbar .blue-backoffice {
+    height: 100px;
 }
 
 #navbar .navbar-content {
@@ -233,13 +257,25 @@ textarea:focus::placeholder {
     height: 50px;
 }
 
-#navbar .img-container {
+#navbar .img-container,
+#navbar .img-container-backoffice {
     position: absolute;
     left: 0;
-    bottom: 0;
     width: 200px;
-    /* A CHANGER SELON L'IMAGE */
-    height: 103px;
+    background-color: white;
+    display: flex;
+    align-items: center;
+}
+
+#navbar .img-container {
+    height: 100px;
+    bottom: 0;
+
+}
+
+#navbar .img-container-backoffice {
+    height: 150px;
+    bottom: -50px;
 }
 
 #navbar .navbar-menu {
@@ -262,45 +298,55 @@ textarea:focus::placeholder {
     background-color: #b6a886;
 }
 
-#current-navigation {
+#current-navigation,
+#current-navigation-backoffice {
     max-width: 1000px;
     padding-inline: 10px;
     margin: 0 auto;
-}
-
-#current-navigation,
-#current-navigation ul,
-#current-navigation li {
-    display: flex;
-}
-
-#current-navigation ul {
-    flex-wrap: wrap;
 }
 
 #current-navigation {
     margin-top: 100px;
 }
 
-#current-navigation img {
+#current-navigation-backoffice {
+    margin-top: 150px;
+}
+
+#current-navigation,
+#current-navigation-backoffice,
+#current-navigation ul,
+#current-navigation-backoffice ul,
+#current-navigation li,
+#current-navigation-backoffice li {
+    display: flex;
+}
+
+#current-navigation ul,
+#current-navigation-backoffice ul {
+    flex-wrap: wrap;
+    padding: 0;
+}
+
+#current-navigation img,
+#current-navigation-backoffice img {
     width: 25px;
     height: 50px;
 }
 
-#current-navigation ul {
-    padding: 0;
-}
-
-#current-navigation li img {
+#current-navigation li img,
+#current-navigation-backoffice li img {
     height: 18px;
 }
 
-#current-navigation li a {
+#current-navigation li a,
+#current-navigation-backoffice li a {
     color: var(--color-secondary);
     font-weight: bold;
 }
 
-#current-navigation li a:hover {
+#current-navigation li a:hover,
+#current-navigation-backoffice li a:hover {
     text-decoration: underline;
 }
 
@@ -309,13 +355,23 @@ textarea:focus::placeholder {
 }
 
 @media (max-width: 850px) {
-    #navbar .blue {
-        padding-inline: 0;
+    #navbar .blue-backoffice {
+        height: 50px;
     }
 
-    #navbar .img-container {
+    #current-navigation-backoffice {
+        margin-top: 100px;
+    }
+
+    #navbar .img-container,
+    #navbar .img-container-backoffice {
         left: 50%;
         transform: translateX(-50%);
+    }
+
+    #navbar .img-container-backoffice {
+        height: 100px;
+        bottom: 0;
     }
 
     #navbar .navbar-content ul {
@@ -360,9 +416,8 @@ textarea:focus::placeholder {
 
 /*NAVBAR TOGGLER*/
 
-#navPerso-toggler {
+#navbar-toggler {
     position: relative;
-    margin-left: 10px;
     margin-top: 5px;
     width: 40px;
     height: 40px;
@@ -399,7 +454,7 @@ textarea:focus::placeholder {
 }
 
 @media (min-width: 850px) {
-    #navPerso-toggler {
+    #navbar-toggler {
         display: none;
     }
 }
@@ -1392,10 +1447,6 @@ textarea:focus::placeholder {
 
 #backoffice-admin {
     width: 100%;
-}
-
-#backoffice-admin h1 {
-    color: var(--color-primary);
 }
 
 .div-admin form {
