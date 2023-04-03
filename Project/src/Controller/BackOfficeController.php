@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Form\TextType;
-use App\Form\TextType;
 use App\Form\MemberType;
 use App\Entity\Partnership;
 use App\Form\AdminFormType;
@@ -11,6 +10,7 @@ use App\Form\PartnershipType;
 use App\Repository\AdminRepository;
 use App\Repository\MemberRepository;
 use App\Repository\SurveyRepository;
+use App\Repository\ContactRepository;
 use App\Repository\CkeditorRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\PartnershipRepository;
