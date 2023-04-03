@@ -1,6 +1,6 @@
 <ul class="navbar-menu">
 	<li>
-		<a href="{{ path('backoffice_dashboard') }}">Dashboard</a>
+		<a href="{{ path('backoffice_dashboard') }}">Tableau de bord</a>
 	</li>
 	<li>
 		<a href="{{ path('backoffice_text') }}">Textes enrichis</a>
@@ -20,9 +20,17 @@
 	<li>
 		<a href="#">Messages</a>
 	</li>
+
+	{% if is_granted('ROLE_SUPER_ADMIN') %}
+		<li>
+			<a href="{{ path('backoffice_account') }}">Comptes</a>
+		</li>
+	{% endif %}
+
 	<li>
-		<a href="{{ path('backoffice_account') }}">Comptes</a>
+		<a href="{{ path('home') }}">Retour au site</a>
 	</li>
+
 	<li>
 		<a href="{{ path('app_logout') }}">Déconnexion</a>
 	</li>

@@ -27,7 +27,7 @@ class BackOfficeController extends AbstractController
     #[Route(path: '/admin/textes', name: 'backoffice_text')]
     public function texts(CkeditorRepository $rep): Response
     {
-        $path = [['Tableau de bord', 'backoffice_text'], ['Textes', 'backoffice_text']];
+        $path = [['Tableau de bord', 'backoffice_dashboard'], ['Textes', 'backoffice_text']];
 
         $texts = [
             'homepage' => $rep->findByZone('HomePage', 'zone'),
@@ -49,11 +49,10 @@ class BackOfficeController extends AbstractController
     }
 
     // Page d'affichage / modification d'un admin
-    // #[Route(path: "/admin/adminGestion/add", name: "adminAdd")]
     #[Route(path: '/admin/adminGestion', name: 'backoffice_account')]
     public function adminGestion(AdminRepository $adminRepository = null): Response
     {
-        $path = [['Tableau de bord', 'backoffice_text'], ['Gestion des admins', 'backoffice_account']];
+        $path = [['Tableau de bord', 'backoffice_dashboard'], ['Gestion des admins', 'backoffice_account']];
 
         $admins = $adminRepository->findAll();
 
@@ -99,7 +98,7 @@ class BackOfficeController extends AbstractController
     #[Route(path: '/admin/backoffice_survey', name: 'backoffice_survey')]
     public function survey(SurveyRepository $surveyRepo): Response
     {
-        $path = [['Infos', 'backoffice_text'], ['Sondage', 'backoffice_survey']];
+        $path = [['Tableau de bord', 'backoffice_dashboard'], ['Sondage', 'backoffice_survey']];
 
         $questions = $surveyRepo->totalResponseBySurvey();
         $responses = $surveyRepo->totalResponseByQuestion();
@@ -116,7 +115,7 @@ class BackOfficeController extends AbstractController
     #[Route(path: '/admin/membres', name: 'backoffice_member')]
     public function member(MemberRepository $rep): Response
     {
-        $path = [['Tableau de bord', 'backoffice_text'], ['Membre', 'backoffice_member']];
+        $path = [['Tableau de bord', 'backoffice_dashboard'], ['Membres', 'backoffice_member']];
 
         $members = $rep->findAll();
 

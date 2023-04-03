@@ -1,7 +1,7 @@
 {% extends 'backoffice-page.html.twig' %}
 
 {% block title %}
-	CSE - Backoffice sondage
+	CSE - Backoffice stats sondages
 {% endblock %}
 
 {% block content %}
@@ -40,12 +40,6 @@
 												<span class="resultResponse">
 													{{ response.responses * 100 // question.total_responses }}
 													%
-													{# ({{ response.responses }}
-																																																																																																																																																																																																																																																																																																																																																																																																																																																										{% if response.responses > 1 %}
-																																																																																																																																																																																																																																																																																																																																																																																																																																																											votes)
-																																																																																																																																																																																																																																																																																																																																																																																																																																																										{% else %}
-																																																																																																																																																																																																																																																																																																																																																																																																																																																											vote)
-																																																																																																																																																																																																																																																																																																																																																																																																																																																										{% endif %} #}
 												</span>
 											</div>
 										</li>
@@ -55,7 +49,7 @@
 							</ul>
 							<div class="info-survey">
 								<p>
-									Sondage crée le
+									Sondage créé le
 									{{ question.datetime|date('d/m/Y') }}
 								</p>
 								<p>

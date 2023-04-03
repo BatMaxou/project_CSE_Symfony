@@ -5,12 +5,10 @@
 <div id="navbar">
 	<div class="gray"></div>
 
-	{% if menu == 'base' %}
-		{% set back = '' %}
-		{% set pathLogo = 'home' %}
-	{% elseif menu == 'back' %}
+	{% if is_granted('ROLE_ADMIN') %}
 		{% set back = '-backoffice' %}
-		{% set pathLogo = 'backoffice_text' %}
+	{% else %}
+		{% set back = '' %}
 	{% endif %}
 
 	<div class="{{ 'blue' ~ back }}">
@@ -21,7 +19,7 @@
 				<span class="line-toggler"></span>
 			</button>
 			<div class="{{ 'img-container' ~ back }}">
-				<a href="{{ path(pathLogo) }}">
+				<a href="{{ path('home') }}">
 					<img src="{{ asset('images/logo.jpg') }}" alt="logo-SV"/>
 				</a>
 			</div>

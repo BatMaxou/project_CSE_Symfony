@@ -47,7 +47,7 @@ class AdminAuthenticator extends AbstractLoginFormAuthenticator
         }
 
         // For example:
-        return new RedirectResponse($this->urlGenerator->generate('backoffice_text'));
+        return new RedirectResponse($this->urlGenerator->generate('backoffice_dashboard'));
         // throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
     }
 
