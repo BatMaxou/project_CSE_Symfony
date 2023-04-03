@@ -85,7 +85,8 @@ textarea:focus::placeholder {
 #contact,
 #backoffice-partnership,
 #texts,
-#backoffice-survey {
+#backoffice-survey,
+#dashboard {
     width: 100%;
 }
 
@@ -94,7 +95,9 @@ textarea:focus::placeholder {
 #offer h1,
 #contact h1,
 #texts h1,
-#backoffice-survey h1 {
+#backoffice-survey h1,
+#dashboard-left h1,
+#dashboard {
     margin-bottom: 10px;
 }
 
@@ -1525,4 +1528,204 @@ textarea:focus::placeholder {
 #texts button[type="submit"] {
     float: right;
     margin-bottom: 20px;
+}
+
+/* DASHBOARD */
+#dashboard h2 {
+    margin-bottom: 10px;
+}
+
+#presentation-logout {
+    display: flex;
+    gap: 15px;
+}
+
+#presentation-logout #text-cse-presentation {
+    height: 60px;
+    overflow: hidden;
+    width: 60%;
+}
+
+#presentation-logout #profil-logout {
+    text-align: center;
+    width: 35%;
+}
+
+#dashboard .card-content a {
+    display: block;
+    width: 120px;
+    margin: 20px auto 0;
+}
+
+#dashboard .card-footer a {
+    display: block;
+    width: auto;
+    margin: 20px auto 0;
+    text-align: center;
+}
+
+#dashboard .card .card-body {
+    margin-bottom: 10px;
+}
+
+#msg-stat-survey {
+    display: flex;
+    gap: 15px;
+}
+
+#msg-stat {
+    width: 60%;
+    margin-top: -60px;
+}
+
+#survey-active-dashboard {
+    width: 40%;
+}
+
+@media(max-width: 850px) {
+
+    #presentation-logout,
+    #msg-stat-survey {
+        flex-wrap: wrap;
+    }
+
+    #presentation-logout #text-cse-presentation,
+    #presentation-logout #profil-logout,
+    #msg-stat,
+    #survey-active-dashboard,
+    #no-survey {
+        width: 100%;
+    }
+
+    #presentation-logout #profil-logout {
+        margin-left: 0;
+    }
+
+    #msg-stat {
+        margin-top: 0px;
+    }
+}
+
+#last-message {
+    overflow: hidden;
+    height: 190px;
+}
+
+#last-message .card-footer a,
+#last-message .card-footer a:hover {
+    color: white;
+}
+
+#survey-active-dashboard {
+    text-align: center;
+}
+
+#survey-active-dashboard ul {
+    list-style: none;
+    padding: 0;
+}
+
+#survey-active-dashboard li {
+    margin-bottom: 15px;
+}
+
+#dashboard .chart {
+    height: 250px !important;
+    width: 250px !important;
+}
+
+.content-chart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#survey-active-dashboard .label {
+    width: 40px;
+    height: 40px;
+}
+
+#no-survey .card-content a,
+#no-message .card-content a {
+    width: auto;
+    text-align: center;
+}
+
+#no-survey h3,
+#no-message h3 {
+    text-align: center;
+}
+
+#p-msg {
+    overflow: hidden;
+    line-height: 20px;
+    height: calc(5 * 20px);
+    position: relative;
+}
+
+/* BACKOFFICE PARTNERSHIP */
+
+#backoffice-partnership {
+    width: 100%;
+}
+
+#backoffice-partnership .card-body,
+#backoffice-text .card-body {
+    display: flex;
+    gap: 20px;
+}
+
+#partnership .card-image img,
+#backoffice-partnership .card-body img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+}
+
+@media(max-width: 850px) {
+
+    #partnership .card-body,
+    #backoffice-partnership .card-body,
+    #backoffice-text .card-body {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+#backoffice-partnership .card-footer {
+    display: flex;
+    justify-content: flex-end;
+}
+
+#backoffice-partnership .card-content {
+    width: 100%;
+}
+
+/* #backoffice-partnership .btnSave {
+    display: none;
+} */
+
+.input {
+    border: none;
+    padding: 15px 0;
+    margin-bottom: 15px;
+}
+
+.input-name {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: var(--color-secondary);
+}
+
+.input-description {
+    resize: none;
+    overflow: auto;
+    width: 95%;
+    max-height: 100px;
+    min-height: 25px;
+}
+
+.input-link {
+    color: var(--color-primary);
+    padding-left: 0;
 }

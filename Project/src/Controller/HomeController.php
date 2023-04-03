@@ -42,16 +42,20 @@ class HomeController extends AbstractController
 
     public function formSurvey(SurveyRepository $surveyRepo, ResponseRepository $responseRepo): Response
     {
-        // get the question active of the survey
-        $questionActive = $surveyRepo->findQuestionActive();
+        try {
+            // get the question active of the survey
+            $questionActive = $surveyRepo->findQuestionActive();
 
-        // get response associated at the question of the survey
-        $responseQuestion = $responseRepo->findResponseById($questionActive->getId());
+            // get response associated at the question of the survey
+            $responseQuestion = $responseRepo->findResponseById($questionActive->getId());
 
-        $form = $this->createForm(UserResponseType::class, null, [
-            'action' => '/post/survey',
-            'method' => 'POST'
-        ]);
+            $form = $this->createForm(UserResponseType::class, null, [
+                'action' => '/post/survey',
+                'method' => 'POST'
+            ]);
+        } catch (\Throwable $th) {
+            return new Response("Aucun sondage disponible pour le moment");
+        }
 
         return $this->render('includes/form/_survey.html.twig', [
             'form' => $form,
@@ -143,46 +147,13 @@ class HomeController extends AbstractController
         // get 3 random image from database
         $imgPartner = $partnershipRepo->imagePartner();
 
-        // get the question active of the survey
-        $questionActive = $surveyRepo->findQuestionActive();
-
-        // get response associated at the question of the survey
-        $responseQuestion = $responseRepo->findResponseById($questionActive->getId());
-
-        $userResponse = new UserResponse();
-        $form = $this->createForm(UserResponseType::class, $userResponse);
-        $form->handleRequest($request);
-
-        $sub = new Subscriber();
-        $formSub = $this->createForm(SubscriberType::class, $sub);
-        $formSub->handleRequest($request);
-
-        if ($form->isSubmitted()) {
-            try {
-                // get id of the respons by a search name for set response of the create UserResponse
-                $response = $responseRepo->findIdResponseOfName($request->get("radio_response"));
-
-                $userResponse->setResponse($response);
-                $manager->persist($userResponse);
-                $manager->flush();
-
-                $this->addFlash('success', 'Réponse enregistrée, merci de votre participation !');
-            } catch (\Throwable $th) {
-                $this->addFlash('error', 'Une erreur imprévu est survenu, veillez recharger la puis réessayer.');
-            }
-        }
-
         return $this->render('ticketing/index.html.twig', [
             'path' => $path,
             'ticketingsPermanent' => $ticketingsPermanent,
             'ticketingsLimited' => $ticketingsLimited,
             'imageTicketing' => $imageTicketing,
             'partnership' => $partnership,
-            'image' => $imgPartner,
-            'question' => $questionActive,
-            'response' => $responseQuestion,
-            'form' => $form->createView(),
-            'formSub' => $formSub->createView(),
+            'image' => $imgPartner
         ]);
     }
 
