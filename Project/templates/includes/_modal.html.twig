@@ -16,15 +16,24 @@
 
 			<div class="btn-container">
 
-				{% if options.modifButton is defined and options.modifButton == true %}
-					<button type="submit" class="btn btn-modal btn-edit">Modifier</button>
+				{% if options.cancelButton is defined and options.cancelButton == true  %}
+					<button class="btn btn-modal btn-close">Annuler</button>
+				{% else %}
+					<button class="btn btn-modal btn-close">Fermer</button>
 				{% endif %}
 
-				{% if options.suppButton is defined and options.suppButton == true  %}
-					<button type="submit" class="btn btn-modal btn-delete">Supprimer</button>
+
+				{% if options.addButton is defined and options.addButton == true  %}
+					<button type="submit" class="btn btn-modal btn-edit">Confirmer l'ajout</button>
 				{% endif %}
 
-				<button class="btn btn-modal btn-close">Fermer</button>
+				{% if options.editButton is defined and options.editButton == true %}
+					<button type="submit" class="btn btn-modal btn-edit">Confirmer la modification</button>
+				{% endif %}
+
+				{% if options.deleteButton is defined and options.deleteButton == true  %}
+					<button type="submit" class="btn btn-modal btn-delete">Confirmer la suppression</button>
+				{% endif %}
 
 			</div>
 		</div>

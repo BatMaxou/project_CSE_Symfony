@@ -9,39 +9,80 @@
 	<div id="backoffice-admin">
 		<h1>Gestion des administrateurs</h1>
 
+		{% block modal %}
+
+			{% include "includes/_modal.html.twig" with {
+				type: 'add',
+				title: 'Attention, ajout en cours !', 
+				content: 
+					"<p class='modal-question'>Vous êtes sur le point d'ajouter l'administrateur : </p>" ~ 
+					"<div class='content-admin-add'>" ~ 
+						"<p class='modal-recap add-admin-add'></p>" ~ 
+						"<p class='modal-recap add-admin-add'></p>" ~ 
+						"<p class='modal-recap add-admin-add'></p>" ~ 
+					"</div>" ~ 
+					"<p class='modal-question'>Êtes-vous sûr de vouloir ajouter cet administrateur ?</p>"
+				, 
+				options: {
+					cancelButton: true,
+					addButton: true
+				}
+			} %}
+
+			{% include "includes/_modal.html.twig" with {
+				type: 'edit',
+				title: 'Attention, modification en cours !', 
+				content: 
+					"<p class='modal-question'>Vous êtes sur le point de modifier l'administrateur : </p>" ~ 
+					"<div class='content-admin-edit'>" ~ 
+						"<p class='modal-recap edit-admin-email'></p>" ~ 
+						"<p class='modal-recap edit-admin-password'></p>" ~ 
+						"<p class='modal-recap edit-admin-roles'></p>" ~ 
+					"</div>" ~ 
+					"<p class='modal-question'>Êtes-vous sûr de vouloir modifier cet administrateur ?</p>"
+				, 
+				options: {
+					cancelButton: true,
+					editButton: true
+				}
+			} %}
+
+			{% include "includes/_modal.html.twig" with {
+				type: 'delete',
+				title: 'Attention, suppression en cours !', 
+				content: 
+					"<p class='modal-question'>Vous êtes sur le point de supprimer l'administrateur : </p>" ~ 
+					"<p class='modal-recap delete-admin-email'></p>" ~ 
+					"<p class='modal-question'>Êtes-vous sûr de vouloir supprimer cet administrateur ?</p>"
+				, 
+				options: {
+					cancelButton: true,
+					deleteButton: true
+				}
+			} %}
+		{% endblock %}
+
+		<h2>Ajouter un administrateurs</h2>
+
+		<div class="card">
+			<div class="card-body">
+				<div class="add-admin">
+
+					{{ form_start(formAdd, {'attr': {'class': 'add-form'}}) }}
+					{{ form_row(formAdd.email, { 'attr': { class: 'form-input' }, 'disabled': false}) }}
+					{{ form_row(formAdd.plainPassword, { 'attr': { class: 'form-input' }, 'disabled': false}) }}
+					{{ form_row(formAdd.roles, { 'attr': { class: 'form-input' }, 'disabled': false}) }}
+					<button class="btn btn-edit modal-open-add">
+						Ajouter
+					</button>
+					{{ form_end(formAdd) }}
+				</div>
+
+			</div>
+		</div>
+
+		<h2>Les administrateurs</h2>
 		<div class="div-admin">
-
-			{% block modal %}
-				{% include "includes/_modal.html.twig" with {
-					type: 'edit',
-					title: 'Attention, modification en cours !', 
-					content: 
-						"<p class='modal-question'>Vous êtes sur le point de modifier l'admin : </p>" ~ 
-						"<div class='content-admin-edit'>" ~ 
-							"<p class='modal-recap edit-admin-email'></p>" ~ 
-							"<p class='modal-recap edit-admin-password'></p>" ~ 
-							"<p class='modal-recap edit-admin-roles'></p>" ~ 
-						"</div>" ~ 
-						"<p class='modal-question'>Êtes vous sur de vouloir le modifier ?</p>"
-					, 
-					options: {
-						modifButton: true
-					}
-				} %}
-
-				{% include "includes/_modal.html.twig" with {
-					type: 'delete',
-					title: 'Attention, suppression en cours !', 
-					content: 
-						"<p class='modal-question'>Vous êtes sur le point de supprimer l'admin : </p>" ~ 
-						"<p class='modal-recap delete-admin-email'></p>" ~ 
-						"<p class='modal-question'>Êtes vous sur de vouloir le supprimer ?</p>"
-					, 
-					options: {
-						suppButton: true
-					}
-				} %}
-			{% endblock %}
 
 			{% for key, admin in admins %}
 
@@ -55,15 +96,13 @@
 
 						{{ form_row(formEdits[key].email, {value: admin.email}) }}
 
-						{{ form_row(formEdits[key].plainPassword, {}) }}
+						{{ form_row(formEdits[key].plainPassword, {required: false}) }}
 
 						{% if admin.roles[0] == "ROLE_ADMIN" %}
 							{{ form_row(formEdits[key].roles, {value: 1}) }}
 						{% else %}
 							{{ form_row(formEdits[key].roles, {value: 2}) }}
 						{% endif %}
-
-						{# <div class="crud-admin"> #}
 
 						<div class="edit-admin">
 							<button class="btn btn-edit modal-open-edit">
@@ -82,8 +121,6 @@
 						</div>
 
 						{{ form_end(formDeletes[key], {'render_rest': false}) }}
-
-						{# </div> #}
 
 					</div>
 

@@ -57,6 +57,11 @@ class BackOfficeController extends AbstractController
 
         $admins = $adminRepository->findAll();
 
+        $formAdd = $this->createForm(AdminFormType::class, null, [
+            'action' => '/post/backoffice/admin-add',
+            'method' => 'POST',
+        ]);
+
         $formEdit = $this->createForm(AdminFormType::class, null, [
             'action' => '/post/backoffice/admin-edit',
             'method' => 'POST',
@@ -77,6 +82,7 @@ class BackOfficeController extends AbstractController
 
         return $this->render('/backoffice/admin/index.html.twig', [
             'paths' => $paths,
+            'formAdd' => $formAdd,
             'formEdits' => $formEdits,
             'formDeletes' => $formDeletes,
             'admins' => $admins,
@@ -178,24 +184,24 @@ class BackOfficeController extends AbstractController
         ]);
     }
 
-    // #[Route(path: '/admin/partenariat/{id}', name: 'backoffice_partnership')]
-    // public function deletePartnership(string $id, PartnershipRepository $partnershipRepo, Request $request, EntityManagerInterface $manager): Response
-    // {
-    //     $path = [['Tableau de bord', 'backoffice_dashboard'], ['Partenariat', 'backoffice_partnership']];
+// #[Route(path: '/admin/partenariat/{id}', name: 'backoffice_partnership')]
+// public function deletePartnership(string $id, PartnershipRepository $partnershipRepo, Request $request, EntityManagerInterface $manager): Response
+// {
+//     $path = [['Tableau de bord', 'backoffice_dashboard'], ['Partenariat', 'backoffice_partnership']];
 
-    //     $partnership = $partnershipRepo->find($id);
+//     $partnership = $partnershipRepo->find($id);
 
-    //     $form = $this->createForm(PartnershipType::class, null, [
-    //         'action' => '/post/edit-partnership',
-    //         'method' => 'POST',
-    //     ]);
+//     $form = $this->createForm(PartnershipType::class, null, [
+//         'action' => '/post/edit-partnership',
+//         'method' => 'POST',
+//     ]);
 
-    //     $form->createView();
+//     $form->createView();
 
-    //     return $this->render('backoffice/partnership/partnership.html.twig', [
-    //         'path' => $path,
-    //         'partnership' => $partnership,
-    //         'formPartnership' => $form,
-    //     ]);
-    // }
+//     return $this->render('backoffice/partnership/partnership.html.twig', [
+//         'path' => $path,
+//         'partnership' => $partnership,
+//         'formPartnership' => $form,
+//     ]);
+// }
 }
