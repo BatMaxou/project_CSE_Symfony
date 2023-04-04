@@ -1,8 +1,8 @@
 /*
 *   INCLUDE FLASH AVANT REQUEST
 */
-
 const modalBackgroundInfo = document.querySelector('.modal-background-info');
+const modalBackgroundAdd = document.querySelector('.modal-background-add');
 const modalBackgroundEdit = document.querySelector('.modal-background-edit');
 const modalBackgroundDelete = document.querySelector('.modal-background-delete');
 
@@ -41,6 +41,30 @@ function openModal(modalBackground, modal, modalHeader, modalBody, modalFooter) 
 
 function closeModal(modalBackground) {
     modalBackground.style.display = 'none';
+}
+
+if (modalBackgroundAdd) {
+    let modalAdd = modalBackgroundAdd.querySelector('.modal')
+    let modalHeader = modalBackgroundAdd.querySelector('.modal-header');
+    let modalBody = modalBackgroundAdd.querySelector('.modal-body');
+    let modalFooter = modalBackgroundAdd.querySelector('.modal-footer');
+    let btnOpenAdd = document.querySelector('.modal-open-add')
+    let modalClose = modalBackgroundAdd.querySelector('.modal-close');
+    let btnClose = modalBackgroundAdd.querySelector('.btn-close');
+
+    window.addEventListener("resize", () => handleHeightChange(modalAdd, modalHeader, modalBody, modalFooter))
+
+    btnOpenAdd.addEventListener('click', () => openModal(modalBackgroundAdd, modalAdd, modalHeader, modalBody, modalFooter))
+
+    modalClose.addEventListener('click', () => modalBackgroundAdd.style.display = "none");
+    btnClose.addEventListener('click', () => closeModal(modalBackgroundAdd));
+
+    // pour fermer lorsqu'on clique en dehors du modal  
+    modalBackgroundAdd.addEventListener('click', (event) => {
+        if (event.target == modalBackgroundAdd) {
+            closeModal(event.target);
+        }
+    })
 }
 
 if (modalBackgroundEdit) {

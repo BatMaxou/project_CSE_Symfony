@@ -143,7 +143,8 @@ textarea:focus::placeholder {
     margin-bottom: 10px;
 }
 
-#member h2 {
+#member h2,
+#backoffice-admin h2 {
     margin-bottom: 10px;
 }
 
@@ -1465,6 +1466,45 @@ textarea:focus::placeholder {
     gap: 10px;
 }
 
+.add-admin {
+    width: 100%;
+}
+
+.add-admin form {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.add-admin form div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.add-admin label {
+    color: var(--color-secondary);
+    font-weight: bold;
+    padding: 0;
+}
+
+.add-admin input {
+    outline: none;
+    background-color: #EFEDED;
+    border: none;
+    border-bottom: 1px solid black;
+    padding: 5px 0;
+}
+
+.add-admin select {
+    outline: none;
+    border: none;
+    background-color: #EFEDED;
+    border-bottom: 1px solid black;
+    padding: 5px 0;
+    width: 100%;
+}
+
 #backoffice-admin .edit-form {
     width: 100%;
 }
@@ -1510,15 +1550,6 @@ textarea:focus::placeholder {
 
 .delete-admin-email {
     margin: 10px 0;
-}
-
-.crud-admin {
-    justify-content: space-evenly;
-    flex-direction: unset !important;
-}
-
-.crud-admin div {
-    width: unset !important;
 }
 
 #backoffice-admin .card-body {

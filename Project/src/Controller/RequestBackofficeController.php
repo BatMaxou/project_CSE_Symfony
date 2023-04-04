@@ -59,8 +59,45 @@ class RequestBackofficeController extends AbstractController
         }
     }
 
-    #[Route(path: '/post/backoffice/admin-edit', name: 'post-admin', methods: ['POST'])]
-    public function postAdmin(AdminRepository $adminRepository, UserPasswordHasherInterface $adminPasswordHasher, Request $request): Response
+    #[Route(path: '/post/backoffice/admin-add', name: 'post-add-admin', methods: ['POST'])]
+    public function postAddAdmin(AdminRepository $adminRepository, UserPasswordHasherInterface $adminPasswordHasher, Request $request): Response
+    {
+        try {
+            // get id of the respons by a search name for set response of the create UserResponse
+
+            $admin = new Admin();
+
+            $admin->setEmail($request->get('admin_form')['email']);
+
+            if ($request->get('admin_form')['plainPassword'] != "") {
+                $admin->setPassword(
+                    $adminPasswordHasher->hashPassword(
+                        $admin,
+                        $request->get('admin_form')['plainPassword']
+                    )
+                );
+            }
+
+            if ($request->get('admin_form')['roles'] == 1) {
+                $admin->setRoles(
+                    ["ROLE_ADMIN"]
+                );
+            } else {
+                $admin->setRoles(
+                    ["ROLE_SUPER_ADMIN"]
+                );
+            }
+
+            $adminRepository->save($admin, true);
+
+            return new Response('L\'ajout à bien été effectué !', 200);
+        } catch (\Throwable $th) {
+            return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
+        }
+    }
+
+    #[Route(path: '/post/backoffice/admin-edit', name: 'post-edit-admin', methods: ['POST'])]
+    public function postEditAdmin(AdminRepository $adminRepository, UserPasswordHasherInterface $adminPasswordHasher, Request $request): Response
     {
         try {
             // get id of the respons by a search name for set response of the create UserResponse
@@ -91,14 +128,14 @@ class RequestBackofficeController extends AbstractController
 
             $adminRepository->save($admin, true);
 
-            return new Response('Réponse enregistrée, merci de votre participation !', 200);
+            return new Response('La modification a bien été effectué !', 200);
         } catch (\Throwable $th) {
             return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
         }
     }
 
-    #[Route(path: '/post/backoffice/admin-delete', name: 'delete-admin', methods: ['POST'])]
-    public function deleteAdmin(AdminRepository $adminRepository, UserPasswordHasherInterface $adminPasswordHasher, Request $request): Response
+    #[Route(path: '/post/backoffice/admin-delete', name: 'post-delete-admin', methods: ['POST'])]
+    public function postDeleteAdmin(AdminRepository $adminRepository, UserPasswordHasherInterface $adminPasswordHasher, Request $request): Response
     {
         try {
             // get id of the respons by a search name for set response of the create UserResponse
@@ -114,7 +151,7 @@ class RequestBackofficeController extends AbstractController
 
             $adminRepository->remove($admin, true);
 
-            return new Response('Réponse enregistrée, merci de votre participation !', 200);
+            return new Response('La suppression a bien été effectué !', 200);
         } catch (\Throwable $th) {
             return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
         }
