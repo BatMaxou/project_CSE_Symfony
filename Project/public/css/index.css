@@ -140,7 +140,8 @@ textarea:focus::placeholder {
 #texts h1,
 #backoffice-survey h1,
 #dashboard-left h1,
-#member h1 {
+#member h1,
+#backoffice-admin h1 {
     margin-bottom: 10px;
 }
 
@@ -1455,10 +1456,6 @@ textarea:focus::placeholder {
 
 #backoffice-admin {
     width: 100%;
-}
-
-#backoffice-admin h1 {
-    color: var(--color-primary);
 }
 
 #backoffice-admin .card-body {
