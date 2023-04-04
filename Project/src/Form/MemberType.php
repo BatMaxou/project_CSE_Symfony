@@ -44,6 +44,7 @@ final class MemberType extends AbstractType
             ->add('profil', FileType::class, [
                 'label' => 'Choisir une image',
                 'disabled' => true,
+                'required' => false,
                 'attr' => [
                     'class' => 'form-file-input'
                 ],

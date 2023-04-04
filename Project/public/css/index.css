@@ -75,6 +75,7 @@ textarea:focus::placeholder {
 .form-input-disabled,
 .form-file-label-disabled {
     background-color: rgba(0, 0, 0, 0.1);
+    border: none;
     color: #000;
 }
 
@@ -1487,23 +1488,6 @@ textarea:focus::placeholder {
     padding: 0;
 }
 
-.div-admin input {
-    outline: none;
-    background-color: #EFEDED;
-    border: none;
-    border-bottom: 1px solid black;
-    padding: 5px 0;
-}
-
-.div-admin select {
-    outline: none;
-    border: none;
-    background-color: #EFEDED;
-    border-bottom: 1px solid black;
-    padding: 5px 0;
-    width: 100%;
-}
-
 .password-form {
     gap: 10px !important;
 }
@@ -1512,13 +1496,10 @@ textarea:focus::placeholder {
     margin: 10px 0;
 }
 
-.crud-admin {
-    justify-content: space-evenly;
-    flex-direction: unset !important;
-}
-
-.crud-admin div {
-    width: unset !important;
+#backoffice-admin .edit-admin {
+    width: 140px;
+    flex-wrap: wrap;
+    align-content: flex-end;
 }
 
 #backoffice-admin .card-body {
@@ -1542,11 +1523,6 @@ textarea:focus::placeholder {
     .div-admin form div {
         margin: 10px 0;
         width: 300px;
-    }
-
-    .crud-admin {
-        width: 100%;
-        flex-direction: unset !important;
     }
 }
 
@@ -1642,7 +1618,8 @@ textarea:focus::placeholder {
 }
 
 #member .card {
-    width: 100%;
+    width: 45%;
+    margin-inline: 10px;
 }
 
 #member .card-body {
@@ -1674,7 +1651,27 @@ textarea:focus::placeholder {
     margin-inline: 5px;
 }
 
-@media(min-width: 750px) {
+@media(max-width: 1050px) {
+    #member {
+        justify-content: center;
+    }
+
+    #member .card {
+        width: 43%;
+    }
+}
+
+@media(max-width: 850px) {
+    #member {
+        justify-content: center;
+    }
+
+    #member .card {
+        width: 100%;
+    }
+}
+
+@media(max-width: 850px) and (min-width: 700px) {
     #member .card-content {
         text-align: center;
     }

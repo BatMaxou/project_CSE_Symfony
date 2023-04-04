@@ -10,7 +10,6 @@ saveBtns.forEach(btn => {
 const deleteAnim = gsap.timeline({ paused: true });
 
 const handleBtnDelete = (index) => {
-    // e.preventDefault()
 
     // suppression de la hauteur de la carte sur 1 seconde puis supprimer du DOM
     deleteAnim.to(cards[index], {
@@ -28,6 +27,30 @@ const handleBtnDelete = (index) => {
     deleteAnim.play()
 }
 
+// création d'une timeline et paused sur true pour pas que ça se lance des le load de la page
+const editAnim = gsap.timeline({ paused: true });
+
+const handleBtnEdit = (index) => {
+
+    const editBtn = cards[index].querySelector('.btn-actived')
+    const saveBtn = cards[index].querySelector('.btn-save')
+
+    editAnim.to(saveBtn, {
+        opacity: 0,
+        display: 'none',
+        duration: 0.4
+    })
+
+    editAnim.to(editBtn, {
+        opacity: 1,
+        display: 'block',
+        duration: 0.4
+    })
+
+    // on joue la timeline
+    editAnim.play()
+}
+
 const btnActived = document.querySelectorAll('.btn-actived')
 
 // création d'une timeline et paused sur true pour pas que ça se lance des le load de la page
@@ -37,7 +60,7 @@ const handleBtnActive = (e, index) => {
     e.preventDefault()
 
     const saveBtn = cards[index].querySelector('.btn-save')
-    const inputs = cards[index].querySelectorAll('input')
+    const inputs = cards[index].querySelectorAll('input, textarea, select')
     const labelImg = cards[index].querySelector('label.form-file-label-disabled')
 
     inputs.forEach(input => {
@@ -48,20 +71,22 @@ const handleBtnActive = (e, index) => {
         // activer les champs
         activeAnim.to(input, {
             backgroundColor: 'transparent',
+            borderBottom: '1px solid #000',
             duration: 0.2
         })
-
     })
 
-    // activer les champs
-    activeAnim.to(labelImg, {
-        backgroundColor: 'transparent',
-        borderColor: 'var(--color-primary)',
-        duration: 0.2
-    }).then(() => {
-        labelImg.classList.remove('form-file-label-disabled')
-        labelImg.classList.add('form-file-label-active')
-    })
+    if (labelImg) {
+        // activer les champs
+        activeAnim.to(labelImg, {
+            backgroundColor: 'transparent',
+            borderColor: 'var(--color-primary)',
+            duration: 0.2
+        }).then(() => {
+            labelImg.classList.remove('form-file-label-disabled')
+            labelImg.classList.add('form-file-label-active')
+        })
+    }
 
     activeAnim.to(e.target, {
         opacity: 0,
@@ -81,5 +106,6 @@ const handleBtnActive = (e, index) => {
 }
 
 btnActived.forEach((btn, index) => {
-    btn.addEventListener('click', (e) => handleBtnActive(e, index))
+    // +1 pour passer outre la card d'ajout
+    btn.addEventListener('click', (e) => handleBtnActive(e, index + 1))
 })

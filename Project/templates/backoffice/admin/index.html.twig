@@ -11,6 +11,8 @@
 
 		<div class="div-admin">
 
+			<div class="card"></div>
+
 			{% block modal %}
 				{% include "includes/_modal.html.twig" with {
 					type: 'edit',
@@ -66,9 +68,8 @@
 						{# <div class="crud-admin"> #}
 
 						<div class="edit-admin">
-							<button class="btn btn-edit modal-open-edit">
-								Modifier
-							</button>
+							<button class='btn btn-edit btn-save modal-open-edit'>Sauvegarder</button>
+							<button class='btn btn-edit btn-actived'>Modifier</button>
 						</div>
 						{{ form_end(formEdits[key]) }}
 
