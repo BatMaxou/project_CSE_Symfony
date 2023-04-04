@@ -17,7 +17,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class RequestController extends AbstractController
 {
-    #[Route(path: '/post/newsletter', name: 'post-newsletter', methods: ['POST'])]
+    #[Route(path: '/post/newsletter', name: 'post_newsletter', methods: ['POST'])]
     public function postNewsletter(SubscriberRepository $subRep, Request $request): Response
     {
         // json response
@@ -39,7 +39,7 @@ class RequestController extends AbstractController
         return new Response('Veuillez accepter les conditions', 400);
     }
 
-    #[Route(path: '/post/survey', name: 'post-survey', methods: ['POST'])]
+    #[Route(path: '/post/survey', name: 'post_survey', methods: ['POST'])]
     public function postSurvey(ResponseRepository $respRep, UserResponseRepository $userRespRep, Request $request): Response
     {
         try {
@@ -56,7 +56,7 @@ class RequestController extends AbstractController
         }
     }
 
-    #[Route(path: '/post/backoffice/texts', name: 'post-texts', methods: ['POST'])]
+    #[Route(path: '/post/backoffice/texts', name: 'post_texts', methods: ['POST'])]
     public function postTexts(CkeditorRepository $rep, Request $request): Response
     {
         try {

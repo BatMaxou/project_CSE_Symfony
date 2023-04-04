@@ -139,7 +139,11 @@ textarea:focus::placeholder {
 #texts h1,
 #backoffice-survey h1,
 #dashboard-left h1,
-#dashboard {
+#member h1 {
+    margin-bottom: 10px;
+}
+
+#member h2 {
     margin-bottom: 10px;
 }
 
@@ -1631,14 +1635,14 @@ textarea:focus::placeholder {
 
 /* BACK MEMBER */
 
-#member {
+#member .members,
+#member .add-member {
     display: flex;
     flex-wrap: wrap;
 }
 
 #member .card {
-    width: 45%;
-    margin-inline: 10px;
+    width: 100%;
 }
 
 #member .card-body {
@@ -1670,27 +1674,7 @@ textarea:focus::placeholder {
     margin-inline: 5px;
 }
 
-@media(max-width: 1050px) {
-    #member {
-        justify-content: center;
-    }
-
-    #member .card {
-        width: 43%;
-    }
-}
-
-@media(max-width: 850px) {
-    #member {
-        justify-content: center;
-    }
-
-    #member .card {
-        width: 100%;
-    }
-}
-
-@media(max-width: 850px) and (min-width: 700px) {
+@media(min-width: 750px) {
     #member .card-content {
         text-align: center;
     }

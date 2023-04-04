@@ -4,12 +4,16 @@ namespace App\Controller;
 
 use Exception;
 use App\Entity\Survey;
+use App\Service\StaticPathList;
 use App\Entity\Contact;
-use App\Entity\ImageTicketing;
+use App\Form\ContactType;
 use App\Entity\Subscriber;
 use App\Entity\UserResponse;
+use App\Form\SubscriberType;
+use App\Entity\ImageTicketing;
+use App\Form\UserResponseType;
+use App\Repository\MemberRepository;
 use App\Repository\SurveyRepository;
-use App\Form\ContactType;
 use App\Repository\CkeditorRepository;
 use App\Repository\ResponseRepository;
 use App\Repository\TicketingRepository;
@@ -18,20 +22,17 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\PartnershipRepository;
 use App\Entity\Response as ResponseSurvey;
 use App\Repository\ImageTicketingRepository;
-use App\Form\SubscriberType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use App\Form\UserResponseType;
-use App\Repository\MemberRepository;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class HomeController extends AbstractController
 {
-    public function formNewsletter(): Response
+    public function formNewsletter(StaticPathList $staticPathList): Response
     {
         $form = $this->createForm(SubscriberType::class, null, [
-            'action' => '/post/newsletter',
+            'action' => $this->generateUrl($staticPathList->getRequestPathByName('ajout_abonnement_newsletter')),
             'method' => 'POST'
         ]);
 
@@ -40,7 +41,7 @@ class HomeController extends AbstractController
         ]);
     }
 
-    public function formSurvey(SurveyRepository $surveyRepo, ResponseRepository $responseRepo): Response
+    public function formSurvey(StaticPathList $staticPathList, SurveyRepository $surveyRepo, ResponseRepository $responseRepo): Response
     {
         try {
             // get the question active of the survey
@@ -50,7 +51,7 @@ class HomeController extends AbstractController
             $responseQuestion = $responseRepo->findResponseById($questionActive->getId());
 
             $form = $this->createForm(UserResponseType::class, null, [
-                'action' => '/post/survey',
+                'action' => $this->generateUrl($staticPathList->getRequestPathByName('ajout_reponse_sondage')),
                 'method' => 'POST'
             ]);
         } catch (\Throwable $th) {
@@ -65,9 +66,10 @@ class HomeController extends AbstractController
     }
 
     #[Route(path: '/', name: 'home', methods: ['GET'])]
-    public function home(PartnershipRepository $partnerRepo, TicketingRepository $ticketingRep, CkeditorRepository $ckeditorRep): Response
+    public function home(staticPathList $staticPathList, PartnershipRepository $partnerRepo, TicketingRepository $ticketingRep, CkeditorRepository $ckeditorRep): Response
     {
-        $path = [['Accueil', 'home']];
+        $paths = [$staticPathList->getClientPathByName('Accueil')];
+
         $ckeditor = $ckeditorRep->findByPage('HomePage');
         $ticketing = $ticketingRep->findByType('limitée');
         $nbOffer = count($ticketing);
@@ -77,7 +79,7 @@ class HomeController extends AbstractController
         $imgPartner = $partnerRepo->imagePartner();
 
         return $this->render('homePage/index.html.twig', [
-            'path' => $path,
+            'paths' => $paths,
             'ckeditor' => $ckeditor,
             'ticketing' => $ticketing,
             'nbOffer' => $nbOffer,
@@ -87,25 +89,27 @@ class HomeController extends AbstractController
     }
 
     #[Route(path: '/partenariat', name: 'partnership', methods: ['GET'])]
-    public function partnership(PartnershipRepository $partnershipRepo): Response
+    public function partnership(staticPathList $staticPathList, PartnershipRepository $partnershipRepo): Response
     {
-        $path = [['Accueil', 'home'], ['Partenariat', 'partnership']];
+        $paths = [$staticPathList->getClientPathByName('Accueil'), $staticPathList->getClientPathByName('Partenariats')];
+
         $partnership = $partnershipRepo->findAll();
 
         // get 3 random image from database
         $imgPartner = $partnershipRepo->imagePartner();
 
         return $this->render('partnership/index.html.twig', [
-            'path' => $path,
+            'paths' => $paths,
             'partnerships' => $partnership,
             'image' => $imgPartner
         ]);
     }
 
-    #[Route(path: '/a_propos_de_nous', name: 'aboutUs', methods: ['GET'])]
-    public function about(PartnershipRepository $partnershipRepo, CkeditorRepository $ckeditorRep, MemberRepository $memberRep): Response
+    #[Route(path: '/a_propos_de_nous', name: 'about_us', methods: ['GET'])]
+    public function aboutUs(staticPathList $staticPathList, PartnershipRepository $partnershipRepo, CkeditorRepository $ckeditorRep, MemberRepository $memberRep): Response
     {
-        $path = [['Accueil', 'home'], ['A propos de nous', 'aboutUs']];
+        $paths = [$staticPathList->getClientPathByName('Accueil'), $staticPathList->getClientPathByName('A propos de nous')];
+
         $ckeditors = $ckeditorRep->findByPage('AboutUs');
 
         foreach ($ckeditors as $ckeditor) {
@@ -126,7 +130,7 @@ class HomeController extends AbstractController
         $members = $memberRep->findAll();
 
         return $this->render('aboutUs/index.html.twig', [
-            'path' => $path,
+            'paths' => $paths,
             'image' => $imgPartner,
             'members' => $members,
             'actions' => $actions,
@@ -136,9 +140,10 @@ class HomeController extends AbstractController
     }
 
     #[Route(path: '/billeterie', name: 'ticketing', methods: ['GET'])]
-    public function ticketing(Request $request, PartnershipRepository $partnershipRepo, SurveyRepository $surveyRepo, ResponseRepository $responseRepo, EntityManagerInterface $manager, TicketingRepository $ticketingRep, ImageTicketingRepository $imageTicketingRepository): Response
+    public function ticketing(staticPathList $staticPathList, PartnershipRepository $partnershipRepo, SurveyRepository $surveyRepo, ResponseRepository $responseRepo, EntityManagerInterface $manager, TicketingRepository $ticketingRep, ImageTicketingRepository $imageTicketingRepository): Response
     {
-        $path = [['Accueil', 'home'], ['Billeterie', 'ticketing']];
+        $paths = [$staticPathList->getClientPathByName('Accueil'), $staticPathList->getClientPathByName('Billeterie')];
+
         $ticketingsPermanent = $ticketingRep->findByPermanent();
         $ticketingsLimited = $ticketingRep->findByLimited();
         $imageTicketing = $imageTicketingRepository->findAll();
@@ -148,7 +153,7 @@ class HomeController extends AbstractController
         $imgPartner = $partnershipRepo->imagePartner();
 
         return $this->render('ticketing/index.html.twig', [
-            'path' => $path,
+            'paths' => $paths,
             'ticketingsPermanent' => $ticketingsPermanent,
             'ticketingsLimited' => $ticketingsLimited,
             'imageTicketing' => $imageTicketing,
@@ -158,10 +163,12 @@ class HomeController extends AbstractController
     }
 
     #[Route(path: '/billeterie/{slug}', name: 'offer', methods: ['GET'])]
-    public function offer(PartnershipRepository $partnershipRepo, TicketingRepository $ticketingRepo, string $slug): Response
+    public function offer(staticPathList $staticPathList, PartnershipRepository $partnershipRepo, TicketingRepository $ticketingRepo, string $slug): Response
     {
         $offer = $ticketingRepo->findBySlug($slug);
-        $path = [['Accueil', 'home'], ['Billeterie', 'ticketing'], [$offer->getName(), 'offer', $offer->getSlug()]];
+
+        $paths = [$staticPathList->getClientPathByName('Accueil'), $staticPathList->getClientPathByName('Billeterie'), array($offer->getName(), 'offer', $offer->getSlug())];
+
         // get info associated at the id in the url of the ticketing
         $imgPartner = $partnershipRepo->imagePartner();
 
@@ -170,7 +177,7 @@ class HomeController extends AbstractController
             $imgOffer = $offer->getImageTicketings();
 
             return $this->render('ticketing/offer.html.twig', [
-                'path' => $path,
+                'paths' => $paths,
                 'image' => $imgPartner,
                 'offer' => $offer,
                 'imgOffer' => $imgOffer
@@ -184,9 +191,9 @@ class HomeController extends AbstractController
      *ajax a faire
      */
     #[Route(path: '/contact', name: 'contact', methods: ['GET', 'POST'])]
-    public function contact(PartnershipRepository $partnershipRepo, Request $request, EntityManagerInterface $manager, SubscriberRepository $subscriberRepo): Response
+    public function contact(staticPathList $staticPathList, PartnershipRepository $partnershipRepo, Request $request, EntityManagerInterface $manager, SubscriberRepository $subscriberRepo): Response
     {
-        $path = [['Accueil', 'home'], ['Contact', 'contact']];
+        $paths = [$staticPathList->getClientPathByName('Accueil'), $staticPathList->getClientPathByName('Contact')];
 
         // get 3 random image from database
         $imgPartner = $partnershipRepo->imagePartner();
@@ -222,7 +229,7 @@ class HomeController extends AbstractController
         }
 
         return $this->render('contact/index.html.twig', [
-            'path' => $path,
+            'paths' => $paths,
             'image' => $imgPartner,
             'formContact' => $formContact->createView(),
         ]);

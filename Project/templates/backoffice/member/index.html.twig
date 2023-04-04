@@ -6,29 +6,55 @@
 
 {% block content %}
 	<div id="member">
-		{% for key, member in members %}
+		<h1>Gestion des membres</h1>
+		<h2>Ajouter un membre</h2>
+		<div class="add-member">
 			<div class="card">
-				{{ form_start(forms[key]) }}
+				{{ form_start(addForm) }}
 				<div class="card-body">
 					<div class="card-image">
-						<img src="{{ asset('imagesTest/' ~ member.profil)}}" alt="{{ member.firstName }}">
-						{{ form_label(forms[key].profil) }}
-						{{ form_widget(forms[key].profil) }}
+						<img src="{{ asset('images/square.svg')}}" alt="photo de profil du membre à ajouter">
+						{{ form_label(addForm.profil, 'Choisir une image', {'label_attr': {'class': 'form-file-label form-file-label-active'}}) }}
+						{{ form_widget(addForm.profil, { 'disabled': false}) }}
 					</div>
 					<div class="card-content">
-						{{ form_widget(forms[key].firstName, { 'value': member.firstName }) }}
-						{{ form_widget(forms[key].lastName, { 'value': member.lastName }) }}
-						{{ form_widget(forms[key].function, { 'value': member.function }) }}
+						{{ form_widget(addForm.firstName, { 'attr': { class: 'form-input' }, 'disabled': false}) }}
+						{{ form_widget(addForm.lastName, { 'attr': { class: 'form-input' }, 'disabled': false}) }}
+						{{ form_widget(addForm.function, { 'attr': { class: 'form-input' }, 'disabled': false}) }}
 					</div>
 				</div>
 				<div class="card-footer">
-					<button class='btn btn-edit btn-save'>Sauvegarder</button>
-					<button class='btn btn-edit btn-actived'>Modifier</button>
-					<button class='btn btn-delete'>Supprimer</button>
+					<button class='btn btn-edit btn-add'>Ajouter</button>
 				</div>
-				{{ form_end(forms[key]) }}
+				{{ form_end(addForm) }}
 			</div>
-		{% endfor %}
+		</div>
+		<h2>Les membres</h2>
+		<div class="members">
+			{% for key, member in members %}
+				<div class="card">
+					{{ form_start(forms[key]) }}
+					<div class="card-body">
+						<div class="card-image">
+							<img src="{{ asset('imagesTest/' ~ member.profil)}}" alt="{{ member.firstName }}">
+							{{ form_label(forms[key].profil) }}
+							{{ form_widget(forms[key].profil) }}
+						</div>
+						<div class="card-content">
+							{{ form_widget(forms[key].firstName, { 'value': member.firstName }) }}
+							{{ form_widget(forms[key].lastName, { 'value': member.lastName }) }}
+							{{ form_widget(forms[key].function, { 'value': member.function }) }}
+						</div>
+					</div>
+					<div class="card-footer">
+						<button class='btn btn-edit btn-save'>Sauvegarder</button>
+						<button class='btn btn-edit btn-actived'>Modifier</button>
+						<button class='btn btn-delete'>Supprimer</button>
+					</div>
+					{{ form_end(forms[key]) }}
+				</div>
+			{% endfor %}
+		</div>
 	</div>
 
 	<script src="{{ asset('js/cardAnimation.js') }}"></script>
