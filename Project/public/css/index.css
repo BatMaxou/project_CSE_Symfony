@@ -102,6 +102,7 @@ textarea:focus::placeholder {
 .btn-container {
     display: flex;
     margin-left: 10px;
+    justify-content: space-between;
 }
 
 .btn {
@@ -1155,6 +1156,7 @@ textarea:focus::placeholder {
     border-radius: 5px;
     min-width: 300px;
     max-width: 600px;
+    width: 100%;
     max-height: 90%;
 }
 
@@ -1374,12 +1376,20 @@ textarea:focus::placeholder {
     color: var(--color-primary);
 }
 
+#backoffice-admin .card-body {
+    color: var(--color-primary);
+    display: flex;
+    gap: 10px;
+}
+
+#backoffice-admin .edit-form {
+    width: 100%;
+}
+
 .div-admin form {
     display: flex;
     justify-content: space-between;
-    background-color: #EFEDED;
-    margin: 20px 0;
-    padding: 20px;
+    align-items: center;
 }
 
 .div-admin form div {
@@ -1402,44 +1412,58 @@ textarea:focus::placeholder {
     padding: 5px 0;
 }
 
+.div-admin select {
+    outline: none;
+    border: none;
+    background-color: #EFEDED;
+    border-bottom: 1px solid black;
+    padding: 5px 0;
+    width: 100%;
+}
+
 .password-form {
     gap: 10px !important;
 }
 
+.delete-admin-email {
+    margin: 10px 0;
+}
+
 .crud-admin {
-    width: 125px;
     justify-content: space-evenly;
+    flex-direction: unset !important;
 }
 
 .crud-admin div {
-    align-items: end;
+    width: unset !important;
 }
 
-.crud-admin a {
-    color: var(--color-primary);
-    display: flex;
-    align-items: center;
+#backoffice-admin .card-body {
+    margin: 10px 0;
 }
 
-.crud-admin button {
-    color: var(--color-primary);
-    display: flex;
-    align-items: center;
-    font-size: 16px;
-    padding: 0;
-    margin: 0;
-    border: none;
-    cursor: pointer;
-}
-
-.crud-admin img {
-    width: 22px;
-    height: 22px;
+.content-admin-edit {
+    margin: 10px 0;
 }
 
 @media (max-width: 800px) {
     .div-admin form {
         flex-direction: column;
+        margin: 10px 0;
+    }
+
+    .div-admin .card-body {
+        display: block !important;
+    }
+
+    .div-admin form div {
+        margin: 10px 0;
+        width: 300px;
+    }
+
+    .crud-admin {
+        width: 100%;
+        flex-direction: unset !important;
     }
 }
 

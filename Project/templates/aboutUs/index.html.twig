@@ -6,18 +6,15 @@
 
 		{% block modal %}
 			{% include "includes/_modal.html.twig" with {
+				type: 'info',
 				title: 'Règlement du CSE', 
 				content: rules, 
 				options: {
 					texteFooter: "
-					<div>
 						<p>
 							Pour toutes informations supplémentaires, veuillez nous contacter à l'adresse mail :
 						</p>"
-						~ email ~ 
-					"</div>", 
-					suppButton: false, 
-					modifButton: false
+						~ email, 
 				}
 			} %}
 		{% endblock %}

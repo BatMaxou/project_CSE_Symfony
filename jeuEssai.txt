@@ -20,7 +20,7 @@ VALUES
     ("nonummy.ac@icloud.edu", "$argon2i$v=19$m=65536,t=4,p=1$YWVmdVREdjR6aDJwbkIvaw$ppluxlgtQ1YVgyEG3vWTlaKVxnJ0qb1h20giVPzHp08", '["ROLE_ADMIN"]'),
     ("luctus@icloud.ca", "$argon2i$v=19$m=65536,t=4,p=1$OFJ4cFllNnRoc3FxbHVXOA$7k9exvWZ2nPIcsWU/v4Z8h6n18LWL6v8RPSsZIsYbLU", '["ROLE_ADMIN"]'),
     ("bibendum.sed@protonmail.com", "$argon2i$v=19$m=65536,t=4,p=1$dGpLZ2xyZDZpbXJhNzVGWQ$s0X63CtwYOEm7Jjj4gAkCnE7H2ClGg5AdQcMOvt9f1Y", '["ROLE_ADMIN"]'),
-    ("pacolu@proteimail.com", "$argon2i$v=19$m=65536,t=4,p=1$QTFUTExRZUJIdWppN01sVQ$3nVEy4IilLDx076i8/P/ximZu199+YmW0QwQ/Bn56q8", '["ROLE_SUPER_ADMIN"]');
+    ("pacolu@proteimail.com", "$argon2i$v=19$m=65536,t=4,p=1$VTZpS21vZEhZeGtEWDZLUw$tO46fN91BV35uNiyc8zw/alUM2LLtyq/vF+4YQTbc+g", '["ROLE_SUPER_ADMIN"]');
 
 INSERT INTO partnership (name, image, description, link)
 VALUES

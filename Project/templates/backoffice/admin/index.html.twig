@@ -7,44 +7,89 @@
 
 		<div class="div-admin">
 
+			{% block modal %}
+				{% include "includes/_modal.html.twig" with {
+					type: 'edit',
+					title: 'Attention, modification en cours !', 
+					content: 
+						"<p class='modal-question'>Vous êtes sur le point de modifier l'admin : </p>" ~ 
+						"<div class='content-admin-edit'>" ~ 
+							"<p class='modal-recap edit-admin-email'></p>" ~ 
+							"<p class='modal-recap edit-admin-password'></p>" ~ 
+							"<p class='modal-recap edit-admin-roles'></p>" ~ 
+						"</div>" ~ 
+						"<p class='modal-question'>Êtes vous sur de vouloir le modifier ?</p>"
+					, 
+					options: {
+						modifButton: true
+					}
+				} %}
+
+				{% include "includes/_modal.html.twig" with {
+					type: 'delete',
+					title: 'Attention, suppression en cours !', 
+					content: 
+						"<p class='modal-question'>Vous êtes sur le point de supprimer l'admin : </p>" ~ 
+						"<p class='modal-recap delete-admin-email'></p>" ~ 
+						"<p class='modal-question'>Êtes vous sur de vouloir le supprimer ?</p>"
+					, 
+					options: {
+						suppButton: true
+					}
+				} %}
+			{% endblock %}
+
 			{% for key, admin in admins %}
 
-				{{ form_start(forms[key]) }}
+				<div class="card">
 
-				{{ form_widget(forms[key].id, {value: admin.id}) }}
+					<div class="card-body">
 
-				{{ form_row(forms[key].email, {value: admin.email}) }}
+						{{ form_start(formEdits[key], {'attr': {'class': 'edit-form'}}) }}
 
-				{{ form_row(forms[key].plainPassword, {}) }}
+						{{ form_widget(formEdits[key].id, {value: admin.id}) }}
 
-				{% if admin.roles[0] == "ROLE_ADMIN" %}
-					{{ form_row(forms[key].roles, {value: 1}) }}
-				{% else %}
-					{{ form_row(forms[key].roles, {value: 2}) }}
-				{% endif %}
+						{{ form_row(formEdits[key].email, {value: admin.email}) }}
 
-				<div class="crud-admin">
+						{{ form_row(formEdits[key].plainPassword, {}) }}
 
-					<div class="edit-admin">
-						<button type="submit">
-							Modifier
-							<img src="{{ asset('images/Edit.svg') }}" alt="Icon modifier">
-						</button>
-					</div>
-					<div class="delete-admin">
-						<a href="{{ path('adminDelete', {id: admin.id}) }}">
-							Supprimer
-							<img src="{{ asset('images/Delete.svg') }}" alt="Icon supprimer">
-						</a>
+						{% if admin.roles[0] == "ROLE_ADMIN" %}
+							{{ form_row(formEdits[key].roles, {value: 1}) }}
+						{% else %}
+							{{ form_row(formEdits[key].roles, {value: 2}) }}
+						{% endif %}
+
+						{# <div class="crud-admin"> #}
+
+						<div class="edit-admin">
+							<button class="btn btn-edit modal-open-edit">
+								Modifier
+							</button>
+						</div>
+						{{ form_end(formEdits[key]) }}
+
+						{{ form_start(formDeletes[key], {'attr': {'class': 'delete-form'}})}}
+
+						{{ form_row(formDeletes[key].id, {value: admin.id}) }}
+						<div class="delete-admin">
+							<button class="btn btn-delete modal-open-delete">
+								Supprimer
+							</button>
+						</div>
+
+						{{ form_end(formDeletes[key], {'render_rest': false}) }}
+
+						{# </div> #}
+
 					</div>
 
 				</div>
-
-				{{ form_end(forms[key]) }}
 			{% endfor %}
 
 		</div>
 
 	</div>
+
+	<script src="{{ asset('js/modal.js') }}"></script>
 
 {% endblock %}

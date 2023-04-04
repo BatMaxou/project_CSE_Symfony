@@ -59,42 +59,64 @@ class RequestBackofficeController extends AbstractController
         }
     }
 
-    #[Route(path: '/post/backoffice/adminGestion', name: 'post-admin', methods: ['POST'])]
+    #[Route(path: '/post/backoffice/admin-edit', name: 'post-admin', methods: ['POST'])]
     public function postAdmin(AdminRepository $adminRepository, UserPasswordHasherInterface $adminPasswordHasher, Request $request): Response
     {
-        // try {
-        // get id of the respons by a search name for set response of the create UserResponse
-        $id = $request->get("admin_form")['id'];
+        try {
+            // get id of the respons by a search name for set response of the create UserResponse
+            $id = $request->get("admin_form")['id'];
 
-        $admin = $adminRepository->find($id);
+            $admin = $adminRepository->find($id);
 
-        $updateAdmin = $admin;
-        $updateAdmin->setEmail($request->get('admin_form')['email']);
+            $admin->setEmail($request->get('admin_form')['email']);
 
-        if ($request->get('admin_form')['plainPassword'] != "") {
-            $admin->setPassword(
-                $adminPasswordHasher->hashPassword(
-                    $admin,
-                    $request->get('admin_form')['plainPassword']
-                )
-            );
+            if ($request->get('admin_form')['plainPassword'] != "") {
+                $admin->setPassword(
+                    $adminPasswordHasher->hashPassword(
+                        $admin,
+                        $request->get('admin_form')['plainPassword']
+                    )
+                );
+            }
+
+            if ($request->get('admin_form')['roles'] == 1) {
+                $admin->setRoles(
+                    ["ROLE_ADMIN"]
+                );
+            } else {
+                $admin->setRoles(
+                    ["ROLE_SUPER_ADMIN"]
+                );
+            }
+
+            $adminRepository->save($admin, true);
+
+            return new Response('Réponse enregistrée, merci de votre participation !', 200);
+        } catch (\Throwable $th) {
+            return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
         }
+    }
 
-        if ($request->get('admin_form')['roles'] == 1) {
-            $updateAdmin->setRoles(
-                ["ROLE_ADMIN"]
-            );
-        } else {
-            $updateAdmin->setRoles(
-                ["ROLE_SUPER_ADMIN"]
-            );
+    #[Route(path: '/post/backoffice/admin-delete', name: 'delete-admin', methods: ['POST'])]
+    public function deleteAdmin(AdminRepository $adminRepository, UserPasswordHasherInterface $adminPasswordHasher, Request $request): Response
+    {
+        try {
+            // get id of the respons by a search name for set response of the create UserResponse
+            $id = $request->get("admin_form")['id'];
+
+            $admin = $adminRepository->find($id);
+
+            if (!$admin) {
+                throw $this->createNotFoundException(
+                    "Pas d'admin trouvé pour l'id : " . $id
+                );
+            }
+
+            $adminRepository->remove($admin, true);
+
+            return new Response('Réponse enregistrée, merci de votre participation !', 200);
+        } catch (\Throwable $th) {
+            return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
         }
-
-        $adminRepository->save($admin, true);
-
-        return new Response('Réponse enregistrée, merci de votre participation !', 200);
-        // } catch (\Throwable $th) {
-        //     return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
-        // }
     }
 }

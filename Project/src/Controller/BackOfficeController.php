@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Partnership;
 use Doctrine\ORM\EntityManagerInterface;
-
+use App\Form\AdminFormType;
 use App\Form\TextType;
 use App\Repository\SurveyRepository;
 use App\Repository\AdminRepository;
@@ -47,33 +47,41 @@ class BackOfficeController extends AbstractController
 
     // Page d'affichage / modification d'un admin
     // #[Route(path: "/admin/adminGestion/add", name: "adminAdd")]
-    #[Route(path: '/admin/adminGestion', name: 'adminGestion')]
+    #[Route(path: '/admin/gestion-admin', name: 'adminGestion')]
     public function adminGestion(AdminRepository $adminRepository = null): Response
     {
         $path = [['Tableau de bord', 'texts'], ['Gestion des admins', 'adminGestion']];
 
         $admins = $adminRepository->findAll();
 
-        $form = $this->createForm(AdminFormType::class, null, [
-            'action' => '/post/backoffice/adminGestion',
+        $formEdit = $this->createForm(AdminFormType::class, null, [
+            'action' => '/post/backoffice/admin-edit',
             'method' => 'POST',
         ]);
 
-        $forms = array();
+        $formDelete = $this->createForm(AdminFormType::class, null, [
+            'action' => '/post/backoffice/admin-delete',
+            'method' => 'POST',
+        ]);
+
+        $formEdits = array();
+        $formDeletes = array();
 
         for ($i = 0; $i < count($admins); $i++) {
-            $forms[] = $form->createView();
+            $formEdits[] = $formEdit->createView();
+            $formDeletes[] = $formDelete->createView();
         }
 
         return $this->render('/backoffice/admin/index.html.twig', [
             'path' => $path,
-            'forms' => $forms,
+            'formEdits' => $formEdits,
+            'formDeletes' => $formDeletes,
             'admins' => $admins,
         ]);
     }
 
     // Page de suppression d'un admin
-    #[Route(path: "/admin/adminGestion/delete/{id}", name: "adminDelete")]
+    #[Route(path: "/admin/gestion-admin/delete/{id}", name: "adminDelete")]
     public function adminDelete(AdminRepository $adminRepository, int $id): Response
     {
         $path = [['Tableau de bord', 'texts'], ['Gestion des admins', 'adminGestion']];
