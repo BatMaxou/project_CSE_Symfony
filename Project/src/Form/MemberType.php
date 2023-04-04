@@ -49,6 +49,7 @@ final class MemberType extends AbstractType
                     'class' => 'form-file-input'
                 ],
                 'label_attr' => [
+                    'disabled' => 'disabled',
                     'class' => 'form-file-label form-file-label-disabled'
                 ]
             ]);

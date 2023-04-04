@@ -24,14 +24,14 @@ let pagingSelectDisplay = false
 const displayElements = () => {
     // enlever les cartes d'offre de l'ancienne page si elles existent
     if (previousPage !== null) {
-        for (let i = 5 * (previousPage - 1); i < (5 * previousPage); i++) {
+        for (let i = 4 * (previousPage - 1); i < (4 * previousPage); i++) {
             if (offers[i]) {
                 offers[i].style.display = 'none'
             }
         }
     }
     // afficher les cartes d'offre de la page choisie
-    for (let i = 5 * (currentPage - 1); i < (5 * currentPage); i++) {
+    for (let i = 4 * (currentPage - 1); i < (4 * currentPage); i++) {
         if (offers[i]) {
             offers[i].style.display = 'block'
         }

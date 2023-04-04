@@ -13,8 +13,12 @@
 	{# Override content #}
 {% endblock %}
 
-{% block request %}
+{% block baseJS %}
 	<script src="{{ asset('js/flash.js') }}"></script>
+	<script src="{{ asset('js/modal.js') }}"></script>
 	<script src="{{ asset('js/cardAnimation.js') }}"></script>
-	<script src="{{ asset('js/requestBackoffice.js') }}"></script>
+{% endblock %}
+
+{% block request %}
+	{# Override request #}
 {% endblock %}

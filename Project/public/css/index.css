@@ -75,7 +75,7 @@ textarea:focus::placeholder {
 .form-input-disabled,
 .form-file-label-disabled {
     background-color: rgba(0, 0, 0, 0.1);
-    border: none;
+    border-bottom: 1px solid transparent;
     color: #000;
 }
 
@@ -141,12 +141,14 @@ textarea:focus::placeholder {
 #backoffice-survey h1,
 #dashboard-left h1,
 #member h1,
-#backoffice-admin h1 {
+#backoffice-admin h1,
+#backoffice-partnership h1 {
     margin-bottom: 10px;
 }
 
 #member h2,
-#backoffice-admin h2 {
+#backoffice-admin h2,
+#backoffice-partnership h2 {
     margin-bottom: 10px;
 }
 
@@ -170,6 +172,7 @@ textarea:focus::placeholder {
     margin-inline: 5px;
 }
 
+.btn-add,
 .btn-edit {
     background-color: var(--color-primary);
 }
@@ -304,6 +307,12 @@ textarea:focus::placeholder {
 
 #navbar .navbar-menu a:hover {
     background-color: #b6a886;
+}
+
+@media (max-width: 1000px) {
+    #navbar .navbar-menu a {
+        padding-inline: 18px;
+    }
 }
 
 #current-navigation,
@@ -1715,7 +1724,11 @@ textarea:focus::placeholder {
     flex-wrap: wrap;
 }
 
-#member .card {
+#member .add-member .card {
+    width: 100%;
+}
+
+#member .members .card {
     width: 45%;
     margin-inline: 10px;
 }
@@ -1748,7 +1761,7 @@ textarea:focus::placeholder {
         justify-content: center;
     }
 
-    #member .card {
+    #member .members .card {
         width: 43%;
     }
 }
@@ -1758,7 +1771,7 @@ textarea:focus::placeholder {
         justify-content: center;
     }
 
-    #member .card {
+    #member .members .card {
         width: 100%;
     }
 }

@@ -16,9 +16,9 @@
 				content: 
 					"<p class='modal-question'>Vous êtes sur le point d'ajouter l'administrateur : </p>" ~ 
 					"<div class='content-admin-add'>" ~ 
-						"<p class='modal-recap add-admin-add'></p>" ~ 
-						"<p class='modal-recap add-admin-add'></p>" ~ 
-						"<p class='modal-recap add-admin-add'></p>" ~ 
+						"<p class='modal-recap add-admin-email'></p>" ~ 
+						"<p class='modal-recap add-admin-password'></p>" ~ 
+						"<p class='modal-recap add-admin-role'></p>" ~ 
 					"</div>" ~ 
 					"<p class='modal-question'>Êtes-vous sûr de vouloir ajouter cet administrateur ?</p>"
 				, 
@@ -36,7 +36,7 @@
 					"<div class='content-admin-edit'>" ~ 
 						"<p class='modal-recap edit-admin-email'></p>" ~ 
 						"<p class='modal-recap edit-admin-password'></p>" ~ 
-						"<p class='modal-recap edit-admin-roles'></p>" ~ 
+						"<p class='modal-recap edit-admin-role'></p>" ~ 
 					"</div>" ~ 
 					"<p class='modal-question'>Êtes-vous sûr de vouloir modifier cet administrateur ?</p>"
 				, 
@@ -127,13 +127,11 @@
 
 					</div>
 				{% endfor %}
-
 			</div>
-
 		</div>
+	</div>
+{% endblock %}
 
-		<script src="{{ asset('js/modal.js') }}"></script>
-
-		{# INSERT INTO `admin` (`id`, `email`, `roles`, `password`, `last_login`) VALUES (NULL, 'kp,dcv@,cd.com', '[\"ROLE_ADMIN\"]', '', NULL); #}
-
-	{% endblock %}
+{% block request %}
+	<script src="{{ asset('js/request/admin.js') }}"></script>
+{% endblock %}

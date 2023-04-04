@@ -21,7 +21,10 @@
 	{% include "includes/_footer.html.twig" %}
 {% endblock %}
 
-{% block request %}
+{% block baseJS %}
 	<script src="{{ asset('js/flash.js') }}"></script>
-	<script src="{{ asset('js/request.js') }}"></script>
+{% endblock %}
+
+{% block request %}
+	<script src="{{ asset('js/request/clientRequest.js') }}"></script>
 {% endblock %}

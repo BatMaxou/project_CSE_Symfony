@@ -89,7 +89,9 @@
 				{{ form_end(formPartnership[key]) }}
 			</div>
 		{% endfor %}
-
 	</div>
-	<script src="{{ asset('js/modal.js') }}"></script>
+{% endblock %}
+
+{% block request %}
+	<script src="{{ asset('js/request/partnership.js') }}"></script>
 {% endblock %}

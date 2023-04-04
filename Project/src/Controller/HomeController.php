@@ -73,8 +73,8 @@ class HomeController extends AbstractController
         $ckeditor = $ckeditorRep->findByPage('HomePage');
         $ticketing = $ticketingRep->findByType('limitée');
         $nbOffer = count($ticketing);
-        // counting the number of pages with 5 offers per page
-        $nbPage = ($nbOffer % 5 === 0 || $nbOffer < 0) ? $nbOffer / 5 : intdiv($nbOffer, 5) + 1;
+        // counting the number of pages with 4 offers per page
+        $nbPage = ($nbOffer % 4 === 0 || $nbOffer < 0) ? $nbOffer / 4 : intdiv($nbOffer, 4) + 1;
         // get 3 random image from database
         $imgPartner = $partnerRepo->imagePartner();
 
