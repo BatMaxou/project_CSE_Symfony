@@ -8,10 +8,13 @@ const modalBackgroundDelete = document.querySelector('.modal-background-delete')
 
 // A voir plus tard
 const handleHeightChange = (modal, modalHeader, modalBody, modalFooter) => {
-    // modalBody.style.height = modal.clientHeight - modalHeader.clientHeight - modalFooter.clientHeight - 40 + 'px'
-    // console.log(modal.clientHeight);
-    // console.log(modalHeader.clientHeight);
-    // console.log(modalFooter.clientHeight);
+    const totalModalHeight = modal.clientHeight + modalHeader.clientHeight + modalFooter.clientHeight + 40
+    const maxHeight = window.innerHeight * 90 / 100
+
+    // si le modal est trop grand alors on limite la hauteur du contenu
+    if (maxHeight < totalModalHeight) {
+        modalBody.style.height = con - modalHeader.clientHeight - modalFooter.clientHeight - 40 + 'px'
+    }
 }
 
 function openModal(modalBackground, modal, modalHeader, modalBody, modalFooter) {
@@ -91,13 +94,15 @@ if (modalBackgroundDelete) {
 }
 
 if (modalBackgroundInfo) {
-    let modalDelete = modalBackgroundInfo.querySelector('.modal')
+    let modalInfo = modalBackgroundInfo.querySelector('.modal')
     let modalHeader = modalBackgroundInfo.querySelector('.modal-header');
     let modalBody = modalBackgroundInfo.querySelector('.modal-body');
     let modalFooter = modalBackgroundInfo.querySelector('.modal-footer');
     let btnOpenInfos = document.querySelectorAll('.modal-open-info')
     let modalClose = modalBackgroundInfo.querySelector('.modal-close');
     let btnClose = modalBackgroundInfo.querySelector('.btn-close');
+
+    console.log(btnOpenInfos);
 
     window.addEventListener("resize", () => handleHeightChange(modalInfo, modalHeader, modalBody, modalFooter))
 
