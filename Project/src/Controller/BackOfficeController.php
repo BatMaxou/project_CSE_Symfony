@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Form\TextType;
 use App\Form\MemberType;
+use App\Service\StaticPathList;
 use App\Entity\Partnership;
 use App\Form\AdminFormType;
 use App\Form\PartnershipType;
@@ -25,9 +26,9 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class BackOfficeController extends AbstractController
 {
     #[Route(path: '/admin/textes', name: 'backoffice_text')]
-    public function texts(CkeditorRepository $rep): Response
+    public function texts(StaticPathList $staticPathList, CkeditorRepository $rep): Response
     {
-        $path = [['Tableau de bord', 'backoffice_dashboard'], ['Textes', 'backoffice_text']];
+        $paths = [$staticPathList->getAdminPathByName('Tableau de bord'), $staticPathList->getAdminPathByName('Textes enrichis')];
 
         $texts = [
             'homepage' => $rep->findByZone('HomePage', 'zone'),
@@ -37,12 +38,12 @@ class BackOfficeController extends AbstractController
         ];
 
         $form = $this->createForm(TextType::class, null, [
-            'action' => '/post/backoffice/texts',
+            'action' => $this->generateUrl($staticPathList->getRequestPathByName('modif_textes')),
             'method' => 'POST'
         ]);
 
         return $this->render('backoffice/texts/index.html.twig', [
-            'path' => $path,
+            'paths' => $paths,
             'texts' => $texts,
             'form' => $form->createView(),
         ]);
@@ -50,14 +51,14 @@ class BackOfficeController extends AbstractController
 
     // Page d'affichage / modification d'un admin
     #[Route(path: '/admin/adminGestion', name: 'backoffice_account')]
-    public function adminGestion(AdminRepository $adminRepository = null): Response
+    public function adminGestion(StaticPathList $staticPathList, AdminRepository $adminRepository = null): Response
     {
-        $path = [['Tableau de bord', 'backoffice_dashboard'], ['Gestion des admins', 'backoffice_account']];
+        $paths = [$staticPathList->getAdminPathByName('Tableau de bord'), $staticPathList->getAdminPathByName('Comptes')];
 
         $admins = $adminRepository->findAll();
 
         $form = $this->createForm(AdminFormType::class, null, [
-            'action' => '/post/backoffice/adminGestion',
+            'action' => $this->generateUrl('post_admin'),
             'method' => 'POST',
         ]);
 
@@ -68,43 +69,22 @@ class BackOfficeController extends AbstractController
         }
 
         return $this->render('/backoffice/admin/index.html.twig', [
-            'path' => $path,
+            'paths' => $paths,
             'forms' => $forms,
             'admins' => $admins,
         ]);
     }
 
-    // Page de suppression d'un admin
-    #[Route(path: "/admin/adminGestion/delete/{id}", name: "adminDelete")]
-    public function adminDelete(AdminRepository $adminRepository, int $id): Response
-    {
-        $path = [['Tableau de bord', 'backoffice_dashboard'], ['Gestion des admins', 'adminGestion']];
-
-        $admin = $adminRepository->find($id);
-
-        if (!$admin) {
-            throw $this->createNotFoundException(
-                "Pas d'admin trouvé pour l'id : " . $id
-            );
-        }
-
-        $adminRepository->remove($admin, true);
-
-        return $this->redirectToRoute('adminGestion', [
-            'path' => $path,
-        ]);
-    }
-
     #[Route(path: '/admin/backoffice_survey', name: 'backoffice_survey')]
-    public function survey(SurveyRepository $surveyRepo): Response
+    public function survey(StaticPathList $staticPathList, SurveyRepository $surveyRepo): Response
     {
-        $path = [['Tableau de bord', 'backoffice_dashboard'], ['Sondage', 'backoffice_survey']];
+        $paths = [$staticPathList->getAdminPathByName('Tableau de bord'), $staticPathList->getAdminPathByName('Sondage')];
 
         $questions = $surveyRepo->totalResponseBySurvey();
         $responses = $surveyRepo->totalResponseByQuestion();
 
         return $this->render('backoffice/survey/survey.html.twig', [
-            'path' => $path,
+            'paths' => $paths,
             'questions' => $questions,
             'responses' => $responses,
             // encode responses en JSON pour l'utiliser en JS
@@ -113,14 +93,19 @@ class BackOfficeController extends AbstractController
     }
 
     #[Route(path: '/admin/membres', name: 'backoffice_member')]
-    public function member(MemberRepository $rep): Response
+    public function member(StaticPathList $staticPathList, MemberRepository $rep): Response
     {
-        $path = [['Tableau de bord', 'backoffice_dashboard'], ['Membres', 'backoffice_member']];
+        $paths = [$staticPathList->getAdminPathByName('Tableau de bord'), $staticPathList->getAdminPathByName('Membres')];
 
         $members = $rep->findAll();
 
+        $addForm = $this->createForm(MemberType::class, null, [
+            // 'action' => $this->generateUrl($staticPathList->getRequestPathByName('ajout_membre')),
+            'method' => 'POST',
+        ])->createView();
+
         $form = $this->createForm(MemberType::class, null, [
-            'action' => '/post/backoffice/member',
+            // 'action' => $this->generateUrl($staticPathList->getRequestPathByName('modif_membre')),
             'method' => 'POST',
         ]);
 
@@ -131,16 +116,17 @@ class BackOfficeController extends AbstractController
         }
 
         return $this->render('backoffice/member/index.html.twig', [
-            'path' => $path,
+            'paths' => $paths,
             'members' => $members,
             'forms' => $forms,
+            'addForm' => $addForm,
         ]);
     }
 
     #[Route(path: '/admin/dashboard', name: 'backoffice_dashboard')]
-    public function dashboard(SurveyRepository $surveyRepo, CkeditorRepository $ckeditorRepo, ContactRepository $contactRepo): Response
+    public function dashboard(StaticPathList $staticPathList, SurveyRepository $surveyRepo, CkeditorRepository $ckeditorRepo, ContactRepository $contactRepo): Response
     {
-        $path = [['Tableau de bord', 'backoffice_dashboard']];
+        $paths = [$staticPathList->getAdminPathByName('Tableau de bord')];
 
         $ckeditor = $ckeditorRepo->findByPage('HomePage');
         $message = $contactRepo->getLastMessage();
@@ -149,7 +135,7 @@ class BackOfficeController extends AbstractController
         $responses = $surveyRepo->totalResponseByQuestionActive();
 
         return $this->render('backoffice/index.html.twig', [
-            'path' => $path,
+            'paths' => $paths,
             'questions' => $questions,
             'responses' => $responses,
             'ckeditor' => $ckeditor,

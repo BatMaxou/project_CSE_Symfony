@@ -20,7 +20,7 @@ use App\Form\AdminFormType;
 
 class RequestBackofficeController extends AbstractController
 {
-    #[Route(path: '/post/backoffice/adminGestion', name: 'post-admin', methods: ['POST'])]
+    #[Route(path: '/post/backoffice/adminGestion', name: 'post_admin', methods: ['POST'])]
     public function postAdmin(AdminRepository $adminRepository, UserPasswordHasherInterface $adminPasswordHasher, Request $request): Response
     {
         // try {
