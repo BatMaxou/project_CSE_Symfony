@@ -154,14 +154,14 @@ class BackOfficeController extends AbstractController
     }
 
     #[Route(path: '/admin/partenariat', name: 'backoffice_partnership')]
-    public function partnership(PartnershipRepository $partnershipRepo, Request $request, EntityManagerInterface $manager): Response
+    public function partnership(StaticPathList $staticPathList, PartnershipRepository $partnershipRepo, Request $request, EntityManagerInterface $manager): Response
     {
-        $path = [['Tableau de bord', 'backoffice_dashboard'], ['Partenariat', 'backoffice_partnership']];
+        $paths = [$staticPathList->getAdminPathByName('Tableau de bord'), $staticPathList->getAdminPathByName('Partenariats')];
 
         $partnerships = $partnershipRepo->findAll();
 
         $form = $this->createForm(PartnershipType::class, null, [
-            'action' => '/post/edit-partnership',
+            'action' => $this->generateUrl($staticPathList->getRequestPathByName('modif_partenariat')),
             'method' => 'POST',
         ]);
 
@@ -172,7 +172,7 @@ class BackOfficeController extends AbstractController
         }
 
         return $this->render('backoffice/partnership/partnership.html.twig', [
-            'path' => $path,
+            'paths' => $paths,
             'partnerships' => $partnerships,
             'formPartnership' => $forms,
         ]);
