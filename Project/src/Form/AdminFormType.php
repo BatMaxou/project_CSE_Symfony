@@ -30,6 +30,7 @@ class AdminFormType extends AbstractType
                 'attr' => [
                     'placeholder' => "E-mail",
                     'type' => 'email',
+                    'class' => 'form-input form-input-disabled'
                 ],
             ])
             ->add('roles', ChoiceType::class, [
@@ -39,6 +40,9 @@ class AdminFormType extends AbstractType
                 ],
                 'mapped' => false,
                 'label' => 'Rôle :',
+                'attr' => [
+                    'class' => 'form-input form-input-disabled'
+                ],
             ])
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,
@@ -46,7 +50,8 @@ class AdminFormType extends AbstractType
                 'mapped' => false,
                 'attr' => [
                     'autocomplete' => 'Nouveau mot de passe',
-                    'placeholder' => 'Mot de passe'
+                    'placeholder' => 'Mot de passe',
+                    'class' => 'form-input form-input-disabled'
                 ],
                 'constraints' => [
                     new NotBlank([
@@ -60,9 +65,8 @@ class AdminFormType extends AbstractType
                     ]),
                 ],
                 'label' => 'Nouveau mot de passe :',
-                'required' => true
-            ])
-        ;
+                'required' => false
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

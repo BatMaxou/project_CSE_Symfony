@@ -7,7 +7,6 @@
 {% block content %}
 
 	<div id="backoffice-admin">
-		<h1>Gestion des administrateurs</h1>
 
 		{% block modal %}
 
@@ -62,77 +61,79 @@
 			} %}
 		{% endblock %}
 
-		<h2>Ajouter un administrateurs</h2>
+		<h1>Gestion des administrateurs</h1>
 
-		<div class="card">
-			<div class="card-body">
-				<div class="add-admin">
-
-					{{ form_start(formAdd, {'attr': {'class': 'add-form'}}) }}
-					{{ form_row(formAdd.email, { 'attr': { class: 'form-input' }, 'disabled': false}) }}
-					{{ form_row(formAdd.plainPassword, { 'attr': { class: 'form-input' }, 'disabled': false}) }}
-					{{ form_row(formAdd.roles, { 'attr': { class: 'form-input' }, 'disabled': false}) }}
-					<button class="btn btn-edit modal-open-add">
-						Ajouter
-					</button>
-					{{ form_end(formAdd) }}
-				</div>
-
-			</div>
-		</div>
-
-		<h2>Les administrateurs</h2>
 		<div class="div-admin">
+			<h2>Ajouter un administrateurs</h2>
 
-			{% for key, admin in admins %}
+			<div class="card">
+				<div class="card-body">
+					<div class="add-admin">
 
-				<div class="card">
-
-					<div class="card-body">
-
-						{{ form_start(formEdits[key], {'attr': {'class': 'edit-form'}}) }}
-
-						{{ form_widget(formEdits[key].id, {value: admin.id}) }}
-
-						{{ form_row(formEdits[key].email, {value: admin.email}) }}
-
-						{{ form_row(formEdits[key].plainPassword, {required: false}) }}
-
-						{% if admin.roles[0] == "ROLE_ADMIN" %}
-							{{ form_row(formEdits[key].roles, {value: 1}) }}
-						{% else %}
-							{{ form_row(formEdits[key].roles, {value: 2}) }}
-						{% endif %}
-
-						<div class="edit-admin">
-							<button class="btn btn-edit modal-open-edit">
-								Modifier
-							</button>
-						</div>
-						{{ form_end(formEdits[key]) }}
-
-						{{ form_start(formDeletes[key], {'attr': {'class': 'delete-form'}})}}
-
-						{{ form_row(formDeletes[key].id, {value: admin.id}) }}
-						<div class="delete-admin">
-							<button class="btn btn-delete modal-open-delete">
-								Supprimer
-							</button>
-						</div>
-
-						{{ form_end(formDeletes[key], {'render_rest': false}) }}
-
+						{{ form_start(formAdd, {'attr': {'class': 'add-form'}}) }}
+						{{ form_row(formAdd.email, { 'attr': { class: 'form-input' }, 'disabled': false}) }}
+						{{ form_row(formAdd.plainPassword, { 'attr': { class: 'form-input' }, 'disabled': false}) }}
+						{{ form_row(formAdd.roles, { 'attr': { class: 'form-input' }, 'disabled': false}) }}
+						<button class="btn btn-edit modal-open-add">
+							Ajouter
+						</button>
+						{{ form_end(formAdd) }}
 					</div>
 
 				</div>
-			{% endfor %}
+			</div>
+
+			<h2>Les administrateurs</h2>
+			<div class="div-admin">
+
+				{% for key, admin in admins %}
+
+					<div class="card">
+
+						<div class="card-body">
+
+							{{ form_start(formEdits[key], {'attr': {'class': 'edit-form'}}) }}
+
+							{{ form_widget(formEdits[key].id, {value: admin.id}) }}
+
+							{{ form_row(formEdits[key].email, {value: admin.email}) }}
+
+							{{ form_row(formEdits[key].plainPassword, {required: false}) }}
+
+							{% if admin.roles[0] == "ROLE_ADMIN" %}
+								{{ form_row(formEdits[key].roles, {value: 1}) }}
+							{% else %}
+								{{ form_row(formEdits[key].roles, {value: 2}) }}
+							{% endif %}
+
+							<div class="edit-admin">
+								<button class='btn btn-edit btn-save modal-open-edit'>Sauvegarder</button>
+								<button class='btn btn-edit btn-actived'>Modifier</button>
+							</div>
+							{{ form_end(formEdits[key]) }}
+
+							{{ form_start(formDeletes[key], {'attr': {'class': 'delete-form'}})}}
+
+							{{ form_row(formDeletes[key].id, {value: admin.id}) }}
+							<div class="delete-admin">
+								<button class="btn btn-delete modal-open-delete">
+									Supprimer
+								</button>
+							</div>
+
+							{{ form_end(formDeletes[key], {'render_rest': false}) }}
+
+						</div>
+
+					</div>
+				{% endfor %}
+
+			</div>
 
 		</div>
 
-	</div>
+		<script src="{{ asset('js/modal.js') }}"></script>
 
-	<script src="{{ asset('js/modal.js') }}"></script>
+		{# INSERT INTO `admin` (`id`, `email`, `roles`, `password`, `last_login`) VALUES (NULL, 'kp,dcv@,cd.com', '[\"ROLE_ADMIN\"]', '', NULL); #}
 
-	{# INSERT INTO `admin` (`id`, `email`, `roles`, `password`, `last_login`) VALUES (NULL, 'kp,dcv@,cd.com', '[\"ROLE_ADMIN\"]', '', NULL); #}
-
-{% endblock %}
+	{% endblock %}

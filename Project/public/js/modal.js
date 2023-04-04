@@ -13,7 +13,7 @@ const handleHeightChange = (modal, modalHeader, modalBody, modalFooter) => {
 
     // si le modal est trop grand alors on limite la hauteur du contenu
     if (maxHeight < totalModalHeight) {
-        modalBody.style.height = con - modalHeader.clientHeight - modalFooter.clientHeight - 40 + 'px'
+        modalBody.style.height = maxHeight - modalHeader.clientHeight - modalFooter.clientHeight - 40 + 'px'
     }
 }
 

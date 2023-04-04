@@ -116,9 +116,6 @@ if (editAdminForms.length != 0 && deleteAdminForms.length != 0) {
             })
 
             closeModal(document.querySelector('.modal-background-delete'))
-
-            // Card animation
-            handleBtnDelete(index)
         }
         else if (type === 'add') {
             response = await fetch(addAdminForm.getAttribute('action'), {
@@ -132,6 +129,14 @@ if (editAdminForms.length != 0 && deleteAdminForms.length != 0) {
         const msg = await response.text()
 
         if (response.status === 200) {
+            if (type === 'edit') {
+                // Card animation
+                handleBtnEdit(index + 1)
+            }
+            else if (type === 'delete') {
+                // Card animation
+                handleBtnDelete(index + 1)
+            }
             createFlash('alert-success', msg)
         } else {
             createFlash('alert-error', msg)
