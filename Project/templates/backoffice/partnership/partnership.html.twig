@@ -1,43 +1,68 @@
 {% extends 'backoffice-page.html.twig' %}
 
-{% block title %}
-	CSE - Backoffice gestion des partenaires
-{% endblock %}
-
 {% block content %}
 
 	<div id="backoffice-partnership">
 		<h1>Gestion des partenaires</h1>
-
-		{% for partnership in partnerships %}
-			<div class="card">
+		<h2>Ajouter un nouveau partenaire</h2>
+		<div class="add-partnership">
+			<div
+				class="card">
+				{# form #}
 				<div class="card-body">
-					<div class="card-image">
-						<img src="{{ asset('imagesTest/' ~ partnership.imagePartnership) }}" alt="logo du partenaire">
+					<div
+						class="card-image">{# image et form label et widget #}
 					</div>
 					<div
-						class="card-content">
-						{# render(controller) #}
-						{{ form_start(formPartnership) }}
-						<input type="hidden" id="modify-id-partnership" name="modify-id-partnership" value="{{ partnership.idPartnership }}">
-						<input type="text" name="modify-name-partnership-{{ partnership.idPartnership }}" value="{{ partnership.namePartnership }}">
-						<textarea name="modify-description-partnership-{{ partnership.idPartnership }}" id="">
-							{{ partnership.descriptionPartnership }}
-						</textarea>
-						<input type="text" id="modify-link-partnership" name="modify-link-partnership-{{ partnership.idPartnership }}" value="{{ partnership.linkPartnership }}">
-						<input type="submit" name="modify-submit-partnership-{{ partnership.idPartnership }}" value="Sauvegarder">
-						{{ form_end(formPartnership) }}
+						class="card-content">{# diff widget #}
+					</div>
+				</div>
+				<div
+					class="card-footer">{# btn add #}
+				</div>
+				{# endform #}
+			</div>
+		</div>
+		<h2>Les partenaires</h2>
+		{% for key, partnership in partnerships %}
+			{# {% for form in formPartnership %} #}
+			{% block modal %}
+				{% include "includes/_modal.html.twig" with {'partnership': partnership} %}
+			{% endblock %}
+			<div class="card">
+				{{ form_start(formPartnership[key]) }}
+				{{ form_row(formPartnership[key].id, {'value': partnership.id} ) }}
+				<div class="card-body">
+					<div class="card-image">
+						<img src="{{ asset('imagesTest/' ~ partnership.image) }}" alt="logo du partenaire">
+						<br>
+						{{ form_label(formPartnership[key].image) }}
+						{{ form_widget(formPartnership[key].image)}}
+						{# {{ form_row(formPartnership[key].image)}} #}
+					</div>
+					<div class="card-content">
+						{{form_widget(formPartnership[key].name, {'value': partnership.name})}}
+						<br>
+						{{form_widget(formPartnership[key].description, {'value': partnership.description})}}
+						<br>
+						<div id="form-link">
+							{{form_label(formPartnership[key].link)}}
+							{{form_widget(formPartnership[key].link, {'value': partnership.link})}}
+						</div>
+						<br>
 					</div>
 				</div>
 				<div class="card-footer">
-					<div>
-						<button class="btn btn-edit">Modifier</button>
-						<button class="btn btn-delete">Supprimer</button>
-					</div>
+					<button class="btn btn-edit btn-save" data-id={{partnership.id}}>Sauvegarder</button>
+					<button class="btn btn-edit btn-actived">Modifier</button>
+					<button class="btn btn-delete" data-id={{partnership.id}}>Supprimer</button>
 				</div>
+				{{ form_end(formPartnership[key]) }}
 			</div>
 		{% endfor %}
 
 	</div>
-
+	{# <script src="{{ asset('js/modal.js') }}"></script> #}
+	{# <script src="{{ asset('js/partnership.js') }}"></script> #}
+	<script src="{{ asset('js/cardAnimation.js') }}"></script>
 {% endblock %}

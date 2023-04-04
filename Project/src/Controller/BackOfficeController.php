@@ -152,4 +152,50 @@ class BackOfficeController extends AbstractController
             'responses_json' => json_encode($responses),
         ]);
     }
+
+    #[Route(path: '/admin/partenariat', name: 'backoffice_partnership')]
+    public function partnership(PartnershipRepository $partnershipRepo, Request $request, EntityManagerInterface $manager): Response
+    {
+        $path = [['Tableau de bord', 'backoffice_dashboard'], ['Partenariat', 'backoffice_partnership']];
+
+        $partnerships = $partnershipRepo->findAll();
+
+        $form = $this->createForm(PartnershipType::class, null, [
+            'action' => '/post/edit-partnership',
+            'method' => 'POST',
+        ]);
+
+        $forms = array();
+
+        for ($i = 0; $i < count($partnerships); $i++) {
+            $forms[] = $form->createView();
+        }
+
+        return $this->render('backoffice/partnership/partnership.html.twig', [
+            'path' => $path,
+            'partnerships' => $partnerships,
+            'formPartnership' => $forms,
+        ]);
+    }
+
+    // #[Route(path: '/admin/partenariat/{id}', name: 'backoffice_partnership')]
+    // public function deletePartnership(string $id, PartnershipRepository $partnershipRepo, Request $request, EntityManagerInterface $manager): Response
+    // {
+    //     $path = [['Tableau de bord', 'backoffice_dashboard'], ['Partenariat', 'backoffice_partnership']];
+
+    //     $partnership = $partnershipRepo->find($id);
+
+    //     $form = $this->createForm(PartnershipType::class, null, [
+    //         'action' => '/post/edit-partnership',
+    //         'method' => 'POST',
+    //     ]);
+
+    //     $form->createView();
+
+    //     return $this->render('backoffice/partnership/partnership.html.twig', [
+    //         'path' => $path,
+    //         'partnership' => $partnership,
+    //         'formPartnership' => $form,
+    //     ]);
+    // }
 }
