@@ -1,4 +1,4 @@
-<div class="modal-background">
+<div class="modal-background modal-background-{{ type }}">
 	<div class="modal">
 		<div class="modal-header">
 			<button class="modal-close">X</button>
@@ -8,19 +8,20 @@
 			{{ content|raw }}
 		</div>
 		<div class="modal-footer">
-
 			{% if options.texteFooter is defined %}
-				{{ options.texteFooter|raw }}
+				<div class="modal-text-footer">
+					{{ options.texteFooter|raw }}
+				</div>
 			{% endif %}
 
 			<div class="btn-container">
 
 				{% if options.modifButton is defined and options.modifButton == true %}
-					<button type="sumbit" class="btn btn-modal btn-edit">Modifier</button>
+					<button type="submit" class="btn btn-modal btn-edit">Modifier</button>
 				{% endif %}
 
 				{% if options.suppButton is defined and options.suppButton == true  %}
-					<button type="sumbit" class="btn btn-modal btn-delete">Supprimer</button>
+					<button type="submit" class="btn btn-modal btn-delete">Supprimer</button>
 				{% endif %}
 
 				<button class="btn btn-modal btn-close">Fermer</button>

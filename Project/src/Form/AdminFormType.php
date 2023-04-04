@@ -28,7 +28,6 @@ class AdminFormType extends AbstractType
                 'required' => true,
                 'attr' => [
                     'placeholder' => "E-mail",
-                    'class' => "zebi"
                 ],
             ])
             ->add('roles', ChoiceType::class, [

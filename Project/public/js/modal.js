@@ -1,48 +1,116 @@
-const modalBackground = document.querySelector('.modal-background');
-const modalOpen = document.querySelector('.modal-open');
-const modalClose = document.querySelector('.modal-close');
-const modal = document.querySelector('.modal');
-const modalHeader = modal.querySelector('.modal-header');
-const modalBody = modal.querySelector('.modal-body');
-const modalFooter = modal.querySelector('.modal-footer');
-const btnClose = document.querySelector('.btn-close');
+/*
+*   INCLUDE FLASH AVANT REQUEST
+*/
 
-// gestion hauteur du modal
-let modalHeaderHeight = 0
-let modalFooterHeight = 0
+const modalBackgroundInfo = document.querySelector('.modal-background-info');
+const modalBackgroundEdit = document.querySelector('.modal-background-edit');
+const modalBackgroundDelete = document.querySelector('.modal-background-delete');
 
-const handleHeightChange = () => {
-    modalBody.style.height = modal.clientHeight - modalHeader.clientHeight - modalFooter.clientHeight - 40 + 'px'
+// A voir plus tard
+const handleHeightChange = (modal, modalHeader, modalBody, modalFooter) => {
+    // modalBody.style.height = modal.clientHeight - modalHeader.clientHeight - modalFooter.clientHeight - 40 + 'px'
+    // console.log(modal.clientHeight);
+    // console.log(modalHeader.clientHeight);
+    // console.log(modalFooter.clientHeight);
 }
 
-window.addEventListener("resize", handleHeightChange)
+function openModal(modalBackground, modal, modalHeader, modalBody, modalFooter) {
 
-// création d'une timeline et paused sur true pour pas que ça se lance des le load de la page
-const timeline = gsap.timeline({ paused: true });
+    // création d'une timeline et paused sur true pour pas que ça se lance des le load de la page
+    const timeline = gsap.timeline({ paused: true })
 
-// -25 pour le faire apparaitre de haut en bah centré progressivement de 50 px
-timeline.from(modal, { y: '-25px', duration: 0.5 })
+    // -25 pour le faire apparaitre de haut en bah centré progressivement de 50 px
+    timeline.from(modal, { top: 0, opacity: 0, duration: 0.5 })
 
-function openModal() {
     modalBackground.style.display = 'block';
-    handleHeightChange()
+    handleHeightChange(modal, modalHeader, modalBody, modalFooter)
+
+    const modalFooterText = modal.querySelector(".modal-text-footer")
+
+    if (!modalFooterText) {
+        const btnContainer = modal.querySelector(".btn-container")
+        btnContainer.style.width = "100%"
+    }
 
     // on joue la timeline
     timeline.restart()
 }
 
-function closeModal() {
+function closeModal(modalBackground) {
     modalBackground.style.display = 'none';
 }
 
-modalOpen.addEventListener('click', openModal);
-modalClose.addEventListener('click', closeModal);
-btnClose.addEventListener('click', closeModal);
+if (modalBackgroundEdit) {
+    let modalEdit = modalBackgroundEdit.querySelector('.modal')
+    let modalHeader = modalBackgroundEdit.querySelector('.modal-header');
+    let modalBody = modalBackgroundEdit.querySelector('.modal-body');
+    let modalFooter = modalBackgroundEdit.querySelector('.modal-footer');
+    let btnOpenEdits = document.querySelectorAll('.modal-open-edit')
+    let modalClose = modalBackgroundEdit.querySelector('.modal-close');
+    let btnClose = modalBackgroundEdit.querySelector('.btn-close');
 
-// pour fermer lorsqu'on clique en dehors du modal
-modalBackground.addEventListener('click', (event) => {
-    // si l'élèment sur lequel l'utilisateur a cliqué === à l'lélèment qu'on a sélectionné 
-    if (event.target === modalBackground) {
-        closeModal();
-    }
-});
+    window.addEventListener("resize", () => handleHeightChange(modalEdit, modalHeader, modalBody, modalFooter))
+
+    btnOpenEdits.forEach(btnOpenEdit => {
+        btnOpenEdit.addEventListener('click', () => openModal(modalBackgroundEdit, modalEdit, modalHeader, modalBody, modalFooter))
+    });
+    modalClose.addEventListener('click', () => modalBackgroundEdit.style.display = "none");
+    btnClose.addEventListener('click', () => closeModal(modalBackgroundEdit));
+
+    // pour fermer lorsqu'on clique en dehors du modal  
+    modalBackgroundEdit.addEventListener('click', (event) => {
+        if (event.target == modalBackgroundEdit) {
+            closeModal(event.target);
+        }
+    })
+}
+
+if (modalBackgroundDelete) {
+    let modalDelete = modalBackgroundDelete.querySelector('.modal')
+    let modalHeader = modalBackgroundDelete.querySelector('.modal-header');
+    let modalBody = modalBackgroundDelete.querySelector('.modal-body');
+    let modalFooter = modalBackgroundDelete.querySelector('.modal-footer');
+    let btnOpenDeletes = document.querySelectorAll('.modal-open-delete')
+    let modalClose = modalBackgroundDelete.querySelector('.modal-close');
+    let btnClose = modalBackgroundDelete.querySelector('.btn-close');
+
+    window.addEventListener("resize", () => handleHeightChange(modalDelete, modalHeader, modalBody, modalFooter))
+
+    btnOpenDeletes.forEach(btnOpenDelete => {
+        btnOpenDelete.addEventListener('click', () => openModal(modalBackgroundDelete, modalDelete, modalHeader, modalBody, modalFooter))
+    });
+    modalClose.addEventListener('click', () => closeModal(modalBackgroundDelete));
+    btnClose.addEventListener('click', () => closeModal(modalBackgroundDelete));
+
+    // pour fermer lorsqu'on clique en dehors du modal  
+    modalBackgroundDelete.addEventListener('click', (event) => {
+        if (event.target == modalBackgroundDelete) {
+            closeModal(event.target);
+        }
+    })
+}
+
+if (modalBackgroundInfo) {
+    let modalDelete = modalBackgroundInfo.querySelector('.modal')
+    let modalHeader = modalBackgroundInfo.querySelector('.modal-header');
+    let modalBody = modalBackgroundInfo.querySelector('.modal-body');
+    let modalFooter = modalBackgroundInfo.querySelector('.modal-footer');
+    let btnOpenInfos = document.querySelectorAll('.modal-open-info')
+    let modalClose = modalBackgroundInfo.querySelector('.modal-close');
+    let btnClose = modalBackgroundInfo.querySelector('.btn-close');
+
+    window.addEventListener("resize", () => handleHeightChange(modalInfo, modalHeader, modalBody, modalFooter))
+
+    btnOpenInfos.forEach(btnOpenInfo => {
+        btnOpenInfo.addEventListener('click', () => openModal(modalBackgroundInfo, modalInfo, modalHeader, modalBody, modalFooter))
+    });
+    modalClose.addEventListener('click', () => closeModal(modalBackgroundInfo));
+    btnClose.addEventListener('click', () => closeModal(modalBackgroundInfo));
+
+    // pour fermer lorsqu'on clique en dehors du modal  
+    modalBackgroundInfo.addEventListener('click', (event) => {
+        if (event.target == modalBackgroundInfo) {
+            closeModal(event.target);
+        }
+    })
+}
