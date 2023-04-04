@@ -46,12 +46,8 @@ if (editAdminForms.length != 0 && deleteAdminForms.length != 0) {
         else if (type === 'delete') {
             form = new FormData(deleteAdminForms[index])
 
-            console.log(deleteAdminForms[index]);
-
             // Traitement de l'affichage des données modifiées dans la modal
             const deleteEmail = document.querySelector('.delete-admin-email')
-
-            console.log(form.get('admin_form[id]'));
 
             deleteEmail.innerHTML = form.get('admin_form[email]')
             // Fin du traitement de l'affichage 
@@ -88,6 +84,9 @@ if (editAdminForms.length != 0 && deleteAdminForms.length != 0) {
             })
 
             closeModal(document.querySelector('.modal-background-delete'))
+
+            // Card animation
+            handleBtnDelete(index)
         }
         else if (type === 'add') {
             response = await fetch(addAdminForms[index].getAttribute('action'), {

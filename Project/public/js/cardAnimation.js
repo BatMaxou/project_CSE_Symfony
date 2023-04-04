@@ -1,22 +1,16 @@
 const cards = document.querySelectorAll('.card')
 const saveBtns = document.querySelectorAll('.btn-save')
 
-console.log(saveBtns);
 saveBtns.forEach(btn => {
     btn.style.display = 'none'
     btn.style.opacity = 0
 })
 
-/*
-* A mettre dans le request
-*/
-const btnDeletes = document.querySelectorAll('.btn-delete')
-
 // création d'une timeline et paused sur true pour pas que ça se lance des le load de la page
 const deleteAnim = gsap.timeline({ paused: true });
 
-const handleBtnDelete = (e, index) => {
-    e.preventDefault()
+const handleBtnDelete = (index) => {
+    // e.preventDefault()
 
     // suppression de la hauteur de la carte sur 1 seconde puis supprimer du DOM
     deleteAnim.to(cards[index], {
@@ -33,13 +27,6 @@ const handleBtnDelete = (e, index) => {
     // on joue la timeline
     deleteAnim.play()
 }
-
-/*
-* A mettre dans le request
-*/
-btnDeletes.forEach((btn, index) => {
-    btn.addEventListener('click', (e) => handleBtnDelete(e, index))
-})
 
 const btnActived = document.querySelectorAll('.btn-actived')
 
