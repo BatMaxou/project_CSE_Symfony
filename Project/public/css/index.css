@@ -718,6 +718,12 @@ textarea:focus::placeholder {
     object-fit: cover;
 }
 
+.card-image label {
+    display: block;
+    margin: 10px 0;
+    text-align: center;
+}
+
 .card .card-header,
 .card .card-footer a {
     display: flex;
@@ -957,12 +963,6 @@ textarea:focus::placeholder {
     .sheet-footer {
         flex-direction: column;
     }
-}
-
-/* BACKOFFICE PARTNERSHIP */
-#backoffice-partnership .card-footer {
-    display: flex;
-    justify-content: flex-end;
 }
 
 /*FOOTER*/
@@ -1594,6 +1594,34 @@ textarea:focus::placeholder {
     background-color: var(--diagram-7);
 }
 
+.survey-response-1 {
+    border-bottom: 2px solid var(--diagram-1);
+}
+
+.survey-response-2 {
+    border-bottom: 2px solid var(--diagram-2);
+}
+
+.survey-response-3 {
+    border-bottom: 2px solid var(--diagram-3);
+}
+
+.survey-response-4 {
+    border-bottom: 2px solid var(--diagram-4);
+}
+
+.survey-response-5 {
+    border-bottom: 2px solid var(--diagram-5);
+}
+
+.survey-response-6 {
+    border-bottom: 2px solid var(--diagram-6);
+}
+
+.survey-response-7 {
+    border-bottom: 2px solid var(--diagram-7);
+}
+
 /* BACK TEXTS */
 
 #texts button[type="submit"] {
@@ -1616,12 +1644,6 @@ textarea:focus::placeholder {
 #member .card-body {
     display: flex;
     margin: 0;
-}
-
-#member .card-image label {
-    display: block;
-    margin: 10px 0;
-    text-align: center;
 }
 
 #member .card-content {
@@ -1815,4 +1837,79 @@ textarea:focus::placeholder {
     line-height: 20px;
     height: calc(5 * 20px);
     position: relative;
+}
+
+/* BACKOFFICE PARTNERSHIP */
+#backoffice-partnership .card-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+}
+
+#backoffice-partnership {
+    width: 100%;
+}
+
+#backoffice-partnership .card-body,
+#backoffice-text .card-body {
+    display: flex;
+    gap: 20px;
+}
+
+#partnership .card-image img,
+#backoffice-partnership .card-body img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+}
+
+#backoffice-partnership .card-image {
+    height: 230px;
+}
+
+@media(max-width: 850px) {
+
+    #partnership .card-body,
+    #backoffice-partnership .card-body,
+    #backoffice-text .card-body {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+#backoffice-partnership .card-content {
+    width: 100%;
+}
+
+#backoffice-partnership .btnSave {
+    display: none;
+}
+
+#backoffice-partnership .form-input {
+    border: none;
+    padding: 15px;
+    margin: 10px 0;
+    width: 95%;
+}
+
+#backoffice-partnership #form-link .form-input {
+    width: 81%;
+}
+
+#backoffice-partnership .card-body {
+    align-items: center;
+}
+
+.input-name {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: var(--color-secondary);
+}
+
+.input-description {
+    resize: none;
+    overflow: auto;
+    width: 95%;
+    max-height: 100px;
+    min-height: 60px;
 }
