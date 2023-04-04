@@ -27,7 +27,36 @@
 		{% for key, partnership in partnerships %}
 			{# {% for form in formPartnership %} #}
 			{% block modal %}
-				{% include "includes/_modal.html.twig" with {'partnership': partnership} %}
+				{% include "includes/_modal.html.twig" with {
+					type: 'edit',
+					title: 'Attention, modification en cours !', 
+					content: 
+						"<p class='modal-question'>Vous êtes sur le point de modifier l'admin : </p>" ~ 
+						"<div class='content-admin-edit'>" ~ 
+							"<p class='modal-recap edit-admin-email'></p>" ~ 
+							"<p class='modal-recap edit-admin-password'></p>" ~ 
+							"<p class='modal-recap edit-admin-roles'></p>" ~ 
+						"</div>" ~ 
+						"<p class='modal-question'>Êtes vous sur de vouloir le modifier ?</p>"
+					, 
+					options: {
+						modifButton: true
+					}
+				} %}
+
+
+				{% include "includes/_modal.html.twig" with {
+					type: 'delete',
+					title: 'Attention, suppression en cours !', 
+					content: 
+						"<p class='modal-question'>Vous êtes sur le point de supprimer l'admin : </p>" ~ 
+						"<p class='modal-recap delete-admin-email'></p>" ~ 
+						"<p class='modal-question'>Êtes vous sur de vouloir le supprimer ?</p>"
+					, 
+					options: {
+						suppButton: true
+					}
+				} %}
 			{% endblock %}
 			<div class="card">
 				{{ form_start(formPartnership[key]) }}
@@ -62,7 +91,5 @@
 		{% endfor %}
 
 	</div>
-	{# <script src="{{ asset('js/modal.js') }}"></script> #}
-	{# <script src="{{ asset('js/partnership.js') }}"></script> #}
-	<script src="{{ asset('js/cardAnimation.js') }}"></script>
+	<script src="{{ asset('js/modal.js') }}"></script>
 {% endblock %}
