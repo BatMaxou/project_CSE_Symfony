@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 final class MemberType extends AbstractType
@@ -14,6 +15,7 @@ final class MemberType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add("id", HiddenType::class)
             ->add('firstName', TextType::class, [
                 'label' => 'Prénom',
                 'required' => true,
@@ -49,7 +51,6 @@ final class MemberType extends AbstractType
                     'class' => 'form-file-input'
                 ],
                 'label_attr' => [
-                    'disabled' => 'disabled',
                     'class' => 'form-file-label form-file-label-disabled'
                 ]
             ]);

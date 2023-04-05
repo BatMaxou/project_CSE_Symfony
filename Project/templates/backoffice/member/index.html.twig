@@ -5,15 +5,71 @@
 {% endblock %}
 
 {% block content %}
-	<div id="member">
+	<div id="backoffice-member">
+
+		{% block modal %}
+
+			{% include "includes/_modal.html.twig" with {
+				type: 'add',
+				title: 'Attention, ajout en cours !', 
+				content: 
+					"<p class='modal-question'>Vous êtes sur le point d'ajouter un membre : </p>" ~ 
+					"<div class='content-admin-add'>" ~ 
+						"<p class='modal-recap add-member-first-name'></p>" ~ 
+						"<p class='modal-recap add-member-last-name'></p>" ~ 
+						"<p class='modal-recap add-member-function'></p>" ~ 
+						"<p class='modal-recap add-member-profil'></p>" ~ 
+					"</div>" ~ 
+					"<p class='modal-question'>Êtes-vous sûr de vouloir ajouter ce membre ?</p>"
+				, 
+				options: {
+					cancelButton: true,
+					addButton: true
+				}
+			} %}
+
+			{% include "includes/_modal.html.twig" with {
+				type: 'edit',
+				title: 'Attention, modification en cours !', 
+				content: 
+					"<p class='modal-question'>Vous êtes sur le point de modifier l'administrateur : </p>" ~ 
+					"<div class='content-admin-edit'>" ~ 
+						"<p class='modal-recap edit-member-first-name'></p>" ~ 
+						"<p class='modal-recap edit-member-last-name'></p>" ~ 
+						"<p class='modal-recap edit-member-function'></p>" ~ 
+						"<p class='modal-recap edit-member-profil'></p>" ~ 
+					"</div>" ~ 
+					"<p class='modal-question'>Êtes-vous sûr de vouloir modifier ce membre ?</p>"
+				, 
+				options: {
+					cancelButton: true,
+					editButton: true
+				}
+			} %}
+
+			{% include "includes/_modal.html.twig" with {
+				type: 'delete',
+				title: 'Attention, suppression en cours !', 
+				content: 
+					"<p class='modal-question'>Vous êtes sur le point de supprimer le membre : </p>" ~ 
+					"<p class='modal-recap delete-member-name'></p>" ~ 
+					"<p class='modal-question'>Êtes-vous sûr de vouloir supprimer ce membre ?</p>"
+				, 
+				options: {
+					cancelButton: true,
+					deleteButton: true
+				}
+			} %}
+		{% endblock %}
+
 		<h1>Gestion des membres</h1>
 		<h2>Ajouter un nouveau membre</h2>
 		<div class="add-member">
 			<div class="card">
-				{{ form_start(addForm) }}
+				{{ form_start(addForm, {'attr': {'class': 'add-form'}}) }}
 				<div class="card-body">
 					<div class="card-image">
-						<img src="{{ asset('images/square.svg')}}" alt="photo de profil du membre à ajouter">
+						<img src="{{ asset('images/no-image.svg')}}" alt="photo de profil du membre à ajouter">
 						{{ form_label(addForm.profil, 'Choisir une image', {'label_attr': {'class': 'form-file-label form-file-label-active'}}) }}
 						{{ form_widget(addForm.profil, { 'disabled': false}) }}
 					</div>
@@ -24,34 +80,43 @@
 					</div>
 				</div>
 				<div class="card-footer">
-					<button class='btn btn-edit btn-add'>Ajouter</button>
+					<button class='btn btn-edit btn-add modal-open-add'>Ajouter</button>
 				</div>
-				{{ form_end(addForm) }}
+				{{ form_end(addForm, {'render_rest': false}) }}
 			</div>
 		</div>
 		<h2>Les membres</h2>
 		<div class="members">
 			{% for key, member in members %}
 				<div class="card">
-					{{ form_start(forms[key]) }}
 					<div class="card-body">
+						{{ form_start(editForms[key], {'attr': {'class': 'edit-form'}}) }}
 						<div class="card-image">
-							<img src="{{ asset('imagesTest/' ~ member.profil)}}" alt="{{ member.firstName }}">
-							{{ form_label(forms[key].profil) }}
-							{{ form_widget(forms[key].profil) }}
+							{% if member.profil is null %}
+								<img src="{{ asset('images/no-image.svg')}}" alt="{{ member.firstName }}">
+							{% else %}
+								<img src="{{ asset('imagesTest/' ~ member.profil)}}" alt="{{ member.firstName }}">
+							{% endif %}
+							{{ form_label(editForms[key].profil, 'Choisir une image', {'label_attr': {'class': 'form-file-label form-file-label-active'}}) }}
+							{{ form_widget(editForms[key].profil, { 'disabled': false}) }}
 						</div>
 						<div class="card-content">
-							{{ form_widget(forms[key].firstName, { 'value': member.firstName }) }}
-							{{ form_widget(forms[key].lastName, { 'value': member.lastName }) }}
-							{{ form_widget(forms[key].function, { 'value': member.function }) }}
+							{{ form_widget(editForms[key].firstName, { 'value': member.firstName }) }}
+							{{ form_widget(editForms[key].lastName, { 'value': member.lastName }) }}
+							{{ form_widget(editForms[key].function, { 'value': member.function }) }}
 						</div>
+						{{ form_end(editForms[key], {'render_rest': false}) }}
+
+						{{ form_start(deleteForms[key], {'attr': {'class': 'delete-form'}}) }}
+						{{ form_widget(deleteForms[key].id) }}
+						{{ form_end(deleteForms[key], {'render_rest': false})}}
+
 					</div>
 					<div class="card-footer">
-						<button class='btn btn-edit btn-save'>Sauvegarder</button>
+						<button class='btn btn-edit btn-save modal-open-edit'>Sauvegarder</button>
 						<button class='btn btn-edit btn-actived'>Modifier</button>
-						<button class='btn btn-delete'>Supprimer</button>
+						<button class='btn btn-delete modal-open-delete'>Supprimer</button>
 					</div>
-					{{ form_end(forms[key]) }}
 				</div>
 			{% endfor %}
 		</div>
@@ -59,5 +124,5 @@
 {% endblock %}
 
 {% block request %}
-	{# <script src="{{ asset('js/request/member.js') }}"></script> #}
+	<script src="{{ asset('js/request/member.js') }}"></script>
 {% endblock %}
