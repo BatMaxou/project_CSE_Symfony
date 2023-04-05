@@ -77,7 +77,7 @@
 						<button class="btn btn-add modal-open-add">
 							Ajouter
 						</button>
-						{{ form_end(formAdd) }}
+						{{ form_end(formAdd, {'render_rest': false}) }}
 					</div>
 
 				</div>
@@ -110,7 +110,7 @@
 								<button class='btn btn-edit btn-save modal-open-edit'>Sauvegarder</button>
 								<button class='btn btn-edit btn-actived'>Modifier</button>
 							</div>
-							{{ form_end(formEdits[key]) }}
+							{{ form_end(formEdits[key], {'render_rest': false}) }}
 
 							{{ form_start(formDeletes[key], {'attr': {'class': 'delete-form'}})}}
 

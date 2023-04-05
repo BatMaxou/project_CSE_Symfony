@@ -114,7 +114,7 @@ class BackOfficeController extends AbstractController
         $members = $rep->findAll();
 
         $addForm = $this->createForm(MemberType::class, null, [
-            // 'action' => $this->generateUrl($staticPathList->getRequestPathByName('ajout_membre')),
+            'action' => $this->generateUrl($staticPathList->getRequestPathByName('ajout_membre')),
             'method' => 'POST',
         ])->createView();
 
@@ -123,16 +123,19 @@ class BackOfficeController extends AbstractController
             'method' => 'POST',
         ]);
 
-        $forms = array();
+        $editForms = array();
+        $deleteForms = array();
 
         for ($i = 0; $i < count($members); $i++) {
-            $forms[] = $form->createView();
+            $editForms[] = $form->createView();
+            $deleteForms[] = $form->createView();
         }
 
         return $this->render('backoffice/member/index.html.twig', [
             'paths' => $paths,
             'members' => $members,
-            'forms' => $forms,
+            'editForms' => $editForms,
+            'deleteForms' => $deleteForms,
             'addForm' => $addForm,
         ]);
     }

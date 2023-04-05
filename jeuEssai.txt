@@ -138,4 +138,5 @@ VALUES
     ('Jean-Phi', 'Ling', 'Jean-Phi.jpg', 'Responsable sourire'),
     ('Le', 'Z', 'leZ.jpg', 'Douanier'),
     ('Charlotte', 'Hofrès', 'Charlotte.jpg', 'Ressource Humaine'),
-    ('Sé', 'Karré', 'CCarre.jpg', 'UX/UI Designer')
+    ('Sé', 'Karré', 'CCarre.jpg', 'UX/UI Designer'),
+    ('Anne', 'Nonym', null, 'Arbitre à mi-temps')

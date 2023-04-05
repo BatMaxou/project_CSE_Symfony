@@ -42,7 +42,11 @@
 					{% for member in members %}
 						<div class="profil">
 							<div class="member-profil-container">
-								<img src="{{ asset('imagesTest/' ~ member.profil)}}" alt="Membre">
+								{% if member.profil is null %}
+									<img src="{{ asset('images/no-image-member.svg')}}" alt="{{ member.firstName }}">
+								{% else %}
+									<img src="{{ asset('imagesTest/' ~ member.profil)}}" alt="{{ member.firstName }}">
+								{% endif %}
 							</div>
 							<div class="member-infos">
 								<h3>{{ member.firstName ~ ' ' ~ member.lastName}}</h3>
