@@ -96,7 +96,6 @@ if (editAdminForms.length != 0 && deleteAdminForms.length != 0) {
     }
 
     const handleAdminsSubmit = async (index, form, type) => {
-        console.log('okokok');
 
         let response = null
 

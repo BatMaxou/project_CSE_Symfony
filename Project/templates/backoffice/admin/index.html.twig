@@ -64,7 +64,7 @@
 		<h1>Gestion des administrateurs</h1>
 
 		<div class="div-admin">
-			<h2>Ajouter un administrateurs</h2>
+			<h2>Ajouter un administrateur</h2>
 
 			<div class="card">
 				<div class="card-body">
@@ -72,9 +72,9 @@
 
 						{{ form_start(formAdd, {'attr': {'class': 'add-form'}}) }}
 						{{ form_row(formAdd.email, { 'attr': { class: 'form-input' }, 'disabled': false}) }}
-						{{ form_row(formAdd.plainPassword, { 'attr': { class: 'form-input' }, 'disabled': false}) }}
+						{{ form_row(formAdd.plainPassword, { 'attr': { class: 'form-input' }, 'required': true, 'disabled': false}) }}
 						{{ form_row(formAdd.roles, { 'attr': { class: 'form-input' }, 'disabled': false}) }}
-						<button class="btn btn-edit modal-open-add">
+						<button class="btn btn-add modal-open-add">
 							Ajouter
 						</button>
 						{{ form_end(formAdd) }}

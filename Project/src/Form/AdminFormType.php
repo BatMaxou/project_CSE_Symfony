@@ -27,6 +27,7 @@ class AdminFormType extends AbstractType
             ->add('email', EmailType::class, [
                 'label' => "E-mail :",
                 'required' => true,
+                'disabled' => true,
                 'attr' => [
                     'placeholder' => "E-mail",
                     'type' => 'email',
@@ -40,6 +41,7 @@ class AdminFormType extends AbstractType
                 ],
                 'mapped' => false,
                 'label' => 'Rôle :',
+                'disabled' => true,
                 'attr' => [
                     'class' => 'form-input form-input-disabled'
                 ],
@@ -65,6 +67,7 @@ class AdminFormType extends AbstractType
                     ]),
                 ],
                 'label' => 'Nouveau mot de passe :',
+                'disabled' => true,
                 'required' => false
             ]);
     }

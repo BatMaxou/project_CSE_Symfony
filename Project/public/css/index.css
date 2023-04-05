@@ -36,10 +36,12 @@ p {
 
 h1 {
     color: var(--color-primary);
+    margin-bottom: 10px;
 }
 
 h2 {
     color: var(--color-primary);
+    margin-bottom: 10px;
 }
 
 a {
@@ -133,27 +135,7 @@ textarea:focus::placeholder {
     width: 100%;
 }
 
-#homepage h1,
-#partnership h1,
-#offer h1,
-#contact h1,
-#texts h1,
-#backoffice-survey h1,
-#dashboard-left h1,
-#member h1,
-#backoffice-admin h1,
-#backoffice-partnership h1 {
-    margin-bottom: 10px;
-}
-
-#member h2,
-#backoffice-admin h2,
-#backoffice-partnership h2 {
-    margin-bottom: 10px;
-}
-
 /* BTN */
-
 .btn-container {
     display: flex;
     margin-left: 10px;
@@ -173,6 +155,7 @@ textarea:focus::placeholder {
 }
 
 .btn-add,
+.btn-info,
 .btn-edit {
     background-color: var(--color-primary);
 }
@@ -622,6 +605,17 @@ textarea:focus::placeholder {
     color: var(--color-secondary);
 }
 
+/* Captcha */
+.cf-turnstile {
+    margin: auto;
+    max-width: 400px;
+}
+
+iframe {
+    width: 100% !important;
+    max-width: 400px;
+}
+
 
 @media(max-width: 850px) {
     .contact-img {
@@ -645,6 +639,7 @@ textarea:focus::placeholder {
     background-color: var(--color-primary);
     text-align: center;
     padding: 15px;
+    margin: 0;
 }
 
 .sidebar-survey .flash {
@@ -1358,7 +1353,7 @@ textarea:focus::placeholder {
     border-top: 2px solid var(--color-secondary);
     position: absolute;
     width: 50px;
-    top: 25px;
+    top: 33px;
 }
 
 .ul-ticketing li {
@@ -1389,12 +1384,6 @@ textarea:focus::placeholder {
 }
 
 .div-ticketing {
-    margin: 20px 0;
-    gap: 20px;
-}
-
-.div-ticketing {
-    margin: 20px 0;
     gap: 20px;
 }
 
@@ -1473,84 +1462,6 @@ textarea:focus::placeholder {
     gap: 10px;
 }
 
-.add-admin {
-    width: 100%;
-}
-
-.add-admin form {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-}
-
-.add-admin form div {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.add-admin label {
-    color: var(--color-secondary);
-    font-weight: bold;
-    padding: 0;
-}
-
-.add-admin input {
-    outline: none;
-    background-color: #EFEDED;
-    border: none;
-    border-bottom: 1px solid black;
-    padding: 5px 0;
-}
-
-.add-admin select {
-    outline: none;
-    border: none;
-    background-color: #EFEDED;
-    border-bottom: 1px solid black;
-    padding: 5px 0;
-    width: 100%;
-}
-
-.add-admin {
-    width: 100%;
-}
-
-.add-admin form {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-}
-
-.add-admin form div {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.add-admin label {
-    color: var(--color-secondary);
-    font-weight: bold;
-    padding: 0;
-}
-
-.add-admin input {
-    outline: none;
-    background-color: #EFEDED;
-    border: none;
-    border-bottom: 1px solid black;
-    padding: 5px 0;
-}
-
-.add-admin select {
-    outline: none;
-    border: none;
-    background-color: #EFEDED;
-    border-bottom: 1px solid black;
-    padding: 5px 0;
-    width: 100%;
-}
-
 #backoffice-admin .edit-form {
     width: 100%;
 }
@@ -1571,6 +1482,10 @@ textarea:focus::placeholder {
     color: var(--color-secondary);
     font-weight: bold;
     padding: 0;
+}
+
+.add-admin {
+    width: 100%;
 }
 
 .password-form {
@@ -1722,6 +1637,7 @@ textarea:focus::placeholder {
 #member .add-member {
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-between;
 }
 
 #member .add-member .card {
@@ -1729,8 +1645,7 @@ textarea:focus::placeholder {
 }
 
 #member .members .card {
-    width: 45%;
-    margin-inline: 10px;
+    width: 46%;
 }
 
 #member .card-body {
@@ -1760,10 +1675,6 @@ textarea:focus::placeholder {
     #member {
         justify-content: center;
     }
-
-    #member .members .card {
-        width: 43%;
-    }
 }
 
 @media(max-width: 850px) {
@@ -1773,17 +1684,6 @@ textarea:focus::placeholder {
 
     #member .members .card {
         width: 100%;
-    }
-}
-
-@media(max-width: 850px) and (min-width: 700px) {
-    #member .card-content {
-        text-align: center;
-    }
-
-    #member .card-content input {
-        width: 35%;
-        margin: 25px;
     }
 }
 
@@ -1799,10 +1699,6 @@ textarea:focus::placeholder {
 }
 
 /* DASHBOARD */
-#dashboard h2 {
-    margin-bottom: 10px;
-}
-
 #presentation-logout {
     display: flex;
     gap: 15px;
