@@ -13,7 +13,12 @@
 			- Offre
 			{{ offer.type }}</h1>
 		<div class="card">
-			<div class="offer-card-header">
+			<div class="card-header">
+				{% if offer.partnership.image is defined and offer.partnership.image is not null %}
+					<div class="offer-card-img-partnership">
+						<img src="{{ asset('imagesTest/' ~ offer.partnership.image) }}" alt="image offer">
+					</div>
+				{% endif %}
 				<div class="offer-card-date">
 					<span>
 						Publié le
@@ -24,26 +29,21 @@
 					au
 					{{ offer.dateEnd|date('d/m/Y')}}
 				</div>
-				<div class="offer-card-img-partnership">
-					{% if offer.partnership.image is defined and offer.partnership.image is not null %}
-						<img src="{{ asset('imagesTest/' ~ offer.partnership.image) }}" alt="image offer">
+				<div class="offer-card-place">
+					{% if offer.type == "permanente" %}
+						Nombre de place minimum à prendre :
+						{{ offer.numberMinPlace }}
 					{% endif %}
 				</div>
 			</div>
-			<div class="offer-card-place">
-				{% if offer.type == "permanente" %}
-					Nombre de place minimum à prendre :
-					{{ offer.numberMinPlace }}
-				{% endif %}
-			</div>
-			<div class="offer-card-body">
+			<div class="card-body">
 				<h3>Description</h3>
 				<p>{{offer.text}}</p>
-			</div>
-			<div class="offer-card-footer">
-				{% for img in imgOffer %}
-					<img src="{{ asset('imagesTest/' ~ img.name) }}" alt="image offer">
-				{% endfor %}
+				<div class="offer-card-showroom">
+					{% for img in imgOffer %}
+						<img src="{{ asset('imagesTest/' ~ img.name) }}" alt="image offer">
+					{% endfor %}
+				</div>
 			</div>
 		</div>
 	</div>

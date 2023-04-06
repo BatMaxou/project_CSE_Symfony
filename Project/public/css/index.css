@@ -134,6 +134,7 @@ textarea:focus::placeholder {
 #homepage,
 #partnership,
 #aboutus,
+#ticketing,
 #offer,
 #contact,
 #backoffice-partnership,
@@ -184,17 +185,14 @@ textarea:focus::placeholder {
     position: fixed;
     width: 100%;
     height: 50px;
-    padding: 25px;
-    z-index: 9999;
+    padding: 25px 0;
+    z-index: 2;
     color: var(--color-white);
 }
 
-.flash-header {
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: space-between;
-    width: 95%;
-    margin-right: 15px;
+.flash-header,
+.flash .message {
+    margin-left: 25px;
 }
 
 .alert-error {
@@ -206,14 +204,13 @@ textarea:focus::placeholder {
 }
 
 .closebtn {
-    margin-left: 15px;
     color: var(--color-white);
     font-weight: bold;
-    float: right;
     font-size: 22px;
     line-height: 20px;
     cursor: pointer;
-    transition: 0.3s;
+    position: absolute;
+    right: 40px;
 }
 
 .closebtn:hover {
@@ -748,6 +745,24 @@ iframe {
     list-style: disc;
 }
 
+#partnership .card-body,
+#ticketing .card-body,
+#backoffice-partnership .card-body,
+#backoffice-survey .card-body {
+    display: flex;
+    gap: 20px;
+}
+
+@media(max-width: 850px) {
+
+    #partnership .card-body,
+    #backoffice-partnership .card-body,
+    #backoffice-survey .card-body {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
 .card-image img {
     width: 200px;
     height: 200px;
@@ -765,7 +780,7 @@ iframe {
     display: flex;
 }
 
-.card .card-header .card-tag {
+.card .card-tag {
     background-color: var(--color-primary);
     color: var(--color-white);
     font-size: 12px;
@@ -776,7 +791,7 @@ iframe {
     height: 13px;
 }
 
-.card .card-header .card-date {
+.card .card-date {
     padding: 5px 10px;
     font-size: 14px;
 }
@@ -815,25 +830,6 @@ iframe {
     .card .card-header .card-date {
         padding-left: 0;
         width: 100%;
-    }
-}
-
-/* CARD PARTNERSHIP */
-
-#partnership .card-body,
-#backoffice-partnership .card-body,
-#backoffice-survey .card-body {
-    display: flex;
-    gap: 20px;
-}
-
-@media(max-width: 850px) {
-
-    #partnership .card-body,
-    #backoffice-partnership .card-body,
-    #backoffice-survey .card-body {
-        flex-direction: column;
-        align-items: center;
     }
 }
 
@@ -947,30 +943,33 @@ iframe {
 
 /* OFFER */
 
-.offer-card-place {
+#offer .card-header {
+    flex-direction: column;
+}
+
+#offer .offer-card-place {
     padding: 15px 0;
 }
 
-.offer-card-body {
-    padding-bottom: 25px;
+#offer .offer-card-img-partnership {
+    position: absolute;
+    right: 15px;
 }
 
-.offer-card-body h3 {
-    padding-bottom: 10px;
+#offer .card-header img {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
 }
 
-.offer-card-date span {
+#offer .offer-card-date span {
     font-size: 13px;
     display: block;
     margin-bottom: 2px;
 }
 
-.offer-card-img-partnership {
-    position: absolute;
-    right: 15px;
-}
-
-.offer-card-footer {
+#offer .offer-card-showroom {
+    margin-top: 15px;
     display: flex;
     gap: 25px;
     max-width: 100%;
@@ -978,26 +977,22 @@ iframe {
     flex-wrap: wrap;
 }
 
-.offer-card-footer img {
+#offer .offer-card-showroom img {
     width: 330px;
     height: 190px;
     object-fit: cover;
 }
 
-.offer-card-header {
-    display: flex;
-    justify-content: space-between
-}
+@media (max-width: 550px) {
+    #offer .offer-card-img-partnership {
+        position: inherit;
+        margin-bottom: 15px;
+        text-align: center;
+    }
 
-.offer-card-header img {
-    width: 70px;
-    height: 70px;
-    object-fit: cover;
-}
-
-@media(max-width: 850px) {
-    .sheet-footer {
-        flex-direction: column;
+    #offer .offer-card-showroom img {
+        width: 250px;
+        height: 144px;
     }
 }
 
@@ -1246,6 +1241,7 @@ iframe {
 #aboutus .card-header button {
     border: none;
     cursor: pointer;
+    padding: 0;
 }
 
 .modal-open {
@@ -1370,7 +1366,7 @@ iframe {
 
 /* TICKETING */
 
-.ticketing {
+#ticketing {
     width: 100%;
 }
 
@@ -1428,33 +1424,16 @@ iframe {
     font-weight: bold;
 }
 
-.div-ticketing {
-    gap: 20px;
-}
-
-.div-ticketing .card {
-    display: flex;
-    gap: 20px;
-}
-
-.div-ticketing .card-content {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.div-ticketing .card-body {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+#ticketing .card-date {
+    padding: 10px 0;
 }
 
 .div-ticketing .card-description-ticketing {
     overflow: hidden;
     line-height: 20px;
-    height: calc(3 * 20px);
+    height: calc(80px);
     position: relative;
+    margin-bottom: 10px;
 }
 
 .div-ticketing .card-description-ticketing::after {
@@ -1467,31 +1446,30 @@ iframe {
     background: linear-gradient(90deg, transparent, var(--color-card));
 }
 
-.div-ticketing a {
-    position: absolute;
-    right: 15px;
-    bottom: 15px;
-    text-transform: uppercase;
-    font-size: 12px;
-    color: var(--color-black);
-}
+@media (max-width: 650px) {
 
-.div-ticketing .card-footer img {
-    width: 12px;
-    margin-left: 5px;
-}
-
-@media (max-width: 990px) {
-    .ticketing .card-header {
+    #ticketing .card-body {
         flex-direction: column;
+        align-items: center;
+    }
+}
+
+@media (max-width: 500px) {
+    .ul-ticketing li {
+        font-size: 14px;
     }
 
-    .ticketing .card-tag {
-        width: 128px;
+    .ticketing-underline,
+    .ticketing-all-button {
+        width: 45px;
     }
 
-    .ticketing .card-date {
-        padding: 5px 0 !important;
+    .ticketing-permanent-button {
+        width: 85px;
+    }
+
+    .ticketing-limited-button {
+        width: 55px;
     }
 }
 
