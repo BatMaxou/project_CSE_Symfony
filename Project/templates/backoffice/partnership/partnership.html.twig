@@ -3,92 +3,127 @@
 {% block content %}
 
 	<div id="backoffice-partnership">
-		<h1>Gestion des partenaires</h1>
-		<h2>Ajouter un nouveau partenaire</h2>
-		<div class="add-partnership">
-			<div
-				class="card">
-				{# form #}
-				<div class="card-body">
-					<div
-						class="card-image">{# image et form label et widget #}
-					</div>
-					<div
-						class="card-content">{# diff widget #}
-					</div>
-				</div>
-				<div
-					class="card-footer">{# btn add #}
-				</div>
-				{# endform #}
-			</div>
-		</div>
-		<h2>Les partenaires</h2>
-		{% for key, partnership in partnerships %}
-			{# {% for form in formPartnership %} #}
-			{% block modal %}
-				{% include "includes/_modal.html.twig" with {
+		{% block modal %}
+			{% include "includes/_modal.html.twig" with {
 					type: 'edit',
 					title: 'Attention, modification en cours !', 
 					content: 
-						"<p class='modal-question'>Vous êtes sur le point de modifier l'admin : </p>" ~ 
-						"<div class='content-admin-edit'>" ~ 
-							"<p class='modal-recap edit-admin-email'></p>" ~ 
-							"<p class='modal-recap edit-admin-password'></p>" ~ 
-							"<p class='modal-recap edit-admin-roles'></p>" ~ 
+						"<p class='modal-question'>Vous êtes sur le point de modifier un partenaire : </p>" ~ 
+						"<div class='post-content'>" ~ 
+							"<p class='modal-recap edit-partnership-name'></p>" ~ 
+							"<p class='modal-recap edit-partnership-description'></p>" ~ 
+							"<p class='modal-recap edit-partnership-link'></p>" ~ 
+							"<p class='modal-recap edit-partnership-image'></p>" ~ 
 						"</div>" ~ 
 						"<p class='modal-question'>Êtes vous sur de vouloir le modifier ?</p>"
 					, 
 					options: {
-						modifButton: true
+						cancelButton: true,
+						editButton: true
 					}
 				} %}
 
+			{% include "includes/_modal.html.twig" with {
+				type: 'add',
+				title: 'Attention, ajout en cours !', 
+				content: 
+					"<p class='modal-question'>Vous êtes sur le point d'ajouter un nouveau partenaire : </p>" ~ 
+					"<div class='post-content'>" ~ 
+						"<p class='modal-recap add-partnership-name'></p>" ~ 
+						"<p class='modal-recap add-partnership-description'></p>" ~ 
+						"<p class='modal-recap add-partnership-link'></p>" ~ 
+						"<p class='modal-recap add-partnership-image'></p>" ~ 
+					"</div>" ~ 
+					"<p class='modal-question'>Êtes-vous sûr de vouloir ajouter ce nouveau partenaire ?</p>"
+				, 
+				options: {
+					cancelButton: true,
+					addButton: true
+				}
+			} %}
 
-				{% include "includes/_modal.html.twig" with {
+			{% include "includes/_modal.html.twig" with {
 					type: 'delete',
 					title: 'Attention, suppression en cours !', 
 					content: 
-						"<p class='modal-question'>Vous êtes sur le point de supprimer l'admin : </p>" ~ 
-						"<p class='modal-recap delete-admin-email'></p>" ~ 
-						"<p class='modal-question'>Êtes vous sur de vouloir le supprimer ?</p>"
+						"<p class='modal-question'>Vous êtes sur le point de supprimer un partenaire : </p>" ~ 
+						"<p class='modal-recap delete-partnership-name'></p>" ~ 
+						"<p class='modal-question'>Êtes vous sur de vouloir supprimer ce partenaire ?</p>"
 					, 
 					options: {
-						suppButton: true
+						cancelButton: true,
+						deleteButton: true
 					}
 				} %}
-			{% endblock %}
+		{% endblock %}
+
+		<h1>Gestion des partenaires</h1>
+		<h2>Ajouter un nouveau partenaire</h2>
+		<div class="add-partnership">
 			<div class="card">
-				{{ form_start(formPartnership[key]) }}
-				{{ form_row(formPartnership[key].id, {'value': partnership.id} ) }}
+				{{ form_start(addFormPartner, {'attr': {'class': 'add-form'}}) }}
 				<div class="card-body">
 					<div class="card-image">
-						<img src="{{ asset('imagesTest/' ~ partnership.image) }}" alt="logo du partenaire">
-						<br>
-						{{ form_label(formPartnership[key].image) }}
-						{{ form_widget(formPartnership[key].image)}}
-						{# {{ form_row(formPartnership[key].image)}} #}
+						<img src="{{ asset('images/no-image.svg')}}" alt="photo de profil du membre à ajouter">
+						{{ form_label(addFormPartner.image, 'Choisir une image', {'label_attr': {'class': 'form-file-label form-file-label-active'}}) }}
+						{{ form_widget(addFormPartner.image, { 'disabled': false}) }}
 					</div>
 					<div class="card-content">
-						{{form_widget(formPartnership[key].name, {'value': partnership.name})}}
-						<br>
-						{{form_widget(formPartnership[key].description, {'value': partnership.description})}}
-						<br>
-						<div id="form-link">
-							{{form_label(formPartnership[key].link)}}
-							{{form_widget(formPartnership[key].link, {'value': partnership.link})}}
-						</div>
-						<br>
+						{{ form_widget(addFormPartner.name, { 'attr': { class: 'form-input' }, 'disabled': false}) }}
+						{{ form_widget(addFormPartner.description, { 'attr': { class: 'form-input' }, 'disabled': false}) }}
+						{{ form_widget(addFormPartner.link, { 'attr': { class: 'form-input' }, 'disabled': false}) }}
 					</div>
 				</div>
 				<div class="card-footer">
-					<button class="btn btn-edit btn-save" data-id={{partnership.id}}>Sauvegarder</button>
-					<button class="btn btn-edit btn-actived">Modifier</button>
-					<button class="btn btn-delete" data-id={{partnership.id}}>Supprimer</button>
+					<button class='btn btn-edit btn-add modal-open-add'>Ajouter le nouveau partenaire</button>
 				</div>
-				{{ form_end(formPartnership[key]) }}
+				{{ form_end(addFormPartner, {'render_rest': false}) }}
 			</div>
-		{% endfor %}
+		</div>
+		<h2>Les partenaires</h2>
+		<div class="partnerships">
+			{% for key, partnership in partnerships %}
+				<div class="card">
+					{{ form_start(formPartnership[key], {'attr': {'class': 'edit-form'}}) }}
+					{{ form_row(formPartnership[key].id, { 'value': partnership.id }) }}
+					<div class="card-body">
+						<div class="card-image">
+							{% if partnership.image is null %}
+								<img src="{{ asset('images/no-image.svg')}}" alt="{{ partnership.name }}">
+							{% else %}
+								<img src="{{ asset('imagesTest/' ~ partnership.image)}}" alt="{{ partnership.name }}">
+							{% endif %}
+							{{ form_label(formPartnership[key].image) }}
+							{{ form_widget(formPartnership[key].image) }}
+						</div>
+						<div class="card-content">
+							{{form_widget(formPartnership[key].name, {'value': partnership.name})}}
+							{{form_widget(formPartnership[key].description, {'value': partnership.description})}}
+							<div id="form-link">
+								{{form_label(formPartnership[key].link)}}
+								{{form_widget(formPartnership[key].link, {'value': partnership.link})}}
+							</div>
+						</div>
+					</div>
+					{{ form_end(formPartnership[key], {'render_rest': false}) }}
+
+					{{ form_start(deleteForm[key], {'attr': {'class': 'delete-form'}}) }}
+
+					{{ form_widget(deleteForm[key].id, { 'value': partnership.id, 'disabled': false }) }}
+					{{ form_widget(deleteForm[key].name, { 'attr': { class: 'form-input-hidden' }, 'value': partnership.name, 'disabled': false }) }}
+					{{ form_widget(deleteForm[key].description, { 'attr': { class: 'form-input-hidden' }, 'value': partnership.description, 'disabled': false }) }}
+					{{ form_widget(deleteForm[key].link, { 'attr': { class: 'form-input-hidden' }, 'value': partnership.link, 'disabled': false }) }}
+
+					{{ form_end(deleteForm[key], {'render_rest': false})}}
+
+					<div class="card-footer">
+						<button class='btn btn-edit btn-save modal-open-edit'>Sauvegarder</button>
+						<button class='btn btn-edit btn-actived'>Modifier</button>
+						<button class='btn btn-delete modal-open-delete'>Supprimer</button>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
 	</div>
 {% endblock %}
 
