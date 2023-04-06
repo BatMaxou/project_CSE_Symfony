@@ -12,7 +12,11 @@
 				<div class="card">
 					<div class="card-body">
 						<div class="card-image">
-							<img src="{{ asset('imagesTest/' ~ partnership.image) }}" alt="{{ partnership.image }}">
+							{% if partnership.image is null %}
+								<img src="{{ asset('images/no-image-partnership.svg')}}" alt="{{ partnership.name }}">
+							{% else %}
+								<img src="{{ asset('imagesTest/' ~ partnership.image)}}" alt="{{ partnership.name }}">
+							{% endif %}
 						</div>
 						<div class="card-content">
 							<h3>{{ partnership.name }}</h3>
