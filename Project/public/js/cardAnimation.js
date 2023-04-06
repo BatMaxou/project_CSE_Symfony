@@ -9,7 +9,7 @@ saveBtns.forEach(btn => {
 // création d'une timeline et paused sur true pour pas que ça se lance des le load de la page
 const newCardAnim = gsap.timeline({ paused: true });
 
-const handleAddCard = (cards) => {
+const handleAddCard = (cards, fade = false) => {
     // enlever la card d'ajout
     cards.splice(0, 1)
 
@@ -22,11 +22,11 @@ const handleAddCard = (cards) => {
                 height: 'auto',
                 duration: 1
             })
-        } else if (window.innerWidth >= 850) {
+        } else if (window.innerWidth >= 850 && fade) {
             card.style.opacity = 0
             gsap.to(card, {
                 opacity: 1,
-                duration: 1
+                duration: 1.5
             })
         }
     })
@@ -38,19 +38,37 @@ const handleAddCard = (cards) => {
 // création d'une timeline et paused sur true pour pas que ça se lance des le load de la page
 const deleteAnim = gsap.timeline({ paused: true });
 
-const handleBtnDelete = (index) => {
+const handleBtnDelete = (index, cards, fade = false) => {
+    // enlever la card d'ajout
+    cards.splice(0, 1)
 
-    // suppression de la hauteur de la carte sur 1 seconde puis supprimer du DOM
-    deleteAnim.to(cards[index], {
-        height: '0px',
-        overflow: 'hidden',
-        marginBottom: 0,
-        marginTop: 0,
-        opacity: 0,
-        paddingTop: 0,
-        paddingBottom: 0,
-        duration: 1
-    }).then(() => cards[index].style.display = 'none')
+    cards.forEach((card, i) => {
+        console.log(window.innerWidth, fade);
+        if (i === index) {
+            // suppression de la hauteur de la carte sur 1 seconde puis supprimer du DOM
+            deleteAnim.to(card, {
+                height: '0px',
+                overflow: 'hidden',
+                marginBottom: 0,
+                marginTop: 0,
+                opacity: 0,
+                paddingTop: 0,
+                paddingBottom: 0,
+                duration: 1
+            }).then(() => cards[index].style.display = 'none')
+
+        } else if (i > index && window.innerWidth >= 850 && fade) {
+            gsap.to(card, {
+                opacity: 0,
+                duration: 1
+            }).then(() => {
+                gsap.to(card, {
+                    opacity: 1,
+                    duration: 1
+                })
+            })
+        }
+    })
 
     // on joue la timeline
     deleteAnim.play()
@@ -78,6 +96,8 @@ const handleBtnEdit = (index) => {
 
     // on joue la timeline
     editAnim.play()
+
+    handleDesactive(index)
 }
 
 const btnActived = document.querySelectorAll('.btn-actived')
@@ -89,7 +109,8 @@ const handleBtnActive = (e, index) => {
     e.preventDefault()
 
     const saveBtn = cards[index].querySelector('.btn-save')
-    const inputs = cards[index].querySelectorAll('input, textarea, select')
+    // precision de .edit-form pour exclure les inputs du formulaire de suppression
+    const inputs = cards[index].querySelectorAll('.edit-form input, .edit-form textarea, .edit-form select')
     const labelImg = cards[index].querySelector('label.form-file-label-disabled')
 
     inputs.forEach(input => {
@@ -132,6 +153,44 @@ const handleBtnActive = (e, index) => {
     // on joue la timeline
     activeAnim.play()
 
+}
+
+// création d'une timeline et paused sur true pour pas que ça se lance des le load de la page
+const dasactiveAnim = gsap.timeline({ paused: true });
+
+const handleDesactive = (index) => {
+
+    // precision de .edit-form pour exclure les inputs du formulaire de suppression
+    const inputs = cards[index].querySelectorAll('.edit-form input, .edit-form textarea, .edit-form select')
+    const labelImg = cards[index].querySelector('label.form-file-label-active')
+
+    inputs.forEach(input => {
+        // rendre les input disabled
+        input.disabled = true
+        input.classList.add('.form-input-disabled')
+
+        // dsactiver les champs
+        dasactiveAnim.to(input, {
+            backgroundColor: 'var(--color-disabled)',
+            borderBottom: '1px solid transparent',
+            duration: 0.2
+        })
+    })
+
+    if (labelImg) {
+        // activer les champs
+        dasactiveAnim.to(labelImg, {
+            backgroundColor: 'var(--color-disabled)',
+            borderColor: 'transparent',
+            duration: 0.2
+        }).then(() => {
+            labelImg.classList.remove('form-file-label-active')
+            labelImg.classList.add('form-file-label-disabled')
+        })
+    }
+
+    // on joue la timeline
+    dasactiveAnim.play()
 }
 
 btnActived.forEach((btn, index) => {

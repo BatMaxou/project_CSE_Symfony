@@ -240,7 +240,6 @@ class RequestBackofficeController extends AbstractController
 
             // supprimer l'image associé s'il y a
             if ($member->getProfil() !== null) {
-                var_dump('img');
                 unlink($this->getParameter('kernel.project_dir') . '/public/imagesTest/' . $member->getProfil());
             }
 

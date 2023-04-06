@@ -10,7 +10,7 @@ if ((getParameter = window.location.href.split('?')[1])
     // passer outre la 'card' d'ajout
     // cards est recup dans cardAnimation.js
     // transform cards de nodelist a array 
-    handleAddCard(Array.from(cards))
+    handleAddCard(Array.from(cards), true)
     window.history.replaceState({}, document.title, window.location.pathname);
 }
 
@@ -157,7 +157,9 @@ const handleMembersSubmit = async (index, formData, form, type) => {
         }
         else if (type === 'delete') {
             // Card animation
-            handleBtnDelete(index + 1)
+            // 'cards' est défini dans cardAnimation.js
+            console.log(cards);
+            handleBtnDelete(index, Array.from(cards), true)
         }
         else if (type === 'add') {
             setTimeout(() => {

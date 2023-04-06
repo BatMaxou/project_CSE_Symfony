@@ -15,6 +15,7 @@ body {
     --color-secondary: #b6a886;
     --color-danger: #C85353;
     --color-black-fog: rgba(0, 0, 0, 0.5);
+    --color-disabled: rgba(0, 0, 0, 0.1);
     --diagram-1: #36a2eb;
     --diagram-2: #ff6384;
     --diagram-3: #4bc0c0;
@@ -80,7 +81,7 @@ textarea:focus::placeholder {
 
 .form-input-disabled,
 .form-file-label-disabled {
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: var(--color-disabled);
     border-bottom: 1px solid transparent;
     color: #000;
 }
@@ -1666,7 +1667,7 @@ iframe {
 }
 
 #backoffice-member .members .card {
-    width: 45%;
+    width: 46%;
 }
 
 #backoffice-member .card-body {
@@ -1709,17 +1710,6 @@ iframe {
 
     #backoffice-member .members .card {
         width: 100%;
-    }
-}
-
-@media(max-width: 850px) and (min-width: 700px) {
-    #backoffice-member .card-content {
-        text-align: center;
-    }
-
-    #backoffice-member .card-content input {
-        width: 35%;
-        margin: 25px;
     }
 }
 
