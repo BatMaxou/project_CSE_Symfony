@@ -41,7 +41,7 @@ class ResponseRepository extends ServiceEntityRepository
     }
 
     // return an array of the response associated of the survey is active
-    public function findResponseById($id): array
+    public function findResponseBySurveyId($id): array
     {
         return $this->createQueryBuilder('r')
             ->andWhere('r.survey = :id')
@@ -50,38 +50,37 @@ class ResponseRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    // return an Response object associated of the name 
-    public function findIdResponseOfName($name): Response
+    public function findResponseById($id): ?Response
     {
         return $this->createQueryBuilder('r')
-            ->andWhere('r.text = :name')
-            ->setParameter('name', $name)
+            ->andWhere('r.id = :id')
+            ->setParameter('id', $id)
             ->getQuery()
             ->getOneOrNullResult();
     }
 
-//    /**
-//     * @return Response[] Returns an array of Response objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('r')
-//            ->andWhere('r.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('r.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    //    /**
+    //     * @return Response[] Returns an array of Response objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('r')
+    //            ->andWhere('r.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('r.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
 
-//    public function findOneBySomeField($value): ?Response
-//    {
-//        return $this->createQueryBuilder('r')
-//            ->andWhere('r.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    //    public function findOneBySomeField($value): ?Response
+    //    {
+    //        return $this->createQueryBuilder('r')
+    //            ->andWhere('r.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 }
