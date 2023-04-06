@@ -7,6 +7,35 @@ saveBtns.forEach(btn => {
 })
 
 // création d'une timeline et paused sur true pour pas que ça se lance des le load de la page
+const newCardAnim = gsap.timeline({ paused: true });
+
+const handleAddCard = (cards) => {
+    // enlever la card d'ajout
+    cards.splice(0, 1)
+
+    cards.forEach((card, index) => {
+        if (index === 0) {
+            card.style.height = '0px'
+            card.style.overflow = 'hidden'
+
+            newCardAnim.to(card, {
+                height: 'auto',
+                duration: 1
+            })
+        } else if (window.innerWidth >= 850) {
+            card.style.opacity = 0
+            gsap.to(card, {
+                opacity: 1,
+                duration: 1
+            })
+        }
+    })
+
+    // on joue la timeline
+    newCardAnim.play()
+}
+
+// création d'une timeline et paused sur true pour pas que ça se lance des le load de la page
 const deleteAnim = gsap.timeline({ paused: true });
 
 const handleBtnDelete = (index) => {

@@ -39,6 +39,26 @@ class MemberRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @return Member[] Returns an array of Member objects
+     */
+    public function findAllByDesc(): array
+    {
+        return $this->createQueryBuilder('m')
+            ->orderBy('m.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findById(int $id): ?Member
+    {
+        return $this->createQueryBuilder('m')
+            ->andWhere('m.id = :val')
+            ->setParameter('val', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     //    /**
     //     * @return Member[] Returns an array of Member objects
     //     */

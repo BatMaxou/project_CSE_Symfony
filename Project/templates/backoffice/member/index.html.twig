@@ -14,7 +14,7 @@
 				title: 'Attention, ajout en cours !', 
 				content: 
 					"<p class='modal-question'>Vous êtes sur le point d'ajouter un membre : </p>" ~ 
-					"<div class='content-admin-add'>" ~ 
+					"<div class='post-content'>" ~ 
 						"<p class='modal-recap add-member-first-name'></p>" ~ 
 						"<p class='modal-recap add-member-last-name'></p>" ~ 
 						"<p class='modal-recap add-member-function'></p>" ~ 
@@ -33,7 +33,7 @@
 				title: 'Attention, modification en cours !', 
 				content: 
 					"<p class='modal-question'>Vous êtes sur le point de modifier l'administrateur : </p>" ~ 
-					"<div class='content-admin-edit'>" ~ 
+					"<div class='post-content'>" ~ 
 						"<p class='modal-recap edit-member-first-name'></p>" ~ 
 						"<p class='modal-recap edit-member-last-name'></p>" ~ 
 						"<p class='modal-recap edit-member-function'></p>" ~ 
@@ -52,7 +52,9 @@
 				title: 'Attention, suppression en cours !', 
 				content: 
 					"<p class='modal-question'>Vous êtes sur le point de supprimer le membre : </p>" ~ 
-					"<p class='modal-recap delete-member-name'></p>" ~ 
+					"<div class='post-content'>" ~ 
+						"<p class='modal-recap delete-member-full-name'></p>" ~ 
+					"</div>" ~
 					"<p class='modal-question'>Êtes-vous sûr de vouloir supprimer ce membre ?</p>"
 				, 
 				options: {
@@ -97,10 +99,11 @@
 							{% else %}
 								<img src="{{ asset('imagesTest/' ~ member.profil)}}" alt="{{ member.firstName }}">
 							{% endif %}
-							{{ form_label(editForms[key].profil, 'Choisir une image', {'label_attr': {'class': 'form-file-label form-file-label-active'}}) }}
-							{{ form_widget(editForms[key].profil, { 'disabled': false}) }}
+							{{ form_label(editForms[key].profil) }}
+							{{ form_widget(editForms[key].profil) }}
 						</div>
 						<div class="card-content">
+							{{ form_widget(editForms[key].id, { 'value': member.id }) }}
 							{{ form_widget(editForms[key].firstName, { 'value': member.firstName }) }}
 							{{ form_widget(editForms[key].lastName, { 'value': member.lastName }) }}
 							{{ form_widget(editForms[key].function, { 'value': member.function }) }}
@@ -108,7 +111,9 @@
 						{{ form_end(editForms[key], {'render_rest': false}) }}
 
 						{{ form_start(deleteForms[key], {'attr': {'class': 'delete-form'}}) }}
-						{{ form_widget(deleteForms[key].id) }}
+						{{ form_widget(deleteForms[key].id, { 'value': member.id, 'disabled': false }) }}
+						{{ form_widget(deleteForms[key].firstName, { 'attr': { class: 'form-input-hidden' }, 'value': member.firstName, 'disabled': false }) }}
+						{{ form_widget(deleteForms[key].lastName, { 'attr': { class: 'form-input-hidden' }, 'value': member.lastName, 'disabled': false }) }}
 						{{ form_end(deleteForms[key], {'render_rest': false})}}
 
 					</div>

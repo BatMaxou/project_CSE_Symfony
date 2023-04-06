@@ -31,7 +31,9 @@ class StaticPathList
         'ajout_abonnement_newsletter' => 'post_newsletter',
         'modif_textes' => 'post_texts',
         'modif_partenariat' => 'post-partnership',
-        'ajout_membre' => 'post-add-member'
+        'ajout_membre' => 'post-add-member',
+        'modif_membre' => 'post-edit-member',
+        'sup_membre' => 'post-delete-member'
     );
 
     public function getClientPathByName(string $name): array

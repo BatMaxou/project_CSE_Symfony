@@ -111,15 +111,20 @@ class BackOfficeController extends AbstractController
     {
         $paths = [$staticPathList->getAdminPathByName('Tableau de bord'), $staticPathList->getAdminPathByName('Membres')];
 
-        $members = $rep->findAll();
+        $members = $rep->findAllByDesc();
 
         $addForm = $this->createForm(MemberType::class, null, [
             'action' => $this->generateUrl($staticPathList->getRequestPathByName('ajout_membre')),
             'method' => 'POST',
         ])->createView();
 
-        $form = $this->createForm(MemberType::class, null, [
-            // 'action' => $this->generateUrl($staticPathList->getRequestPathByName('modif_membre')),
+        $editForm = $this->createForm(MemberType::class, null, [
+            'action' => $this->generateUrl($staticPathList->getRequestPathByName('modif_membre')),
+            'method' => 'POST',
+        ]);
+
+        $deleteForm = $this->createForm(MemberType::class, null, [
+            'action' => $this->generateUrl($staticPathList->getRequestPathByName('sup_membre')),
             'method' => 'POST',
         ]);
 
@@ -127,8 +132,8 @@ class BackOfficeController extends AbstractController
         $deleteForms = array();
 
         for ($i = 0; $i < count($members); $i++) {
-            $editForms[] = $form->createView();
-            $deleteForms[] = $form->createView();
+            $editForms[] = $editForm->createView();
+            $deleteForms[] = $deleteForm->createView();
         }
 
         return $this->render('backoffice/member/index.html.twig', [

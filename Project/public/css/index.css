@@ -74,6 +74,10 @@ textarea:focus::placeholder {
     padding: 5px;
 }
 
+.form-input-hidden {
+    display: none;
+}
+
 .form-input-disabled,
 .form-file-label-disabled {
     background-color: rgba(0, 0, 0, 0.1);
@@ -1228,6 +1232,8 @@ iframe {
     padding: 0;
 }
 
+/* MODAL */
+
 .modal-background {
     position: fixed;
     top: 0;
@@ -1291,6 +1297,10 @@ iframe {
 .modal-body::-webkit-scrollbar-thumb {
     border-radius: 7px;
     background-color: var(--color-primary);
+}
+
+.modal .post-content {
+    margin: 10px 0;
 }
 
 .modal-footer {
@@ -1515,10 +1525,6 @@ iframe {
     margin: 10px 0;
 }
 
-.content-admin-edit {
-    margin: 10px 0;
-}
-
 @media (max-width: 800px) {
     .div-admin form {
         flex-direction: column;
@@ -1661,7 +1667,6 @@ iframe {
 
 #backoffice-member .members .card {
     width: 45%;
-    margin-inline: 10px;
 }
 
 #backoffice-member .card-body {

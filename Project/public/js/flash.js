@@ -23,7 +23,7 @@ function createFlash(type, response) {
 
     // animation pour masquer le message
     // on remonte le flash au dessus du top puis display none après 3s 
-    tl.to(alert, { top: "-100px", display: "none", duration: 0.5, delay: 3 });
+    tl.to(alert, { top: "-100px", display: "none", duration: 0.5, delay: 0.5 });
 
     tl.add(() => closeFlash(alert, type, message))
 
