@@ -43,26 +43,25 @@ class RequestController extends AbstractController
     #[Route(path: '/post/survey', name: 'post_survey', methods: ['POST'])]
     public function postSurvey(SurveyRepository $surveyRep, ResponseRepository $respRep, UserResponseRepository $userRespRep, Request $request): Response
     {
-        // try {
-        // get id of the respons by a search name for set response of the create UserResponse
-        $response = $respRep->findResponseById($request->get('radio_response'));
+        try {
+            // get id of the respons by a search name for set response of the create UserResponse
+            $response = $respRep->findResponseById($request->get('survey')['radio_response']);
 
-        // récupérer les infos du survey (car l'objet survey n'est pas encore créé)
+            // récupérer les infos du survey (car l'objet survey n'est pas encore créé)
+            if (isset($response) && ($survey = $surveyRep->findSurveyById($response->getSurvey()->getId())) && $survey->isIsActive()) {
+                $response->setSurvey($survey);
 
-        if (($survey = $surveyRep->findSurveyById($response->getSurvey()->getId())) && $survey->isIsActive()) {
-            $response->setSurvey($survey);
+                $userResp = new UserResponse();
+                $userResp->setResponse($response);
+                $userRespRep->save($userResp, true);
 
-            $userResp = new UserResponse();
-            $userResp->setResponse($response);
-            $userRespRep->save($userResp, true);
+                return new Response('Réponse enregistrée, merci de votre participation !', 200);
+            }
 
-            return new Response('Réponse enregistrée, merci de votre participation !', 200);
+            return new Response('Petit malin va !', 400);
+        } catch (\Throwable $th) {
+            return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
         }
-
-        return new Response('Petit malin va !', 400);
-        // } catch (\Throwable $th) {
-        //     return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
-        // }
     }
 
     #[Route(path: '/post/backoffice/texts', name: 'post_texts', methods: ['POST'])]

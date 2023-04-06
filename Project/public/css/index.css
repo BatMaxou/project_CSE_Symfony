@@ -12,17 +12,21 @@ body {
     padding: 0;
     font-family: Arial, Helvetica, sans-serif;
     --color-primary: #1B3168;
-    --color-secondary: #b6a886;
+    --color-secondary: #B6A886;
+    --color-black: #000;
+    --color-white: #FFF;
     --color-danger: #C85353;
+    --color-sucess: #128A00;
     --color-black-fog: rgba(0, 0, 0, 0.5);
     --color-disabled: rgba(0, 0, 0, 0.1);
-    --diagram-1: #36a2eb;
-    --diagram-2: #ff6384;
-    --diagram-3: #4bc0c0;
-    --diagram-4: #ff9f40;
-    --diagram-5: #9966ff;
-    --diagram-6: #ffcd56;
-    --diagram-7: #c9cbcf;
+    --color-card: #EFEDED;
+    --diagram-1: #36A2EB;
+    --diagram-2: #FF6384;
+    --diagram-3: #4BC0C0;
+    --diagram-4: #FF9F40;
+    --diagram-5: #9966FF;
+    --diagram-6: #FFCD56;
+    --diagram-7: #C9CBCF;
 }
 
 h1,
@@ -69,9 +73,9 @@ textarea:focus::placeholder {
 
 .form-input {
     outline: none;
-    background-color: #EFEDED;
+    background-color: var(--color-card);
     border: none;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid var(--color-black);
     padding: 5px;
 }
 
@@ -83,7 +87,7 @@ textarea:focus::placeholder {
 .form-file-label-disabled {
     background-color: var(--color-disabled);
     border-bottom: 1px solid transparent;
-    color: #000;
+    color: var(--color-black);
 }
 
 .form-file-input {
@@ -106,7 +110,7 @@ textarea:focus::placeholder {
 
 .form-file-label-active:hover {
     background-color: var(--color-primary) !important;
-    color: #fff;
+    color: var(--color-white);
 }
 
 .form {
@@ -123,7 +127,7 @@ textarea:focus::placeholder {
     bottom: -23px;
     font-size: 14px;
     width: max-content;
-    color: #e71313;
+    color: var(--color-danger);
     font-weight: bold;
 }
 
@@ -149,7 +153,7 @@ textarea:focus::placeholder {
 
 .btn {
     padding: 16px 32px;
-    color: white;
+    color: var(--color-white);
     border: none;
     cursor: pointer;
 }
@@ -182,7 +186,7 @@ textarea:focus::placeholder {
     height: 50px;
     padding: 25px;
     z-index: 9999;
-    color: white;
+    color: var(--color-white);
 }
 
 .flash-header {
@@ -194,16 +198,16 @@ textarea:focus::placeholder {
 }
 
 .alert-error {
-    background-color: #e71313;
+    background-color: var(--color-danger);
 }
 
 .alert-success {
-    background-color: #128a00;
+    background-color: var(--color-sucess);
 }
 
 .closebtn {
     margin-left: 15px;
-    color: white;
+    color: var(--color-white);
     font-weight: bold;
     float: right;
     font-size: 22px;
@@ -213,7 +217,7 @@ textarea:focus::placeholder {
 }
 
 .closebtn:hover {
-    color: black;
+    color: var(--color-black);
 }
 
 /*NAVBAR*/
@@ -229,7 +233,7 @@ textarea:focus::placeholder {
 #navbar .gray {
     width: 100%;
     height: 50px;
-    background-color: #d4d4d4;
+    background-color: var(--color-card);
 }
 
 #navbar .blue,
@@ -261,7 +265,7 @@ textarea:focus::placeholder {
     position: absolute;
     left: 0;
     width: 200px;
-    background-color: white;
+    background-color: var(--color-white);
     display: flex;
     align-items: center;
 }
@@ -290,11 +294,11 @@ textarea:focus::placeholder {
 #navbar .navbar-menu a {
     display: block;
     padding: 15.8px 20px;
-    color: #fff;
+    color: var(--color-white);
 }
 
 #navbar .navbar-menu a:hover {
-    background-color: #b6a886;
+    background-color: var(--color-secondary);
 }
 
 @media (max-width: 1000px) {
@@ -402,7 +406,7 @@ textarea:focus::placeholder {
         margin: 0 auto;
         height: 2px;
         border-radius: 5px;
-        background-color: #fff;
+        background-color: var(--color-white);
     }
 
     #navbar .navbar-menu {
@@ -433,7 +437,7 @@ textarea:focus::placeholder {
 .line-toggler {
     position: absolute;
     height: 4px;
-    background-color: white;
+    background-color: var(--color-white);
     border-radius: 25px;
 }
 
@@ -484,7 +488,7 @@ textarea:focus::placeholder {
 
 .sidebar a,
 #navbar .sidebar-contact a {
-    color: #000;
+    color: var(--color-black);
 }
 
 .sidebar a:hover {
@@ -535,7 +539,7 @@ textarea:focus::placeholder {
     }
 
     #navbar .sidebar-contact a {
-        color: #000;
+        color: var(--color-black);
     }
 
     #navbar .sidebar-contact a:hover {
@@ -603,7 +607,7 @@ textarea:focus::placeholder {
 }
 
 .contact-header li a {
-    color: black;
+    color: var(--color-black);
 }
 
 .contact-header li a:hover {
@@ -621,7 +625,6 @@ iframe {
     max-width: 400px;
 }
 
-
 @media(max-width: 850px) {
     .contact-img {
         display: none;
@@ -637,10 +640,16 @@ iframe {
 
 .sidebar-survey label {
     cursor: pointer;
+    margin: 15px 10px 0 5px;
+    width: 55%;
+}
+
+.sidebar-survey input {
+    margin: 15px 5px 0 10%;
 }
 
 .sidebar-survey h2 {
-    color: #fff;
+    color: var(--color-white);
     background-color: var(--color-primary);
     text-align: center;
     padding: 15px;
@@ -653,12 +662,16 @@ iframe {
 
 .sidebar-survey legend {
     text-align: center;
+    padding: 15px 10px 0 10px;
+    background-color: var(--color-card);
 }
 
-.sidebar-survey form legend,
-.response {
-    padding: 15px 10px 0 10px;
-    background-color: #EFEDED;
+.sidebar-survey .responses {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    background: var(--color-card);
+    padding-bottom: 15px;
 }
 
 .response:last-of-type {
@@ -666,12 +679,18 @@ iframe {
 }
 
 .sidebar-survey button {
-    background-color: white;
+    background-color: var(--color-white);
     border: 3px solid var(--color-primary);
     color: var(--color-primary);
     cursor: pointer;
     width: 100%;
     height: 40px;
+}
+
+@media(max-width: 850px) {
+    .sidebar-survey input {
+        margin-left: 15%;
+    }
 }
 
 /*SLIDER*/
@@ -720,7 +739,7 @@ iframe {
 
 .card {
     position: relative;
-    background-color: #EFEDED;
+    background-color: var(--color-card);
     margin-bottom: 20px;
     padding: 15px;
 }
@@ -748,7 +767,7 @@ iframe {
 
 .card .card-header .card-tag {
     background-color: var(--color-primary);
-    color: #fff;
+    color: var(--color-white);
     font-size: 12px;
     text-transform: uppercase;
     padding: 0;
@@ -776,7 +795,7 @@ iframe {
     bottom: 15px;
     text-transform: uppercase;
     font-size: 12px;
-    color: #000;
+    color: var(--color-black);
 }
 
 .card .card-footer a:hover {
@@ -832,7 +851,7 @@ iframe {
     position: relative;
     width: 25px;
     height: 25px;
-    background-color: #EFEDED;
+    background-color: var(--color-card);
     margin-right: 10px;
     border-radius: 7px;
     cursor: pointer;
@@ -846,7 +865,7 @@ iframe {
 #homepage .paging-element:hover,
 #homepage .paging-element-clicked {
     background-color: var(--color-primary);
-    color: #fff;
+    color: var(--color-white);
 }
 
 #homepage .paging-element:hover img,
@@ -882,14 +901,14 @@ iframe {
     width: 25px;
     border-top-right-radius: 7px;
     border-top-left-radius: 7px;
-    background-color: #EFEDED;
+    background-color: var(--color-card);
     border: 1px solid var(--color-primary);
     border-bottom: none;
     overflow-y: scroll;
 }
 
 #homepage .paging-select::-webkit-scrollbar-track {
-    background-color: #EFEDED;
+    background-color: var(--color-card);
 }
 
 #homepage .paging-select::-webkit-scrollbar {
@@ -903,12 +922,12 @@ iframe {
 
 #homepage .paging-select p {
     text-align: center;
-    color: #000;
+    color: var(--color-black);
     border-bottom: 1px solid var(--color-primary);
 }
 
 #homepage .paging-select p:hover {
-    color: #fff;
+    color: var(--color-white);
     background-color: var(--color-primary);
 }
 
@@ -985,7 +1004,7 @@ iframe {
 /*FOOTER*/
 
 #footer {
-    background-color: #b6a886;
+    background-color: var(--color-secondary);
     padding: 20px 10px 30px;
     display: flex;
 }
@@ -994,7 +1013,7 @@ iframe {
     margin: 0 auto;
     display: flex;
     max-width: 1000px;
-    color: #fff;
+    color: var(--color-white);
 }
 
 #footer h4 {
@@ -1021,7 +1040,7 @@ iframe {
     display: inline-block;
     width: 140px;
     margin: 5px 0;
-    color: #fff;
+    color: var(--color-white);
 }
 
 #footer .links a:hover {
@@ -1059,7 +1078,7 @@ iframe {
 
 #footer input[type='submit'] {
     width: 80px;
-    background-color: #fff;
+    background-color: var(--color-white);
     cursor: pointer;
 }
 
@@ -1144,7 +1163,7 @@ iframe {
     margin: 50px auto 100px;
     padding: 30px 20px;
     height: 40vh;
-    background-color: #EFEDED;
+    background-color: var(--color-card);
 }
 
 .loginForm h1 {
@@ -1157,9 +1176,9 @@ iframe {
     flex-direction: column;
     text-align: left;
     margin: auto;
-    background-color: #EFEDED;
+    background-color: var(--color-card);
     border: none;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid var(--color-black);
     height: 40px;
     padding: 0 10px;
     outline: none;
@@ -1170,7 +1189,7 @@ iframe {
 }
 
 .submitLogin {
-    background-color: white;
+    background-color: var(--color-white);
     height: 50px;
     font-size: 18px;
     width: 90%;
@@ -1255,7 +1274,7 @@ iframe {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: #fff;
+    background-color: var(--color-white);
     border-radius: 5px;
     min-width: 300px;
     max-width: 600px;
@@ -1282,8 +1301,8 @@ iframe {
 
 .modal-body {
     padding: 0 20px;
-    border-top: 10px solid #fff;
-    border-bottom: 10px solid #fff;
+    border-top: 10px solid var(--color-white);
+    border-bottom: 10px solid var(--color-white);
     overflow-y: scroll;
 }
 
@@ -1445,7 +1464,7 @@ iframe {
     right: 0;
     height: 24px;
     width: 75%;
-    background: linear-gradient(90deg, transparent, #EFEDED);
+    background: linear-gradient(90deg, transparent, var(--color-card));
 }
 
 .div-ticketing a {
@@ -1454,7 +1473,7 @@ iframe {
     bottom: 15px;
     text-transform: uppercase;
     font-size: 12px;
-    color: #000;
+    color: var(--color-black);
 }
 
 .div-ticketing .card-footer img {
@@ -1805,7 +1824,7 @@ iframe {
 
 #last-message .card-footer a,
 #last-message .card-footer a:hover {
-    color: white;
+    color: var(--color-white);
 }
 
 #survey-active-dashboard {

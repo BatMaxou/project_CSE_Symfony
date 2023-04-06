@@ -4,14 +4,15 @@ namespace App\Controller;
 
 use Exception;
 use App\Entity\Survey;
-use App\Service\StaticPathList;
 use App\Entity\Contact;
+use App\Form\SurveyType;
 use App\Form\ContactType;
 use App\Entity\Subscriber;
 use App\Entity\UserResponse;
 use App\Form\SubscriberType;
 use App\Entity\ImageTicketing;
 use App\Form\UserResponseType;
+use App\Service\StaticPathList;
 use App\Repository\MemberRepository;
 use App\Repository\SurveyRepository;
 use App\Repository\CkeditorRepository;
@@ -44,15 +45,19 @@ class HomeController extends AbstractController
     public function formSurvey(StaticPathList $staticPathList, SurveyRepository $surveyRepo, ResponseRepository $responseRepo): Response
     {
         try {
-            // get the question active of the survey
-            $questionActive = $surveyRepo->findQuestionActive();
+            // récupérer le sondage actif
+            $surveyActive = $surveyRepo->findQuestionActive();
 
-            // get response associated at the question of the survey
-            $responseQuestion = $responseRepo->findResponseBySurveyId($questionActive->getId());
+            // récupérer les réponses associées au survey
+            foreach (($responseRepo->findResponseBySurveyId($surveyActive->getId())) as $response) {
+                $responses[$response->getText()] = $response->getId();
+            }
 
-            $form = $this->createForm(UserResponseType::class, null, [
+            $form = $this->createForm(SurveyType::class, null, [
                 'action' => $this->generateUrl($staticPathList->getRequestPathByName('ajout_reponse_sondage')),
-                'method' => 'POST'
+                'method' => 'POST',
+                // array associatif text => id pour le ChoiceType
+                'responses' => $responses
             ]);
         } catch (\Throwable $th) {
             return new Response("Aucun sondage disponible pour le moment");
@@ -60,8 +65,7 @@ class HomeController extends AbstractController
 
         return $this->render('includes/form/_survey.html.twig', [
             'form' => $form,
-            'question' => $questionActive,
-            'response' => $responseQuestion,
+            'survey' => $surveyActive,
         ]);
     }
 

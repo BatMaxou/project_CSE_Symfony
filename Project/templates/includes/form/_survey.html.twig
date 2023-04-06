@@ -1,14 +1,9 @@
-{% if form != null and question != null and response != null %}
+{% if form != null and survey != null %}
 	<h2>Votre avis compte</h2>
 
 	{{form_start(form)}}
-	<legend>{{ question.question }}</legend>
-	{% for item in response %}
-		<div class="response">
-			<input type="radio" id="radio_{{item.id}}" name="radio_response" value="{{ item.id }}">
-			<label for="radio_{{item.id}}">{{ item.text }}</label>
-		</div>
-	{% endfor %}
+	<legend>{{ survey.question }}</legend>
+	{{ form_widget(form.radio_response)}}
 	<button type="submit">Envoyer ma réponse</button>
 	{{form_end(form)}}
 {% endif %}

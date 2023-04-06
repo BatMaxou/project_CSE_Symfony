@@ -44,7 +44,7 @@ VALUES
     ("Aimeriez-vous avoir des déjeuner tous les matins ?", 0),
     ("Quel est votre fastfood préféré ?", 1),
     ("Quel est votre parc d'attraction préféré ?", 0),
-    ("Quell est la couleur du cheval blanc d'Henri 4 ?", 0),
+    ("Quelle est la couleur du cheval blanc d'Henri 4 ?", 0),
     ("Quelle est la couleur de tes chaussettes ?", 0);
 
 
@@ -63,9 +63,9 @@ VALUES
     ("Rouge", 4),
     ("Blanc", 4),
     ("Noir", 4),
-    ("Bleu", 5),
-    ("Vert", 5),
-    ("Jaune", 5);
+    ("Bleues", 5),
+    ("Vertes", 5),
+    ("Jaunes", 5);
 
 
 INSERT INTO user_response (datetime, id_response)
