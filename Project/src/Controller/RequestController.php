@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Ckeditor;
 use App\Entity\Subscriber;
 use App\Entity\UserResponse;
+use App\Repository\SurveyRepository;
 use App\Repository\CkeditorRepository;
 use App\Repository\ResponseRepository;
 use App\Repository\SubscriberRepository;
@@ -40,20 +41,28 @@ class RequestController extends AbstractController
     }
 
     #[Route(path: '/post/survey', name: 'post_survey', methods: ['POST'])]
-    public function postSurvey(ResponseRepository $respRep, UserResponseRepository $userRespRep, Request $request): Response
+    public function postSurvey(SurveyRepository $surveyRep, ResponseRepository $respRep, UserResponseRepository $userRespRep, Request $request): Response
     {
-        try {
-            // get id of the respons by a search name for set response of the create UserResponse
-            $response = $respRep->findIdResponseOfName($request->get('radio_response'));
+        // try {
+        // get id of the respons by a search name for set response of the create UserResponse
+        $response = $respRep->findResponseById($request->get('radio_response'));
+
+        // récupérer les infos du survey (car l'objet survey n'est pas encore créé)
+
+        if (($survey = $surveyRep->findSurveyById($response->getSurvey()->getId())) && $survey->isIsActive()) {
+            $response->setSurvey($survey);
 
             $userResp = new UserResponse();
             $userResp->setResponse($response);
             $userRespRep->save($userResp, true);
 
             return new Response('Réponse enregistrée, merci de votre participation !', 200);
-        } catch (\Throwable $th) {
-            return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
         }
+
+        return new Response('Petit malin va !', 400);
+        // } catch (\Throwable $th) {
+        //     return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
+        // }
     }
 
     #[Route(path: '/post/backoffice/texts', name: 'post_texts', methods: ['POST'])]
@@ -71,8 +80,6 @@ class RequestController extends AbstractController
             $rep->save($texts['email']->setContent($request->get('text')['email']), true);
             $rep->save($texts['actions']->setContent($request->get('text')['actions']), true);
             $rep->save($texts['rules']->setContent($request->get('text')['rules']), true);
-
-            // $userRespRep->save($userResp, true);
 
             return new Response('Réponse enregistrée, merci de votre participation !', 200);
         } catch (\Throwable $th) {

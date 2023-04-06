@@ -48,7 +48,7 @@ class HomeController extends AbstractController
             $questionActive = $surveyRepo->findQuestionActive();
 
             // get response associated at the question of the survey
-            $responseQuestion = $responseRepo->findResponseById($questionActive->getId());
+            $responseQuestion = $responseRepo->findResponseBySurveyId($questionActive->getId());
 
             $form = $this->createForm(UserResponseType::class, null, [
                 'action' => $this->generateUrl($staticPathList->getRequestPathByName('ajout_reponse_sondage')),

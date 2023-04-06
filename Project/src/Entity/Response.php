@@ -18,7 +18,7 @@ class Response
 
     #[ORM\ManyToOne(targetEntity: Survey::class)]
     #[ORM\JoinColumn(name: "id_survey", referencedColumnName: 'id', nullable: false)]
-    private ?Survey $survey = null;
+    private Survey $survey;
 
     public function getSurvey(): ?Survey
     {

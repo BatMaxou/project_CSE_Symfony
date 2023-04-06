@@ -40,6 +40,15 @@ class SurveyRepository extends ServiceEntityRepository
         }
     }
 
+    public function findSurveyById(int $id): ?Survey
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     // return an Survey object associated of the survey active
     public function findQuestionActive(): Survey
     {
