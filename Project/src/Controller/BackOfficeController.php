@@ -172,23 +172,37 @@ class BackOfficeController extends AbstractController
     {
         $paths = [$staticPathList->getAdminPathByName('Tableau de bord'), $staticPathList->getAdminPathByName('Partenariats')];
 
-        $partnerships = $partnershipRepo->findAll();
+        $partnerships = $partnershipRepo->findAllByDesc();
+
+        $addFormPartner = $this->createForm(PartnershipType::class, null, [
+            'action' => $this->generateUrl($staticPathList->getRequestPathByName('ajout_partenariat')),
+            'method' => 'POST',
+        ])->createView();
 
         $form = $this->createForm(PartnershipType::class, null, [
             'action' => $this->generateUrl($staticPathList->getRequestPathByName('modif_partenariat')),
             'method' => 'POST',
         ]);
 
+        $deleteForm = $this->createForm(PartnershipType::class, null, [
+            'action' => $this->generateUrl($staticPathList->getRequestPathByName('supprimer_partenariat')),
+            'method' => 'POST',
+        ]);
+
         $forms = array();
+        $deleteForms = array();
 
         for ($i = 0; $i < count($partnerships); $i++) {
             $forms[] = $form->createView();
+            $deleteForms[] = $deleteForm->createView();
         }
 
         return $this->render('backoffice/partnership/partnership.html.twig', [
             'paths' => $paths,
             'partnerships' => $partnerships,
             'formPartnership' => $forms,
+            'deleteForm' => $deleteForms,
+            'addFormPartner' => $addFormPartner
         ]);
     }
 

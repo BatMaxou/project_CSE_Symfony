@@ -22,27 +22,27 @@ final class PartnershipType extends AbstractType
             ->add('name', TextType::class, [
                 'required' => true,
                 'label' => false,
+                'disabled' => true,
                 'attr' => [
                     'placeholder' => 'Nom du partenaire',
-                    'disabled' => 'disabled',
                     'class' => 'input-name form-input form-input-disabled'
                 ]
             ])
             ->add('description', TextareaType::class, [
                 'required' => true,
                 'label' => false,
+                'disabled' => true,
                 'attr' => [
                     'placeholder' => 'La description du partenaire',
-                    'disabled' => 'disabled',
                     'class' => 'input-description form-input form-input-disabled'
                 ]
             ])
             ->add('link', TextType::class, [
+                'disabled' => true,
                 'required' => true,
                 'label' => 'Lien du site : ',
                 'attr' => [
                     'placeholder' => 'https://site_du_partenaire.fr',
-                    'disabled' => 'disabled',
                     'class' => 'form-input form-input-disabled'
                 ]
             ])

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Admin;
 use App\Entity\Member;
+use App\Entity\Partnership;
 use App\Entity\Subscriber;
 use App\Form\AdminFormType;
 use App\Entity\UserResponse;
@@ -22,45 +23,6 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class RequestBackofficeController extends AbstractController
 {
-    #[Route(path: '/post/newsletter', name: 'post-newsletter', methods: ['POST'])]
-    public function postNewsletter(SubscriberRepository $subRep, Request $request): Response
-    {
-        // json response
-        if ($request->get('consent') !== NULL && $request->get('consent') === 'on') {
-            // validator
-            if (preg_match('/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i', $request->get('mail'))) {
-                if ($subRep->countByMail($request->get('mail')) === 0) {
-                    $sub = new Subscriber();
-                    $sub->setEmail($request->get('mail'));
-                    $sub->setConsent(1);
-                    $subRep->save($sub, true);
-
-                    return new Response('Vous avez été abonné à la newsletter', 200);
-                }
-                return new Response('Ce mail est déjà abonné', 400);
-            }
-            return new Response('Veuillez renseigner un mail conforme', 400);
-        }
-        return new Response('Veuillez accepter les conditions', 400);
-    }
-
-    #[Route(path: '/post/survey', name: 'post-survey', methods: ['POST'])]
-    public function postSurvey(ResponseRepository $respRep, UserResponseRepository $userRespRep, Request $request): Response
-    {
-        try {
-            // get id of the respons by a search name for set response of the create UserResponse
-            $response = $respRep->findIdResponseOfName($request->get('radio_response'));
-
-            $userResp = new UserResponse();
-            $userResp->setResponse($response);
-            $userRespRep->save($userResp, true);
-
-            return new Response('Réponse enregistrée, merci de votre participation !', 200);
-        } catch (\Throwable $th) {
-            return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
-        }
-    }
-
     #[Route(path: '/post/backoffice/admin-add', name: 'post-add-admin', methods: ['POST'])]
     public function postAddAdmin(AdminRepository $adminRepository, UserPasswordHasherInterface $adminPasswordHasher, Request $request): Response
     {
@@ -246,6 +208,96 @@ class RequestBackofficeController extends AbstractController
             $memberRepository->remove($member, true);
 
             return new Response('La suppression a bien été effectuée !', 200);
+        } catch (\Throwable $th) {
+            return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
+        }
+    }
+
+    #[Route(path: '/post/edit-partnership', name: 'post-edit-partnership', methods: ['POST'])]
+    public function editPartnership(PartnershipRepository $partnershipRepo, Request $request): Response
+    {
+        try {
+            // recupérer le membre concerné
+            $partner = $partnershipRepo->find($request->get('partnership')['id']);
+
+            $partner->setName($request->get('partnership')['name']);
+            $partner->setDescription($request->get('partnership')['description']);
+            $partner->setLink($request->get('partnership')['link']);
+
+            $partnershipRepo->save($partner, true);
+
+            // si une image est précisée
+            if (isset($request->files->get('partnership')['image'])) {
+                // supprimer l'ancienne image s'il y a
+                if ($partner->getImage() !== null) {
+                    unlink($this->getParameter('kernel.project_dir') . '/public/imagesTest/' . $partner->getImage());
+                }
+
+                // path le chemin de destination pour l'image 
+                $destination = $this->getParameter('kernel.project_dir') . '/public/imagesTest';
+                $image = $request->files->get('partnership')['image'];
+
+                // slug de l'image
+                $partner->setImage($partner->getId() . '-' . $partner->getName() . '.' . $image->guessExtension());
+                // deplacer l'image dans le fichier 
+                $image->move($destination, $partner->getImage());
+
+                $partnershipRepo->save($partner, true);
+            }
+
+            return new Response('La modification du partenaire a bien été effectué !', 200);
+        } catch (\Throwable $th) {
+            return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
+        }
+    }
+
+    #[Route(path: '/post/add-partnership', name: 'post-add-partnership', methods: ['POST'])]
+    public function addPartnership(PartnershipRepository $partnershipRepo, Request $request): Response
+    {
+        try {
+            $partner = new Partnership();
+
+            $partner->setName($request->get('partnership')['name']);
+            $partner->setDescription($request->get('partnership')['description']);
+            $partner->setLink($request->get('partnership')['link']);
+
+            $partnershipRepo->save($partner, true);
+
+            // definition du nom de l'image 
+            if (isset($request->files->get('partnership')['image'])) {
+                // path le chemin de destination pour l'image 
+                $destination = $this->getParameter('kernel.project_dir') . '/public/imagesTest';
+                $image = $request->files->get('partnership')['image'];
+
+                // slug de l'image
+                $partner->setImage($partner->getId() . '-' . $partner->getName() . '.' . $image->guessExtension());
+
+                // deplacer l'image dans le fichier 
+                $image->move($destination, $partner->getImage());
+
+                $partnershipRepo->save($partner, true);
+            }
+
+            return new Response('L\'ajout du partenaire a bien été effectué !', 200);
+        } catch (\Throwable $th) {
+            return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
+        }
+    }
+
+    #[Route(path: '/post/delete-partnership', name: 'post-delete-partnership', methods: ['POST'])]
+    public function deletePartnership(PartnershipRepository $partnershipRepo, Request $request): Response
+    {
+        try {
+            // recupérer le partenaire concerné
+            $partner = $partnershipRepo->find($request->get('partnership')['id']);
+            // supprimer l'image associé s'il y en a une
+            if ($partner->getImage() !== null) {
+                unlink($this->getParameter('kernel.project_dir') . '/public/imagesTest/' . $partner->getImage());
+            }
+
+            $partnershipRepo->remove($partner, true);
+
+            return new Response('La suppression du partenaire a bien été effectuée !', 200);
         } catch (\Throwable $th) {
             return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
         }
