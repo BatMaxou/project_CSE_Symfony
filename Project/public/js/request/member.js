@@ -158,7 +158,6 @@ const handleMembersSubmit = async (index, formData, form, type) => {
         else if (type === 'delete') {
             // Card animation
             // 'cards' est défini dans cardAnimation.js
-            console.log(cards);
             handleBtnDelete(index, Array.from(cards), true)
         }
         else if (type === 'add') {

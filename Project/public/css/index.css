@@ -552,10 +552,11 @@ textarea:focus::placeholder {
 
 .contact-img {
     width: 175px;
+    overflow: hidden;
 }
 
 .contact-img img {
-    width: 100%;
+    width: auto;
     height: 100%;
 }
 
@@ -616,7 +617,7 @@ textarea:focus::placeholder {
     max-width: 400px;
 }
 
-iframe {
+#contact iframe {
     width: 100% !important;
     max-width: 400px;
 }
