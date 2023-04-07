@@ -117,13 +117,13 @@ class HomeController extends AbstractController
         $ckeditors = $ckeditorRep->findByPage('AboutUs');
 
         foreach ($ckeditors as $ckeditor) {
-            if ($ckeditor->getZone() == "actions") {
+            if ($ckeditor->getZone() === "actions") {
                 $actions = $ckeditor->getContent();
             }
-            if ($ckeditor->getZone() == "email") {
+            if ($ckeditor->getZone() === "email") {
                 $email = $ckeditor->getContent();
             }
-            if ($ckeditor->getZone() == "rules") {
+            if ($ckeditor->getZone() === "rules") {
                 $rules = $ckeditor->getContent();
             }
         }
@@ -177,7 +177,7 @@ class HomeController extends AbstractController
         $imgPartner = $partnershipRepo->imagePartner();
 
         // si $offer retourne quelque chose et que l'id est un numérique alors on render sinon redirect
-        if ($offer != NULL and is_string($slug)) {
+        if ($offer != NULL) {
             $imgOffer = $offer->getImageTicketings();
 
             return $this->render('ticketing/offer.html.twig', [
@@ -186,14 +186,11 @@ class HomeController extends AbstractController
                 'offer' => $offer,
                 'imgOffer' => $imgOffer
             ]);
-        } else {
-            return $this->redirectToRoute('home');
         }
+
+        return $this->redirectToRoute('home');
     }
 
-    /*
-     *ajax a faire
-     */
     #[Route(path: '/contact', name: 'contact', methods: ['GET', 'POST'])]
     public function contact(staticPathList $staticPathList, PartnershipRepository $partnershipRepo, Request $request, EntityManagerInterface $manager, SubscriberRepository $subscriberRepo): Response
     {
@@ -206,14 +203,16 @@ class HomeController extends AbstractController
         $formContact = $this->createForm(ContactType::class, $contact);
         $formContact->handleRequest($request);
 
+        // $send = false;
+
         if ($formContact->isSubmitted() && $formContact->isValid()) {
             try {
-                if (!empty($_POST['consent']) && $_POST['consent'] === 'on') {
-                    if (preg_match('/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i', $formContact->getData()->getEmailContact())) {
-                        if ($subscriberRepo->countByMail($formContact->getData()->getEmailContact()) === 0) {
+                if (!empty($request->get('consent')) && $request->get('consent') === 'on') {
+                    if (preg_match('/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i', $contact->getEmail())) {
+                        if ($subscriberRepo->countByMail($contact->getEmail()) === 0) {
                             $sub = new Subscriber();
-                            $sub->setEmail($formContact->getData()->getEmailContact());
-                            $sub->setConsent(1);
+                            $sub->setEmail($contact->getEmail());
+                            $sub->setConsent(true);
                             $subscriberRepo->save($sub, true);
                         }
                     }
@@ -224,10 +223,12 @@ class HomeController extends AbstractController
                 $manager->persist($contact);
                 $manager->flush();
 
+                // $send = true;
                 $this->addFlash('success', 'Votre message a bien été envoyé !');
 
                 return $this->redirectToRoute('contact');
             } catch (\Throwable $th) {
+                // $send = false;
                 $this->addFlash('error', 'Une erreur imprévu est survenu, veillez recharger la puis réessayer.');
             }
         }
@@ -235,6 +236,7 @@ class HomeController extends AbstractController
         return $this->render('contact/index.html.twig', [
             'paths' => $paths,
             'image' => $imgPartner,
+            // 'send' => $send,
             'formContact' => $formContact->createView(),
         ]);
     }

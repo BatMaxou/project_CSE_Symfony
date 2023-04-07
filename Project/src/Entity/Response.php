@@ -20,12 +20,12 @@ class Response
     #[ORM\JoinColumn(name: "id_survey", referencedColumnName: 'id', nullable: false)]
     private Survey $survey;
 
-    public function getSurvey(): ?Survey
+    public function getSurvey(): Survey
     {
         return $this->survey;
     }
 
-    public function setSurvey(?Survey $survey): self
+    public function setSurvey(Survey $survey): self
     {
         $this->survey = $survey;
 

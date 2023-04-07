@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Form\TextType;
+use App\Form\TextsType;
 use App\Form\MemberType;
 use App\Service\StaticPathList;
 use App\Entity\Partnership;
@@ -37,7 +37,7 @@ class BackOfficeController extends AbstractController
             'rules' => $rep->findByZone('AboutUs', 'rules'),
         ];
 
-        $form = $this->createForm(TextType::class, null, [
+        $form = $this->createForm(TextsType::class, null, [
             'action' => $this->generateUrl($staticPathList->getRequestPathByName('modif_textes')),
             'method' => 'POST'
         ]);
@@ -58,17 +58,20 @@ class BackOfficeController extends AbstractController
         $admins = $adminRepository->findAll();
 
         $formAdd = $this->createForm(AdminFormType::class, null, [
-            'action' => '/post/backoffice/admin-add',
+            // 'action' => '/post/backoffice/admin-add',
+            'action' => $this->generateUrl($staticPathList->getRequestPathByName('ajout_admin')),
             'method' => 'POST',
         ]);
 
         $formEdit = $this->createForm(AdminFormType::class, null, [
-            'action' => '/post/backoffice/admin-edit',
+            // 'action' => '/post/backoffice/admin-edit',
+            'action' => $this->generateUrl($staticPathList->getRequestPathByName('modif_admin')),
             'method' => 'POST',
         ]);
 
         $formDelete = $this->createForm(AdminFormType::class, null, [
-            'action' => '/post/backoffice/admin-delete',
+            // 'action' => '/post/backoffice/admin-delete',
+            'action' => $this->generateUrl($staticPathList->getRequestPathByName('supprimer_admin')),
             'method' => 'POST',
         ]);
 

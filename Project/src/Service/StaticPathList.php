@@ -37,6 +37,9 @@ class StaticPathList
         'modif_partenariat' => 'post-edit-partnership',
         'ajout_partenariat' => 'post-add-partnership',
         'supprimer_partenariat' => 'post-delete-partnership',
+        'ajout_admin' => 'post-add-admin',
+        'modif_admin' => 'post-edit-admin',
+        'supprimer_admin' => 'post-delete-admin'
     );
 
     public function getClientPathByName(string $name): array

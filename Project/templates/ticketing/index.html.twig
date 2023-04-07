@@ -28,15 +28,30 @@
 
 			<div class="div-ticketing-permanent">
 
-				{% for ticketingPermanent in ticketingsPermanent %}
+				{% if ticketingsPermanent is empty %}
+					<div class="card">
+						<div class="card-body">
+							<div class="card-image">
+								<img src={{ asset('images/no-offer.svg') }} alt="image pour aucune offre">
+							</div>
+							<div class="card-content">
+								<span class="card-tag">offre permanente</span>
+								<p class="card-date">Publié le 00/00/0000 - Du 00/00/0000 au 00/00/0000</p>
+								<h3>Aucune offre permanent disponible pour le moment</h3>
+								<p class="card-description-ticketing">Inscrivez-vous à la newlestter pour être informé lors de l'arrivée d'une offre permanente</p>
+								<p>Nombre de place minimum requis : 0</p>
+							</div>
+						</div>
+						<div class="card-footer"></div>
+					</div>
+				{% else %}
 
+					{% for ticketingPermanent in ticketingsPermanent %}
 					<div class="card">
 						<div class="card-body">
 							<div class="card-image">
 								{% if ticketingPermanent.imageTicketings[0].ticketing.id == ticketingPermanent.id %}
-
 									<img src={{ asset('imagesTest/' ~ ticketingPermanent.imageTicketings[0].name) }} alt="">
-
 								{% endif %}
 							</div>
 							<div class="card-content">
@@ -50,7 +65,6 @@
 									au
 									{{ ticketingPermanent.dateEnd|date('d/m/Y')}}
 								</p>
-
 								<h3>{{ ticketingPermanent.name }}</h3>
 								<p class="card-description-ticketing">{{ ticketingPermanent.text }}</p>
 								<p>Nombre de place minimum requis :
@@ -58,7 +72,6 @@
 								</p>
 							</div>
 						</div>
-
 						<div class="card-footer">
 							<a href="{{ path('offer', {slug: ticketingPermanent.slug}) }}">
 								<p>En savoir plus</p>
@@ -66,21 +79,36 @@
 							</a>
 						</div>
 					</div>
-
-				{% endfor %}
+					{% endfor %}
+				{% endif %}
 			</div>
 
 			<div class="div-ticketing-limited">
 
-				{% for ticketingLimited in ticketingsLimited %}
+				{% if ticketingsLimited is empty %}
+					<div class="card">
+						<div class="card-body">
+							<div class="card-image">
+								<img src={{ asset('images/no-offer.svg') }} alt="image pour aucune offre">
+							</div>
+							<div class="card-content">
+								<span class="card-tag">offre limitée</span>
+								<p class="card-date">Publié le 00/00/0000 - Du 00/00/0000 au 00/00/0000</p>
+								<h3>Aucune offre limitée disponible pour le moment</h3>
+								<p class="card-description-ticketing">Inscrivez-vous à la newlestter pour être informé lors de l'arrivée d'une offre limitée</p>
+							</div>
+						</div>
+						<div class="card-footer"></div>
+					</div>
+				{% else %}
+
+					{% for ticketingLimited in ticketingsLimited %}
 
 					<div class="card">
 						<div class="card-body">
 							<div class="card-image">
 								{% if ticketingLimited.imageTicketings[0].Ticketing.id == ticketingLimited.id %}
-
 									<img src={{ asset('imagesTest/' ~ ticketingLimited.imageTicketings[0].name) }} alt="">
-
 								{% endif %}
 							</div>
 							<div class="card-content">
@@ -93,12 +121,10 @@
 									{{ ticketingLimited.dateStart|date('d/m/Y')}}
 									au{{ ticketingLimited.dateEnd|date('d/m/Y')}}
 								</p>
-
 								<h3>{{ ticketingLimited.name }}</h3>
 								<p class="card-description-ticketing">{{ ticketingLimited.text }}</p>
 							</div>
 						</div>
-
 						<div class="card-footer">
 							<a href="{{ path('offer', {slug: ticketingLimited.slug}) }}">
 								<p>En savoir plus</p>
@@ -107,10 +133,10 @@
 						</div>
 					</div>
 
-				{% endfor %}
+					{% endfor %}
+				{% endif %}
 			</div>
 		</div>
 	</div>
-
 	<script src="{{ asset('js/ticketing.js') }}"></script>
 {% endblock %}

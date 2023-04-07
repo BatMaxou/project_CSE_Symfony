@@ -18,7 +18,7 @@ class Ckeditor
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $namePage = null;
+    private ?string $pageName = null;
 
     #[ORM\Column(length: 255)]
     private ?string $zone = null;
@@ -31,14 +31,14 @@ class Ckeditor
         return $this->id;
     }
 
-    public function getNamePage(): ?string
+    public function getPageName(): ?string
     {
-        return $this->namePage;
+        return $this->pageName;
     }
 
-    public function setNamePage(string $namePage): self
+    public function setPageName(string $pageName): self
     {
-        $this->namePage = $namePage;
+        $this->pageName = $pageName;
 
         return $this;
     }

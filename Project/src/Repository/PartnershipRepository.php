@@ -55,7 +55,7 @@ class PartnershipRepository extends ServiceEntityRepository
     {
         $co = $this->getEntityManager()->getConnection();
 
-        $request = 'SELECT image FROM partnership ORDER BY rand() LIMIT 3';
+        $request = 'SELECT link, image FROM partnership ORDER BY rand() LIMIT 3';
         $staitment = $co->prepare($request);
         $result = $staitment->executeQuery();
 
