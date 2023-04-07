@@ -24,7 +24,7 @@ if (editAdminForms.length != 0 && deleteAdminForms.length != 0) {
 
             // Masque des caractères du mot de passe
             let newPassword = ''
-            for (let i = 0; i < form.get('admin_form[plainPassword]').length; i++) {
+            for (let i = 0; i < form.get('admin[plainPassword]').length; i++) {
                 newPassword = newPassword + '*'
             }
             if (newPassword === '') {
@@ -35,13 +35,13 @@ if (editAdminForms.length != 0 && deleteAdminForms.length != 0) {
             }
 
             // Affichage de l'email
-            editEmail.innerHTML = 'Nouveau e-mail : ' + form.get('admin_form[email]')
+            editEmail.innerHTML = 'Nouveau e-mail : ' + form.get('admin[email]')
 
             // Affichage des roles
-            if (form.get('admin_form[roles]') == 1) {
+            if (form.get('admin[roles]') == 1) {
                 editRole.innerHTML = 'Nouveau rôle : admin';
             }
-            if (form.get('admin_form[roles]') == 2) {
+            if (form.get('admin[roles]') == 2) {
                 editRole.innerHTML = 'Rôle : Super admin';
             }
             // Fin du traitement de l'affichage 
@@ -53,7 +53,7 @@ if (editAdminForms.length != 0 && deleteAdminForms.length != 0) {
             form = new FormData(deleteAdminForms[index])
 
             // Traitement de l'affichage des données modifiées dans la modal
-            let emailValue = document.querySelectorAll('#admin_form_email')
+            let emailValue = document.querySelectorAll('#admin_email')
             const deleteEmail = document.querySelector('.delete-admin-email')
             deleteEmail.innerHTML = emailValue[index + 1].value
 
@@ -74,19 +74,19 @@ if (editAdminForms.length != 0 && deleteAdminForms.length != 0) {
 
             // Masque des caractères du mot de passe
             let newPassword = ''
-            for (let i = 0; i < form.get('admin_form[plainPassword]').length; i++) {
+            for (let i = 0; i < form.get('admin[plainPassword]').length; i++) {
                 newPassword = newPassword + '*'
             }
             addPassword.innerHTML = 'Mot de passe : ' + newPassword;
 
             // Affichage de l'email
-            addEmail.innerHTML = 'E-mail : ' + form.get('admin_form[email]')
+            addEmail.innerHTML = 'E-mail : ' + form.get('admin[email]')
 
             // Affichage des roles
-            if (form.get('admin_form[roles]') == 1) {
+            if (form.get('admin[roles]') == 1) {
                 addRole.innerHTML = 'Rôle : admin';
             }
-            if (form.get('admin_form[roles]') == 2) {
+            if (form.get('admin[roles]') == 2) {
                 addRole.innerHTML = 'Rôle : Super admin';
             }
             // Fin du traitement de l'affichage 

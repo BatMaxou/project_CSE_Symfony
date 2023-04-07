@@ -1,0 +1,183 @@
+{% extends 'backoffice-page.html.twig' %}
+
+{% block title %}
+	CSE - Backoffice gestion de la billeterie
+{% endblock %}
+
+{% block content %}
+
+<div id="backoffice-ticketing">
+
+	{# {% block modal %}
+
+			{% include "includes/_modal.html.twig" with {
+				type: 'add',
+				title: 'Attention, ajout en cours !', 
+				content: 
+					"<p class='modal-question'>Vous êtes sur le point d'ajouter l'offre : </p>" ~ 
+					"<div class='content-admin-add'>" ~ 
+						"<p class='modal-recap add-admin-email'></p>" ~ 
+						"<p class='modal-recap add-admin-password'></p>" ~ 
+						"<p class='modal-recap add-admin-role'></p>" ~ 
+					"</div>" ~ 
+					"<p class='modal-question'>Êtes-vous sûr de vouloir ajouter cette offre ?</p>"
+				, 
+				options: {
+					cancelButton: true,
+					addButton: true
+				}
+			} %}
+
+			{% include "includes/_modal.html.twig" with {
+				type: 'edit',
+				title: 'Attention, modification en cours !', 
+				content: 
+					"<p class='modal-question'>Vous êtes sur le point de modifier l'administrateur : </p>" ~ 
+					"<div class='content-admin-edit'>" ~ 
+						"<p class='modal-recap edit-admin-email'></p>" ~ 
+						"<p class='modal-recap edit-admin-password'></p>" ~ 
+						"<p class='modal-recap edit-admin-role'></p>" ~ 
+					"</div>" ~ 
+					"<p class='modal-question'>Êtes-vous sûr de vouloir modifier cet administrateur ?</p>"
+				, 
+				options: {
+					cancelButton: true,
+					editButton: true
+				}
+			} %}
+
+			{% include "includes/_modal.html.twig" with {
+				type: 'delete',
+				title: 'Attention, suppression en cours !', 
+				content: 
+					"<p class='modal-question'>Vous êtes sur le point de supprimer l'administrateur : </p>" ~ 
+					"<p class='modal-recap delete-admin-email'></p>" ~ 
+					"<p class='modal-question'>Êtes-vous sûr de vouloir supprimer cet administrateur ?</p>"
+				, 
+				options: {
+					cancelButton: true,
+					deleteButton: true
+				}
+			} %}
+		{% endblock %} #}
+
+		<h1>Gestion des offres</h1>
+
+		<div class="div-ticketing">
+			<h2>Ajouter une offre</h2>
+
+			<div class="card">
+				<div class="card-body">
+					<div class="add-offer">
+
+						{{ form_start(formAddTicketing, {'attr': {'class': 'add-form'}}) }}
+
+						<button class="btn btn-add modal-open-add">
+							Ajouter
+						</button>
+						{{ form_end(formAddTicketing, {'render_rest': false}) }}
+					</div>
+
+				</div>
+			</div>
+
+			<div class="div-title-ticketing">
+
+				<h1 class="title-ticketing">Les offres</h1>
+				<ul class="ul-ticketing">
+
+					<li class="ticketing-all-button li-ticketing li-ticketing-active">Toutes</li>
+					<li class="separator-ticketing">|</li>
+					<li class="ticketing-permanent-button li-ticketing">Permanentes</li>
+					<li class="separator-ticketing">|</li>
+					<li class="ticketing-limited-button li-ticketing">Limitées</li>
+
+					<div class="ticketing-underline"></div>
+				</ul>
+
+			</div>
+			<div class="div-ticketing-permanent-backoffice">
+
+				{% for key, ticketingPermanent in ticketingPermanents %}
+
+					<div class="card">
+
+						<div class="card-body">
+
+							{{ form_start(formEditTicketings[key], {'attr': {'class': 'edit-form'}}) }}
+
+							{{ form_row(formEditTicketings[key].name, {value: ticketingPermanent.name}) }}
+							{{ form_row(formEditTicketings[key].text, {value: ticketingPermanent.text}) }}
+							{{ form_row(formEditTicketings[key].date_start, {data: ticketingPermanent.dateStart|date('d/m/Y')}) }}
+							{{ form_row(formEditTicketings[key].date_end, {data: ticketingPermanent.dateEnd|date('d/m/Y')}) }}
+							{{ form_row(formEditTicketings[key].number_min_place, {value: ticketingPermanent.numberMinPlace}) }}
+
+							{% if ticketingPermanent.partnership is not null %}
+								{{ form_row(formEditTicketings[key].partnership, {value: ticketingPermanent.partnership.id}) }}
+							{% else %}
+								{{ form_row(formEditTicketings[key].partnership, {placeholder: "Aucun partenaire associé"}) }}
+							{% endif %}
+
+							<div class="edit-admin">
+								<button class='btn btn-edit btn-save modal-open-edit'>Sauvegarder</button>
+								<button class='btn btn-edit btn-actived'>Modifier</button>
+							</div>
+
+							{{ form_end(formEditTicketings[key], {'render_rest': false}) }}
+
+							{{ form_start(formDeleteTicketings[key], {'attr': {'class': 'delete-form'}})}}
+
+							<div class="delete-admin">
+								<button class="btn btn-delete modal-open-delete">
+									Supprimer
+								</button>
+							</div>
+
+							{{ form_end(formDeleteTicketings[key], {'render_rest': false}) }}
+
+						</div>
+
+					</div>
+				{% endfor %}
+			</div>
+
+			<div class="div-ticketing-limited-backoffice">
+
+				{% for key, ticketingLimited in ticketingLimiteds %}
+
+					<div class="card">
+
+						<div class="card-body">
+
+							{{ form_start(formEditTicketings[key], {'attr': {'class': 'edit-form'}}) }}
+
+
+							<div class="edit-admin">
+								<button class='btn btn-edit btn-save modal-open-edit'>Sauvegarder</button>
+								<button class='btn btn-edit btn-actived'>Modifier</button>
+							</div>
+
+							{{ form_end(formEditTicketings[key], {'render_rest': false}) }}
+
+							{{ form_start(formDeleteTicketings[key], {'attr': {'class': 'delete-form'}})}}
+
+							<div class="delete-admin">
+								<button class="btn btn-delete modal-open-delete">
+									Supprimer
+								</button>
+							</div>
+
+							{{ form_end(formDeleteTicketings[key], {'render_rest': false}) }}
+
+						</div>
+
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block request %}
+	<script src="{{ asset('js/request/ticketing.js') }}"></script>
+{% endblock %}
