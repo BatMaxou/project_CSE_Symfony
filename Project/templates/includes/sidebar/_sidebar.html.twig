@@ -41,7 +41,9 @@
 					{% for img in image %}
 						<div class="slider-image">
 							{% if img.image is null %}
-								<img src="{{ asset('images/no-image-partnership.svg')}}" alt="logo simple pour un partenaire sans image">
+								<a href="{{ img.link }}" target="_blank">
+									<img src="{{ asset('images/no-image-partnership.svg')}}" alt="logo simple pour un partenaire sans image">
+								</a>
 							{% else %}
 								<a href="{{ img.link }}" target="_blank">
 									<img src="{{ asset("imagesTest/" ~ img.image) }}">
