@@ -151,7 +151,8 @@ const handlePartnershipsSubmit = async (index, formData, form, type) => {
         }
         else if (type === 'delete') {
             // Card animation
-            handleBtnDelete(index + 1)
+            // 'cards' est défini dans cardAnimation.js
+            handleBtnDelete(index, Array.from(cards))
         }
         else if (type === 'add') {
             setTimeout(() => {
