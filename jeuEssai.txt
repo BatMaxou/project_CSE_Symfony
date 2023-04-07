@@ -158,7 +158,7 @@ VALUES
     ("sit.png", 9),
     ("amet.jpg", 10);
 
-INSERT INTO ckeditor (name_page, zone, content)
+INSERT INTO ckeditor (page_name, zone, content)
 VALUES
     ("HomePage", "zone", "<p>Texte de pr&eacute;sentaion du CSE de Saint-Vincent</p>"),
     ("AboutUs", "actions", "<p>Les diff&eacute;rentes actions men&eacute;es:</p><ul><li>vgberfdgd</li><li>gthdfhdhf</li><li>xbfhx,fgnxd</li><li>fngxfgcnxbfdvbndxwncvlwjds</li><li>fgwfdvcwdcblswdvcw</li><li>dfcvwdnfc jwdfv</li></ul>"),
