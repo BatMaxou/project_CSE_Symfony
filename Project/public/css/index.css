@@ -1911,7 +1911,7 @@ textarea:focus::placeholder {
 }
 
 #backoffice-partnership .form-input {
-    padding: 15px;
+    padding: 15px 5px;
     margin: 10px 0;
     width: 95%;
 }
