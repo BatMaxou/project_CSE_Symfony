@@ -4,12 +4,15 @@ namespace App\Controller;
 
 use App\Form\TextsType;
 use App\Form\MemberType;
+use App\Repository\TicketingRepository;
 use App\Service\StaticPathList;
 use App\Entity\Partnership;
-use App\Form\AdminFormType;
+use App\Form\AdminType;
 use App\Form\PartnershipType;
+use App\Form\TicketingType;
 use App\Repository\AdminRepository;
 use App\Repository\MemberRepository;
+use App\Repository\ImageTicketingRepository;
 use App\Repository\SurveyRepository;
 use App\Repository\ContactRepository;
 use App\Repository\CkeditorRepository;
@@ -23,9 +26,10 @@ use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
+#[Route(path: '/admin/')]
 class BackOfficeController extends AbstractController
 {
-    #[Route(path: '/admin/textes', name: 'backoffice_text')]
+    #[Route(path: 'textes', name: 'backoffice_text')]
     public function texts(StaticPathList $staticPathList, CkeditorRepository $rep): Response
     {
         $paths = [$staticPathList->getAdminPathByName('Tableau de bord'), $staticPathList->getAdminPathByName('Textes enrichis')];
@@ -50,28 +54,25 @@ class BackOfficeController extends AbstractController
     }
 
     // Page d'affichage / modification d'un admin
-    #[Route(path: '/admin/gestion-admin', name: 'backoffice_account')]
+    #[Route(path: 'comptes', name: 'backoffice_account')]
     public function adminGestion(StaticPathList $staticPathList, AdminRepository $adminRepository = null): Response
     {
         $paths = [$staticPathList->getAdminPathByName('Tableau de bord'), $staticPathList->getAdminPathByName('Comptes')];
 
         $admins = $adminRepository->findAll();
 
-        $formAdd = $this->createForm(AdminFormType::class, null, [
-            // 'action' => '/post/backoffice/admin-add',
+        $formAdd = $this->createForm(AdminType::class, null, [
             'action' => $this->generateUrl($staticPathList->getRequestPathByName('ajout_admin')),
             'method' => 'POST',
         ]);
 
-        $formEdit = $this->createForm(AdminFormType::class, null, [
-            // 'action' => '/post/backoffice/admin-edit',
+        $formEdit = $this->createForm(AdminType::class, null, [
             'action' => $this->generateUrl($staticPathList->getRequestPathByName('modif_admin')),
             'method' => 'POST',
         ]);
 
-        $formDelete = $this->createForm(AdminFormType::class, null, [
-            // 'action' => '/post/backoffice/admin-delete',
-            'action' => $this->generateUrl($staticPathList->getRequestPathByName('supprimer_admin')),
+        $formDelete = $this->createForm(AdminType::class, null, [
+            'action' => $this->generateUrl($staticPathList->getRequestPathByName('supp_admin')),
             'method' => 'POST',
         ]);
 
@@ -92,7 +93,7 @@ class BackOfficeController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/admin/backoffice_survey', name: 'backoffice_survey')]
+    #[Route(path: 'backoffice_survey', name: 'backoffice_survey')]
     public function survey(StaticPathList $staticPathList, SurveyRepository $surveyRepo): Response
     {
         $paths = [$staticPathList->getAdminPathByName('Tableau de bord'), $staticPathList->getAdminPathByName('Sondage')];
@@ -109,7 +110,7 @@ class BackOfficeController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/admin/membres', name: 'backoffice_member')]
+    #[Route(path: 'membres', name: 'backoffice_member')]
     public function member(StaticPathList $staticPathList, MemberRepository $rep): Response
     {
         $paths = [$staticPathList->getAdminPathByName('Tableau de bord'), $staticPathList->getAdminPathByName('Membres')];
@@ -148,7 +149,7 @@ class BackOfficeController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/admin/dashboard', name: 'backoffice_dashboard')]
+    #[Route(path: 'dashboard', name: 'backoffice_dashboard')]
     public function dashboard(StaticPathList $staticPathList, SurveyRepository $surveyRepo, CkeditorRepository $ckeditorRepo, ContactRepository $contactRepo): Response
     {
         $paths = [$staticPathList->getAdminPathByName('Tableau de bord')];
@@ -170,7 +171,7 @@ class BackOfficeController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/admin/partenariat', name: 'backoffice_partnership')]
+    #[Route(path: 'partenariats', name: 'backoffice_partnership')]
     public function partnership(StaticPathList $staticPathList, PartnershipRepository $partnershipRepo, Request $request, EntityManagerInterface $manager): Response
     {
         $paths = [$staticPathList->getAdminPathByName('Tableau de bord'), $staticPathList->getAdminPathByName('Partenariats')];
@@ -209,24 +210,73 @@ class BackOfficeController extends AbstractController
         ]);
     }
 
-    // #[Route(path: '/admin/partenariat/{id}', name: 'backoffice_partnership')]
-    // public function deletePartnership(string $id, PartnershipRepository $partnershipRepo, Request $request, EntityManagerInterface $manager): Response
-    // {
-    //     $path = [['Tableau de bord', 'backoffice_dashboard'], ['Partenariat', 'backoffice_partnership']];
+    // Page d'affichage / modification d'un admin
+    #[Route(path: 'billeterie', name: 'backoffice_ticketing')]
+    public function ticketing(StaticPathList $staticPathList, TicketingRepository $ticketingRepository, ImageTicketingRepository $imageTicketingRepository, Request $request): Response
+    {
+        $paths = [$staticPathList->getAdminPathByName('Tableau de bord'), $staticPathList->getAdminPathByName('Billeterie')];
 
-    //     $partnership = $partnershipRepo->find($id);
+        $ticketings = $ticketingRepository->findAll();
+        $ticketingPermanents = $ticketingRepository->findByPermanent();
+        $ticketingLimiteds = $ticketingRepository->findByLimited();
+        $imageTicketings = $imageTicketingRepository->findAll();
 
-    //     $form = $this->createForm(PartnershipType::class, null, [
-    //         'action' => '/post/edit-partnership',
-    //         'method' => 'POST',
-    //     ]);
+        $formAddTicketing = $this->createForm(TicketingType::class, null, [
+            'action' => $this->generateUrl($staticPathList->getRequestPathByName('ajout_billeterie')),
+            'method' => 'POST',
+        ]);
 
-    //     $form->createView();
+        $formEditTicketing = $this->createForm(TicketingType::class, null, [
+            'action' => $this->generateUrl($staticPathList->getRequestPathByName('modif_billeterie')),
+            'method' => 'POST',
+        ]);
 
-    //     return $this->render('backoffice/partnership/partnership.html.twig', [
-    //         'path' => $path,
-    //         'partnership' => $partnership,
-    //         'formPartnership' => $form,
-    //     ]);
-    // }
+        $formDeleteTicketing = $this->createForm(TicketingType::class, null, [
+            'action' => $this->generateUrl($staticPathList->getRequestPathByName('supp_billeterie')),
+            'method' => 'POST',
+        ]);
+
+        // $formAddImage = $this->createForm(ImageTicketingRepository::class, null, [
+        //     'action' => $this->generateUrl($staticPathList->getRequestPathByName('ajout_image_ticketing')),
+        //     'method' => 'POST',
+        // ]);
+
+        // $formEditImage = $this->createForm(ImageTicketingRepository::class, null, [
+        //     'action' => $this->generateUrl($staticPathList->getRequestPathByName('modif_image_ticketing')),
+        //     'method' => 'POST',
+        // ]);
+
+        // $formDeleteImage = $this->createForm(ImageTicketingRepository::class, null, [
+        //     'action' => $this->generateUrl($staticPathList->getRequestPathByName('supp_image_ticketing')),
+        //     'method' => 'POST',
+        // ]);
+
+        $formEditTicketings = array();
+        $formDeleteTicketings = array();
+
+        $formEditImages = array();
+        $formDeleteImages = array();
+
+        for ($i = 0; $i < count($ticketings); $i++) {
+            $formEditTicketings[] = $formEditTicketing->createView();
+            $formDeleteTicketings[] = $formDeleteTicketing->createView();
+        }
+
+        // for ($i = 0; $i < count($imageTicketings); $i++) {
+        //     $formEditImages[] = $formEditImage->createView();
+        //     $formDeleteImages[] = $formDeleteImage->createView();
+        // }
+
+        return $this->render('/backoffice/ticketing/index.html.twig', [
+            'paths' => $paths,
+            'formAddTicketing' => $formAddTicketing,
+            'formEditTicketings' => $formEditTicketings,
+            'formDeleteTicketings' => $formDeleteTicketings,
+            // 'formEditImages' => $formEditImages,
+            // 'formDeleteImages' => $formDeleteImages,
+            'ticketingPermanents' => $ticketingPermanents,
+            'ticketingLimiteds' => $ticketingPermanents,
+            'imageTicketings' => $imageTicketings,
+        ]);
+    }
 }

@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-class AdminFormType extends AbstractType
+class AdminType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -30,7 +30,6 @@ class AdminFormType extends AbstractType
                 'disabled' => true,
                 'attr' => [
                     'placeholder' => "E-mail",
-                    'type' => 'email',
                     'class' => 'form-input form-input-disabled'
                 ],
             ])

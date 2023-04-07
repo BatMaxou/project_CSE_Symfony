@@ -30,7 +30,6 @@ class StaticPathList
         'ajout_reponse_sondage' => 'post_survey',
         'ajout_abonnement_newsletter' => 'post_newsletter',
         'modif_textes' => 'post_texts',
-        'modif_partenariat' => 'post-partnership',
         'ajout_membre' => 'post-add-member',
         'modif_membre' => 'post-edit-member',
         'sup_membre' => 'post-delete-member',
@@ -39,7 +38,10 @@ class StaticPathList
         'supprimer_partenariat' => 'post-delete-partnership',
         'ajout_admin' => 'post-add-admin',
         'modif_admin' => 'post-edit-admin',
-        'supprimer_admin' => 'post-delete-admin'
+        'supprimer_admin' => 'post-delete-admin',
+        'ajout_billeterie' => 'post-add-ticketing',
+        'modif_billeterie' => 'post-edit-ticketing',
+        'supp_billeterie' => 'post-delete-ticketing',
     );
 
     public function getClientPathByName(string $name): array
