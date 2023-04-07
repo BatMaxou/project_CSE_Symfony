@@ -22,13 +22,13 @@ class RequestController extends AbstractController
     public function postNewsletter(SubscriberRepository $subRep, Request $request): Response
     {
         // json response
-        if ($request->get('consent') !== NULL && $request->get('consent') === 'on') {
+        if ($request->get('consent') !== NULL && $request->get('consent') === '1') {
             // validator
-            if (preg_match('/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i', $request->get('mail'))) {
-                if ($subRep->countByMail($request->get('mail')) === 0) {
+            if (preg_match('/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i', $request->get('subscriber')['email'])) {
+                if ($subRep->countByMail($request->get('subscriber')['email']) === 0) {
                     $sub = new Subscriber();
-                    $sub->setEmail($request->get('mail'));
-                    $sub->setConsent(1);
+                    $sub->setEmail($request->get('subscriber')['email']);
+                    $sub->setConsent(true);
                     $subRep->save($sub, true);
 
                     return new Response('Vous avez été abonné à la newsletter', 200);
@@ -43,26 +43,26 @@ class RequestController extends AbstractController
     #[Route(path: '/post/survey', name: 'post_survey', methods: ['POST'])]
     public function postSurvey(SurveyRepository $surveyRep, ResponseRepository $respRep, UserResponseRepository $userRespRep, Request $request): Response
     {
-        // try {
-        // get id of the respons by a search name for set response of the create UserResponse
-        $response = $respRep->findResponseById($request->get('radio_response'));
+        try {
+            // get id of the respons by a search name for set response of the create UserResponse
+            $response = $respRep->findResponseById($request->get('radio_response'));
 
-        // récupérer les infos du survey (car l'objet survey n'est pas encore créé)
+            // récupérer les infos du survey (car l'objet survey n'est pas encore créé)
 
-        if (($survey = $surveyRep->findSurveyById($response->getSurvey()->getId())) && $survey->isIsActive()) {
-            $response->setSurvey($survey);
+            if (($survey = $surveyRep->findSurveyById($response->getSurvey()->getId())) && $survey->isIsActive()) {
+                $response->setSurvey($survey);
 
-            $userResp = new UserResponse();
-            $userResp->setResponse($response);
-            $userRespRep->save($userResp, true);
+                $userResp = new UserResponse();
+                $userResp->setResponse($response);
+                $userRespRep->save($userResp, true);
 
-            return new Response('Réponse enregistrée, merci de votre participation !', 200);
+                return new Response('Réponse enregistrée, merci de votre participation !', 200);
+            }
+
+            return new Response('Cette réponse ne correspond pas à ce formulaire', 400);
+        } catch (\Throwable $th) {
+            return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
         }
-
-        return new Response('Petit malin va !', 400);
-        // } catch (\Throwable $th) {
-        //     return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
-        // }
     }
 
     #[Route(path: '/post/backoffice/texts', name: 'post_texts', methods: ['POST'])]
@@ -76,14 +76,14 @@ class RequestController extends AbstractController
                 'rules' => $rep->findByZone('AboutUs', 'rules'),
             ];
 
-            $rep->save($texts['homepage']->setContent($request->get('text')['homepage']), true);
-            $rep->save($texts['email']->setContent($request->get('text')['email']), true);
-            $rep->save($texts['actions']->setContent($request->get('text')['actions']), true);
-            $rep->save($texts['rules']->setContent($request->get('text')['rules']), true);
+            $rep->save($texts['homepage']->setContent($request->get('texts')['homepage']), true);
+            $rep->save($texts['email']->setContent($request->get('texts')['email']), true);
+            $rep->save($texts['actions']->setContent($request->get('texts')['actions']), true);
+            $rep->save($texts['rules']->setContent($request->get('texts')['rules']), true);
 
             return new Response('Réponse enregistrée, merci de votre participation !', 200);
         } catch (\Throwable $th) {
-            return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
+            return new Response($th, 400);
         }
     }
 }

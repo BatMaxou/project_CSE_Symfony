@@ -71,7 +71,7 @@ class CkeditorRepository extends ServiceEntityRepository
     public function findByPage($page): array
     {
         return $this->createQueryBuilder('c')
-            ->andWhere('c.namePage = :val')
+            ->andWhere('c.pageName = :val')
             ->setParameter('val', $page)
             ->orderBy('c.id', 'ASC')
             ->getQuery()
@@ -81,7 +81,7 @@ class CkeditorRepository extends ServiceEntityRepository
     public function findByZone($page, $zone): ?CKEditor
     {
         return $this->createQueryBuilder('c')
-            ->andWhere('c.namePage = :page')
+            ->andWhere('c.pageName = :page')
             ->andWhere('c.zone = :zone')
             ->setParameter('page', $page)
             ->setParameter('zone', $zone)

@@ -1045,19 +1045,30 @@ iframe {
     margin-top: 5px;
 }
 
-#footer input {
+#footer input,
+#footer button {
     height: 25px;
     border: none;
     border-radius: 10px;
+    margin-left: 15px;
 }
 
-#footer input[type='text'] {
+#footer #subscriber_submit {
+    margin-left: 0;
+}
+
+#footer #subscriber_consent,
+#footer #subscriber_email {
+    margin-left: 0;
+}
+
+#footer input[type='email'] {
     padding: 0 0 0 10px;
     width: 175px;
     margin-right: 25px;
 }
 
-#footer input[type='submit'] {
+#footer #subscriber_submit {
     width: 80px;
     background-color: #fff;
     cursor: pointer;

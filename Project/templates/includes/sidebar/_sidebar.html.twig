@@ -38,9 +38,15 @@
 			<div class="sidebar-slider">
 				<h2>Nos partenaires</h2>
 				<div class="slider">
-					{% for item in image %}
+					{% for img in image %}
 						<div class="slider-image">
-							<img src="{{ asset("imagesTest/" ~ item.image) }}">
+							{% if img.image is null %}
+								<img src="{{ asset('images/no-image-partnership.svg')}}" alt="logo simple pour un partenaire sans image">
+							{% else %}
+								<a href="{{ img.link }}" target="_blank">
+									<img src="{{ asset("imagesTest/" ~ img.image) }}">
+								</a>
+							{% endif %}
 						</div>
 					{% endfor %}
 					<img class="prev" src="{{ asset("images/slider-arrow-left.svg") }}" alt="arrow direction slider">

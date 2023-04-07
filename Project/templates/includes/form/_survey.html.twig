@@ -1,9 +1,9 @@
-{% if form != null and question != null and response != null %}
+{% if form != null and question != null and responses != null %}
 	<h2>Votre avis compte</h2>
 
 	{{form_start(form)}}
 	<legend>{{ question.question }}</legend>
-	{% for item in response %}
+	{% for item in responses %}
 		<div class="response">
 			<input type="radio" id="radio_{{item.id}}" name="radio_response" value="{{ item.id }}">
 			<label for="radio_{{item.id}}">{{ item.text }}</label>

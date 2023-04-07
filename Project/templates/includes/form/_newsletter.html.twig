@@ -1,15 +1,14 @@
-{% if form != null %}
+{% if form is not null %}
 	{{ form_start(form) }}
 	<div class="form-group">
-		<input type="checkbox" id="consent" name="consent"/>
-		<label for="consent">J'accepte de recevoir les nouvelles offres</label>
+		{{ form_row(form.consent) }}
 	</div>
 	<div class="footer-group">
 		<div class='form-group'>
-			<input type="text" name="mail" placeholder="Saisissez votre email"/>
+			{{ form_widget(form.email) }}
 		</div>
 		<div class="form-group">
-			<input type="submit" value="S'inscrire"/>
+			{{ form_widget(form.submit) }}
 		</div>
 	</div>
 	{{ form_end(form) }}

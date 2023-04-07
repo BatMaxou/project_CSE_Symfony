@@ -20,7 +20,7 @@ class Subscriber
     private ?string $email = null;
 
     #[ORM\Column]
-    private ?bool $consent = null;
+    private ?bool $consent = false;
 
     public function getId(): ?int
     {
