@@ -159,6 +159,7 @@ class BackOfficeController extends AbstractController
 
         $questions = $surveyRepo->totalResponseBySurveyActive();
         $responses = $surveyRepo->totalResponseByQuestionActive();
+        $stats = $surveyRepo->totalResponseFor5LasSurvey();
 
         return $this->render('backoffice/index.html.twig', [
             'paths' => $paths,
@@ -166,6 +167,7 @@ class BackOfficeController extends AbstractController
             'responses' => $responses,
             'ckeditor' => $ckeditor,
             'message' => $message,
+            'stats_json' => json_encode($stats),
             // encode responses en JSON pour l'utiliser en JS
             'responses_json' => json_encode($responses),
         ]);
