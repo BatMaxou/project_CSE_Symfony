@@ -120,6 +120,20 @@ class SurveyRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
+    // retourne le nombre total de réponse associé à une question associé à un survey
+    public function totalResponseFor5LasSurvey(): array
+    {
+        $qb = $this->createQueryBuilder('survey');
+
+        $qb->select('survey.question', 'COUNT(user_response.id) AS responses')
+            ->innerJoin('App\Entity\Response', 'response', 'WITH', 'response.survey = survey.id')
+            ->innerJoin('App\Entity\UserResponse', 'user_response', 'WITH', 'user_response.response = response.id')
+            ->groupBy('survey.question')
+            ->orderBy('responses', 'DESC')
+            ->setMaxResults(4);
+
+        return $qb->getQuery()->getResult();
+    }
 
 
 

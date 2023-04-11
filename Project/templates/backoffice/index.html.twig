@@ -75,7 +75,7 @@
 					<div class="card">
 						<h3>Pas de sondage activé pour le moment</h3>
 						<div class="card-content">
-							<a class="btn btn-edit" href="{{ path('backoffice_sondage') }}">Activer ou ajouter un sondage</a>
+							<a class="btn btn-edit" href="{{ path('backoffice_survey') }}">Activer ou ajouter un sondage</a>
 						</div>
 					</div>
 				</div>
@@ -192,30 +192,51 @@ data: data,
 });
 });
 
+
+// graph du dashboard qui illustre le nombre total de réponses pour les 5 derniers sondage
+
 const ctx = document.getElementById('stat-cse');
+const stat = JSON.parse('{{ stats_json|e('js') }}');
+const q = []
+const r = []
+let k = []
+const ok = []
+stat.forEach((e, i) => {
+const question = stat[i].question
+const response = stat[i].responses
+const lab = stat[i].question.split(' ');
+q.push(lab)
+r.push(response)
+})
+let temp = []
+console.log(q)
+q.forEach((el) => {
+console.log(el)
+el.forEach((e, i) => {
+if ((i + 1) % 2 == 0) {
+temp.push(el[i - 1] + " " + e)
+}
+})
+if (el.length % 2 == 1) {
+temp.push(el[el.length - 1])
+}
+k.push(temp)
+console.log(temp)
+temp = []
+console.log(temp)
+})
+// const lab = stat[i].question.split(' ');
+
+console.log(k)
 
 new Chart(ctx, {
 type: 'bar',
 data: {
-labels: [
-'Red',
-'Blue',
-'Yellow',
-'Green',
-'Purple',
-'Orange'
-],
+labels: k,
 datasets: [
 {
-label: '# of Votes',
-data: [
-12,
-19,
-3,
-5,
-2,
-3
-],
+label: 'Nombre total de réponse pour le(s) ' + k.length + ' dernier(s) sondages',
+data: r,
 borderWidth: 1
 }
 ]

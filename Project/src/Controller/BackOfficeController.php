@@ -158,6 +158,7 @@ class BackOfficeController extends AbstractController
 
         $questions = $surveyRepo->totalResponseBySurveyActive();
         $responses = $surveyRepo->totalResponseByQuestionActive();
+        $stats = $surveyRepo->totalResponseFor5LasSurvey();
 
         return $this->render('backoffice/index.html.twig', [
             'paths' => $paths,
@@ -165,6 +166,7 @@ class BackOfficeController extends AbstractController
             'responses' => $responses,
             'ckeditor' => $ckeditor,
             'message' => $message,
+            'stats_json' => json_encode($stats),
             // encode responses en JSON pour l'utiliser en JS
             'responses_json' => json_encode($responses),
         ]);
@@ -208,25 +210,4 @@ class BackOfficeController extends AbstractController
             'addFormPartner' => $addFormPartner
         ]);
     }
-
-    // #[Route(path: '/admin/partenariat/{id}', name: 'backoffice_partnership')]
-    // public function deletePartnership(string $id, PartnershipRepository $partnershipRepo, Request $request, EntityManagerInterface $manager): Response
-    // {
-    //     $path = [['Tableau de bord', 'backoffice_dashboard'], ['Partenariat', 'backoffice_partnership']];
-
-    //     $partnership = $partnershipRepo->find($id);
-
-    //     $form = $this->createForm(PartnershipType::class, null, [
-    //         'action' => '/post/edit-partnership',
-    //         'method' => 'POST',
-    //     ]);
-
-    //     $form->createView();
-
-    //     return $this->render('backoffice/partnership/partnership.html.twig', [
-    //         'path' => $path,
-    //         'partnership' => $partnership,
-    //         'formPartnership' => $form,
-    //     ]);
-    // }
 }
