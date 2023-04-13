@@ -23,6 +23,9 @@ class Survey
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $datetime = null;
 
+    #[ORM\Column]
+    private ?int $nbVote = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -60,6 +63,18 @@ class Survey
     public function setDatetime(?\DateTimeInterface $datetime): self
     {
         $this->datetime = $datetime;
+
+        return $this;
+    }
+
+    public function getNbVote(): ?int
+    {
+        return $this->nbVote;
+    }
+
+    public function setNbVote(int $nbVote): self
+    {
+        $this->nbVote = $nbVote;
 
         return $this;
     }

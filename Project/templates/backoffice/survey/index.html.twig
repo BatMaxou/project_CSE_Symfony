@@ -1,0 +1,201 @@
+{% extends 'backoffice-page.html.twig' %}
+
+{% block title %}
+	CSE - Backoffice stats sondages
+{% endblock %}
+
+{% block content %}
+	<div id="backoffice-survey">
+
+		{% block modal %}
+
+			{% include "includes/_modal.html.twig" with {
+				type: 'add',
+				title: 'Attention, ajout en cours !', 
+				content: 
+					"<p class='modal-question'>Vous êtes sur le point d'ajouter un sondage : </p>" ~ 
+					"<div class='post-content'>" ~ 
+						"<p class='modal-recap add-survey-question'></p>" ~ 
+						"<p class='modal-recap add-survey-response-1'></p>" ~ 
+						"<p class='modal-recap add-member-response-2'></p>" ~
+					"</div>" ~ 
+					"<p class='modal-question'>Êtes-vous sûr de vouloir ajouter ce sondage ?</p>"
+				, 
+				options: {
+					cancelButton: true,
+					addButton: true
+				}
+			} %}
+
+			{% include "includes/_modal.html.twig" with {
+				type: 'delete',
+				title: 'Attention, suppression en cours !', 
+				content: 
+					"<p class='modal-question'>Vous êtes sur le point de supprimer le sondage : </p>" ~ 
+					"<div class='post-content'>" ~ 
+						"<p class='modal-recap delete-member-full-name'></p>" ~ 
+					"</div>" ~
+					"<p class='modal-question'>Êtes-vous sûr de vouloir supprimer ce sondage ?</p>" ~
+					"<p class='modal-question'><b>Cette action sera irréversible et les données récoltées seront écrasées</b>"
+				, 
+				options: {
+					cancelButton: true,
+					deleteButton: true
+				}
+			} %}
+
+		{% endblock %}
+
+		<h1>Gestion des sondages</h1>
+		<h2>Ajouter un sondage</h2>
+		<div class="card">
+			{{ form_start(formAdd) }}
+			<div class="card-body">
+				<div class="new-question">
+					{{ form_widget(formAdd.question) }}
+					<div class="question-active">
+						{{ form_widget(formAdd.active) }}
+						{{ form_label(formAdd.active) }}
+					</div>
+				</div>
+				<div class="responses">
+					<ul>
+						<li>
+							<div class="response">
+								{{ form_widget(formAdd.response_1) }}
+							</div>
+						</li>
+						<li>
+							<div class="response">
+								{{ form_widget(formAdd.response_2) }}
+							</div>
+						</li>
+					</ul>
+					<div class="add-response">
+						<span>+</span>
+						Ajouter une réponse
+					</div>
+				</div>
+			</div>
+			<div class="card-footer">
+				<button class='btn btn-edit btn-add modal-open-add'>Ajouter</button>
+			</div>
+			{{ form_end(formAdd) }}
+		</div>
+		<h2>Statistiques des sondages</h2>
+
+		{% for index, survey in surveys %}
+
+			<div class="card">
+				<div class="card-header">
+					{% if index == 0 %}
+						<span class="card-tag">Sondage actif</span>
+						<span class="card-date">-- Archivé le sondage --</span>
+					{% else %}
+						<span class="card-tag">Sondage archivé</span>
+					{% endif %}
+				</div>
+
+				<div class="card-body">
+					<div class="card-image">
+						<div>
+							<canvas class="chart" data-question="{{ survey.question }}"></canvas>
+						</div>
+					</div>
+					<div class="card-content">
+						<h2 class="question">{{ survey.question }}</h2>
+						<ul>
+							{% for index, response in responses[survey.id] %}
+
+								<li>
+									{# + 1 car index commence à 0 #}
+									<div class="survey-response-{{index + 1}} survey-response">
+										<div class="label"></div>
+										<p>
+											{{ response.text }}
+										</p>
+										<span class="resultResponse">
+											{{ response.nbVote * 100 // survey.nbVote }}
+											%
+										</span>
+									</div>
+								</li>
+
+							{% endfor %}
+						</ul>
+						<div class="info-survey">
+							<p>
+								Sondage créé le
+								{{ survey.datetime|date('d/m/Y') }}
+							</p>
+							<p>
+								{{ survey.nbVote }}
+								réponses au total
+							</p>
+						</div>
+
+					</div>
+				</div>
+
+				{% if index != 0 %}
+					<div class="card-footer">
+						<button class='btn btn-delete modal-open-delete'>Supprimer</button>
+					</div>
+				{% endif %}
+			</div>
+		{% endfor %}
+
+	</div>
+
+	<script src="{{ asset('js/handleResponseSurvey.js') }}"></script>
+
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script>
+		// on récupère les réponses depuis le twig converties en json
+const charts = document.querySelectorAll('.chart');
+
+{
+# charts.forEach(chart => {
+const question = chart.dataset.question
+// on va créer un tableau qui va contenir uniquement les réponses qui sont associé à la question
+const questionResponses = responses.filter(response => response.question === question)
+
+// la fonction map va permettre de recupérer le text de chaque objet et de placer ce text dans un tableau
+const data = { // labels: questionResponses.map(response => response.text),
+datasets: [
+{ // labels: question,
+data: questionResponses.map(response => response.responses),
+label: [' Nombre de vote '],
+backgroundColor: [
+'#36a2eb',
+'#ff6384',
+'#4bc0c0',
+'#ff9f40',
+'#9966ff',
+'#ffcd56',
+'#c9cbcf'
+],
+// plus c'est grand plus ça met de l'espace entre chaque section du grave au hover
+hoverOffset: 5
+}
+]
+
+
+};
+
+new Chart(chart, {
+type: 'doughnut',
+data: data,
+// options: {
+// interaction: {
+// enabled: false
+// /},
+// pour retirer le hover
+// interaction: {mode: null},
+// }
+});
+});
+#
+}
+	</script>
+{% endblock %}

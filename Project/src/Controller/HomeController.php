@@ -2,8 +2,6 @@
 
 namespace App\Controller;
 
-use Exception;
-use App\Entity\Survey;
 use App\Entity\Contact;
 use App\Form\SurveyType;
 use App\Form\ContactType;
@@ -11,6 +9,7 @@ use App\Entity\Subscriber;
 use App\Entity\UserResponse;
 use App\Form\SubscriberType;
 use App\Entity\ImageTicketing;
+use App\Form\ClientSurveyType;
 use App\Form\UserResponseType;
 use App\Service\StaticPathList;
 use App\Repository\MemberRepository;
@@ -46,14 +45,14 @@ class HomeController extends AbstractController
     {
         try {
             // récupérer le sondage actif
-            $surveyActive = $surveyRepo->findQuestionActive();
+            $surveyActive = $surveyRepo->findActiveSurvey();
 
             // récupérer les réponses associées au survey
             foreach (($responseRepo->findResponseBySurveyId($surveyActive->getId())) as $response) {
                 $responses[$response->getText()] = $response->getId();
             }
 
-            $form = $this->createForm(SurveyType::class, null, [
+            $form = $this->createForm(ClientSurveyType::class, null, [
                 'action' => $this->generateUrl($staticPathList->getRequestPathByName('ajout_reponse_sondage')),
                 'method' => 'POST',
                 // array associatif text => id pour le ChoiceType

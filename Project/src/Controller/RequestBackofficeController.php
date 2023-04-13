@@ -364,4 +364,30 @@ class RequestBackofficeController extends AbstractController
             return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
         }
     }
+
+    #[Route(path: '/post/backoffice/ajout-sondage', name: 'post-add-survey', methods: ['POST'])]
+    public function addSurvey(Request $request): Response
+    {
+        try {
+
+            // code
+
+            return new Response('La suppression du partenaire a bien été effectuée !', 200);
+        } catch (\Throwable $th) {
+            return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
+        }
+    }
+
+    #[Route(path: '/post/backoffice/supp-sondage', name: 'post-delete-survey', methods: ['POST'])]
+    public function deleteSurvey(Request $request): Response
+    {
+        try {
+
+            // code
+
+            return new Response('La suppression du partenaire a bien été effectuée !', 200);
+        } catch (\Throwable $th) {
+            return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
+        }
+    }
 }

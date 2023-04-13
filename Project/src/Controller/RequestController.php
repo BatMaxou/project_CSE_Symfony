@@ -45,14 +45,19 @@ class RequestController extends AbstractController
     {
         try {
             // get id of the respons by a search name for set response of the create UserResponse
-            $response = $respRep->findResponseById($request->get('survey')['radio_response']);
+            $response = $respRep->findResponseById($request->get('client_survey')['radio_response']);
 
             // récupérer les infos du survey (car l'objet survey n'est pas encore créé)
             if (isset($response) && ($survey = $surveyRep->findSurveyById($response->getSurvey()->getId())) && $survey->isIsActive()) {
+                $survey->setNbVote($survey->getNbVote() + 1);
                 $response->setSurvey($survey);
+                $response->setNbVote($response->getNbVote() + 1);
 
                 $userResp = new UserResponse();
                 $userResp->setResponse($response);
+
+                $surveyRep->save($survey);
+                $respRep->save($response);
                 $userRespRep->save($userResp, true);
 
                 return new Response('Réponse enregistrée, merci de votre participation !', 200);
