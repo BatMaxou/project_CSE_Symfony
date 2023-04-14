@@ -21,7 +21,7 @@ class Response
     private Survey $survey;
 
     #[ORM\Column]
-    private ?int $nbVote = null;
+    private ?int $nbVote = 0;
 
     public function getSurvey(): Survey
     {

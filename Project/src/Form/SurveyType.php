@@ -26,7 +26,7 @@ final class SurveyType extends AbstractType
                 ]
             ])
             ->add('response_1', TextType::class, [
-                'label' => 'Réponse 2',
+                'label' => 'Réponse 1',
                 'required' => true,
                 'attr' => [
                     'placeholder' => "Réponse 1",
@@ -34,15 +34,12 @@ final class SurveyType extends AbstractType
                 ]
             ])
             ->add('response_2', TextType::class, [
-                'label' => 'Réponse 1',
+                'label' => 'Réponse 2',
                 'required' => true,
                 'attr' => [
                     'placeholder' => "Réponse 2",
                     'class' => 'form-input'
                 ]
-            ])
-            ->add('active', CheckboxType::class, [
-                'label' => 'Désigner ce sondage comme actif'
             ]);
     }
 

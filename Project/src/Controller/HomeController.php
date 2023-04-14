@@ -48,7 +48,7 @@ class HomeController extends AbstractController
             $surveyActive = $surveyRepo->findActiveSurvey();
 
             // récupérer les réponses associées au survey
-            foreach (($responseRepo->findResponseBySurveyId($surveyActive->getId())) as $response) {
+            foreach (($responseRepo->findResponsesBySurveyId($surveyActive->getId())) as $response) {
                 $responses[$response->getText()] = $response->getId();
             }
 

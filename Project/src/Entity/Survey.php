@@ -24,7 +24,7 @@ class Survey
     private ?\DateTimeInterface $datetime = null;
 
     #[ORM\Column]
-    private ?int $nbVote = null;
+    private ?int $nbVote = 0;
 
     public function getId(): ?int
     {

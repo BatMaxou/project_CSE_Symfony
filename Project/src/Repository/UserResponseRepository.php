@@ -39,6 +39,18 @@ class UserResponseRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @return UserResponse[] Returns an array of UserResponse objects
+     */
+    public function findUserResponsesByResponseId($id): array
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.response = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return UserResponse[] Returns an array of UserResponse objects
     //     */

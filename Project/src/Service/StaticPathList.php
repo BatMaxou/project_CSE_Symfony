@@ -29,6 +29,7 @@ class StaticPathList
     private array $requestPaths = array(
         'ajout_reponse_sondage' => 'post_survey',
         'ajout_sondage' => 'post-add-survey',
+        'modif_sondage' => 'post-edit-survey',
         'supp_sondage' => 'post-delete-survey',
         'ajout_abonnement_newsletter' => 'post_newsletter',
         'modif_textes' => 'post_texts',

@@ -114,8 +114,13 @@ class BackOfficeController extends AbstractController
             }
         }
 
-        $formAdd = $this->createForm(SurveyType::class, null, [
+        $addForm = $this->createForm(SurveyType::class, null, [
             'action' => $this->generateUrl($staticPathList->getRequestPathByName('ajout_sondage')),
+            'method' => 'POST',
+        ]);
+
+        $editForm = $this->createForm(SurveyType::class, null, [
+            'action' => $this->generateUrl($staticPathList->getRequestPathByName('modif_sondage')),
             'method' => 'POST',
         ]);
 
@@ -124,10 +129,17 @@ class BackOfficeController extends AbstractController
             'method' => 'POST',
         ]);
 
+        $deleteForms = array();
+
+        for ($i = 0; $i < count($surveys); $i++) {
+            $deleteForms[] = $formDelete->createView();
+        }
+
         return $this->render('backoffice/survey/index.html.twig', [
             'paths' => $paths,
-            'formAdd' => $formAdd,
-            'formDelete' => $formDelete,
+            'addForm' => $addForm,
+            'editForm' => $editForm,
+            'deleteForms' => $deleteForms,
             'surveys' => $surveys,
             'responses' => $sortedResponse,
         ]);
@@ -181,7 +193,7 @@ class BackOfficeController extends AbstractController
         $message = $contactRepo->getLastMessage();
 
         $activeSurvey = $surveyRepo->findActiveSurvey();
-        $responses = $respRepo->findResponseBySurveyId($activeSurvey->getId());
+        $responses = $respRepo->findResponsesBySurveyId($activeSurvey->getId());
 
         $stats = $surveyRepo->totalResponsesFor4LastSurveys();
 

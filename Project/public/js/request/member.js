@@ -82,7 +82,7 @@ const handleMembersDisplayModal = (e, index, type, btnSubmit, form) => {
         const deleteFullName = document.querySelector('.modal .delete-member-full-name')
 
         // Affichage du champ
-        deleteFullName.innerHTML = '- Membre : <b>' + formData.get('member[firstName]') + ' ' + formData.get('member[lastName]' + '</b>')
+        deleteFullName.innerHTML = '- Membre : <b>' + formData.get('member[firstName]') + ' ' + formData.get('member[lastName]') + '</b>'
 
         // Fin du traitement de l'affichage 
 

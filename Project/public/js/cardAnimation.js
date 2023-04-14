@@ -197,3 +197,21 @@ btnActived.forEach((btn, index) => {
     // +1 pour passer outre la card d'ajout
     btn.addEventListener('click', (e) => handleBtnActive(e, index + 1))
 })
+
+const dasactiveSurveyAnim = gsap.timeline({ paused: true });
+
+// desactive tag sondage
+const handleBtnEditDesactivateSurvey = (index) => {
+    const tag = cards[index].querySelector('.card-tag')
+    const btn = cards[index].querySelector('.card-date')
+
+    dasactiveSurveyAnim.to(btn, {
+        opacity: 0,
+        duration: 0.2
+    }).then(() => {
+        btn.style.display = 'none'
+        tag.textContent = 'sondage archivé'
+    })
+
+    dasactiveSurveyAnim.play()
+}

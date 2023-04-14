@@ -16,9 +16,9 @@
 					"<p class='modal-question'>Vous êtes sur le point d'ajouter un sondage : </p>" ~ 
 					"<div class='post-content'>" ~ 
 						"<p class='modal-recap add-survey-question'></p>" ~ 
-						"<p class='modal-recap add-survey-response-1'></p>" ~ 
-						"<p class='modal-recap add-member-response-2'></p>" ~
+						"<p class='modal-recap add-survey-responses'></p>" ~ 
 					"</div>" ~ 
+					"<p class='modal-question'><b>Cette action provoquera l'archivage du sondage actif cloturant les résultats des votes.</b>" ~
 					"<p class='modal-question'>Êtes-vous sûr de vouloir ajouter ce sondage ?</p>"
 				, 
 				options: {
@@ -28,15 +28,32 @@
 			} %}
 
 			{% include "includes/_modal.html.twig" with {
+				type: 'edit',
+				title: 'Attention, archivage en cours !', 
+				content: 
+					"<p class='modal-question'>Vous êtes sur le point de modifier le sondage : </p>" ~ 
+					"<div class='post-content'>" ~ 
+						"<p class='modal-recap edit-survey-question'></p>" ~ 
+					"</div>" ~
+					"<p class='modal-question'><b>Cette action provoquera l'archivage du sondage actif cloturant les résultats des votes.</b>" ~
+					"<p class='modal-question'>Êtes-vous sûr de vouloir archiver ce sondage ?</p>"
+				, 
+				options: {
+					cancelButton: true,
+					editButton: true
+				}
+			} %}
+
+			{% include "includes/_modal.html.twig" with {
 				type: 'delete',
 				title: 'Attention, suppression en cours !', 
 				content: 
 					"<p class='modal-question'>Vous êtes sur le point de supprimer le sondage : </p>" ~ 
 					"<div class='post-content'>" ~ 
-						"<p class='modal-recap delete-member-full-name'></p>" ~ 
+						"<p class='modal-recap delete-survey-question'></p>" ~ 
 					"</div>" ~
-					"<p class='modal-question'>Êtes-vous sûr de vouloir supprimer ce sondage ?</p>" ~
-					"<p class='modal-question'><b>Cette action sera irréversible et les données récoltées seront écrasées</b>"
+					"<p class='modal-question'><b>Cette action est irréversible et les données relative récoltées à ce sondage seront écrasées</b>" ~
+					"<p class='modal-question'>Êtes-vous sûr de vouloir supprimer ce sondage ?</p>"
 				, 
 				options: {
 					cancelButton: true,
@@ -49,25 +66,21 @@
 		<h1>Gestion des sondages</h1>
 		<h2>Ajouter un sondage</h2>
 		<div class="card">
-			{{ form_start(formAdd) }}
+			{{ form_start(addForm, {'attr': {'class': 'add-form'}}) }}
 			<div class="card-body">
 				<div class="new-question">
-					{{ form_widget(formAdd.question) }}
-					<div class="question-active">
-						{{ form_widget(formAdd.active) }}
-						{{ form_label(formAdd.active) }}
-					</div>
+					{{ form_widget(addForm.question) }}
 				</div>
 				<div class="responses">
 					<ul>
 						<li>
 							<div class="response">
-								{{ form_widget(formAdd.response_1) }}
+								{{ form_widget(addForm.response_1) }}
 							</div>
 						</li>
 						<li>
 							<div class="response">
-								{{ form_widget(formAdd.response_2) }}
+								{{ form_widget(addForm.response_2) }}
 							</div>
 						</li>
 					</ul>
@@ -80,17 +93,21 @@
 			<div class="card-footer">
 				<button class='btn btn-edit btn-add modal-open-add'>Ajouter</button>
 			</div>
-			{{ form_end(formAdd) }}
+			{{ form_end(addForm, {'render_rest': false}) }}
 		</div>
 		<h2>Statistiques des sondages</h2>
 
-		{% for index, survey in surveys %}
+		{% for key, survey in surveys %}
 
 			<div class="card">
 				<div class="card-header">
-					{% if index == 0 %}
+					{% if survey.isActive %}
+						{{ form_start(editForm, {'attr': {'class': 'edit-form'}}) }}
+						{{ form_widget(editForm.id, { 'value': survey.id, 'disabled': false }) }}
+						{{ form_widget(editForm.question, { 'attr': { class: 'form-input-hidden' }, 'value': survey.question, 'disabled': false }) }}
+						{{ form_end(editForm, {'render_rest': false})}}
 						<span class="card-tag">Sondage actif</span>
-						<span class="card-date">-- Archivé le sondage --</span>
+						<span class="card-date modal-open-edit">-- Archivé le sondage --</span>
 					{% else %}
 						<span class="card-tag">Sondage archivé</span>
 					{% endif %}
@@ -115,12 +132,14 @@
 											{{ response.text }}
 										</p>
 										<span class="resultResponse">
-											{{ response.nbVote * 100 // survey.nbVote }}
-											%
+											{% if survey.nbVote == 0 %}
+												0%
+											{% else %}
+												{{ response.nbVote * 100 // survey.nbVote }}%
+											{% endif %}
 										</span>
 									</div>
 								</li>
-
 							{% endfor %}
 						</ul>
 						<div class="info-survey">
@@ -137,9 +156,13 @@
 					</div>
 				</div>
 
-				{% if index != 0 %}
+				{% if survey.isActive == false %}
 					<div class="card-footer">
+						{{ form_start(deleteForms[key], {'attr': {'class': 'delete-form'}}) }}
+						{{ form_widget(deleteForms[key].id, { 'value': survey.id, 'disabled': false }) }}
+						{{ form_widget(deleteForms[key].question, { 'attr': { class: 'form-input-hidden' }, 'value': survey.question, 'disabled': false }) }}
 						<button class='btn btn-delete modal-open-delete'>Supprimer</button>
+						{{ form_end(deleteForms[key], {'render_rest': false})}}
 					</div>
 				{% endif %}
 			</div>
@@ -149,53 +172,8 @@
 
 	<script src="{{ asset('js/handleResponseSurvey.js') }}"></script>
 
-	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-	<script>
-		// on récupère les réponses depuis le twig converties en json
-const charts = document.querySelectorAll('.chart');
+{% endblock %}
 
-{
-# charts.forEach(chart => {
-const question = chart.dataset.question
-// on va créer un tableau qui va contenir uniquement les réponses qui sont associé à la question
-const questionResponses = responses.filter(response => response.question === question)
-
-// la fonction map va permettre de recupérer le text de chaque objet et de placer ce text dans un tableau
-const data = { // labels: questionResponses.map(response => response.text),
-datasets: [
-{ // labels: question,
-data: questionResponses.map(response => response.responses),
-label: [' Nombre de vote '],
-backgroundColor: [
-'#36a2eb',
-'#ff6384',
-'#4bc0c0',
-'#ff9f40',
-'#9966ff',
-'#ffcd56',
-'#c9cbcf'
-],
-// plus c'est grand plus ça met de l'espace entre chaque section du grave au hover
-hoverOffset: 5
-}
-]
-
-
-};
-
-new Chart(chart, {
-type: 'doughnut',
-data: data,
-// options: {
-// interaction: {
-// enabled: false
-// /},
-// pour retirer le hover
-// interaction: {mode: null},
-// }
-});
-});
-#
-}
-	</script>
+{% block request %}
+	<script src="{{ asset('js/request/survey.js') }}"></script>
 {% endblock %}
