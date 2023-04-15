@@ -5,11 +5,17 @@
 {% endblock %}
 
 {% block content %}
-	{% if partnerships %}
-		<div id="partnership">
-			<h1>Partenariats</h1>
+	<div id="partnership">
+		<h1>Partenariats</h1>
+
+		{% block paging %}
+			{% include "includes/_paging.html.twig" %}
+			{# script placé à la fin car les offres ne sont pas encore crées ici #}
+		{% endblock %}
+
+		{% if partnerships is not null and partnerships is not empty %}
 			{% for partnership in partnerships %}
-				<div class="card">
+				<div class="card card-paging">
 					<div class="card-body">
 						<div class="card-image">
 							{% if partnership.image is null %}
@@ -31,6 +37,17 @@
 					</div>
 				</div>
 			{% endfor %}
-		</div>
-	{% endif %}
+		{% else %}
+			<div class="card">
+				<div class="card-body">
+					<h3>Aucun partenariat recensé à ce jour</h3>
+					<p class="card-description-ticketing">Nous sommes actuellement en recherche de partenaire. Si vous êtes interressé, contactez-nous
+						<a href="{{ path('contact') }}">ici</a>
+					</p>
+				</div>
+			</div>
+		{% endif %}
+	</div>
+
+	<script src="{{ asset('js/paging.js') }}"></script>
 {% endblock %}

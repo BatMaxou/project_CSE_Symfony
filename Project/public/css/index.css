@@ -574,7 +574,9 @@ textarea:focus::placeholder {
     width: 100%;
 }
 
-.contact-form input:first-child {
+.contact-form input:not(input[type='checkbox']),
+.contact-form textarea {
+    width: 90%;
     margin-bottom: 25px;
 }
 
@@ -848,17 +850,17 @@ textarea:focus::placeholder {
     }
 }
 
-/*HOMEPAGE*/
-#homepage .card-paging {
+/* PAGING SYSTEM */
+.card-paging {
     display: none;
 }
 
-#homepage .paging-container {
+.paging-container {
     display: flex;
     margin: 10px 0 15px;
 }
 
-#homepage .paging-element {
+.paging-element {
     position: relative;
     width: 25px;
     height: 25px;
@@ -869,40 +871,40 @@ textarea:focus::placeholder {
     border: 1px solid transparent;
 }
 
-#homepage .paging-element-active {
+.paging-element-active {
     border-color: var(--color-primary);
 }
 
-#homepage .paging-element:hover,
-#homepage .paging-element-clicked {
+.paging-element:hover,
+.paging-element-clicked {
     background-color: var(--color-primary);
     color: var(--color-white);
 }
 
-#homepage .paging-element:hover img,
-#homepage .paging-element-clicked img {
+.paging-element:hover img,
+.paging-element-clicked img {
     filter: invert(1);
 }
 
-#homepage .paging-element span,
-#homepage .paging-element img {
+.paging-element span,
+.paging-element img {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
 
-#homepage .paging-between {
+.paging-between {
     top: 37.5% !important;
     font-size: 14px;
 }
 
-#homepage .paging-element img {
+.paging-element img {
     width: 10px;
     user-select: none
 }
 
-#homepage .paging-select {
+.paging-select {
     display: none;
     position: absolute;
     height: 100px;
@@ -918,40 +920,39 @@ textarea:focus::placeholder {
     overflow-y: scroll;
 }
 
-#homepage .paging-select::-webkit-scrollbar-track {
+.paging-select::-webkit-scrollbar-track {
     background-color: var(--color-card);
 }
 
-#homepage .paging-select::-webkit-scrollbar {
+.paging-select::-webkit-scrollbar {
     width: 2px;
 }
 
-#homepage .paging-select::-webkit-scrollbar-thumb {
+.paging-select::-webkit-scrollbar-thumb {
     border-radius: 7px;
     background-color: var(--color-primary);
 }
 
-#homepage .paging-select p {
+.paging-select p {
     text-align: center;
     color: var(--color-black);
     border-bottom: 1px solid var(--color-primary);
 }
 
-#homepage .paging-select p:hover {
+.paging-select p:hover {
     color: var(--color-white);
     background-color: var(--color-primary);
 }
 
-#homepage .paging-disabled,
-#homepage .paging-disabled:hover {
-    background-color: rgba(0, 0, 0, 0.5);
+.paging-disabled,
+.paging-disabled:hover {
+    background-color: var(--color-black-fog);
     cursor: inherit;
     filter: none;
-    cursor: inherit;
 }
 
-#homepage .paging-disabled img,
-#homepage .paging-disabled:hover img {
+.paging-disabled img,
+.paging-disabled:hover img {
     filter: none;
     cursor: inherit;
 }

@@ -1,9 +1,9 @@
 // toutes les cartes d'offres
-const offers = document.querySelectorAll('#homepage .card-paging')
+const offers = document.querySelectorAll('.card-paging')
 // elements de pagination
-const pagingElements = document.querySelectorAll('#homepage .paging-element')
-const pagingSelect = document.querySelector('#homepage .paging-select')
-const pagingSelectBetween = document.querySelector('#homepage .paging-between')
+const pagingElements = document.querySelectorAll('.paging-element')
+const pagingSelect = document.querySelector('.paging-select')
+const pagingSelectBetween = document.querySelector('.paging-between')
 
 // s'il y a plus de 5 pages
 if (pagingSelect) {
@@ -101,6 +101,7 @@ const handlePagingArrowClick = (el) => {
             currentPage--
             handlePageChangement(currentPage)
             el.classList.add('paging-disabled')
+            displayElements()
         } else {
             displayElements()
             el.classList.add('paging-disabled')
@@ -114,6 +115,7 @@ const handlePagingArrowClick = (el) => {
             currentPage++
             handlePageChangement(currentPage)
             el.classList.add('paging-disabled')
+            displayElements()
         } else {
             displayElements()
             el.classList.add('paging-disabled')
@@ -134,7 +136,7 @@ const handlePagingNumClick = (span) => {
 }
 
 const handlePagingElementClick = (el) => {
-    const clicked = document.querySelector('#homepage .paging-element-clicked')
+    const clicked = document.querySelector('.paging-element-clicked')
     if (clicked) {
         clicked.classList.remove('paging-element-clicked')
     }

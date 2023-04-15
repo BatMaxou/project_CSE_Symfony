@@ -101,10 +101,15 @@ class HomeController extends AbstractController
         // get 3 random image from database
         $imgPartner = $partnershipRepo->imagePartner();
 
+        $nbOffer = count($partnership);
+        // counting the number of pages with 4 offers per page
+        $nbPage = ($nbOffer % 4 === 0 || $nbOffer < 0) ? $nbOffer / 4 : intdiv($nbOffer, 4) + 1;
+
         return $this->render('partnership/index.html.twig', [
             'paths' => $paths,
             'partnerships' => $partnership,
-            'image' => $imgPartner
+            'image' => $imgPartner,
+            'nbPage' => $nbPage,
         ]);
     }
 

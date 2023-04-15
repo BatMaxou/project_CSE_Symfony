@@ -47,30 +47,14 @@
 				</div>
 			{% endfor %}
 		{% else %}
-			<div
-				class="card">
-				{# <div class="card-image">
-																	<img src={{ asset('images/no-offer.svg') }} alt="image pour aucune offre">
-																</div> #}
-				<div class="card-content">
-					<div class="card-header">
-						<span class="card-tag">OFFRE LIMITEE</span>
-						<span class="card-date">Publié le 00/00/0000 - Du 00/00/0000 au 00/00/0000</span>
-					</div>
-					<div class="card-body">
-						<h3>Aucune offre limitée disponible pour le moment</h3>
-						<p class="card-description-ticketing">Inscrivez-vous à la newlestter pour être informé lors de l'arrivée d'une offre limitée</p>
-						<p>Nombre de place minimum requis : 0</p>
-
-					</div>
-					<div class="card-footer">{# {{ render(controller('App\\Controller\\HomeController::formNewsletter')) }} #}
-						{# </a> #}
-					</div>
+			<div class="card">
+				<div class="card-body">
+					<h3>Aucune offre limitée disponible pour le moment</h3>
+					<p class="card-description-ticketing">Inscrivez-vous à la newlestter pour être informé lors de l'arrivée d'une offre limitée.</p>
 				</div>
 			</div>
 		{% endif %}
-
-		<script src="{{ asset('js/paging.js') }}"></script>
-
 	</div>
+
+	<script src="{{ asset('js/paging.js') }}"></script>
 {% endblock %}
