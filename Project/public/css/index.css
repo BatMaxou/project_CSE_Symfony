@@ -123,10 +123,10 @@ textarea:focus::placeholder {
 
 .input-error {
     position: absolute;
+    width: 100%;
     left: 0;
-    bottom: -23px;
+    bottom: -40px;
     font-size: 14px;
-    width: max-content;
     color: var(--color-danger);
     font-weight: bold;
 }

@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use DateTime;
+use DateInterval;
 use App\Entity\Ckeditor;
 use App\Entity\Subscriber;
 use App\Entity\UserResponse;
@@ -11,6 +13,7 @@ use App\Repository\ResponseRepository;
 use App\Repository\SubscriberRepository;
 use App\Repository\PartnershipRepository;
 use App\Repository\UserResponseRepository;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -48,7 +51,12 @@ class RequestController extends AbstractController
             $response = $respRep->findResponseById($request->get('client_survey')['radio_response']);
 
             // récupérer les infos du survey (car l'objet survey n'est pas encore créé)
-            if (isset($response) && ($survey = $surveyRep->findSurveyById($response->getSurvey()->getId())) && $survey->isIsActive()) {
+            if (
+                isset($response) &&
+                ($survey = $surveyRep->findSurveyById($response->getSurvey()->getId())) &&
+                $survey->isIsActive() &&
+                !isset($_COOKIE['survey-' . $survey->getId()])
+            ) {
                 $survey->setNbVote($survey->getNbVote() + 1);
                 $response->setSurvey($survey);
                 $response->setNbVote($response->getNbVote() + 1);
@@ -60,7 +68,19 @@ class RequestController extends AbstractController
                 $respRep->save($response);
                 $userRespRep->save($userResp, true);
 
-                return new Response('Réponse enregistrée, merci de votre participation !', 200);
+                $interval = DateInterval::createFromDateString('7 day');
+
+                $cookie = Cookie::create('survey-' . $survey->getId())
+                    ->withValue(true)
+                    ->withExpires(date_add(new DateTime(), $interval))
+                    ->withSecure(true);
+
+                $httpResponse = new Response('Réponse enregistrée, merci de votre participation !', 200);
+                $httpResponse->headers->setCookie($cookie);
+
+                return $httpResponse;
+            } else {
+                return new Response('Vous avez déjà participé à ce sondage ou celui-ci n\'est plus disponible.', 400);
             }
 
             return new Response('Cette réponse ne correspond pas à ce formulaire', 400);
