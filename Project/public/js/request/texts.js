@@ -12,7 +12,7 @@ if (textsForm) {
         const msg = await response.text()
 
         if (response.status === 200) {
-            createFlash('alert-success', msg)
+            createFlash('alert-success', msg, 0.5)
         } else {
             createFlash('alert-error', msg)
         }

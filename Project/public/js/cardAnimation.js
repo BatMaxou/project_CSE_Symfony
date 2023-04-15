@@ -20,13 +20,13 @@ const handleAddCard = (cards, fade = false) => {
 
             newCardAnim.to(card, {
                 height: 'auto',
-                duration: 1
+                duration: 1.5
             })
         } else if (window.innerWidth >= 850 && fade) {
             card.style.opacity = 0
             gsap.to(card, {
                 opacity: 1,
-                duration: 1.5
+                duration: 2
             })
         }
     })

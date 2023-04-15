@@ -137,7 +137,7 @@ if (editAdminForms.length != 0 && deleteAdminForms.length != 0) {
                 // Card animation
                 handleBtnDelete(index + 1)
             }
-            createFlash('alert-success', msg)
+            createFlash('alert-success', msg, 0.5)
         } else {
             createFlash('alert-error', msg)
         }

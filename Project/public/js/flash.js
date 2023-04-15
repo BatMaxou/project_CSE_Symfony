@@ -3,7 +3,7 @@
 */
 
 // permite to create a flash
-function createFlash(type, response) {
+function createFlash(type, response, duration = 3) {
     const closeButton = document.querySelector('.closebtn')
     const alert = document.querySelector('.flash')
     const message = alert.querySelector('.message')
@@ -23,7 +23,7 @@ function createFlash(type, response) {
 
     // animation pour masquer le message
     // on remonte le flash au dessus du top puis display none après 3s 
-    tl.to(alert, { top: "-100px", display: "none", duration: 0.5, delay: 0.5 });
+    tl.to(alert, { top: "-100px", display: "none", duration: 0.5, delay: duration });
 
     tl.add(() => closeFlash(alert, type, message))
 

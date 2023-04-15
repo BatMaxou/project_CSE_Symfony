@@ -143,6 +143,7 @@ textarea:focus::placeholder {
 #dashboard,
 #backoffice-member {
     width: 100%;
+    position: relative;
 }
 
 /* BTN */
@@ -573,7 +574,7 @@ textarea:focus::placeholder {
     width: 100%;
 }
 
-.contact-form .elementLogin:not(:last-child) {
+.contact-form input:first-child {
     margin-bottom: 25px;
 }
 
@@ -1107,10 +1108,6 @@ textarea:focus::placeholder {
     cursor: pointer;
 }
 
-#footer .input-error {
-    color: var(--color-primary);
-}
-
 @media (max-width: 850px) {
     #footer .footer-content {
         width: 100%;
@@ -1191,17 +1188,15 @@ textarea:focus::placeholder {
 }
 
 .elementLogin {
-    width: 70%;
+    position: relative;
+    width: 80%;
     display: flex;
     flex-direction: column;
-    text-align: left;
-    margin: auto;
-    background-color: var(--color-card);
-    border: none;
-    border-bottom: 1px solid var(--color-black);
-    height: 40px;
-    padding: 0 10px;
-    outline: none;
+    margin-inline: auto;
+}
+
+.elementLogin input {
+    font-size: 16px;
 }
 
 .loginForm #inputEmail {
@@ -1765,8 +1760,17 @@ textarea:focus::placeholder {
 /* BACK TEXTS */
 
 #texts button[type="submit"] {
-    float: right;
-    margin-bottom: 20px;
+    position: absolute;
+    right: 0;
+    top: -10px;
+}
+
+@media (max-width: 650px) {
+    #texts button[type="submit"] {
+        position: initial;
+        display: block;
+        margin: 10px auto;
+    }
 }
 
 /* BACK MEMBER */

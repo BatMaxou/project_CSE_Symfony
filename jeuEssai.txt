@@ -42,10 +42,10 @@ VALUES
 INSERT INTO survey (question, is_active, datetime, nb_vote)
 VALUES
     ("Aimeriez-vous avoir des déjeuner tous les matins ?", 0, "2023-03-07 15:37:33", 5),
-    ("Quel est votre fastfood préféré ?", 1, "2023-05-12 09:30:00", 5),
+    ("Quel est votre fastfood préféré ?", 0, "2023-05-12 09:30:00", 5),
     ("Quel est votre parc d'attraction préféré ?", 0, "2023-12-07 18:00:00", 5),
     ("Quelle est la couleur du cheval blanc d'Henri 4 ?", 0, "2023-03-07 12:00:00", 5),
-    ("Quelle est la couleur de tes chaussettes ?", 0, "2023-03-09 15:00:00", 5);
+    ("Quelle est la couleur de tes chaussettes ?", 1, "2023-03-09 15:00:00", 5);
 
 
 INSERT INTO response (text, id_survey, nb_vote)
@@ -64,7 +64,9 @@ VALUES
     ("Noir", 4, 0),
     ("Bleues", 5, 1),
     ("Vertes", 5, 1),
-    ("Jaunes", 5, 3);
+    ("Jaunes", 5, 3),
+    ("Grises", 5, 0),
+    ("Mauves", 5, 0);
 
 
 INSERT INTO user_response (datetime, id_response)
