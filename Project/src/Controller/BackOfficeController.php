@@ -237,7 +237,7 @@ class BackOfficeController extends AbstractController
             $deleteForms[] = $deleteForm->createView();
         }
 
-        return $this->render('backoffice/partnership/partnership.html.twig', [
+        return $this->render('backoffice/partnership/index.html.twig', [
             'paths' => $paths,
             'partnerships' => $partnerships,
             'formPartnership' => $forms,
