@@ -10,8 +10,8 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -22,13 +22,23 @@ class TicketingType extends AbstractType
     {
         $builder
             ->add("id", HiddenType::class)
+            ->add('type', ChoiceType::class, [
+                'choices' => [
+                    'Permanente' => 0,
+                    'Limitée' => 1,
+                ],
+                'mapped' => false,
+                'attr' => [
+                    'class' => 'form-input'
+                ],
+            ])
             ->add('name', TextType::class, [
                 'label' => "Nom :",
                 'required' => true,
                 'disabled' => true,
                 'attr' => [
                     'placeholder' => "Nom",
-                    'class' => 'form-input form-input-disabled'
+                    'class' => 'form-input'
                 ],
             ])
             ->add('text', TextareaType::class, [
@@ -37,7 +47,7 @@ class TicketingType extends AbstractType
                 'disabled' => true,
                 'attr' => [
                     'placeholder' => "Description",
-                    'class' => 'form-input form-input-disabled'
+                    'class' => 'form-input'
                 ],
             ])
 
@@ -47,7 +57,7 @@ class TicketingType extends AbstractType
                 'disabled' => true,
                 'widget' => 'single_text',
                 'attr' => [
-                    'class' => 'form-input form-input-disabled'
+                    'class' => 'form-input'
                 ],
             ])
             ->add('date_end', DateType::class, [
@@ -56,7 +66,7 @@ class TicketingType extends AbstractType
                 'disabled' => true,
                 'widget' => 'single_text',
                 'attr' => [
-                    'class' => 'form-input form-input-disabled'
+                    'class' => 'form-input'
                 ],
             ])
             ->add('number_min_place', IntegerType::class, [
@@ -64,7 +74,7 @@ class TicketingType extends AbstractType
                 'disabled' => true,
                 'attr' => [
                     'placeholder' => "Nombre de place minimum",
-                    'class' => 'form-input form-input-disabled',
+                    'class' => 'form-input',
                     'min' => '0'
                 ],
             ])
@@ -86,7 +96,7 @@ class TicketingType extends AbstractType
                 'label' => 'Ordre d\'affichage :',
                 'disabled' => true,
                 'attr' => [
-                    'class' => 'form-input form-input-disabled'
+                    'class' => 'form-input'
                 ],
             ])
             ->add('partnership', EntityType::class, [
@@ -96,7 +106,51 @@ class TicketingType extends AbstractType
                 'required' => false,
                 'disabled' => true,
                 'attr' => [
-                    'class' => 'form-input form-input-disabled'
+                    'class' => 'form-input'
+                ],
+            ])
+            ->add('image1', FileType::class, [
+                'label' => 'Choisir une image',
+                'disabled' => true,
+                'required' => true,
+                'attr' => [
+                    'class' => 'form-file-input'
+                ],
+                'label_attr' => [
+                    'class' => 'form-file-label form-file-label-disabled'
+                ],
+            ])
+            ->add('image2', FileType::class, [
+                'label' => 'Choisir une image',
+                'disabled' => true,
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-file-input'
+                ],
+                'label_attr' => [
+                    'class' => 'form-file-label form-file-label-disabled'
+                ],
+            ])
+            ->add('image3', FileType::class, [
+                'label' => 'Choisir une image',
+                'disabled' => true,
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-file-input'
+                ],
+                'label_attr' => [
+                    'class' => 'form-file-label form-file-label-disabled'
+                ],
+            ])
+            ->add('image4', FileType::class, [
+                'label' => 'Choisir une image',
+                'disabled' => true,
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-file-input'
+                ],
+                'label_attr' => [
+                    'class' => 'form-file-label form-file-label-disabled'
                 ],
             ])
         ;
