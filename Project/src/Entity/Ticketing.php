@@ -43,7 +43,7 @@ class Ticketing
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $dateCreate = null;
 
-    #[ORM\OneToOne(targetEntity: Partnership::class, cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(targetEntity: Partnership::class)]
     #[ORM\JoinColumn(name: "id_partnership", referencedColumnName: 'id', nullable: true)]
     private ?Partnership $partnership = null;
 

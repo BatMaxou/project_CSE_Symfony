@@ -771,6 +771,7 @@ textarea:focus::placeholder {
     width: 200px;
     height: 200px;
     object-fit: cover;
+    cursor: pointer;
 }
 
 .card-image label {

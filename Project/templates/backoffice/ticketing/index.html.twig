@@ -15,20 +15,20 @@ CSE - Backoffice gestion de la billeterie
 	title: 'Attention, ajout en cours !',
 	content:
 	"<p class='modal-question'>Vous êtes sur le point d'ajouter l'offre : </p>" ~
-	"<div class='content-admin-add'>" ~
-		"<p class='modal-recap add-offre-type'></p>" ~
-		"<p class='modal-recap add-offre-name'></p>" ~
-		"<p class='modal-recap add-offre-text'></p>" ~
-		"<p class='modal-recap add-offre-date-start'></p>" ~
-		"<p class='modal-recap add-offre-date-end'></p>" ~
-		"<p class='modal-recap add-offre-number-min'></p>" ~
-		"<p class='modal-recap add-offre-order-number'></p>" ~
-		"<p class='modal-recap add-offre-partnership'></p>" ~
+	"<div class='post-content'>" ~
+		"<p class='modal-recap add-ticketing-type'></p>" ~
+		"<p class='modal-recap add-ticketing-name'></p>" ~
+		"<p class='modal-recap add-ticketing-text'></p>" ~
+		"<p class='modal-recap add-ticketing-date-start'></p>" ~
+		"<p class='modal-recap add-ticketing-date-end'></p>" ~
+		"<p class='modal-recap add-ticketing-number-min'></p>" ~
+		"<p class='modal-recap add-ticketing-order-number'></p>" ~
+		"<p class='modal-recap add-ticketing-partnership'></p>" ~
 
-		"<p class='modal-recap add-offre-type'></p>" ~
-		"<p class='modal-recap add-offre-type'></p>" ~
-		"<p class='modal-recap add-offre-type'></p>" ~
-		"<p class='modal-recap add-offre-type'></p>" ~
+		"<p class='modal-recap add-ticketing-image-1'></p>" ~
+		"<p class='modal-recap add-ticketing-image-2'></p>" ~
+		"<p class='modal-recap add-ticketing-image-3'></p>" ~
+		"<p class='modal-recap add-ticketing-image-4'></p>" ~
 		"</div>" ~
 	"<p class='modal-question'>Êtes-vous sûr de vouloir ajouter cette offre ?</p>"
 	,
@@ -74,62 +74,64 @@ CSE - Backoffice gestion de la billeterie
 	<h1>Gestion des offres</h1>
 
 	<div class="div-ticketing">
-		<h2>Ajouter une offre</h2>
+		<div class="add-ticketing">
+			<h2>Ajouter une offre</h2>
 
-		<div class="card add-ticketing">
-			<div class="card-header">
-				<h3>Offre</h3>
-			</div>
-			{{ form_start(formAddTicketing, {'attr': {'class': 'add-form'}}) }}
-			<div class="card-body">
-				<div class="card-image">
-
-					{% set img = [formAddTicketing.image1, formAddTicketing.image2, formAddTicketing.image3,
-					formAddTicketing.image4] %}
-					{% for ind in 0..3 %}
-					<div>
-						<img src="{{ asset('images/no-image.svg') }}" alt="image de l'offre">
-						{{ form_label(img[ind], 'Choisir une image', {'label_attr': {'class': 'form-file-label
-						form-file-label-active'}}) }}
-						{{ form_widget(img[ind], { 'disabled': false}) }}
-					</div>
-
-					{% endfor %}
+			<div class="card">
+				<div class="card-header">
+					<h3>Offre</h3>
 				</div>
+				{{ form_start(formAddTicketing, {'attr': {'class': 'add-form'}}) }}
+				<div class="card-body">
+					<div class="card-image">
 
-				<div class="card-content">
+						{% set img = [formAddTicketing.image1, formAddTicketing.image2, formAddTicketing.image3,
+						formAddTicketing.image4] %}
+						{% for ind in 0..3 %}
+						<div>
+							<img src="{{ asset('images/no-image.svg') }}" alt="image de l'offre">
+							{{ form_label(img[ind], 'Choisir une image', {'label_attr': {'class': 'form-file-label
+							form-file-label-active'}}) }}
+							{{ form_widget(img[ind], { 'disabled': false}) }}
+						</div>
 
-					{{ form_widget(formAddTicketing.type, {disabled: false}) }}
-
-					{{ form_row(formAddTicketing.name, {disabled: false}) }}
-					{{ form_row(formAddTicketing.text, {disabled: false}) }}
-
-					<div>
-						{{ form_label(formAddTicketing.date_start, 'Date de début de validité :') }}
-						{{ form_widget(formAddTicketing.date_start, {disabled: false}) }}
-					</div>
-					<div>
-						{{ form_label(formAddTicketing.date_end, 'Date de fin de validité :') }}
-						{{ form_widget(formAddTicketing.date_end, {disabled: false}) }}
-					</div>
-					<div class='number-min'>
-						{{ form_label(formAddTicketing.number_min_place, 'Nombre de place minimum :') }}
-						{{ form_widget(formAddTicketing.number_min_place, {disabled: false}) }}
-					</div>
-					<div class='order-number'>
-						{{ form_label(formAddTicketing.order_number, 'Ordre d\'affichage :') }}
-						{{ form_widget(formAddTicketing.order_number, {disabled: false}) }}
+						{% endfor %}
 					</div>
 
-					{{ form_row(formAddTicketing.partnership, {disabled: false, placeholder: 'Aucun partenaire
-					associé'}) }}
+					<div class="card-content">
 
+						{{ form_widget(formAddTicketing.type, {disabled: false}) }}
+
+						{{ form_row(formAddTicketing.name, {disabled: false}) }}
+						{{ form_row(formAddTicketing.text, {disabled: false}) }}
+
+						<div>
+							{{ form_label(formAddTicketing.date_start, 'Date de début de validité :') }}
+							{{ form_widget(formAddTicketing.date_start, {disabled: false}) }}
+						</div>
+						<div>
+							{{ form_label(formAddTicketing.date_end, 'Date de fin de validité :') }}
+							{{ form_widget(formAddTicketing.date_end, {disabled: false}) }}
+						</div>
+						<div class='number-min'>
+							{{ form_label(formAddTicketing.number_min_place, 'Nombre de place minimum :') }}
+							{{ form_widget(formAddTicketing.number_min_place, {disabled: false, required: false}) }}
+						</div>
+						<div class='order-number'>
+							{{ form_label(formAddTicketing.order_number, 'Ordre d\'affichage :') }}
+							{{ form_widget(formAddTicketing.order_number, {disabled: false}) }}
+						</div>
+
+						{{ form_row(formAddTicketing.partnership, {disabled: false, placeholder: 'Aucun partenaire
+						associé'}) }}
+
+					</div>
 				</div>
+				<div class="card-footer">
+					<button class='btn btn-add modal-open-add'>Ajouter</button>
+				</div>
+				{{ form_end(formAddTicketing, {'render_rest': false}) }}
 			</div>
-			<div class="card-footer">
-				<button class='btn btn-add modal-open-add'>Ajouter</button>
-			</div>
-			{{ form_end(formAddTicketing, {'render_rest': false}) }}
 		</div>
 
 		<div class="div-title-ticketing">
@@ -154,8 +156,9 @@ CSE - Backoffice gestion de la billeterie
 			{% if ticketing.type is same as('permanente') %}
 			<div class="card card-permanent">
 				<div class="card-header">
-					<h3>Offre
-						{{ ticketing.type }}</h3>
+					<div class="card-tag">
+						Offre {{ ticketing.type }}
+					</div>
 				</div>
 				<div class="card-body">
 
@@ -210,12 +213,13 @@ CSE - Backoffice gestion de la billeterie
 						{class: 'form-input form-input-disabled'}}) }}
 						{% endif %}
 
-						{{ form_end(formEditTicketings[key], {'render_rest': false}) }}
-
-						{{ form_start(formDeleteTicketings[key], {'attr': {'class': 'delete-form'}})}}
-						{{ form_widget(formDeleteTicketings[key].id)}}
-						{{ form_end(formDeleteTicketings[key], {'render_rest': false}) }}
 					</div>
+					{{ form_end(formEditTicketings[key], {'render_rest': false}) }}
+
+					{{ form_start(formDeleteTicketings[key], {'attr': {'class': 'delete-form'}})}}
+					{{ form_widget(formDeleteTicketings[key].id)}}
+					{{ form_end(formDeleteTicketings[key], {'render_rest': false}) }}
+
 				</div>
 				<div class="card-footer">
 					<button class='btn btn-edit btn-save modal-open-edit'>Sauvegarder</button>
@@ -226,15 +230,15 @@ CSE - Backoffice gestion de la billeterie
 			{% elseif ticketing.type is same as('limitée') %}
 			<div class="card card-limited">
 				<div class="card-header">
-					<h3>Offre
-						{{ ticketing.type }}</h3>
+					<div class="card-tag">
+						Offre {{ ticketing.type }}
+					</div>
 				</div>
 				<div class="card-body">
 
 					{{ form_start(formEditTicketings[key], {'attr': {'class': 'edit-form'}}) }}
 
 					<div class="card-image">
-
 						{% set img = [formEditTicketings[key].image1, formEditTicketings[key].image2,
 						formEditTicketings[key].image3, formEditTicketings[key].image4] %}
 						{% for ind in 0..3 %}
@@ -248,33 +252,39 @@ CSE - Backoffice gestion de la billeterie
 							{{ form_label(img[ind], 'Choisir une image', {'label_attr': {'class': 'form-file-label
 							form-file-label-active'}}) }}
 							{{ form_widget(img[ind], { 'disabled': false}) }}
-							{% endfor %}
 						</div>
+						{% endfor %}
 
 					</div>
 
 					<div class="card-content">
 
-						{{ form_row(formEditTicketings[key].name, {value: ticketing.name}) }}
-						{{ form_row(formEditTicketings[key].text, {value: ticketing.text}) }}
+
+						{{ form_row(formEditTicketings[key].name, {value: ticketing.name, attr: {class: 'form-input
+						form-input-disabled'}}) }}
+						{{ form_row(formEditTicketings[key].text, {value: ticketing.text, attr: {class: 'form-input
+						form-input-disabled'}}) }}
 
 						<div>
-							{{ form_label(formEditTicketings[key].date_start, 'Date de début :') }}
+							{{ form_label(formEditTicketings[key].date_start, 'Date de début de validité :') }}
 							{{ form_widget(formEditTicketings[key].date_start, {value:
-							ticketing.dateStart|date('Y-m-d')}) }}
+							ticketing.dateStart|date('Y-m-d'), attr: {class: 'form-input form-input-disabled'}}) }}
 						</div>
 						<div>
-							{{ form_label(formEditTicketings[key].date_end, 'Date de fin :') }}
-							{{ form_widget(formEditTicketings[key].date_end, {value: ticketing.dateEnd|date('Y-m-d')})
-							}}
+							{{ form_label(formEditTicketings[key].date_end, 'Date de fin de validité :') }}
+							{{ form_widget(formEditTicketings[key].date_end, {value: ticketing.dateEnd|date('Y-m-d'),
+							attr: {class: 'form-input form-input-disabled'}}) }}
 						</div>
 
-						{{ form_row(formEditTicketings[key].order_number, {value: ticketing.orderNumber}) }}
+						{{ form_row(formEditTicketings[key].order_number, {value: ticketing.orderNumber, attr:
+						{class: 'form-input form-input-disabled'}}) }}
 
 						{% if ticketing.partnership is not null %}
-						{{ form_row(formEditTicketings[key].partnership, {value: ticketing.partnership.id}) }}
+						{{ form_row(formEditTicketings[key].partnership, {value: ticketing.partnership.id, attr: {class:
+						'form-input form-input-disabled'}}) }}
 						{% else %}
-						{{ form_row(formEditTicketings[key].partnership, {placeholder: "Aucun partenaire associé"}) }}
+						{{ form_row(formEditTicketings[key].partnership, {placeholder: "Aucun partenaire associé", attr:
+						{class: 'form-input form-input-disabled'}}) }}
 						{% endif %}
 
 					</div>
@@ -283,6 +293,7 @@ CSE - Backoffice gestion de la billeterie
 					{{ form_start(formDeleteTicketings[key], {'attr': {'class': 'delete-form'}})}}
 					{{ form_widget(formDeleteTicketings[key].id)}}
 					{{ form_end(formDeleteTicketings[key], {'render_rest': false}) }}
+
 				</div>
 				<div class="card-footer">
 					<button class='btn btn-edit btn-save modal-open-edit'>Sauvegarder</button>
@@ -295,6 +306,7 @@ CSE - Backoffice gestion de la billeterie
 		</div>
 	</div>
 </div>
+<script src="{{ asset('js/imageLoader.js') }}"></script>
 {% endblock %}
 
 {% block request %}

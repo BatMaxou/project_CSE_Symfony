@@ -100,7 +100,7 @@ buttons.forEach(btn => {
 });
 
 
-// Member request
+// Ticketing request
 
 // si un GET est précisé et qu'il correspond à 'new=true', alors effectuer l'animation d'ajout et clear le GET
 let getParameter = null
@@ -123,23 +123,27 @@ const ticketingImgAdds = document.querySelectorAll('.add-ticketing .card .card-i
 // const labelsFile = document.querySelectorAll('.members .card .card-image label')
 // const memberImgs = document.querySelectorAll('.members .card .card-image img')
 
-const handleChangeImageClick = (e, type, index = null) => {
+const handleChangeImageClick = (e, type, nbImage, index = null) => {
     e.preventDefault()
+    let inputfiles = []
     let inputfile = null
     if (type === 'add') {
-        inputfile = document.querySelector('.add-member .card input[type=file]')
-    } else if (type === 'edit') {
-        inputfile = document.querySelector('.members .card:nth-child(' + (index + 1) + ') input[type=file]')
+        inputfiles = document.querySelectorAll('.add-ticketing .card input[type=file]')
+        inputfile = inputfiles[nbImage]
     }
+    // else if (type === 'edit') {
+    //     inputfile = document.querySelector('.ticketings .card:nth-child(' + (index + 1) + ') input[type=file]')
+    // }
     inputfile.click()
 }
 
-labelFileAdds.forEach((labelFileAdd) => {
-    labelFileAdd.addEventListener('click', (e) => handleChangeImageClick(e, 'add'))
+labelFileAdds.forEach((labelFileAdd, nbImage) => {
+    console.log(nbImage);
+    labelFileAdd.addEventListener('click', (e) => handleChangeImageClick(e, 'add', nbImage))
 });
 
-ticketingImgAdds.forEach((ticketingImgAdd) => {
-    ticketingImgAdd.addEventListener('click', (e) => handleChangeImageClick(e, 'add'))
+ticketingImgAdds.forEach((ticketingImgAdd, nbImage) => {
+    ticketingImgAdd.addEventListener('click', (e) => handleChangeImageClick(e, 'add', nbImage))
 });
 
 // labelsFile.forEach((label, index) => {
@@ -202,20 +206,75 @@ const handleTicketingsDisplayModal = (e, index, type, btnSubmit, form) => {
         const formData = new FormData(form)
 
         // Traitement de l'affichage des données modifiées dans la modal
-        const addFirstName = document.querySelector('.modal .add-member-first-name')
-        const addLastName = document.querySelector('.modal .add-member-last-name')
-        const addFunction = document.querySelector('.modal .add-member-function')
-        const addImg = document.querySelector('.modal .add-member-profil')
+        const addType = document.querySelector('.modal .add-ticketing-type')
+        const addName = document.querySelector('.modal .add-ticketing-name')
+        const addText = document.querySelector('.modal .add-ticketing-text')
+        const addDateStart = document.querySelector('.modal .add-ticketing-date-start')
+        const addDateEnd = document.querySelector('.modal .add-ticketing-date-end')
+
+        const addPartnership = document.querySelector('.modal .add-ticketing-partnership')
+        const addNumberMin = document.querySelector('.modal .add-ticketing-number-min')
+        const addOrderNumber = document.querySelector('.modal .add-ticketing-order-number')
+
+        const addImage1 = document.querySelector('.modal .add-ticketing-image-1')
+        const addImage2 = document.querySelector('.modal .add-ticketing-image-2')
+        const addImage3 = document.querySelector('.modal .add-ticketing-image-3')
+        const addImage4 = document.querySelector('.modal .add-ticketing-image-4')
+
 
         // Affichage des champs
-        addFirstName.innerHTML = '- Prénom : ' + '<b>' + formData.get('member[firstName]') + '</b>'
-        addLastName.innerHTML = '- Nom : ' + '<b>' + formData.get('member[lastName]') + '</b>'
-        addFunction.innerHTML = '- fonction : ' + '<b>' + formData.get('member[function]') + '</b>'
+        addType.innerHTML = '- Type de l\'offre : ' + '<b>' + formData.get('ticketing[type]') + '</b>'
 
-        if (formData.get('member[profil]').name === '') {
-            addImg.innerHTML = '- <b> Pas photo de profil </b>'
+        if (formData.get('ticketing[type]') === '0') {
+            addType.innerHTML = '- Type de l\'offre : <b>Permanente</b>'
         } else {
-            addImg.innerHTML = '- Photo de profil : ' + '<b>' + formData.get('member[profil]').name + '</b>'
+            addType.innerHTML = '- Type de l\'offre : <b>Limitée</b>'
+        }
+
+        addName.innerHTML = '- Nom : <b>' + formData.get('ticketing[name]') + '</b>'
+        addText.innerHTML = '- Text : <b>' + formData.get('ticketing[text]') + '</b>'
+        addDateStart.innerHTML = '- Date de début : <b>' + formData.get('ticketing[date_start]') + '</b>'
+        addDateEnd.innerHTML = '- Date de fin : <b>' + formData.get('ticketing[date_end]') + '</b>'
+        addImage1.innerHTML = '- Image 1 : <b>' + formData.get('ticketing[image1]').name + '</b>'
+
+        if (formData.get('ticketing[partnership]') === '') {
+            addPartnership.innerHTML = '- Partenaire associé : <b> Aucun partenaire renseigné </b>'
+        } else {
+            addPartnership.innerHTML = '- Partenaire associé : <b>' + formData.get('ticketing[partnership]') + '</b>'
+        }
+
+        if (formData.get('ticketing[type]') === '0') {
+            if (formData.get('ticketing[order_number]') === '0') {
+                addNumberMin.innerHTML = '- Place nécessaire minimum : <b> 0 </b>'
+            } else {
+                addNumberMin.innerHTML = '- Place nécessaire minimum : <b>' + formData.get('ticketing[number_min_place]') + '</b>'
+            }
+        }
+
+        if (formData.get('ticketing[type]') === '1') {
+            if (formData.get('ticketing[order_number]') === '0') {
+                addOrderNumber.innerHTML = '- Ordre d\'affichage : <b> Ne pas apparaître </b>'
+            } else {
+                addOrderNumber.innerHTML = '- Ordre d\'affichage : <b>' + formData.get('ticketing[order_number]') + '</b>'
+            }
+        }
+
+        if (formData.get('ticketing[image2]').name === '') {
+            addImage2.innerHTML = '- <b> Pas de deuxième image </b>'
+        } else {
+            addImage2.innerHTML = '- Image 2 : <b>' + formData.get('ticketing[image2]').name + '</b>'
+        }
+
+        if (formData.get('ticketing[image3]').name === '') {
+            addImage3.innerHTML = '- <b> Pas de troisième image </b>'
+        } else {
+            addImage3.innerHTML = '- Image 3 : <b>' + formData.get('ticketing[image3]').name + '</b>'
+        }
+
+        if (formData.get('ticketing[image4]').name === '') {
+            addImage4.innerHTML = '- <b> Pas de quatrième image </b>'
+        } else {
+            addImage4.innerHTML = '- Image 4 : <b>' + formData.get('ticketing[image4]').name + '</b>'
         }
 
         // Fin du traitement de l'affichage
@@ -277,7 +336,6 @@ const handleTicketingsSubmit = async (index, formData, form, type) => {
         createFlash('alert-error', msg)
     }
 }
-
 
 // form
 let btnAdd = document.querySelector('.modal-background-add .btn-add')

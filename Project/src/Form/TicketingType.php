@@ -112,7 +112,7 @@ class TicketingType extends AbstractType
             ->add('image1', FileType::class, [
                 'label' => 'Choisir une image',
                 'disabled' => true,
-                'required' => false,
+                'required' => true,
                 'attr' => [
                     'class' => 'form-file-input'
                 ],
