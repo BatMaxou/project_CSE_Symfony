@@ -148,7 +148,7 @@
 								{{ survey.datetime|date('d/m/Y') }}
 							</p>
 							<p>
-								{{ survey.nbVote }}
+								<span class="totalResponse">{{ survey.nbVote }}</span>
 								réponses au total
 							</p>
 						</div>
@@ -171,6 +171,9 @@
 	</div>
 
 	<script src="{{ asset('js/handleResponseSurvey.js') }}"></script>
+
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script src="{{ asset('js/chartDonut.js') }}"></script>
 
 {% endblock %}
 

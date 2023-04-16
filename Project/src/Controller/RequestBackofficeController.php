@@ -19,6 +19,7 @@ use App\Repository\TicketingRepository;
 use App\Repository\SubscriberRepository;
 use App\Repository\PartnershipRepository;
 use App\Repository\UserResponseRepository;
+use App\Service\Validator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -30,44 +31,50 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class RequestBackofficeController extends AbstractController
 {
     #[Route(path: 'admin-add', name: 'post-add-admin', methods: ['POST'])]
-    public function postAddAdmin(AdminRepository $adminRepository, UserPasswordHasherInterface $adminPasswordHasher, Request $request): Response
+    public function postAddAdmin(AdminRepository $adminRepository, UserPasswordHasherInterface $adminPasswordHasher, Request $request, Validator $validate): Response
     {
         try {
             // get id of the respons by a search name for set response of the create UserResponse
 
             $admin = new Admin();
 
-            $admin->setEmail($request->get('admin')['email']);
+            if ($validate->checkInputEmail($request->get('admin')['email'])) {
+                $admin->setEmail($request->get('admin')['email']);
 
-            if ($request->get('admin')['plainPassword'] != "") {
-                $admin->setPassword(
-                    $adminPasswordHasher->hashPassword(
-                        $admin,
-                        $request->get('admin')['plainPassword']
-                    )
-                );
-            }
+                if (!empty($request->get('admin')['plainPassword']) && $validate->checkInputPassword($request->get('admin')['plainPassword'])) {
+                    $admin->setPassword(
+                        $adminPasswordHasher->hashPassword(
+                            $admin,
+                            $request->get('admin')['plainPassword']
+                        )
+                    );
 
-            if ($request->get('admin')['roles'] == 1) {
-                $admin->setRoles(
-                    ["ROLE_ADMIN"]
-                );
+                    if ($request->get('admin')['roles'] == 1) {
+                        $admin->setRoles(
+                            ["ROLE_ADMIN"]
+                        );
+                    } else {
+                        $admin->setRoles(
+                            ["ROLE_SUPER_ADMIN"]
+                        );
+                    }
+
+                    $adminRepository->save($admin, true);
+
+                    return new Response('L\'ajout a bien été effectué !', 200);
+                } else {
+                    return new Response('Le mot de passe doit contenir au minimum : 12 caractères, une majuscule, une minuscule, un chiffre et un caractère spéacial.', 400);
+                }
             } else {
-                $admin->setRoles(
-                    ["ROLE_SUPER_ADMIN"]
-                );
+                return new Response('L\'adresse mail saisie n\'est pas conforme.', 400);
             }
-
-            $adminRepository->save($admin, true);
-
-            return new Response('L\'ajout a bien été effectué !', 200);
         } catch (\Throwable $th) {
             return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
         }
     }
 
     #[Route(path: 'admin-edit', name: 'post-edit-admin', methods: ['POST'])]
-    public function postEditAdmin(AdminRepository $adminRepository, UserPasswordHasherInterface $adminPasswordHasher, Request $request): Response
+    public function postEditAdmin(AdminRepository $adminRepository, UserPasswordHasherInterface $adminPasswordHasher, Request $request, Validator $validate): Response
     {
         try {
             // get id of the respons by a search name for set response of the create UserResponse
@@ -75,30 +82,39 @@ class RequestBackofficeController extends AbstractController
 
             $admin = $adminRepository->find($id);
 
-            $admin->setEmail($request->get('admin')['email']);
+            if ($validate->checkInputEmail($request->get('admin')['email'])) {
 
-            if ($request->get('admin')['plainPassword'] != "") {
-                $admin->setPassword(
-                    $adminPasswordHasher->hashPassword(
-                        $admin,
-                        $request->get('admin')['plainPassword']
-                    )
-                );
-            }
+                $admin->setEmail($request->get('admin')['email']);
 
-            if ($request->get('admin')['roles'] == 1) {
-                $admin->setRoles(
-                    ["ROLE_ADMIN"]
-                );
+                if (!empty($request->get('admin')['plainPassword'])) {
+                    if ($validate->checkInputPassword($request->get('admin')['plainPassword'])) {
+                        $admin->setPassword(
+                            $adminPasswordHasher->hashPassword(
+                                $admin,
+                                $request->get('admin')['plainPassword']
+                            )
+                        );
+                    } else {
+                        return new Response('Le mot de passe doit contenir au minimum : 12 caractères, une majuscule, une minuscule, un chiffre et un caractère spéacial.', 400);
+                    }
+                }
+
+                if ($request->get('admin')['roles'] == 1) {
+                    $admin->setRoles(
+                        ["ROLE_ADMIN"]
+                    );
+                } else {
+                    $admin->setRoles(
+                        ["ROLE_SUPER_ADMIN"]
+                    );
+                }
+
+                $adminRepository->save($admin, true);
+
+                return new Response('La modification a bien été effectué !', 200);
             } else {
-                $admin->setRoles(
-                    ["ROLE_SUPER_ADMIN"]
-                );
+                return new Response('L\'adresse mail saisie n\'est pas conforme.', 400);
             }
-
-            $adminRepository->save($admin, true);
-
-            return new Response('La modification a bien été effectué !', 200);
         } catch (\Throwable $th) {
             return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
         }
@@ -126,6 +142,7 @@ class RequestBackofficeController extends AbstractController
             return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
         }
     }
+
     #[Route(path: 'ticketing-add', name: 'post-add-ticketing', methods: ['POST'])]
     public function postAddTicketing(TicketingRepository $ticketingRepository, Request $request): Response
     {
@@ -188,70 +205,77 @@ class RequestBackofficeController extends AbstractController
     }
 
     #[Route(path: '/post/backoffice/member-add', name: 'post-add-member', methods: ['POST'])]
-    public function postAddMember(MemberRepository $memberRepository, Request $request): Response
+    public function postAddMember(MemberRepository $memberRepository, Request $request, Validator $validate): Response
     {
         try {
             $member = new Member();
 
-            $member->setFirstName($request->get('member')['firstName']);
-            $member->setLastName($request->get('member')['lastName']);
-            $member->setFunction($request->get('member')['function']);
-
-            $memberRepository->save($member, true);
-
-            // definition du nom de l'image
-            if (isset($request->files->get('member')['profil'])) {
-                // path le chemin de destination pour l'image 
-                $destination = $this->getParameter('kernel.project_dir') . '/public/imagesTest';
-                $image = $request->files->get('member')['profil'];
-
-                // slug de l'image
-                $member->setProfil($member->getId() . '-' . $member->getFirstName() . '-' . $member->getLastName() . '.' . $image->guessExtension());
-
-                // deplacer l'image dans le fichier 
-                $image->move($destination, $member->getProfil());
-
+            if ($validate->checkinputString($request->get('member')['firstName']) && $validate->checkinputString($request->get('member')['lastName']) && $validate->checkinputString($request->get('member')['function'])) {
+                $member->setFirstName($request->get('member')['firstName']);
+                $member->setLastName($request->get('member')['lastName']);
+                $member->setFunction($request->get('member')['function']);
                 $memberRepository->save($member, true);
-            }
 
-            return new Response('L\'ajout a bien été effectué !', 200);
+                // definition du nom de l'image
+                if (isset($request->files->get('member')['profil'])) {
+                    // path le chemin de destination pour l'image 
+                    $destination = $this->getParameter('kernel.project_dir') . '/public/imagesTest';
+                    $image = $request->files->get('member')['profil'];
+
+                    // slug de l'image
+                    $member->setProfil($member->getId() . '-' . $member->getFirstName() . '-' . $member->getLastName() . '.' . $image->guessExtension());
+
+                    // deplacer l'image dans le fichier 
+                    $image->move($destination, $member->getProfil());
+
+                    $memberRepository->save($member, true);
+                }
+
+                return new Response('L\'ajout a bien été effectué !', 200);
+            } else {
+                return new Response('Les champs prénom, nom et fonction doivent contenir uniquement des lettres minuscules ou majuscules avec un minimum de 2 caractères', 400);
+            }
         } catch (\Throwable $th) {
             return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
         }
     }
 
     #[Route(path: '/post/backoffice/member-edit', name: 'post-edit-member', methods: ['POST'])]
-    public function postEditMember(MemberRepository $memberRepository, Request $request): Response
+    public function postEditMember(MemberRepository $memberRepository, Request $request, Validator $validate): Response
     {
         try {
             // recupérer le membre concerné
             $member = $memberRepository->findById($request->get('member')['id']);
 
-            $member->setFirstName($request->get('member')['firstName']);
-            $member->setLastName($request->get('member')['lastName']);
-            $member->setFunction($request->get('member')['function']);
+            if ($validate->checkinputString($request->get('member')['firstName']) && $validate->checkinputString($request->get('member')['lastName']) && $validate->checkinputString($request->get('member')['function'])) {
+                $member->setFirstName($request->get('member')['firstName']);
+                $member->setLastName($request->get('member')['lastName']);
+                $member->setFunction($request->get('member')['function']);
 
-            // si une image est précisée
-            if (isset($request->files->get('member')['profil'])) {
+                // si une image est précisée
+                if (isset($request->files->get('member')['profil'])) {
 
-                // supprimer l'ancienne image s'il y a
-                if ($member->getProfil() !== null) {
-                    unlink($this->getParameter('kernel.project_dir') . '/public/imagesTest/' . $member->getProfil());
+                    // supprimer l'ancienne image s'il y a
+                    if ($member->getProfil() !== null) {
+                        unlink($this->getParameter('kernel.project_dir') . '/public/imagesTest/' . $member->getProfil());
+                    }
+
+                    // path le chemin de destination pour l'image 
+                    $destination = $this->getParameter('kernel.project_dir') . '/public/imagesTest';
+                    $image = $request->files->get('member')['profil'];
+
+                    // slug de l'image
+                    $member->setProfil($member->getId() . '-' . $member->getFirstName() . '-' . $member->getLastName() . '.' . $image->guessExtension());
+
+                    // deplacer l'image dans le fichier 
+                    $image->move($destination, $member->getProfil());
                 }
+                $memberRepository->save($member, true);
 
-                // path le chemin de destination pour l'image 
-                $destination = $this->getParameter('kernel.project_dir') . '/public/imagesTest';
-                $image = $request->files->get('member')['profil'];
-
-                // slug de l'image
-                $member->setProfil($member->getId() . '-' . $member->getFirstName() . '-' . $member->getLastName() . '.' . $image->guessExtension());
-
-                // deplacer l'image dans le fichier 
-                $image->move($destination, $member->getProfil());
+                return new Response('La modification a bien été effectué !', 200);
+            } else {
+                return new Response('Les champs prénom, nom et fonction doivent contenir uniquement des lettres minuscules ou majuscules avec un minimum de 2 caractères', 400);
             }
-            $memberRepository->save($member, true);
-
-            return new Response('La modification a bien été effectué !', 200);
         } catch (\Throwable $th) {
             return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
         }
@@ -278,71 +302,78 @@ class RequestBackofficeController extends AbstractController
     }
 
     #[Route(path: '/post/edit-partnership', name: 'post-edit-partnership', methods: ['POST'])]
-    public function editPartnership(PartnershipRepository $partnershipRepo, Request $request): Response
+    public function editPartnership(PartnershipRepository $partnershipRepo, Request $request, Validator $validate): Response
     {
         try {
             // recupérer le membre concerné
             $partner = $partnershipRepo->find($request->get('partnership')['id']);
 
-            $partner->setName($request->get('partnership')['name']);
-            $partner->setDescription($request->get('partnership')['description']);
-            $partner->setLink($request->get('partnership')['link']);
-
-            $partnershipRepo->save($partner, true);
-
-            // si une image est précisée
-            if (isset($request->files->get('partnership')['image'])) {
-                // supprimer l'ancienne image s'il y a
-                if ($partner->getImage() !== null) {
-                    unlink($this->getParameter('kernel.project_dir') . '/public/imagesTest/' . $partner->getImage());
-                }
-
-                // path le chemin de destination pour l'image 
-                $destination = $this->getParameter('kernel.project_dir') . '/public/imagesTest';
-                $image = $request->files->get('partnership')['image'];
-
-                // slug de l'image
-                $partner->setImage($partner->getId() . '-' . $partner->getName() . '.' . $image->guessExtension());
-                // deplacer l'image dans le fichier 
-                $image->move($destination, $partner->getImage());
+            if ($validate->checkinputString($request->get('partnership')['name']) && $validate->checkinputString($request->get('partnership')['description']) && $validate->checkinputString($request->get('partnership')['link'])) {
+                $partner->setName($request->get('partnership')['name']);
+                $partner->setDescription($request->get('partnership')['description']);
+                $partner->setLink($request->get('partnership')['link']);
 
                 $partnershipRepo->save($partner, true);
-            }
 
-            return new Response('La modification a bien été effectué !', 200);
+                // si une image est précisée
+                if (isset($request->files->get('partnership')['image'])) {
+                    // supprimer l'ancienne image s'il y a
+                    if ($partner->getImage() !== null) {
+                        unlink($this->getParameter('kernel.project_dir') . '/public/imagesTest/' . $partner->getImage());
+                    }
+
+                    // path le chemin de destination pour l'image 
+                    $destination = $this->getParameter('kernel.project_dir') . '/public/imagesTest';
+                    $image = $request->files->get('partnership')['image'];
+
+                    // slug de l'image
+                    $partner->setImage($partner->getId() . '-' . $partner->getName() . '.' . $image->guessExtension());
+                    // deplacer l'image dans le fichier 
+                    $image->move($destination, $partner->getImage());
+
+                    $partnershipRepo->save($partner, true);
+                }
+                return new Response('La modification du partenaire a bien été effectué !', 200);
+            } else {
+                return new Response('Le champ nom, description et lien doit contenir uniquement des lettres minuscules ou majuscules avec un minimum de 2 caractères', 400);
+            }
         } catch (\Throwable $th) {
             return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
         }
     }
 
     #[Route(path: '/post/add-partnership', name: 'post-add-partnership', methods: ['POST'])]
-    public function addPartnership(PartnershipRepository $partnershipRepo, Request $request): Response
+    public function addPartnership(PartnershipRepository $partnershipRepo, Request $request, Validator $validate): Response
     {
         try {
             $partner = new Partnership();
 
-            $partner->setName($request->get('partnership')['name']);
-            $partner->setDescription($request->get('partnership')['description']);
-            $partner->setLink($request->get('partnership')['link']);
-
-            $partnershipRepo->save($partner, true);
-
-            // definition du nom de l'image 
-            if (isset($request->files->get('partnership')['image'])) {
-                // path le chemin de destination pour l'image 
-                $destination = $this->getParameter('kernel.project_dir') . '/public/imagesTest';
-                $image = $request->files->get('partnership')['image'];
-
-                // slug de l'image
-                $partner->setImage($partner->getId() . '-' . $partner->getName() . '.' . $image->guessExtension());
-
-                // deplacer l'image dans le fichier 
-                $image->move($destination, $partner->getImage());
+            if ($validate->checkinputString($request->get('partnership')['name']) && $validate->checkinputString($request->get('partnership')['description']) && $validate->checkinputString($request->get('partnership')['link'])) {
+                $partner->setName($request->get('partnership')['name']);
+                $partner->setDescription($request->get('partnership')['description']);
+                $partner->setLink($request->get('partnership')['link']);
 
                 $partnershipRepo->save($partner, true);
-            }
 
-            return new Response('L\'ajout a bien été effectué !', 200);
+                // definition du nom de l'image 
+                if (isset($request->files->get('partnership')['image'])) {
+                    // path le chemin de destination pour l'image 
+                    $destination = $this->getParameter('kernel.project_dir') . '/public/imagesTest';
+                    $image = $request->files->get('partnership')['image'];
+
+                    // slug de l'image
+                    $partner->setImage($partner->getId() . '-' . $partner->getName() . '.' . $image->guessExtension());
+
+                    // deplacer l'image dans le fichier 
+                    $image->move($destination, $partner->getImage());
+
+                    $partnershipRepo->save($partner, true);
+                }
+
+                return new Response('L\'ajout du partenaire a bien été effectué !', 200);
+            } else {
+                return new Response('Le champ nom, description et lien doit contenir uniquement des lettres minuscules ou majuscules avec un minimum de 2 caractères', 400);
+            }
         } catch (\Throwable $th) {
             return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
         }

@@ -13,6 +13,7 @@ use App\Repository\ResponseRepository;
 use App\Repository\SubscriberRepository;
 use App\Repository\PartnershipRepository;
 use App\Repository\UserResponseRepository;
+use App\Service\Validator;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,12 +23,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class RequestController extends AbstractController
 {
     #[Route(path: '/post/newsletter', name: 'post_newsletter', methods: ['POST'])]
-    public function postNewsletter(SubscriberRepository $subRep, Request $request): Response
+    public function postNewsletter(SubscriberRepository $subRep, Request $request, Validator $validate): Response
     {
-        // json response
-        if ($request->get('consent') !== NULL && $request->get('consent') === '1') {
-            // validator
-            if (preg_match('/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i', $request->get('subscriber')['email'])) {
+        if ($request->get('subscriber')['consent'] != null && $request->get('subscriber')['consent'] === "1") {
+            if ($validate->checkInputEmail($request->get('subscriber')['email'])) {
                 if ($subRep->countByMail($request->get('subscriber')['email']) === 0) {
                     $sub = new Subscriber();
                     $sub->setEmail($request->get('subscriber')['email']);

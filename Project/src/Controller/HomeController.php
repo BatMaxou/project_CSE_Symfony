@@ -22,6 +22,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\PartnershipRepository;
 use App\Entity\Response as ResponseSurvey;
 use App\Repository\ImageTicketingRepository;
+use App\Service\Validator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -196,7 +197,7 @@ class HomeController extends AbstractController
     }
 
     #[Route(path: '/contact', name: 'contact', methods: ['GET', 'POST'])]
-    public function contact(staticPathList $staticPathList, PartnershipRepository $partnershipRepo, Request $request, EntityManagerInterface $manager, SubscriberRepository $subscriberRepo): Response
+    public function contact(staticPathList $staticPathList, PartnershipRepository $partnershipRepo, Request $request, EntityManagerInterface $manager, SubscriberRepository $subscriberRepo, Validator $validate): Response
     {
         $paths = [$staticPathList->getClientPathByName('Accueil'), $staticPathList->getClientPathByName('Contact')];
 
@@ -207,18 +208,18 @@ class HomeController extends AbstractController
         $formContact = $this->createForm(ContactType::class, $contact);
         $formContact->handleRequest($request);
 
-        // $send = false;
-
         if ($formContact->isSubmitted() && $formContact->isValid()) {
             try {
                 if (!empty($request->get('consent')) && $request->get('consent') === 'on') {
-                    if (preg_match('/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i', $contact->getEmail())) {
+                    if ($validate->checkInputEmail($contact->getEmail())) {
                         if ($subscriberRepo->countByMail($contact->getEmail()) === 0) {
                             $sub = new Subscriber();
                             $sub->setEmail($contact->getEmail());
                             $sub->setConsent(true);
                             $subscriberRepo->save($sub, true);
                         }
+                    } else {
+                        $this->addFlash('error', 'L\'adresse mail saisie n\'est pas conforme.');
                     }
                 }
 

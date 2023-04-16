@@ -203,7 +203,7 @@ class BackOfficeController extends AbstractController
             'responses' => $responses,
             'ckeditor' => $ckeditor,
             'message' => $message,
-            'stats_json' => json_encode($stats),
+            'stats' => $stats,
         ]);
     }
 
