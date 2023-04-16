@@ -25,7 +25,7 @@ class RequestController extends AbstractController
     #[Route(path: '/post/newsletter', name: 'post_newsletter', methods: ['POST'])]
     public function postNewsletter(SubscriberRepository $subRep, Request $request, Validator $validate): Response
     {
-        if ($request->get('subscriber')['consent'] != null && $request->get('subscriber')['consent'] === "1") {
+        if (isset($request->get('subscriber')['consent']) && $request->get('subscriber')['consent'] === "1") {
             if ($validate->checkInputEmail($request->get('subscriber')['email'])) {
                 if ($subRep->countByMail($request->get('subscriber')['email']) === 0) {
                     $sub = new Subscriber();

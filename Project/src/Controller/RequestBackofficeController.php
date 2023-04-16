@@ -233,7 +233,7 @@ class RequestBackofficeController extends AbstractController
 
                 return new Response('L\'ajout a bien été effectué !', 200);
             } else {
-                return new Response('Les champs prénom, nom et fonction doivent contenir uniquement des lettres minuscules ou majuscules avec un minimum de 2 caractères', 400);
+                return new Response('Les champs prénom, nom et fonction doivent contenir : des lettres minuscules, majuscules et des chiffres, avec un minimum de 2 caractères', 400);
             }
         } catch (\Throwable $th) {
             return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
@@ -274,7 +274,7 @@ class RequestBackofficeController extends AbstractController
 
                 return new Response('La modification a bien été effectué !', 200);
             } else {
-                return new Response('Les champs prénom, nom et fonction doivent contenir uniquement des lettres minuscules ou majuscules avec un minimum de 2 caractères', 400);
+                return new Response('Les champs prénom, nom et fonction doivent contenir : des lettres minuscules, majuscules et des chiffres, avec un minimum de 2 caractères', 400);
             }
         } catch (\Throwable $th) {
             return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
@@ -335,7 +335,7 @@ class RequestBackofficeController extends AbstractController
                 }
                 return new Response('La modification du partenaire a bien été effectué !', 200);
             } else {
-                return new Response('Le champ nom, description et lien doit contenir uniquement des lettres minuscules ou majuscules avec un minimum de 2 caractères', 400);
+                return new Response('Le champ nom, description et lien doit contenir : des lettres minuscules, majuscules et des chiffres, avec un minimum de 2 caractères', 400);
             }
         } catch (\Throwable $th) {
             return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
@@ -399,38 +399,51 @@ class RequestBackofficeController extends AbstractController
     }
 
     #[Route(path: '/post/backoffice/ajout-sondage', name: 'post-add-survey', methods: ['POST'])]
-    public function addSurvey(SurveyRepository $sureveyRepo, ResponseRepository $respRepo, Request $request): Response
+    public function addSurvey(SurveyRepository $sureveyRepo, ResponseRepository $respRepo, Request $request, Validator $validate): Response
     {
         try {
 
             $survey = new Survey();
 
-            $survey->setQuestion($request->get('survey')['question']);
-            $survey->setDatetime(new DateTime());
-            $survey->setIsActive(true);
+            if ($validate->checkinputString($request->get('survey')['question'])) {
+                $survey->setQuestion($request->get('survey')['question']);
+                $survey->setDatetime(new DateTime());
+                $survey->setIsActive(true);
 
-            // desactivate the active survey
-            if ($sureveyRepo->findActiveSurvey() !== null) {
-                $sureveyRepo->findActiveSurvey()->setIsActive(false);
-            }
+                // desactivate the active survey
+                if ($sureveyRepo->findActiveSurvey() !== null) {
+                    $sureveyRepo->findActiveSurvey()->setIsActive(false);
+                }
 
-            // vérification que le sondage possède au moins 2 réponses
-            if (count($request->get('survey')) - 1 >= 2) {
-                $sureveyRepo->save($survey, true);
+                // vérification que le sondage possède au moins 2 réponses
+                if (count($request->get('survey')) - 1 >= 2) {
+                    $responses = [];
 
-                for ($i = 1; $i < count($request->get('survey')); $i++) {
-                    $response = new SurveyResponse();
+                    for ($i = 1; $i < count($request->get('survey')); $i++) {
+                        $response = new SurveyResponse();
 
-                    $response->setText($request->get('survey')['response_' . $i]);
-                    $response->setSurvey($survey);
+                        if ($validate->checkinputString($request->get('survey')['response_' . $i])) {
+                            $response->setText($request->get('survey')['response_' . $i]);
+                            $response->setSurvey($survey);
 
-                    $respRepo->save($response, true);
+                            $responses[] = $response;
+                        } else {
+                            return new Response('La réponse ' . $i . ' doit comporter uniquement des lettres et des chiffres avec au moins deux caractères.', 400);
+                        }
+                    }
+                    $sureveyRepo->save($survey, true);
+
+                    foreach ($responses as $response) {
+                        $respRepo->save($response, true);
+                    }
+
+                    return new Response('L\'ajout a bien été effectué !', 200);
+                } else {
+                    return new Response('Un sondage doit au moins contenir 2 réponses.', 400);
                 }
             } else {
-                return new Response('Un sondage doit au moins contenir 2 réponses.', 400);
+                return new Response('La question doit comporter uniquement des lettres et des chiffres avec au moins deux caractères.', 400);
             }
-
-            return new Response('L\'ajout a bien été effectué !', 200);
         } catch (\Throwable $th) {
             return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
         }

@@ -961,6 +961,7 @@ textarea:focus::placeholder {
 
 #offer .card-header {
     flex-direction: column;
+    align-items:normal;
 }
 
 #offer .offer-card-place {

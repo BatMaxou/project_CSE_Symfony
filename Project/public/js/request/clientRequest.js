@@ -1,7 +1,7 @@
 // newsletter inscription request
 const inscriptionForm = document.querySelector('#footer .inscription form')
 if (inscriptionForm) {
-    const inscriptionInput = document.querySelector('#footer .inscription input[type="text"]')
+    const inscriptionInput = document.querySelector('#footer .inscription input[type="email"]')
     const consentInput = document.querySelector('#footer .inscription input[type="checkbox"]')
 
     const handleInscriptionSubmit = async (e) => {
