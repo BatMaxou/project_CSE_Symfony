@@ -1,9 +1,9 @@
 // toutes les cartes d'offres
-const offers = document.querySelectorAll('#homepage .card-paging')
+const offers = document.querySelectorAll('.card-paging')
 // elements de pagination
-const pagingElements = document.querySelectorAll('#homepage .paging-element')
-const pagingSelect = document.querySelector('#homepage .paging-select')
-const pagingSelectBetween = document.querySelector('#homepage .paging-between')
+const pagingElements = document.querySelectorAll('.paging-element')
+const pagingSelect = document.querySelector('.paging-select')
+const pagingSelectBetween = document.querySelector('.paging-between')
 
 // s'il y a plus de 5 pages
 if (pagingSelect) {
@@ -17,11 +17,20 @@ if (pagingSelect) {
 // recuperer le numero de l'a derniere page
 const lastPage = parseInt(pagingElements[pagingElements.length - 2].querySelector('span').textContent)
 
+const disableArrow = (props = { previous: true, next: true }) => {
+    if (props.previous) {
+        pagingElements[0].classList.add('paging-disabled')
+    }
+    if (props.next) {
+        pagingElements[pagingElements.length - 1].classList.add('paging-disabled')
+    }
+}
+
 let currentPage = 1
 let previousPage = null
 let pagingSelectDisplay = false
 
-const displayElements = () => {
+const displayElements = (isDefault = false) => {
     // enlever les cartes d'offre de l'ancienne page si elles existent
     if (previousPage !== null) {
         for (let i = 4 * (previousPage - 1); i < (4 * previousPage); i++) {
@@ -35,6 +44,13 @@ const displayElements = () => {
         if (offers[i]) {
             offers[i].style.display = 'block'
         }
+    }
+    // masquer les flèches si il n'y a qu'une page
+    // sinon masquer la prmière flèche si on précise que l'on est dans la situation par défaut
+    if (pagingElements.length <= 3) {
+        disableArrow()
+    } else if (isDefault) {
+        disableArrow({ previous: true, next: false })
     }
 }
 
@@ -79,28 +95,29 @@ const handlePagingArrowClick = (el) => {
     if (el.querySelector('img').classList.contains('previous')) {
         if (currentPage - 1 > 1) {
             currentPage--
-            displayElements()
             handlePageChangement(currentPage)
+            displayElements()
         } else if (currentPage - 1 === 1) {
             currentPage--
-            displayElements()
             handlePageChangement(currentPage)
             el.classList.add('paging-disabled')
+            displayElements()
         } else {
+            displayElements()
             el.classList.add('paging-disabled')
         }
-    } else {
-
+    } else if (el.querySelector('img').classList.contains('next')) {
         if (currentPage + 1 < lastPage) {
             currentPage++
-            displayElements()
             handlePageChangement(currentPage)
+            displayElements()
         } else if (currentPage + 1 === lastPage) {
             currentPage++
-            displayElements()
             handlePageChangement(currentPage)
             el.classList.add('paging-disabled')
+            displayElements()
         } else {
+            displayElements()
             el.classList.add('paging-disabled')
         }
     }
@@ -119,7 +136,7 @@ const handlePagingNumClick = (span) => {
 }
 
 const handlePagingElementClick = (el) => {
-    const clicked = document.querySelector('#homepage .paging-element-clicked')
+    const clicked = document.querySelector('.paging-element-clicked')
     if (clicked) {
         clicked.classList.remove('paging-element-clicked')
     }
@@ -143,5 +160,4 @@ pagingElements.forEach(element => {
 })
 
 // affichage par défaut
-pagingElements[0].classList.add('paging-disabled')
-displayElements()
+displayElements(true)

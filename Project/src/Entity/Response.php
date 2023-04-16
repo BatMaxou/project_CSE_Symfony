@@ -20,6 +20,9 @@ class Response
     #[ORM\JoinColumn(name: "id_survey", referencedColumnName: 'id', nullable: false)]
     private Survey $survey;
 
+    #[ORM\Column]
+    private ?int $nbVote = 0;
+
     public function getSurvey(): Survey
     {
         return $this->survey;
@@ -45,6 +48,18 @@ class Response
     public function setText(string $text): self
     {
         $this->text = $text;
+
+        return $this;
+    }
+
+    public function getNbVote(): ?int
+    {
+        return $this->nbVote;
+    }
+
+    public function setNbVote(int $nbVote): self
+    {
+        $this->nbVote = $nbVote;
 
         return $this;
     }

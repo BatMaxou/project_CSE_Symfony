@@ -159,7 +159,7 @@ const handlePartnershipsSubmit = async (index, formData, form, type) => {
                 window.location.replace(window.location.href + '?new=true')
             }, 1000);
         }
-        createFlash('alert-success', msg)
+        createFlash('alert-success', msg, 0.5)
     } else {
         createFlash('alert-error', msg)
     }

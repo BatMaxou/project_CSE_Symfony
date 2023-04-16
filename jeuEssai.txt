@@ -39,33 +39,34 @@ VALUES
     ("faucibus@icloud.org", 1),
     ("vestibulum@outlook.couk", 1);
 
-INSERT INTO survey (question, is_active)
+INSERT INTO survey (question, is_active, datetime, nb_vote)
 VALUES
-    ("Aimeriez-vous avoir des déjeuner tous les matins ?", 0),
-    ("Quel est votre fastfood préféré ?", 1),
-    ("Quel est votre parc d'attraction préféré ?", 0),
-    ("Quelle est la couleur du cheval blanc d'Henri 4 ?", 0),
-    ("Quelle est la couleur de tes chaussettes ?", 0);
+    ("Aimeriez-vous avoir des déjeuner tous les matins ?", 0, "2023-03-07 15:37:33", 5),
+    ("Quel est votre fastfood préféré ?", 0, "2023-05-12 09:30:00", 5),
+    ("Quel est votre parc d'attraction préféré ?", 0, "2023-12-07 18:00:00", 5),
+    ("Quelle est la couleur du cheval blanc d'Henri 4 ?", 0, "2023-03-07 12:00:00", 5),
+    ("Quelle est la couleur de tes chaussettes ?", 1, "2023-03-09 15:00:00", 5);
 
 
-
-INSERT INTO response (text, id_survey)
+INSERT INTO response (text, id_survey, nb_vote)
 VALUES
-    ("Toujours", 1),
-    ("Jamais", 1),
-    ("De temps en temps", 1),
-    ("Macdo", 2),
-    ("Burger King", 2),
-    ("KFC", 2),
-    ("Disney", 3),
-    ("Astérix", 3),
-    ("La mer de sable", 3),
-    ("Rouge", 4),
-    ("Blanc", 4),
-    ("Noir", 4),
-    ("Bleues", 5),
-    ("Vertes", 5),
-    ("Jaunes", 5);
+    ("Toujours", 1, 1),
+    ("Jamais", 1, 2),
+    ("De temps en temps", 1, 2),
+    ("Macdo", 2, 2),
+    ("Burger King", 2, 2),
+    ("KFC", 2, 1),
+    ("Disney", 3, 1),
+    ("Astérix", 3, 3),
+    ("La mer de sable", 3, 1),
+    ("Rouge", 4, 4),
+    ("Blanc", 4, 1),
+    ("Noir", 4, 0),
+    ("Bleues", 5, 1),
+    ("Vertes", 5, 1),
+    ("Jaunes", 5, 3),
+    ("Grises", 5, 0),
+    ("Mauves", 5, 0);
 
 
 INSERT INTO user_response (datetime, id_response)
@@ -95,36 +96,6 @@ VALUES
     ("2023-03-07 09:42:21", 15),
     ("2023-03-07 10:16:46", 15),
     ("2023-03-07 12:19:57", 15);
-
-/* a decommenter pour vous 
-INSERT INTO user_response (datetime, id_response)
-VALUES
-    ("2023-03-07 15:37:33", 1),
-    ("2023-01-03 12:25:58", 2),
-    ("2021-11-25 09:37:21", 3),
-    ("2022-08-24 11:34:33", 2),
-    ("2022-06-08 15:41:11", 3),
-    ("2021-11-05 17:58:19", 4),
-    ("2022-01-21 16:46:16", 5),
-    ("2023-02-30 08:32:25", 5),
-    ("2023-05-26 03:23:29", 6),
-    ("2021-08-29 11:10:21", 4),
-    ("2023-09-02 16:14:35", 7),
-    ("2021-12-03 23:23:23", 9),
-    ("2023-03-06 22:22:22", 8),
-    ("2021-04-09 15:41:46", 8),
-    ("2022-07-16 12:12:41", 8),
-    ("2022-01-18 14:06:10", 10),
-    ("2023-06-24 19:39:15", 10),
-    ("2023-06-05 20:01:13", 10),
-    ("2021-10-25 21:05:31", 10),
-    ("2021-10-02 00:45:49", 11),
-    ("2022-10-03 05:49:12", 14),
-    ("2022-03-27 06:36:14", 13),
-    ("2022-07-05 09:42:21", 15),
-    ("2021-10-09 10:16:46", 15),
-    ("2023-09-03 12:19:57", 15);
-*/
 
 INSERT INTO ticketing (slug, name, text, date_start, date_end, date_create, number_min_place, order_number, type, id_partnership)
 VALUES

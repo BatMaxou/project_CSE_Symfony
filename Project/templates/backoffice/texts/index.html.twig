@@ -8,6 +8,7 @@
 	<div id="texts">
 		<h1>Gestions des textes enrichis</h1>
 		{{ form_start(form) }}
+		{{ form_widget(form.submit, { 'attr': {'class': 'btn btn-edit'}}) }}
 		<div class="card">
 			<h2>{{ form_label(form.email) }}</h2>
 			{{ form_widget(form.email, {'value': texts['email'].content}) }}
@@ -24,7 +25,6 @@
 			<h2>{{ form_label(form.rules) }}</h2>
 			{{ form_widget(form.rules, {'value': texts['rules'].content}) }}
 		</div>
-		{{ form_widget(form.submit, { 'attr': {'class': 'btn btn-edit'}}) }}
 		{{ form_end(form) }}
 	</div>
 {% endblock %}

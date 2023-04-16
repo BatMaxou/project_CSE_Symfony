@@ -2,19 +2,23 @@
 
 namespace App\Controller;
 
+use DateTime;
 use App\Entity\Admin;
 use App\Entity\Member;
-use App\Entity\Partnership;
-use App\Entity\Subscriber;
+use App\Entity\Survey;
+use App\Entity\Response as SurveyResponse;
 use App\Entity\Ticketing;
+use App\Entity\Subscriber;
+use App\Entity\Partnership;
 use App\Entity\UserResponse;
 use App\Entity\ImageTicketing;
 use App\Repository\AdminRepository;
 use App\Repository\MemberRepository;
+use App\Repository\SurveyRepository;
 use App\Repository\ResponseRepository;
+use App\Repository\TicketingRepository;
 use App\Repository\SubscriberRepository;
 use App\Repository\PartnershipRepository;
-use App\Repository\TicketingRepository;
 use App\Repository\ImageTicketingRepository;
 use App\Repository\UserResponseRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -204,8 +208,6 @@ class RequestBackofficeController extends AbstractController
     public function postAddMember(MemberRepository $memberRepository, Request $request): Response
     {
         try {
-            // get id of the respons by a search name for set response of the create UserResponse
-
             $member = new Member();
 
             $member->setFirstName($request->get('member')['firstName']);
@@ -324,7 +326,7 @@ class RequestBackofficeController extends AbstractController
                 $partnershipRepo->save($partner, true);
             }
 
-            return new Response('La modification du partenaire a bien été effectué !', 200);
+            return new Response('La modification a bien été effectué !', 200);
         } catch (\Throwable $th) {
             return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
         }
@@ -357,7 +359,7 @@ class RequestBackofficeController extends AbstractController
                 $partnershipRepo->save($partner, true);
             }
 
-            return new Response('L\'ajout du partenaire a bien été effectué !', 200);
+            return new Response('L\'ajout a bien été effectué !', 200);
         } catch (\Throwable $th) {
             return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
         }
@@ -376,7 +378,85 @@ class RequestBackofficeController extends AbstractController
 
             $partnershipRepo->remove($partner, true);
 
-            return new Response('La suppression du partenaire a bien été effectuée !', 200);
+            return new Response('La suppression a bien été effectuée !', 200);
+        } catch (\Throwable $th) {
+            return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
+        }
+    }
+
+    #[Route(path: '/post/backoffice/ajout-sondage', name: 'post-add-survey', methods: ['POST'])]
+    public function addSurvey(SurveyRepository $sureveyRepo, ResponseRepository $respRepo, Request $request): Response
+    {
+        try {
+
+            $survey = new Survey();
+
+            $survey->setQuestion($request->get('survey')['question']);
+            $survey->setDatetime(new DateTime());
+            $survey->setIsActive(true);
+
+            // desactivate the active survey
+            if ($sureveyRepo->findActiveSurvey() !== null) {
+                $sureveyRepo->findActiveSurvey()->setIsActive(false);
+            }
+
+            // vérification que le sondage possède au moins 2 réponses
+            if (count($request->get('survey')) - 1 >= 2) {
+                $sureveyRepo->save($survey, true);
+
+                for ($i = 1; $i < count($request->get('survey')); $i++) {
+                    $response = new SurveyResponse();
+
+                    $response->setText($request->get('survey')['response_' . $i]);
+                    $response->setSurvey($survey);
+
+                    $respRepo->save($response, true);
+                }
+            } else {
+                return new Response('Un sondage doit au moins contenir 2 réponses.', 400);
+            }
+
+            return new Response('L\'ajout a bien été effectué !', 200);
+        } catch (\Throwable $th) {
+            return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
+        }
+    }
+
+    #[Route(path: '/post/backoffice/modif-sondage', name: 'post-edit-survey', methods: ['POST'])]
+    public function editSurvey(SurveyRepository $sureveyRepo, Request $request): Response
+    {
+        try {
+            $survey = $sureveyRepo->findSurveyById($request->get('survey')['id']);
+            $survey->setIsActive(false);
+
+            $sureveyRepo->save($survey, true);
+
+            return new Response('L\'archivage a bien été effectué !', 200);
+        } catch (\Throwable $th) {
+            return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
+        }
+    }
+
+    #[Route(path: '/post/backoffice/supp-sondage', name: 'post-delete-survey', methods: ['POST'])]
+    public function deleteSurvey(SurveyRepository $sureveyRepo, ResponseRepository $respRepo, UserResponseRepository $userRespRepo, Request $request): Response
+    {
+        try {
+            $responses = $respRepo->findResponsesBySurveyId($request->get('survey')['id']);
+
+            foreach ($responses as $response) {
+                $userResponses = $userRespRepo->findUserResponsesByResponseId($response->getId());
+
+                foreach ($userResponses as $userResponse) {
+                    $userRespRepo->remove($userResponse, true);
+                }
+
+                $respRepo->remove($response, true);
+            }
+
+            $survey = $sureveyRepo->findSurveyById($request->get('survey')['id']);
+            $sureveyRepo->remove($survey, true);
+
+            return new Response('La suppression a bien été effectuée !', 200);
         } catch (\Throwable $th) {
             return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
         }

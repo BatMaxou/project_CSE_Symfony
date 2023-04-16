@@ -13,15 +13,16 @@
 
 		<h1 class="h3 mb-3 font-weight-normal">Connexion</h1>
 
-		{% if error %}
-			<div class="alert-error">Votre email ou votre mot de passe est incorrect !</div>
-		{% endif %}
+		<div class="elementLogin">
+			<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-input" placeholder="Email" autocomplete="email" required autofocus>
 
-		<div>
-			<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="elementLogin" placeholder="Email" autocomplete="email" required autofocus>
+			<input type="password" name="password" id="inputPassword" class="form-input" placeholder="Mot de passe" autocomplete="current-password" required>
 
-			<input type="password" name="password" id="inputPassword" class="elementLogin" placeholder="Mot de passe" autocomplete="current-password" required>
+			{% if error %}
+				<span class="input-error">Votre email ou votre mot de passe est incorrect !</span>
+			{% endif %}
 		</div>
+
 
 		<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 

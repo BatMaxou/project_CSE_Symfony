@@ -40,8 +40,10 @@ class ResponseRepository extends ServiceEntityRepository
         }
     }
 
-    // return an array of the response associated of the survey is active
-    public function findResponseBySurveyId($id): array
+    /**
+     * @return Response[] Returns an array of Response objects
+     */
+    public function findResponsesBySurveyId($id): array
     {
         return $this->createQueryBuilder('r')
             ->andWhere('r.survey = :id')

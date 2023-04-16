@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Survey;
+use App\Entity\Response;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -49,78 +50,46 @@ class SurveyRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
-    // return an Survey object associated of the survey active
-    public function findQuestionActive(): Survey
+    /**
+     * @return Survey[] Returns an array of Survey objects
+     */
+    public function findAllByDescAndActive(): array
     {
-        $active = 1;
+        return $this->createQueryBuilder('s')
+            ->addOrderBy('s.isActive', 'DESC')
+            ->addOrderBy('s.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 
+    // return an Survey object associated of the survey active
+    public function findActiveSurvey(): ?Survey
+    {
         return $this->createQueryBuilder('s')
             ->andWhere('s.isActive = :active')
-            ->setParameter('active', $active)
+            ->setParameter('active', 1)
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();
     }
 
-    // retourne le nombre total de réponse associé à un survey
-    public function totalResponseBySurvey(): array
-    {
-        $qb = $this->createQueryBuilder('survey');
-
-        $qb->select('survey.question', 'survey.datetime', 'COUNT(user_response.id) AS total_responses')
-            ->innerJoin('App\Entity\Response', 'response', 'WITH', 'response.survey = survey.id')
-            ->innerJoin('App\Entity\UserResponse', 'user_response', 'WITH', 'user_response.response = response.id')
-            ->groupBy('survey.question');
-
-        return $qb->getQuery()->getResult();
-    }
-
+    /**
+     * @return Response[] Returns an array of Response objects
+     */
     // retourne le nombre total de réponse associé à une question associé à un survey
-    public function totalResponseByQuestion(): array
-    {
-
-        $qb = $this->createQueryBuilder('survey');
-
-        $qb->select('survey.question', 'response.text', 'COUNT(user_response.id) AS responses')
-            ->innerJoin('App\Entity\Response', 'response', 'WITH', 'response.survey = survey.id')
-            ->innerJoin('App\Entity\UserResponse', 'user_response', 'WITH', 'user_response.response = response.id')
-            ->groupBy('survey.question, response.text');
-
-        return $qb->getQuery()->getResult();
-    }
-
-    // retourne le nombre total de réponse associé à un survey
-    public function totalResponseBySurveyActive(): array
+    public function totalResponsesFor4LastSurveys(): array
     {
         $qb = $this->createQueryBuilder('survey');
 
-        $qb->select('survey.question', 'survey.datetime', 'COUNT(user_response.id) AS total_responses')
+        $qb->select('survey.question', 'COUNT(user_response.id) AS responses')
             ->innerJoin('App\Entity\Response', 'response', 'WITH', 'response.survey = survey.id')
             ->innerJoin('App\Entity\UserResponse', 'user_response', 'WITH', 'user_response.response = response.id')
-            ->where('survey.isActive = :is_active')
-            ->setParameter('is_active', 1)
-            ->groupBy('survey.question');
+            ->groupBy('survey.question')
+            ->orderBy('responses', 'DESC')
+            ->setMaxResults(4);
 
         return $qb->getQuery()->getResult();
     }
-
-    // retourne le nombre total de réponse associé à une question associé à un survey
-    public function totalResponseByQuestionActive(): array
-    {
-
-        $qb = $this->createQueryBuilder('survey');
-
-        $qb->select('survey.question', 'response.text', 'COUNT(user_response.id) AS responses')
-            ->innerJoin('App\Entity\Response', 'response', 'WITH', 'response.survey = survey.id')
-            ->innerJoin('App\Entity\UserResponse', 'user_response', 'WITH', 'user_response.response = response.id')
-            ->where('survey.isActive = :is_active')
-            ->setParameter('is_active', 1)
-            ->groupBy('survey.question, response.text');
-
-        return $qb->getQuery()->getResult();
-    }
-
-
 
 
     //    /**

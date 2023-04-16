@@ -1,12 +1,35 @@
 /*
-*   INCLUDE FLASH AVANT REQUEST
+*   INCLUDE AVANT REQUEST
 */
 const modalBackgroundInfo = document.querySelector('.modal-background-info');
 const modalBackgroundAdd = document.querySelector('.modal-background-add');
 const modalBackgroundEdit = document.querySelector('.modal-background-edit');
 const modalBackgroundDelete = document.querySelector('.modal-background-delete');
 
-// A voir plus tard
+const isInputsRequiredNull = (target) => {
+    let parent = target.parentElement
+    while (!parent.classList.contains('card')) {
+        parent = parent.parentElement
+    }
+    const inputs = parent.querySelectorAll('input[required = "required"], textarea[required = "required"]')
+    let display = true
+    inputs.forEach(input => {
+        if (input.value.replace(' ', '') === '') {
+            display = false
+            input.style.borderColor = 'var(--color-danger)'
+        } else {
+            input.style.borderColor = 'var(--color-black)'
+        }
+    });
+
+    if (display) {
+        return false
+    }
+
+    return true
+}
+
+// Géerer la hauteur selon l'appareil
 const handleHeightChange = (modal, modalHeader, modalBody, modalFooter) => {
     const totalModalHeight = modal.clientHeight + modalHeader.clientHeight + modalFooter.clientHeight + 40
     const maxHeight = window.innerHeight * 90 / 100
@@ -54,7 +77,11 @@ if (modalBackgroundAdd) {
 
     window.addEventListener("resize", () => handleHeightChange(modalAdd, modalHeader, modalBody, modalFooter))
 
-    btnOpenAdd.addEventListener('click', () => openModal(modalBackgroundAdd, modalAdd, modalHeader, modalBody, modalFooter))
+    btnOpenAdd.addEventListener('click', (e) => {
+        if (!isInputsRequiredNull(e.target)) {
+            openModal(modalBackgroundAdd, modalAdd, modalHeader, modalBody, modalFooter)
+        }
+    })
 
     modalClose.addEventListener('click', () => modalBackgroundAdd.style.display = "none");
     btnClose.addEventListener('click', () => closeModal(modalBackgroundAdd));
@@ -79,7 +106,11 @@ if (modalBackgroundEdit) {
     window.addEventListener("resize", () => handleHeightChange(modalEdit, modalHeader, modalBody, modalFooter))
 
     btnOpenEdits.forEach(btnOpenEdit => {
-        btnOpenEdit.addEventListener('click', () => openModal(modalBackgroundEdit, modalEdit, modalHeader, modalBody, modalFooter))
+        btnOpenEdit.addEventListener('click', (e) => {
+            if (!isInputsRequiredNull(e.target)) {
+                openModal(modalBackgroundEdit, modalEdit, modalHeader, modalBody, modalFooter)
+            }
+        })
     });
     modalClose.addEventListener('click', () => modalBackgroundEdit.style.display = "none");
     btnClose.addEventListener('click', () => closeModal(modalBackgroundEdit));
@@ -125,8 +156,6 @@ if (modalBackgroundInfo) {
     let btnOpenInfos = document.querySelectorAll('.modal-open-info')
     let modalClose = modalBackgroundInfo.querySelector('.modal-close');
     let btnClose = modalBackgroundInfo.querySelector('.btn-close');
-
-    console.log(btnOpenInfos);
 
     window.addEventListener("resize", () => handleHeightChange(modalInfo, modalHeader, modalBody, modalFooter))
 

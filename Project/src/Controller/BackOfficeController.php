@@ -2,12 +2,14 @@
 
 namespace App\Controller;
 
-use App\Service\StaticPathList;
+use App\Form\AdminType;
 use App\Form\TextsType;
 use App\Form\MemberType;
-use App\Form\AdminType;
-use App\Form\PartnershipType;
+use App\Form\SurveyType;
+use App\Entity\Partnership;
 use App\Form\TicketingType;
+use App\Form\PartnershipType;
+use App\Service\StaticPathList;
 use App\Repository\AdminRepository;
 use App\Repository\MemberRepository;
 use App\Repository\TicketingRepository;
@@ -15,9 +17,10 @@ use App\Repository\ImageTicketingRepository;
 use App\Repository\SurveyRepository;
 use App\Repository\ContactRepository;
 use App\Repository\CkeditorRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\PartnershipRepository;
 use App\Repository\UserResponseRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\ResponseRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -90,20 +93,53 @@ class BackOfficeController extends AbstractController
         ]);
     }
 
-    #[Route(path: 'backoffice_survey', name: 'backoffice_survey')]
-    public function survey(StaticPathList $staticPathList, SurveyRepository $surveyRepo): Response
+    #[Route(path: 'sondages', name: 'backoffice_survey')]
+    public function survey(StaticPathList $staticPathList, SurveyRepository $surveyRepo, ResponseRepository $respRepo): Response
     {
         $paths = [$staticPathList->getAdminPathByName('Tableau de bord'), $staticPathList->getAdminPathByName('Sondage')];
 
-        $questions = $surveyRepo->totalResponseBySurvey();
-        $responses = $surveyRepo->totalResponseByQuestion();
+        $surveys = $surveyRepo->findAllByDescAndActive();
+        $responses = $respRepo->findAll();
 
-        return $this->render('backoffice/survey/survey.html.twig', [
+        $sortedResponse = array();
+
+        // tableau associatif idSurvey => array(Response, Response ...)
+        foreach ($responses as $response) {
+            if (isset($sortedResponse[$response->getSurvey()->getId()])) {
+                array_push($sortedResponse[$response->getSurvey()->getId()], $response);
+            } else {
+                $sortedResponse[$response->getSurvey()->getId()] = array($response);
+            }
+        }
+
+        $addForm = $this->createForm(SurveyType::class, null, [
+            'action' => $this->generateUrl($staticPathList->getRequestPathByName('ajout_sondage')),
+            'method' => 'POST',
+        ]);
+
+        $editForm = $this->createForm(SurveyType::class, null, [
+            'action' => $this->generateUrl($staticPathList->getRequestPathByName('modif_sondage')),
+            'method' => 'POST',
+        ]);
+
+        $formDelete = $this->createForm(SurveyType::class, null, [
+            'action' => $this->generateUrl($staticPathList->getRequestPathByName('supp_sondage')),
+            'method' => 'POST',
+        ]);
+
+        $deleteForms = array();
+
+        for ($i = 0; $i < count($surveys); $i++) {
+            $deleteForms[] = $formDelete->createView();
+        }
+
+        return $this->render('backoffice/survey/index.html.twig', [
             'paths' => $paths,
-            'questions' => $questions,
-            'responses' => $responses,
-            // encode responses en JSON pour l'utiliser en JS
-            'responses_json' => json_encode($responses),
+            'addForm' => $addForm,
+            'editForm' => $editForm,
+            'deleteForms' => $deleteForms,
+            'surveys' => $surveys,
+            'responses' => $sortedResponse,
         ]);
     }
 
@@ -147,24 +183,25 @@ class BackOfficeController extends AbstractController
     }
 
     #[Route(path: 'dashboard', name: 'backoffice_dashboard')]
-    public function dashboard(StaticPathList $staticPathList, SurveyRepository $surveyRepo, CkeditorRepository $ckeditorRepo, ContactRepository $contactRepo): Response
+    public function dashboard(StaticPathList $staticPathList, SurveyRepository $surveyRepo, ResponseRepository $respRepo, CkeditorRepository $ckeditorRepo, ContactRepository $contactRepo): Response
     {
         $paths = [$staticPathList->getAdminPathByName('Tableau de bord')];
 
         $ckeditor = $ckeditorRepo->findByPage('HomePage');
         $message = $contactRepo->getLastMessage();
 
-        $questions = $surveyRepo->totalResponseBySurveyActive();
-        $responses = $surveyRepo->totalResponseByQuestionActive();
+        $activeSurvey = $surveyRepo->findActiveSurvey();
+        $responses = $respRepo->findResponsesBySurveyId($activeSurvey->getId());
+
+        $stats = $surveyRepo->totalResponsesFor4LastSurveys();
 
         return $this->render('backoffice/index.html.twig', [
             'paths' => $paths,
-            'questions' => $questions,
+            'survey' => $activeSurvey,
             'responses' => $responses,
             'ckeditor' => $ckeditor,
             'message' => $message,
-            // encode responses en JSON pour l'utiliser en JS
-            'responses_json' => json_encode($responses),
+            'stats_json' => json_encode($stats),
         ]);
     }
 
@@ -198,7 +235,7 @@ class BackOfficeController extends AbstractController
             $deleteForms[] = $deleteForm->createView();
         }
 
-        return $this->render('backoffice/partnership/partnership.html.twig', [
+        return $this->render('backoffice/partnership/index.html.twig', [
             'paths' => $paths,
             'partnerships' => $partnerships,
             'formPartnership' => $forms,

@@ -10,12 +10,12 @@
 		<div
 			class="card">
 			{#
-						{% if send is defined and send == true %}
-							<p>Vxotre message a bien été envoyé !</p>
-						{% else %}
-							<p>Une erreur est survenu, réessayer dans un instant !</p>
-						{% endif %}
-					#}
+									{% if send is defined and send == true %}
+										<p>Vxotre message a bien été envoyé !</p>
+									{% else %}
+										<p>Une erreur est survenu, réessayer dans un instant !</p>
+									{% endif %}
+								#}
 			<div class="contact-flex">
 				<div class="contact-img">
 					<img src="{{ asset('images/lyceestvincent.png') }}" alt="image du lycée st-vincent">
@@ -43,17 +43,13 @@
 						{{ form_errors(formContact.message) }}
 						{{ form_errors(formContact.consent) }}
 
-						{{ form_label(formContact.name) }}
-						{{ form_widget(formContact.name, {'attr': {'class': 'elementLogin', 'placeholder': 'Prénom'}}) }}
+						{{ form_widget(formContact.name, {'attr': {'class': 'form-input', 'placeholder': 'Prénom'}}) }}
 
-						{{ form_label(formContact.firstname) }}
-						{{ form_widget(formContact.firstname, {'attr': {'class': 'elementLogin', 'placeholder': 'Nom'}}) }}
+						{{ form_widget(formContact.firstname, {'attr': {'class': 'form-input', 'placeholder': 'Nom'}}) }}
 
-						{{ form_label(formContact.email) }}
-						{{ form_widget(formContact.email, {'attr': {'class': 'elementLogin', 'placeholder': 'Adresse mail'}}) }}
+						{{ form_widget(formContact.email, {'attr': {'class': 'form-input', 'placeholder': 'Adresse mail'}}) }}
 
-						{{ form_label(formContact.message) }}
-						{{ form_widget(formContact.message, {'attr': {'class': 'elementLogin', 'placeholder': 'Message'}}) }}
+						{{ form_widget(formContact.message, {'attr': {'class': 'form-input', 'placeholder': 'Message'}}) }}
 
 						<div class="form-contact-checkbox">
 							{{ form_widget(formContact.consent) }}
