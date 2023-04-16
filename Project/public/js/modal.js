@@ -8,17 +8,27 @@ const modalBackgroundDelete = document.querySelector('.modal-background-delete')
 
 const isInputsRequiredNull = (target) => {
     let parent = target.parentElement
+    // récupérer la card prent
     while (!parent.classList.contains('card')) {
         parent = parent.parentElement
     }
+    // récupérer les inputs de la carte
     const inputs = parent.querySelectorAll('input[required = "required"], textarea[required = "required"]')
     let display = true
     inputs.forEach(input => {
         if (input.value.replace(' ', '') === '') {
             display = false
-            input.style.borderColor = 'var(--color-danger)'
+            if (input.type === 'file') {
+                input.previousElementSibling.style.borderColor = 'var(--color-danger)'
+            } else {
+                input.style.borderColor = 'var(--color-danger)'
+            }
         } else {
-            input.style.borderColor = 'var(--color-black)'
+            if (input.type === 'file') {
+                input.previousElementSibling.style.borderColor = 'var(--color-primary)'
+            } else {
+                input.style.borderColor = 'var(--color-primary)'
+            }
         }
     });
 

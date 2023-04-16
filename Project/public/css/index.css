@@ -75,7 +75,7 @@ textarea:focus::placeholder {
     outline: none;
     background-color: var(--color-card);
     border: none;
-    border-bottom: 1px solid var(--color-black);
+    border-bottom: 1px solid var(--color-primary);
     padding: 5px;
 }
 
