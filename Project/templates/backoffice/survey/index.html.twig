@@ -111,13 +111,8 @@
 									{# + 1 car index commence à 0 #}
 									<div class="survey-response-{{index + 1}} survey-response">
 										<div class="label"></div>
-										<p>
-											{{ response.text }}
-										</p>
-										<span class="resultResponse">
-											{{ response.nbVote * 100 // survey.nbVote }}
-											%
-										</span>
+										<p>{{ response.text }}</p>
+										<span class="resultResponse">{{ response.nbVote * 100 // survey.nbVote }}%</span>
 									</div>
 								</li>
 
@@ -129,7 +124,7 @@
 								{{ survey.datetime|date('d/m/Y') }}
 							</p>
 							<p>
-								{{ survey.nbVote }}
+								<span class="totalResponse">{{ survey.nbVote }}</span>
 								réponses au total
 							</p>
 						</div>
@@ -150,52 +145,6 @@
 	<script src="{{ asset('js/handleResponseSurvey.js') }}"></script>
 
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-	<script>
-		// on récupère les réponses depuis le twig converties en json
-const charts = document.querySelectorAll('.chart');
+	<script src="{{ asset('js/chartDonut.js') }}"></script>
 
-{
-# charts.forEach(chart => {
-const question = chart.dataset.question
-// on va créer un tableau qui va contenir uniquement les réponses qui sont associé à la question
-const questionResponses = responses.filter(response => response.question === question)
-
-// la fonction map va permettre de recupérer le text de chaque objet et de placer ce text dans un tableau
-const data = { // labels: questionResponses.map(response => response.text),
-datasets: [
-{ // labels: question,
-data: questionResponses.map(response => response.responses),
-label: [' Nombre de vote '],
-backgroundColor: [
-'#36a2eb',
-'#ff6384',
-'#4bc0c0',
-'#ff9f40',
-'#9966ff',
-'#ffcd56',
-'#c9cbcf'
-],
-// plus c'est grand plus ça met de l'espace entre chaque section du grave au hover
-hoverOffset: 5
-}
-]
-
-
-};
-
-new Chart(chart, {
-type: 'doughnut',
-data: data,
-// options: {
-// interaction: {
-// enabled: false
-// /},
-// pour retirer le hover
-// interaction: {mode: null},
-// }
-});
-});
-#
-}
-	</script>
 {% endblock %}

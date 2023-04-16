@@ -66,6 +66,18 @@
 							<div>
 								<canvas id="stat-cse"></canvas>
 							</div>
+							<div style="display: none">
+								{% for label in stats %}
+									<ul class="r-stat">
+										<li>{{label.question}}</li>
+									</ul>
+								{% endfor %}
+								{% for label in stats %}
+									<ul class="q-stat">
+										<li>{{label.responses}}</li>
+									</ul>
+								{% endfor %}
+							</div>
 						</div>
 					</div>
 				</div>
@@ -81,7 +93,6 @@
 				</div>
 			{% else %}
 				<div id="survey-active-dashboard">
-
 					<div class="card">
 						<div class="card-header">
 							<h2 class="question">{{ survey.question }}</h2>
@@ -97,135 +108,27 @@
 										{# + 1 car index commence à 0 #}
 										<div class="survey-response-{{index + 1}} survey-response">
 											<div class="label"></div>
-											<p>
-												{{ response.text }}
-											</p>
-											<span class="resultResponse">
-												{{ response.nbVote * 100 // survey.nbVote }}
-												%
-											</span>
+											<p>{{ response.text }}</p>
+											<span class="resultResponse">{{ response.nbVote * 100 // survey.nbVote }}%</span>
 										</div>
 									</li>
 								{% endfor %}
 							</ul>
 						</div>
 						<div class="card-footer">
+							<p>Sondage crée le{{ survey.datetime|date('d/m/Y') }}</p>
 							<p>
-								Sondage crée le
-								{{ survey.datetime|date('d/m/Y') }}
-							</p>
-							<p>
-								{{ survey.nbVote }}
-								réponses au total
+								<span class="totalResponse">{{ survey.nbVote }}</span> réponses au total
 							</p>
 						</div>
 					</div>
 				</div>
-
 			{% endif %}
 		</div>
 	</div>
 
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-	{# // const responses = JSON.parse('{{ responses_json|e('js') }}'); #}
-	<script>
-		// on récupère les réponses depuis le twig converties en json
+	<script src="{{ asset('js/chartDonut.js') }}"></script>
+	<script src="{{ asset('js/chartBar.js') }}"></script>
 
-const charts = document.querySelectorAll('.chart');
-
-charts.forEach(chart => {
-const question = chart.dataset.question;
-// on va créer un tableau qui va contenir uniquement les réponses qui sont associé à la question
-const questionResponses = responses.filter(response => response.question === question);
-
-// la fonction map va permettre de recupérer le text de chaque objet et de placer ce text dans un tableau
-const data = { // labels: questionResponses.map(response => response.text),
-datasets: [
-{ // labels: question,
-data: questionResponses.map(response => response.responses),
-label: [' Nombre de vote '],
-backgroundColor: [
-'#36a2eb',
-'#ff6384',
-'#4bc0c0',
-'#ff9f40',
-'#9966ff',
-'#ffcd56',
-'#c9cbcf'
-],
-// plus c'est grand plus ça met de l'espace entre chaque section du grave au hover
-hoverOffset: 5
-}
-]
-
-
-};
-
-new Chart(chart, {
-type: 'doughnut',
-data: data,
-// options: {
-// interaction: {
-// enabled: false
-// /},
-// pour retirer le hover
-// interaction: {mode: null},
-// }
-});
-});
-
-
-// graph du dashboard qui illustre le nombre total de réponses pour les 5 derniers sondage
-
-const ctx = document.getElementById('stat-cse');
-const stat = JSON.parse('{{ stats_json|e('js') }}');
-const q = []
-const r = []
-let k = []
-const ok = [] stat.forEach((e, i) => {
-const question = stat[i].question
-const response = stat[i].responses
-const lab = stat[i].question.split(' ');
-q.push(lab)
-r.push(response)
-})
-let temp = [] console.log(q)q.forEach((el) => {
-console.log(el)
-el.forEach((e, i) => {
-if ((i + 1) % 2 == 0) {
-temp.push(el[i - 1] + " " + e)
-}
-})
-if (el.length % 2 == 1) {
-temp.push(el[el.length - 1])
-}
-k.push(temp)
-console.log(temp)
-temp = []
-console.log(temp)
-})
-// const lab = stat[i].question.split(' ');
-
-console.log(k)new Chart(ctx, {
-type: 'bar',
-data: {
-labels: k,
-datasets: [
-{
-label: 'Nombre total de réponse pour le(s) ' + k.length + ' dernier(s) sondages',
-data: r,
-borderWidth: 1
-}
-]
-},
-options: {
-scales: {
-y: {
-beginAtZero: true
-}
-}
-}
-});
-
-	</script>
 {% endblock %}
