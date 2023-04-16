@@ -40,6 +40,7 @@ class StaticPathList
         'supprimer_partenariat' => 'post-delete-partnership',
         'ajout_admin' => 'post-add-admin',
         'modif_admin' => 'post-edit-admin',
+        'supp_admin' => 'post-delete-admin',
         'supprimer_admin' => 'post-delete-admin',
         'ajout_billeterie' => 'post-add-ticketing',
         'modif_billeterie' => 'post-edit-ticketing',
