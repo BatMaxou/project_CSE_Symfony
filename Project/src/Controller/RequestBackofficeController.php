@@ -8,12 +8,14 @@ use App\Entity\Partnership;
 use App\Entity\Subscriber;
 use App\Entity\Ticketing;
 use App\Entity\UserResponse;
+use App\Entity\ImageTicketing;
 use App\Repository\AdminRepository;
 use App\Repository\MemberRepository;
 use App\Repository\ResponseRepository;
 use App\Repository\SubscriberRepository;
 use App\Repository\PartnershipRepository;
 use App\Repository\TicketingRepository;
+use App\Repository\ImageTicketingRepository;
 use App\Repository\UserResponseRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -178,6 +180,21 @@ class RequestBackofficeController extends AbstractController
             $ticketingRepository->remove($ticketing, true);
 
             return new Response('La suppression a bien été effectué !', 200);
+        } catch (\Throwable $th) {
+            return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
+        }
+    }
+
+    #[Route(path: 'image-ticketing-add', name: 'post-add-image-ticketing', methods: ['POST'])]
+    public function postAddImageTicketing(ImageTicketingRepository $imageTicketingRepository, Request $request): Response
+    {
+        try {
+
+            $imageTicketing = new ImageTicketing();
+
+            $imageTicketingRepository->save($imageTicketing, true);
+
+            return new Response('L\'ajout de l\'image à bien été effectué !', 200);
         } catch (\Throwable $th) {
             return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
         }

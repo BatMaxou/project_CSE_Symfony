@@ -1937,3 +1937,66 @@ textarea:focus::placeholder {
     max-height: 100px;
     min-height: 60px;
 }
+
+/* BACKOFFICE TICKETING */
+#backoffice-ticketing {
+    width: 100%
+}
+
+#backoffice-ticketing .card-body form,
+#backoffice-ticketing .add-ticketing .card-body {
+    display: flex;
+    align-items: center;
+}
+
+#backoffice-ticketing .card-image {
+    margin-top: 15px;
+    display: flex;
+    width: 50%;
+    gap: 25px;
+    max-width: 100%;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+#backoffice-ticketing .card-content {
+    width: 50%;
+}
+
+#backoffice-ticketing .card-content div {
+    display: flex;
+    flex-direction: column;
+    margin: 10px 0;
+}
+
+#backoffice-ticketing .card-content div input {
+    margin: 5px 0;
+}
+
+#backoffice-ticketing .card-content div select {
+    margin: 5px 0;
+}
+
+#backoffice-ticketing .card-content div textarea {
+    margin: 5px 0;
+}
+
+#backoffice-ticketing .card-footer {
+    gap: 5px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.add-ticketing #ticketing_type {
+    position: absolute;
+    top: 12px;
+    left: 60px;
+    font-size: 16px;
+}
+
+.add-ticketing .number-min,
+.add-ticketing .order-number {
+    position: absolute;
+    top: 0px;
+    right: 10px;
+}

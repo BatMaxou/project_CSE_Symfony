@@ -2,29 +2,26 @@
 
 namespace App\Controller;
 
+use App\Service\StaticPathList;
 use App\Form\TextsType;
 use App\Form\MemberType;
-use App\Repository\TicketingRepository;
-use App\Service\StaticPathList;
-use App\Entity\Partnership;
 use App\Form\AdminType;
 use App\Form\PartnershipType;
 use App\Form\TicketingType;
 use App\Repository\AdminRepository;
 use App\Repository\MemberRepository;
+use App\Repository\TicketingRepository;
 use App\Repository\ImageTicketingRepository;
 use App\Repository\SurveyRepository;
 use App\Repository\ContactRepository;
 use App\Repository\CkeditorRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\PartnershipRepository;
 use App\Repository\UserResponseRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[Route(path: '/admin/')]
 class BackOfficeController extends AbstractController
@@ -236,11 +233,6 @@ class BackOfficeController extends AbstractController
             'method' => 'POST',
         ]);
 
-        // $formAddImage = $this->createForm(ImageTicketingRepository::class, null, [
-        //     'action' => $this->generateUrl($staticPathList->getRequestPathByName('ajout_image_ticketing')),
-        //     'method' => 'POST',
-        // ]);
-
         // $formEditImage = $this->createForm(ImageTicketingRepository::class, null, [
         //     'action' => $this->generateUrl($staticPathList->getRequestPathByName('modif_image_ticketing')),
         //     'method' => 'POST',
@@ -254,8 +246,9 @@ class BackOfficeController extends AbstractController
         $formEditTicketings = array();
         $formDeleteTicketings = array();
 
-        $formEditImages = array();
-        $formDeleteImages = array();
+        $formAddImages = array();
+        // $formEditImages = array();
+        // $formDeleteImages = array();-
 
         for ($i = 0; $i < count($ticketings); $i++) {
             $formEditTicketings[] = $formEditTicketing->createView();
@@ -274,6 +267,7 @@ class BackOfficeController extends AbstractController
             'formDeleteTicketings' => $formDeleteTicketings,
             // 'formEditImages' => $formEditImages,
             // 'formDeleteImages' => $formDeleteImages,
+            'ticketings' => $ticketings,
             'ticketingPermanents' => $ticketingPermanents,
             'ticketingLimiteds' => $ticketingPermanents,
             'imageTicketings' => $imageTicketings,
