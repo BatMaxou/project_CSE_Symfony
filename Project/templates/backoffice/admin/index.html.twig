@@ -117,6 +117,7 @@
 							{{ form_start(formDeletes[key], {'attr': {'class': 'delete-form'}})}}
 
 							{{ form_row(formDeletes[key].id, {value: admin.id}) }}
+							{{ form_widget(formDeletes[key].email, { 'attr': { class: 'form-input-hidden' }, value: admin.email, disabled: false}) }}
 							<div class="delete-admin">
 								<button class="btn btn-delete modal-open-delete">
 									Supprimer

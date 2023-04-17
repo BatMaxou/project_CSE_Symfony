@@ -18,6 +18,5 @@ if (textsForm) {
         }
     }
 
-
     textsForm.addEventListener('submit', handleTextsSubmit)
 }

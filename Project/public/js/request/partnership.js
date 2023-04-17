@@ -1,19 +1,5 @@
 // Partnership request
 
-// si un GET est précisé et qu'il correspond à 'new=true', alors effectuer l'animation d'ajout et clear le GET
-let getParameter = null
-
-if ((getParameter = window.location.href.split('?')[1])
-    && (getParameter = getParameter.split('='))
-    && (getParameter[0] === 'new')
-    && (getParameter[1] === 'true')) {
-    // passer outre la 'card' d'ajout
-    // cards est recup dans cardAnimation.js
-    // transform cards de nodelist a array 
-    handleAddCard(Array.from(cards), true)
-    window.history.replaceState({}, document.title, window.location.pathname);
-}
-
 // choix de l'image
 const labelFileAdd = document.querySelector('.add-partnership .card .card-image label')
 const partnerImgAdd = document.querySelector('.add-partnership .card .card-image img')
@@ -70,7 +56,32 @@ const handlePartnershipsDisplayModal = (e, index, type, btnSubmit, form) => {
             editImg.innerHTML = '- Nouvelle photo du partenaire : ' + '<b>' + formData.get('partnership[image]').name + '</b>'
         }
 
-        btnSubmit.addEventListener('click', () => handlePartnershipsSubmit(index, formData, form, type), { once: true })
+        // garder la fonction submit dans une constante
+        const submit = () => {
+            handleSubmit(index, formData, form, type, 0), { once: true }
+        }
+
+        // ajout de l'event à chaque affichage du modal 
+        btnSubmit.addEventListener('click', submit, { once: true })
+
+        // récupérer les éléments pemettant la fermeture du modal
+        const modalClose = modalBackgroundEdit.querySelector('.modal-close')
+        const btnClose = modalBackgroundEdit.querySelector('.btn-close')
+
+        // enlever l'event du btnSubmit lorsqu'il existe pour éviter les doublons
+        modalClose.addEventListener('click', () => {
+            btnSubmit.removeEventListener('click', submit, { once: true })
+        })
+        btnClose.addEventListener('click', () => {
+            btnSubmit.removeEventListener('click', submit, { once: true })
+        });
+
+        // pour fermer lorsqu'on clique en dehors du modal  
+        modalBackgroundEdit.addEventListener('click', (event) => {
+            if (event.target == modalBackgroundEdit) {
+                btnSubmit.removeEventListener('click', submit, { once: true })
+            }
+        })
     }
     else if (type === 'delete') {
         // Récupération du form pour le delete
@@ -82,8 +93,32 @@ const handlePartnershipsDisplayModal = (e, index, type, btnSubmit, form) => {
         // Affichage du champ
         deleteName.innerHTML = 'Nom du partenaire : <b>' + formData.get('partnership[name]') + '</b>'
 
-        // Button et action de suppression des members
-        btnSubmit.addEventListener('click', () => handlePartnershipsSubmit(index, formData, form, type), { once: true })
+        // garder la fonction submit dans une constante
+        const submit = () => {
+            handleSubmit(index, formData, form, type, 0), { once: true }
+        }
+
+        // ajout de l'event à chaque affichage du modal 
+        btnSubmit.addEventListener('click', submit, { once: true })
+
+        // récupérer les éléments pemettant la fermeture du modal
+        const modalClose = modalBackgroundDelete.querySelector('.modal-close')
+        const btnClose = modalBackgroundDelete.querySelector('.btn-close')
+
+        // enlever l'event du btnSubmit lorsqu'il existe pour éviter les doublons
+        modalClose.addEventListener('click', () => {
+            btnSubmit.removeEventListener('click', submit, { once: true })
+        })
+        btnClose.addEventListener('click', () => {
+            btnSubmit.removeEventListener('click', submit, { once: true })
+        });
+
+        // pour fermer lorsqu'on clique en dehors du modal  
+        modalBackgroundDelete.addEventListener('click', (event) => {
+            if (event.target == modalBackgroundDelete) {
+                btnSubmit.removeEventListener('click', submit, { once: true })
+            }
+        })
     }
     else if (type === 'add') {
 
@@ -107,61 +142,32 @@ const handlePartnershipsDisplayModal = (e, index, type, btnSubmit, form) => {
             addImg.innerHTML = '- Photo du partenaire : ' + '<b>' + formData.get('partnership[image]').name + '</b>'
         }
 
-        btnSubmit.addEventListener('click', () => handlePartnershipsSubmit(index, formData, form, type), { once: true })
-    }
-}
-
-// gérer la requête en ajax
-const handlePartnershipsSubmit = async (index, formData, form, type) => {
-
-    let response = null
-
-    if (type === 'edit') {
-        response = await fetch(form.getAttribute('action'), {
-            method: form.getAttribute('method'),
-            body: formData
-        })
-
-        closeModal(document.querySelector('.modal-background-edit'))
-    }
-    else if (type === 'delete') {
-        response = await fetch(form.getAttribute('action'), {
-            method: form.getAttribute('method'),
-            body: formData
-        })
-
-        closeModal(document.querySelector('.modal-background-delete'))
-    }
-    else if (type === 'add') {
-        response = await fetch(form.getAttribute('action'), {
-            method: form.getAttribute('method'),
-            body: formData
-        })
-
-        closeModal(document.querySelector('.modal-background-add'))
-    }
-
-    const msg = await response.text()
-
-    if (response.status === 200) {
-        if (type === 'edit') {
-            // Card animation
-            // index + 1 pour passer outre la première card d'ajout
-            handleBtnEdit(index + 1)
+        // garder la fonction submit dans une constante
+        const submit = () => {
+            handleSubmit(index, formData, form, type, 0), { once: true }
         }
-        else if (type === 'delete') {
-            // Card animation
-            // 'cards' est défini dans cardAnimation.js
-            handleBtnDelete(index, Array.from(cards))
-        }
-        else if (type === 'add') {
-            setTimeout(() => {
-                window.location.replace(window.location.href + '?new=true')
-            }, 1000);
-        }
-        createFlash('alert-success', msg, 0.5)
-    } else {
-        createFlash('alert-error', msg)
+
+        // ajout de l'event à chaque affichage du modal 
+        btnSubmit.addEventListener('click', submit, { once: true })
+
+        // récupérer les éléments pemettant la fermeture du modal
+        const modalClose = modalBackgroundAdd.querySelector('.modal-close')
+        const btnClose = modalBackgroundAdd.querySelector('.btn-close')
+
+        // enlever l'event du btnSubmit lorsqu'il existe pour éviter les doublons
+        modalClose.addEventListener('click', () => {
+            btnSubmit.removeEventListener('click', submit, { once: true })
+        })
+        btnClose.addEventListener('click', () => {
+            btnSubmit.removeEventListener('click', submit, { once: true })
+        });
+
+        // pour fermer lorsqu'on clique en dehors du modal  
+        modalBackgroundAdd.addEventListener('click', (event) => {
+            if (event.target == modalBackgroundAdd) {
+                btnSubmit.removeEventListener('click', submit, { once: true })
+            }
+        })
     }
 }
 
@@ -175,10 +181,10 @@ const editPartnershipForm = document.querySelectorAll('#backoffice-partnership .
 const deletePartnershipForm = document.querySelectorAll('#backoffice-partnership .delete-form')
 
 // form
-let btnAdd = document.querySelector('.modal-background-add .btn-add')
+const btnAdd = document.querySelector('.modal-background-add .btn-add')
 addPartnershipForm.addEventListener('submit', (e) => handlePartnershipsDisplayModal(e, 0, 'add', btnAdd, e.target))
 
-if (editPartnershipForm.length != 0 && deletePartnershipForm.length != 0) {
+if (editPartnershipForm.length !== 0 && deletePartnershipForm.length !== 0) {
 
     let btnEdit = document.querySelector('.modal-background-edit .btn-edit')
     let btnDelete = document.querySelector('.modal-background-delete .btn-delete')
@@ -191,5 +197,3 @@ if (editPartnershipForm.length != 0 && deletePartnershipForm.length != 0) {
         btn.addEventListener('click', (e) => handlePartnershipsDisplayModal(e, index, 'delete', btnDelete, deletePartnershipForm[index]))
     });
 }
-
-

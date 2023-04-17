@@ -43,7 +43,6 @@ const handleBtnDelete = (index, cards, fade = false) => {
     cards.splice(0, 1)
 
     cards.forEach((card, i) => {
-        console.log(window.innerWidth, fade);
         if (i === index) {
             // suppression de la hauteur de la carte sur 1 seconde puis supprimer du DOM
             deleteAnim.to(card, {

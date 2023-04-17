@@ -78,12 +78,12 @@ function closeModal(modalBackground) {
 
 if (modalBackgroundAdd) {
     let modalAdd = modalBackgroundAdd.querySelector('.modal')
-    let modalHeader = modalBackgroundAdd.querySelector('.modal-header');
-    let modalBody = modalBackgroundAdd.querySelector('.modal-body');
-    let modalFooter = modalBackgroundAdd.querySelector('.modal-footer');
+    let modalHeader = modalBackgroundAdd.querySelector('.modal-header')
+    let modalBody = modalBackgroundAdd.querySelector('.modal-body')
+    let modalFooter = modalBackgroundAdd.querySelector('.modal-footer')
     let btnOpenAdd = document.querySelector('.modal-open-add')
-    let modalClose = modalBackgroundAdd.querySelector('.modal-close');
-    let btnClose = modalBackgroundAdd.querySelector('.btn-close');
+    let modalClose = modalBackgroundAdd.querySelector('.modal-close')
+    let btnClose = modalBackgroundAdd.querySelector('.btn-close')
 
     window.addEventListener("resize", () => handleHeightChange(modalAdd, modalHeader, modalBody, modalFooter))
 
@@ -93,16 +93,17 @@ if (modalBackgroundAdd) {
         }
     })
 
-    modalClose.addEventListener('click', () => modalBackgroundAdd.style.display = "none");
+    modalClose.addEventListener('click', () => closeModal(modalBackgroundAdd));
     btnClose.addEventListener('click', () => closeModal(modalBackgroundAdd));
 
     // pour fermer lorsqu'on clique en dehors du modal  
     modalBackgroundAdd.addEventListener('click', (event) => {
         if (event.target == modalBackgroundAdd) {
-            closeModal(event.target);
+            closeModal(event.target, 'add', true);
         }
     })
 }
+
 
 if (modalBackgroundEdit) {
     let modalEdit = modalBackgroundEdit.querySelector('.modal')

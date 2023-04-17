@@ -56,10 +56,10 @@ class AdminType extends AbstractType
                 ],
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Entrez un mot de passe s\'il vous plaît.',
+                        'message' => 'Un mot de passe est requis.',
                     ]),
                     new Length([
-                        'min' => 8,
+                        'min' => 12,
                         'minMessage' => 'Votre mot de passe doit contenir au moins {{ limit }} charactères.',
                         // max length allowed by Symfony for security reasons
                         'max' => 4096,

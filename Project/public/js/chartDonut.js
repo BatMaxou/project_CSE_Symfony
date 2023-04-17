@@ -20,7 +20,6 @@ card.forEach((e, i) => {
     if (i != 0 || !ignored) {
         reponse[i] = []
         const resultResponse = e.querySelectorAll('.resultResponse')
-        console.log(resultResponse);
         resultResponse.forEach((n) => {
             if (n.textContent.replace("%", "").replace(" ", "") * totalResponse[i - nb].textContent / 100 % 1 == 0) {
                 reponse[i].push(~~(n.textContent.replace("%", "").replace(" ", "") * totalResponse[i - nb].textContent / 100))
