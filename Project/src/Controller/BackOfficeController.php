@@ -59,7 +59,7 @@ class BackOfficeController extends AbstractController
     {
         $paths = [$staticPathList->getAdminPathByName('Tableau de bord'), $staticPathList->getAdminPathByName('Comptes')];
 
-        $admins = $adminRepository->findAll();
+        $admins = $adminRepository->findAllByDesc();
 
         $formAdd = $this->createForm(AdminType::class, null, [
             'action' => $this->generateUrl($staticPathList->getRequestPathByName('ajout_admin')),
@@ -191,7 +191,11 @@ class BackOfficeController extends AbstractController
         $message = $contactRepo->getLastMessage();
 
         $activeSurvey = $surveyRepo->findActiveSurvey();
-        $responses = $respRepo->findResponsesBySurveyId($activeSurvey->getId());
+        if ($activeSurvey) {
+            $responses = $respRepo->findResponsesBySurveyId($activeSurvey->getId());
+        } else {
+            $responses = [];
+        }
 
         $stats = $surveyRepo->totalResponsesFor4LastSurveys();
 

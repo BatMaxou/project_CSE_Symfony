@@ -1,19 +1,5 @@
 // Survey request
 
-// si un GET est précisé et qu'il correspond à 'new=true', alors effectuer l'animation d'ajout et clear le GET
-let getParameter = null
-
-if ((getParameter = window.location.href.split('?')[1])
-    && (getParameter = getParameter.split('='))
-    && (getParameter[0] === 'new')
-    && (getParameter[1] === 'true')) {
-    // passer outre la 'card' d'ajout
-    // cards est recup dans cardAnimation.js
-    // transform cards de nodelist a array 
-    handleAddCard(Array.from(cards), true)
-    window.history.replaceState({}, document.title, window.location.pathname);
-}
-
 // gestion CRUD
 // afficher le modal concerné
 const handleSurveysDisplayModal = (e, index, type, btnSubmit, form) => {
@@ -32,7 +18,32 @@ const handleSurveysDisplayModal = (e, index, type, btnSubmit, form) => {
 
         // Fin du traitement de l'affichage 
 
-        btnSubmit.addEventListener('click', () => handleSurveysSubmit(index, formData, form, type), { once: true })
+        // garder la fonction submit dans une constante
+        const submit = () => {
+            handleSurveySubmit(index, formData, form, type, 0), { once: true }
+        }
+
+        // ajout de l'event à chaque affichage du modal 
+        btnSubmit.addEventListener('click', submit, { once: true })
+
+        // récupérer les éléments pemettant la fermeture du modal
+        const modalClose = modalBackgroundEdit.querySelector('.modal-close')
+        const btnClose = modalBackgroundEdit.querySelector('.btn-close')
+
+        // enlever l'event du btnSubmit lorsqu'il existe pour éviter les doublons
+        modalClose.addEventListener('click', () => {
+            btnSubmit.removeEventListener('click', submit, { once: true })
+        })
+        btnClose.addEventListener('click', () => {
+            btnSubmit.removeEventListener('click', submit, { once: true })
+        });
+
+        // pour fermer lorsqu'on clique en dehors du modal  
+        modalBackgroundEdit.addEventListener('click', (event) => {
+            if (event.target == modalBackgroundEdit) {
+                btnSubmit.removeEventListener('click', submit, { once: true })
+            }
+        })
     }
     else if (type === 'delete') {
         // Récupération du form pour le delete
@@ -46,8 +57,32 @@ const handleSurveysDisplayModal = (e, index, type, btnSubmit, form) => {
 
         // Fin du traitement de l'affichage 
 
-        // Button et action de suppression des members
-        btnSubmit.addEventListener('click', () => handleSurveysSubmit(index, formData, form, type), { once: true })
+        // garder la fonction submit dans une constante
+        const submit = () => {
+            handleSurveySubmit(index, formData, form, type, 0), { once: true }
+        }
+
+        // ajout de l'event à chaque affichage du modal 
+        btnSubmit.addEventListener('click', submit, { once: true })
+
+        // récupérer les éléments pemettant la fermeture du modal
+        const modalClose = modalBackgroundDelete.querySelector('.modal-close')
+        const btnClose = modalBackgroundDelete.querySelector('.btn-close')
+
+        // enlever l'event du btnSubmit lorsqu'il existe pour éviter les doublons
+        modalClose.addEventListener('click', () => {
+            btnSubmit.removeEventListener('click', submit, { once: true })
+        })
+        btnClose.addEventListener('click', () => {
+            btnSubmit.removeEventListener('click', submit, { once: true })
+        });
+
+        // pour fermer lorsqu'on clique en dehors du modal  
+        modalBackgroundDelete.addEventListener('click', (event) => {
+            if (event.target == modalBackgroundDelete) {
+                btnSubmit.removeEventListener('click', submit, { once: true })
+            }
+        })
     }
     else if (type === 'add') {
 
@@ -69,12 +104,37 @@ const handleSurveysDisplayModal = (e, index, type, btnSubmit, form) => {
 
         // Fin du traitement de l'affichage
 
-        btnSubmit.addEventListener('click', () => handleSurveysSubmit(index, formData, form, type), { once: true })
+        // garder la fonction submit dans une constante
+        const submit = () => {
+            handleSurveySubmit(index, formData, form, type, 0), { once: true }
+        }
+
+        // ajout de l'event à chaque affichage du modal 
+        btnSubmit.addEventListener('click', submit, { once: true })
+
+        // récupérer les éléments pemettant la fermeture du modal
+        const modalClose = modalBackgroundAdd.querySelector('.modal-close')
+        const btnClose = modalBackgroundAdd.querySelector('.btn-close')
+
+        // enlever l'event du btnSubmit lorsqu'il existe pour éviter les doublons
+        modalClose.addEventListener('click', () => {
+            btnSubmit.removeEventListener('click', submit, { once: true })
+        })
+        btnClose.addEventListener('click', () => {
+            btnSubmit.removeEventListener('click', submit, { once: true })
+        });
+
+        // pour fermer lorsqu'on clique en dehors du modal  
+        modalBackgroundAdd.addEventListener('click', (event) => {
+            if (event.target == modalBackgroundAdd) {
+                btnSubmit.removeEventListener('click', submit, { once: true })
+            }
+        })
     }
 }
 
 // gérer la requête en ajax
-const handleSurveysSubmit = async (index, formData, form, type) => {
+const handleSurveySubmit = async (index, formData, form, type) => {
 
     let response = null
 
@@ -140,12 +200,11 @@ const editSurveyForm = document.querySelector('#backoffice-survey .edit-form')
 const deleteSurveyForms = document.querySelectorAll('#backoffice-survey .delete-form')
 
 // form
-let btnAdd = document.querySelector('.modal-background-add .btn-add')
+const btnAdd = document.querySelector('.modal-background-add .btn-add')
 addSurveyForm.addEventListener('submit', (e) => handleSurveysDisplayModal(e, 0, 'add', btnAdd, e.target))
 
-if (deleteSurveyForms.length != 0) {
-
-    let btnDelete = document.querySelector('.modal-background-delete .btn-delete')
+if (deleteSurveyForms.length !== 0) {
+    const btnDelete = document.querySelector('.modal-background-delete .btn-delete')
 
     deleteSurveyBtns.forEach((btn, index) => {
         btn.addEventListener('click', (e) => handleSurveysDisplayModal(e, index, 'delete', btnDelete, deleteSurveyForms[index]))
@@ -153,8 +212,7 @@ if (deleteSurveyForms.length != 0) {
 }
 
 if (editSurveyForm) {
-
-    let btnEdit = document.querySelector('.modal-background-edit .btn-edit')
+    const btnEdit = document.querySelector('.modal-background-edit .btn-edit')
 
     const desactivateBtn = document.querySelector('#backoffice-survey .modal-open-edit')
     desactivateBtn.addEventListener('click', (e) => handleSurveysDisplayModal(e, 1, 'edit', btnEdit, editSurveyForm))

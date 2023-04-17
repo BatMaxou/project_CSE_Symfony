@@ -962,7 +962,7 @@ textarea:focus::placeholder {
 
 #offer .card-header {
     flex-direction: column;
-    align-items:normal;
+    align-items: normal;
 }
 
 #offer .offer-card-place {
@@ -1982,53 +1982,18 @@ textarea:focus::placeholder {
     width: 100%;
 }
 
-#backoffice-partnership .card-body,
-#backoffice-text .card-body {
-    display: flex;
-    gap: 20px;
-}
-
-#partnership .card-image img,
-#backoffice-partnership .card-body img {
-    width: 200px;
-    height: 200px;
-    object-fit: cover;
-}
-
 #backoffice-partnership .card-image {
     height: 230px;
-}
-
-@media(max-width: 850px) {
-
-    #partnership .card-body,
-    #backoffice-partnership .card-body,
-    #backoffice-text .card-body {
-        flex-direction: column;
-        align-items: center;
-    }
 }
 
 #backoffice-partnership .card-content {
     width: 100%;
 }
 
-#backoffice-partnership .btnSave {
-    display: none;
-}
-
 #backoffice-partnership .form-input {
     padding: 15px 5px;
     margin: 10px 0;
     width: 95%;
-}
-
-#backoffice-partnership #form-link .form-input {
-    width: 81%;
-}
-
-#backoffice-partnership .card-body {
-    align-items: center;
 }
 
 .input-name {
