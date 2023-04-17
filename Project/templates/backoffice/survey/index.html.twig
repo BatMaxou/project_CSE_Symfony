@@ -64,116 +64,128 @@
 		{% endblock %}
 
 		<h1>Gestion des sondages</h1>
-		<h2>Ajouter un sondage</h2>
-		<div class="card">
-			{{ form_start(addForm, {'attr': {'class': 'add-form'}}) }}
-			<div class="card-body">
-				<div class="new-question">
-					{{ form_widget(addForm.question) }}
-				</div>
-				<div class="responses">
-					<ul>
-						<li>
-							<div class="response">
-								{{ form_widget(addForm.response_1) }}
-							</div>
-						</li>
-						<li>
-							<div class="response">
-								{{ form_widget(addForm.response_2) }}
-							</div>
-						</li>
-					</ul>
-					<div class="add-response">
-						<span>+</span>
-						Ajouter une réponse
-					</div>
-				</div>
-			</div>
-			<div class="card-footer">
-				<button class='btn btn-edit btn-add modal-open-add'>Ajouter</button>
-			</div>
-			{{ form_end(addForm, {'render_rest': false}) }}
-		</div>
-		<h2>Statistiques des sondages</h2>
-
-		{% for key, survey in surveys %}
-
+		<div class="add-survey">
+			<h2>Ajouter un sondage</h2>
 			<div class="card">
-				<div class="card-header">
-					{% if survey.isActive %}
-						{{ form_start(editForm, {'attr': {'class': 'edit-form'}}) }}
-						{{ form_widget(editForm.id, { 'value': survey.id, 'disabled': false }) }}
-						{{ form_widget(editForm.question, { 'attr': { class: 'form-input-hidden' }, 'value': survey.question, 'disabled': false }) }}
-						{{ form_end(editForm, {'render_rest': false})}}
-						<span class="card-tag">Sondage actif</span>
-						<span class="card-date modal-open-edit">-- Archivé le sondage --</span>
-					{% else %}
-						<span class="card-tag">Sondage archivé</span>
-					{% endif %}
-				</div>
-
+				{{ form_start(addForm, {'attr': {'class': 'add-form'}}) }}
 				<div class="card-body">
 					<div class="card-image">
 						<div>
-							<canvas class="chart" data-question="{{ survey.question }}"></canvas>
+							<canvas class="chart-add-survey"></canvas>
 						</div>
 					</div>
 					<div class="card-content">
-						<h2 class="question">{{ survey.question }}</h2>
-						<ul>
-							{% for index, response in responses[survey.id] %}
-
+						<div class="new-question">
+							{{ form_widget(addForm.question) }}
+						</div>
+						<div class="responses">
+							<ul>
 								<li>
-									{# + 1 car index commence à 0 #}
-									<div class="survey-response-{{index + 1}} survey-response">
-										<div class="label"></div>
-										<p>
-											{{ response.text }}
-										</p>
-										<span class="resultResponse">
-											{% if survey.nbVote == 0 %}
-												0%
-											{% else %}
-												{{ response.nbVote * 100 // survey.nbVote }}%
-											{% endif %}
-										</span>
+									<div class="response">
+										{{ form_widget(addForm.response_1) }}
 									</div>
 								</li>
-							{% endfor %}
-						</ul>
-						<div class="info-survey">
-							<p>
-								Sondage créé le
-								{{ survey.datetime|date('d/m/Y') }}
-							</p>
-							<p>
-								<span class="totalResponse">{{ survey.nbVote }}</span>
-								réponses au total
-							</p>
+								<li>
+									<div class="response">
+										{{ form_widget(addForm.response_2) }}
+									</div>
+								</li>
+							</ul>
+							<div class="add-response">
+								<span>+</span>
+								Ajouter une réponse
+							</div>
 						</div>
-
 					</div>
 				</div>
-
-				{% if survey.isActive == false %}
-					<div class="card-footer">
-						{{ form_start(deleteForms[key], {'attr': {'class': 'delete-form'}}) }}
-						{{ form_widget(deleteForms[key].id, { 'value': survey.id, 'disabled': false }) }}
-						{{ form_widget(deleteForms[key].question, { 'attr': { class: 'form-input-hidden' }, 'value': survey.question, 'disabled': false }) }}
-						<button class='btn btn-delete modal-open-delete'>Supprimer</button>
-						{{ form_end(deleteForms[key], {'render_rest': false})}}
-					</div>
-				{% endif %}
+				<div class="card-footer">
+					<button class='btn btn-edit btn-add modal-open-add'>Ajouter</button>
+				</div>
+				{{ form_end(addForm, {'render_rest': false}) }}
 			</div>
-		{% endfor %}
+		</div>
 
+		<div class="surveys">
+			<h2>Statistiques des sondages</h2>
+
+			{% for key, survey in surveys %}
+
+				<div class="card">
+					<div class="card-header">
+						{% if survey.isActive %}
+							{{ form_start(editForm, {'attr': {'class': 'edit-form'}}) }}
+							{{ form_widget(editForm.id, { 'value': survey.id, 'disabled': false }) }}
+							{{ form_widget(editForm.question, { 'attr': { class: 'form-input-hidden' }, 'value': survey.question, 'disabled': false }) }}
+							{{ form_end(editForm, {'render_rest': false})}}
+							<span class="card-tag">Sondage actif</span>
+							<span class="card-date modal-open-edit">-- Archivé le sondage --</span>
+						{% else %}
+							<span class="card-tag">Sondage archivé</span>
+						{% endif %}
+					</div>
+
+					<div class="card-body">
+						<div class="card-image">
+							<div>
+								<canvas class="chart"></canvas>
+							</div>
+						</div>
+						<div class="card-content">
+							<h2 class="question">{{ survey.question }}</h2>
+							<ul>
+								{% for index, response in responses[survey.id] %}
+
+									<li>
+										{# + 1 car index commence à 0 #}
+										<div class="survey-response-{{index + 1}} survey-response">
+											<div class="label"></div>
+											<p>
+												{{ response.text }}
+											</p>
+											<span class="result-response">
+												{% if survey.nbVote == 0 %}
+													0%
+												{% else %}
+													{{ response.nbVote * 100 // survey.nbVote }}%
+												{% endif %}
+											</span>
+										</div>
+									</li>
+								{% endfor %}
+							</ul>
+							<div class="info-survey">
+								<p>
+									Sondage créé le
+									{{ survey.datetime|date('d/m/Y') }}
+								</p>
+								<p>
+									<span class="totalResponse">{{ survey.nbVote }}</span>
+									réponses au total
+								</p>
+							</div>
+
+						</div>
+					</div>
+
+					{% if survey.isActive == false %}
+						<div class="card-footer">
+							{{ form_start(deleteForms[key], {'attr': {'class': 'delete-form'}}) }}
+							{{ form_widget(deleteForms[key].id, { 'value': survey.id, 'disabled': false }) }}
+							{{ form_widget(deleteForms[key].question, { 'attr': { class: 'form-input-hidden' }, 'value': survey.question, 'disabled': false }) }}
+							<button class='btn btn-delete modal-open-delete'>Supprimer</button>
+							{{ form_end(deleteForms[key], {'render_rest': false})}}
+						</div>
+					{% endif %}
+				</div>
+			{% endfor %}
+		</div>
 	</div>
 
 	<script src="{{ asset('js/handleResponseSurvey.js') }}"></script>
 
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	<script src="{{ asset('js/chartDonut.js') }}"></script>
+	<script src="{{ asset('js/chartAddSurvey.js') }}"></script>
 
 {% endblock %}
 

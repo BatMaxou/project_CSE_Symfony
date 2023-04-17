@@ -102,20 +102,6 @@ buttons.forEach(btn => {
 
 // Ticketing request
 
-// si un GET est précisé et qu'il correspond à 'new=true', alors effectuer l'animation d'ajout et clear le GET
-let getParameter = null
-
-if ((getParameter = window.location.href.split('?')[1])
-    && (getParameter = getParameter.split('='))
-    && (getParameter[0] === 'new')
-    && (getParameter[1] === 'true')) {
-    // passer outre la 'card' d'ajout
-    // cards est recup dans cardAnimation.js
-    // transform cards de nodelist a array 
-    handleAddCard(Array.from(cards), true)
-    window.history.replaceState({}, document.title, window.location.pathname);
-}
-
 // choix des images
 
 const labelFileAdds = document.querySelectorAll('.add-ticketing .card .card-image label')
@@ -183,7 +169,32 @@ const handleTicketingsDisplayModal = (e, index, type, btnSubmit, form) => {
 
         // Fin du traitement de l'affichage 
 
-        btnSubmit.addEventListener('click', () => handleTicketingsSubmit(index, formData, form, type), { once: true })
+        // garder la fonction submit dans une constante
+        const submit = () => {
+            handleSubmit(index, formData, form, type, 0), { once: true }
+        }
+
+        // ajout de l'event à chaque affichage du modal 
+        btnSubmit.addEventListener('click', submit, { once: true })
+
+        // récupérer les éléments pemettant la fermeture du modal
+        const modalClose = modalBackgroundEdit.querySelector('.modal-close')
+        const btnClose = modalBackgroundEdit.querySelector('.btn-close')
+
+        // enlever l'event du btnSubmit lorsqu'il existe pour éviter les doublons
+        modalClose.addEventListener('click', () => {
+            btnSubmit.removeEventListener('click', submit, { once: true })
+        })
+        btnClose.addEventListener('click', () => {
+            btnSubmit.removeEventListener('click', submit, { once: true })
+        });
+
+        // pour fermer lorsqu'on clique en dehors du modal  
+        modalBackgroundEdit.addEventListener('click', (event) => {
+            if (event.target == modalBackgroundEdit) {
+                btnSubmit.removeEventListener('click', submit, { once: true })
+            }
+        })
     }
     else if (type === 'delete') {
         // Récupération du form pour le delete
@@ -197,8 +208,32 @@ const handleTicketingsDisplayModal = (e, index, type, btnSubmit, form) => {
 
         // Fin du traitement de l'affichage 
 
-        // Button et action de suppression des members
-        btnSubmit.addEventListener('click', () => handleTicketingsSubmit(index, formData, form, type), { once: true })
+        // garder la fonction submit dans une constante
+        const submit = () => {
+            handleSubmit(index, formData, form, type, 0), { once: true }
+        }
+
+        // ajout de l'event à chaque affichage du modal 
+        btnSubmit.addEventListener('click', submit, { once: true })
+
+        // récupérer les éléments pemettant la fermeture du modal
+        const modalClose = modalBackgroundDelete.querySelector('.modal-close')
+        const btnClose = modalBackgroundDelete.querySelector('.btn-close')
+
+        // enlever l'event du btnSubmit lorsqu'il existe pour éviter les doublons
+        modalClose.addEventListener('click', () => {
+            btnSubmit.removeEventListener('click', submit, { once: true })
+        })
+        btnClose.addEventListener('click', () => {
+            btnSubmit.removeEventListener('click', submit, { once: true })
+        });
+
+        // pour fermer lorsqu'on clique en dehors du modal  
+        modalBackgroundDelete.addEventListener('click', (event) => {
+            if (event.target == modalBackgroundDelete) {
+                btnSubmit.removeEventListener('click', submit, { once: true })
+            }
+        })
     }
     else if (type === 'add') {
 
@@ -279,61 +314,32 @@ const handleTicketingsDisplayModal = (e, index, type, btnSubmit, form) => {
 
         // Fin du traitement de l'affichage
 
-        btnSubmit.addEventListener('click', () => handleTicketingsSubmit(index, formData, form, type), { once: true })
-    }
-}
-
-// gérer la requête en ajax
-const handleTicketingsSubmit = async (index, formData, form, type) => {
-
-    let response = null
-
-    if (type === 'edit') {
-        response = await fetch(form.getAttribute('action'), {
-            method: form.getAttribute('method'),
-            body: formData
-        })
-
-        closeModal(document.querySelector('.modal-background-edit'))
-    }
-    else if (type === 'delete') {
-        response = await fetch(form.getAttribute('action'), {
-            method: form.getAttribute('method'),
-            body: formData
-        })
-
-        closeModal(document.querySelector('.modal-background-delete'))
-    }
-    else if (type === 'add') {
-        response = await fetch(form.getAttribute('action'), {
-            method: form.getAttribute('method'),
-            body: formData
-        })
-
-        closeModal(document.querySelector('.modal-background-add'))
-    }
-
-    const msg = await response.text()
-
-    if (response.status === 200) {
-        if (type === 'edit') {
-            // Card animation
-            // index + 1 pour passer outre la première card d'ajout
-            handleBtnEdit(index + 1)
+        // garder la fonction submit dans une constante
+        const submit = () => {
+            handleSubmit(index, formData, form, type, 0), { once: true }
         }
-        else if (type === 'delete') {
-            // Card animation
-            // 'cards' est défini dans cardAnimation.js
-            handleBtnDelete(index, Array.from(cards), true)
-        }
-        else if (type === 'add') {
-            setTimeout(() => {
-                window.location.replace(window.location.href + '?new=true')
-            }, 1000);
-        }
-        createFlash('alert-success', msg)
-    } else {
-        createFlash('alert-error', msg)
+
+        // ajout de l'event à chaque affichage du modal 
+        btnSubmit.addEventListener('click', submit, { once: true })
+
+        // récupérer les éléments pemettant la fermeture du modal
+        const modalClose = modalBackgroundAdd.querySelector('.modal-close')
+        const btnClose = modalBackgroundAdd.querySelector('.btn-close')
+
+        // enlever l'event du btnSubmit lorsqu'il existe pour éviter les doublons
+        modalClose.addEventListener('click', () => {
+            btnSubmit.removeEventListener('click', submit, { once: true })
+        })
+        btnClose.addEventListener('click', () => {
+            btnSubmit.removeEventListener('click', submit, { once: true })
+        });
+
+        // pour fermer lorsqu'on clique en dehors du modal  
+        modalBackgroundAdd.addEventListener('click', (event) => {
+            if (event.target == modalBackgroundAdd) {
+                btnSubmit.removeEventListener('click', submit, { once: true })
+            }
+        })
     }
 }
 

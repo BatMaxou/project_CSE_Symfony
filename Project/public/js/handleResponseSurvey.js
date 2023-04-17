@@ -45,6 +45,8 @@ const handleAddResponse = () => {
         paddingBottom: '0px',
         duration: 0.5
     })
+
+    handleDisplayAddSurveyChart()
 }
 
 const handleDeleteResponse = (el) => {
@@ -87,6 +89,8 @@ const handleDeleteResponse = (el) => {
                 input.name = 'survey[response_' + (index + 1) + ']'
             }
         });
+
+        handleDisplayAddSurveyChart()
     })
 }
 

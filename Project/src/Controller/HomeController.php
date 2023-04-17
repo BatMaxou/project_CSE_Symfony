@@ -60,7 +60,7 @@ class HomeController extends AbstractController
                 'responses' => $responses
             ]);
         } catch (\Throwable $th) {
-            return new Response("Aucun sondage disponible pour le moment");
+            return new Response('<p class="no-survey">Aucun sondage disponible pour le moment</p>');
         }
 
         return $this->render('includes/form/_survey.html.twig', [

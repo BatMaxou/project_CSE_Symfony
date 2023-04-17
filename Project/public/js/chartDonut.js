@@ -2,39 +2,30 @@ const charts = document.querySelectorAll('.chart');
 const totalResponse = document.querySelectorAll('.totalResponse');
 const reponse = []
 let card = [];
-let ignored = false;
-let nb = 0
 
 if (document.querySelector('#dashboard')) {
     card = document.querySelectorAll('#survey-active-dashboard .card')
 } else {
-    ignored = true
-    card = document.querySelectorAll('.card')
-}
-
-if (ignored) {
-    nb = 1
+    card = document.querySelectorAll('.surveys .card')
 }
 
 card.forEach((e, i) => {
-    if (i != 0 || !ignored) {
-        reponse[i] = []
-        const resultResponse = e.querySelectorAll('.resultResponse')
-        resultResponse.forEach((n) => {
-            if (n.textContent.replace("%", "").replace(" ", "") * totalResponse[i - nb].textContent / 100 % 1 == 0) {
-                reponse[i].push(~~(n.textContent.replace("%", "").replace(" ", "") * totalResponse[i - nb].textContent / 100))
-            } else {
-                reponse[i].push(~~(n.textContent.replace("%", "").replace(" ", "") * totalResponse[i - nb].textContent / 100) + 1)
-            }
-        })
-    }
+    reponse[i] = []
+    const resultResponse = e.querySelectorAll('.result-response')
+    resultResponse.forEach((n) => {
+        if (n.textContent.replace("%", "").replace(" ", "") * totalResponse[i].textContent / 100 % 1 == 0) {
+            reponse[i].push(~~(n.textContent.replace("%", "").replace(" ", "") * totalResponse[i].textContent / 100))
+        } else {
+            reponse[i].push(~~(n.textContent.replace("%", "").replace(" ", "") * totalResponse[i].textContent / 100) + 1)
+        }
+    })
 })
 
 charts.forEach((chart, index) => {
     const data = {
         datasets: [
             {
-                data: reponse[index + nb],
+                data: reponse[index],
                 label: [' Nombre de vote '],
                 backgroundColor: [
                     '#36a2eb',
@@ -49,8 +40,6 @@ charts.forEach((chart, index) => {
                 hoverOffset: 5
             }
         ]
-
-
     };
 
     new Chart(chart, {
@@ -58,4 +47,3 @@ charts.forEach((chart, index) => {
         data: data,
     });
 });
-
