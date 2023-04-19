@@ -1,6 +1,6 @@
 const charts = document.querySelectorAll('.chart');
-const totalResponse = document.querySelectorAll('.totalResponse');
-const reponse = []
+const totalResponse = document.querySelectorAll('.total-response');
+const response = []
 let card = [];
 
 if (document.querySelector('#dashboard')) {
@@ -10,13 +10,13 @@ if (document.querySelector('#dashboard')) {
 }
 
 card.forEach((e, i) => {
-    reponse[i] = []
+    response[i] = []
     const resultResponse = e.querySelectorAll('.result-response')
     resultResponse.forEach((n) => {
         if (n.textContent.replace("%", "").replace(" ", "") * totalResponse[i].textContent / 100 % 1 == 0) {
-            reponse[i].push(~~(n.textContent.replace("%", "").replace(" ", "") * totalResponse[i].textContent / 100))
+            response[i].push(~~(n.textContent.replace("%", "").replace(" ", "") * totalResponse[i].textContent / 100))
         } else {
-            reponse[i].push(~~(n.textContent.replace("%", "").replace(" ", "") * totalResponse[i].textContent / 100) + 1)
+            response[i].push(~~(n.textContent.replace("%", "").replace(" ", "") * totalResponse[i].textContent / 100) + 1)
         }
     })
 })
@@ -25,7 +25,7 @@ charts.forEach((chart, index) => {
     const data = {
         datasets: [
             {
-                data: reponse[index],
+                data: response[index],
                 label: [' Nombre de vote '],
                 backgroundColor: [
                     '#36a2eb',

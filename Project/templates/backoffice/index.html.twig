@@ -109,7 +109,7 @@
 										<div class="survey-response-{{index + 1}} survey-response">
 											<div class="label"></div>
 											<p>{{ response.text }}</p>
-											<span class="resultResponse">{{ response.nbVote * 100 // survey.nbVote }}%</span>
+											<span class="result-response">{{ response.nbVote * 100 // survey.nbVote }}%</span>
 										</div>
 									</li>
 								{% endfor %}
@@ -118,7 +118,7 @@
 						<div class="card-footer">
 							<p>Sondage crée le {{ survey.datetime|date('d/m/Y') }}</p>
 							<p>
-								<span class="totalResponse">{{ survey.nbVote }}</span> réponses au total
+								<span class="total-response">{{ survey.nbVote }}</span> réponses au total
 							</p>
 						</div>
 					</div>

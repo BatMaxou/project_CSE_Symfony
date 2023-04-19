@@ -6,16 +6,19 @@ use DateTime;
 use DateInterval;
 use App\Entity\Ckeditor;
 use App\Entity\Subscriber;
+use App\Service\Validator;
 use App\Entity\UserResponse;
+use Symfony\Component\Mime\Email;
+use Symfony\Component\Mime\Address;
 use App\Repository\SurveyRepository;
 use App\Repository\CkeditorRepository;
 use App\Repository\ResponseRepository;
 use App\Repository\SubscriberRepository;
 use App\Repository\PartnershipRepository;
 use App\Repository\UserResponseRepository;
-use App\Service\Validator;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,7 +26,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class RequestController extends AbstractController
 {
     #[Route(path: '/post/newsletter', name: 'post_newsletter', methods: ['POST'])]
-    public function postNewsletter(SubscriberRepository $subRep, Request $request, Validator $validate): Response
+    public function postNewsletter(MailerInterface $mailer, SubscriberRepository $subRep, Request $request, Validator $validate): Response
     {
         if (isset($request->get('subscriber')['consent']) && $request->get('subscriber')['consent'] === "1") {
             if ($validate->checkInputEmail($request->get('subscriber')['email'])) {
@@ -32,6 +35,19 @@ class RequestController extends AbstractController
                     $sub->setEmail($request->get('subscriber')['email']);
                     $sub->setConsent(true);
                     $subRep->save($sub, true);
+
+                    // mailer
+                    $email = (new Email())
+                        ->from(new Address('maximebatista.lycee@gmail.com', 'CSE Saint-Vincent'))
+                        ->to($sub->getEmail())
+                        ->subject('Abonnement à la newsletter')
+                        ->html(
+                            '<p>Merci de vous être abonner à la newsletter du CSE de Saint-Vincent.</p>' .
+                                '<p>Vous recevrez par mail chaque nouvelle offre lors de leur publication sur le site.</p>' .
+                                '<p>Pour vous désabonner, cliquez <a href="#">ici</a>.</p>'
+                        );
+
+                    $mailer->send($email);
 
                     return new Response('Vous avez été abonné à la newsletter', 200);
                 }

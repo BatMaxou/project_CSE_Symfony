@@ -6,12 +6,15 @@ use App\Entity\Contact;
 use App\Form\SurveyType;
 use App\Form\ContactType;
 use App\Entity\Subscriber;
+use App\Service\Validator;
 use App\Entity\UserResponse;
 use App\Form\SubscriberType;
 use App\Entity\ImageTicketing;
 use App\Form\ClientSurveyType;
 use App\Form\UserResponseType;
 use App\Service\StaticPathList;
+use Symfony\Component\Mime\Email;
+use Symfony\Component\Mime\Address;
 use App\Repository\MemberRepository;
 use App\Repository\SurveyRepository;
 use App\Repository\CkeditorRepository;
@@ -22,8 +25,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\PartnershipRepository;
 use App\Entity\Response as ResponseSurvey;
 use App\Repository\ImageTicketingRepository;
-use App\Service\Validator;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -197,7 +200,7 @@ class HomeController extends AbstractController
     }
 
     #[Route(path: '/contact', name: 'contact', methods: ['GET', 'POST'])]
-    public function contact(staticPathList $staticPathList, PartnershipRepository $partnershipRepo, Request $request, EntityManagerInterface $manager, SubscriberRepository $subscriberRepo, Validator $validate): Response
+    public function contact(staticPathList $staticPathList, MailerInterface $mailer, PartnershipRepository $partnershipRepo, Request $request, EntityManagerInterface $manager, SubscriberRepository $subscriberRepo, Validator $validate): Response
     {
         $paths = [$staticPathList->getClientPathByName('Accueil'), $staticPathList->getClientPathByName('Contact')];
 
@@ -227,6 +230,15 @@ class HomeController extends AbstractController
 
                 $manager->persist($contact);
                 $manager->flush();
+
+                // mailer
+                $email = (new Email())
+                    ->from(new Address($contact->getEmail(), $contact->getName() . ' ' . $contact->getFirstName()))
+                    ->to('maximebatista.lycee@gmail.com')
+                    ->subject('Subject')
+                    ->text($contact->getMessage());
+
+                $mailer->send($email);
 
                 // $send = true;
                 $this->addFlash('success', 'Votre message a bien été envoyé !');
