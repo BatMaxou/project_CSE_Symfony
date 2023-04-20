@@ -3,18 +3,7 @@
 namespace App\Command;
 
 use Symfony\Component\Yaml\Yaml;
-use App\Repository\AdminRepository;
-use App\Repository\MemberRepository;
-use App\Repository\SurveyRepository;
 use App\Service\DatafixturesBuilder;
-use App\Repository\ContactRepository;
-use App\Repository\CkeditorRepository;
-use App\Repository\ResponseRepository;
-use App\Repository\TicketingRepository;
-use App\Repository\SubscriberRepository;
-use App\Repository\PartnershipRepository;
-use App\Repository\UserResponseRepository;
-use App\Repository\ImageTicketingRepository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputOption;

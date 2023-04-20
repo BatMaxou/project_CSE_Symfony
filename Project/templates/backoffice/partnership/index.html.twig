@@ -66,7 +66,7 @@
 				{{ form_start(addFormPartner, {'attr': {'class': 'add-form'}}) }}
 				<div class="card-body">
 					<div class="card-image">
-						<img src="{{ asset('images/no-image.svg')}}" alt="photo de profil du membre à ajouter">
+						<img src="{{ asset('images/required/no-image.svg')}}" alt="photo de profil du membre à ajouter">
 						{{ form_label(addFormPartner.image, 'Choisir une image', {'label_attr': {'class': 'form-file-label form-file-label-active'}}) }}
 						{{ form_widget(addFormPartner.image, { 'disabled': false}) }}
 					</div>
@@ -91,9 +91,9 @@
 					<div class="card-body">
 						<div class="card-image">
 							{% if partnership.image is null %}
-								<img src="{{ asset('images/no-image.svg')}}" alt="{{ partnership.name }}">
+								<img src="{{ asset('images/required/no-image.svg')}}" alt="{{ partnership.name }}">
 							{% else %}
-								<img src="{{ asset('imagesTest/' ~ partnership.image)}}" alt="{{ partnership.name }}">
+								<img src="{{ asset('images/partnership/' ~ partnership.image)}}" alt="{{ partnership.name }}">
 							{% endif %}
 							{{ form_label(formPartnership[key].image) }}
 							{{ form_widget(formPartnership[key].image) }}

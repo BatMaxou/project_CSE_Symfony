@@ -486,7 +486,7 @@ textarea:focus::placeholder {
 .sidebar li,
 #navbar .sidebar-contact li {
     padding: 5px 0;
-    list-style-image: url(../images/left-chevron.svg);
+    list-style-image: url(../images/required/left-chevron.svg);
 }
 
 .sidebar a,
@@ -537,7 +537,7 @@ textarea:focus::placeholder {
 
     #navbar .sidebar-contact li {
         padding: 5px 0;
-        list-style-image: url(../images/left-chevron.svg);
+        list-style-image: url(../images/required/left-chevron.svg);
         filter: invert(1);
     }
 
@@ -609,7 +609,7 @@ textarea:focus::placeholder {
 
 .contact-header li {
     padding: 5px 0;
-    list-style-image: url(../images/left-chevron.svg);
+    list-style-image: url(../images/required/left-chevron.svg);
 }
 
 .contact-header li a {

@@ -23,7 +23,7 @@ const handleAddResponse = () => {
     newResponse.innerHTML =
         '<input type="text" id="survey_response_' + ttResponse + '" name="survey[response_' + ttResponse + ']" required="required" placeholder="Réponse ' + ttResponse + '" class="form-input">' +
         '<span>' +
-        '<img src="/images/Delete.svg" alt="icône de poubelle">' +
+        '<img src="/images/required/Delete.svg" alt="icône de poubelle">' +
         '</span>'
 
     // création de l'élément <li> et remplissage avec l'élément réponse

@@ -8,16 +8,13 @@ use App\Entity\Member;
 use App\Entity\Survey;
 use App\Entity\Response as SurveyResponse;
 use App\Entity\Ticketing;
-use App\Entity\Subscriber;
 use App\Entity\Partnership;
-use App\Entity\UserResponse;
 use App\Entity\ImageTicketing;
 use App\Repository\AdminRepository;
 use App\Repository\MemberRepository;
 use App\Repository\SurveyRepository;
 use App\Repository\ResponseRepository;
 use App\Repository\TicketingRepository;
-use App\Repository\SubscriberRepository;
 use App\Repository\PartnershipRepository;
 use App\Repository\ImageTicketingRepository;
 use App\Repository\UserResponseRepository;
@@ -25,7 +22,6 @@ use App\Service\Validator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -181,7 +177,7 @@ class RequestBackofficeController extends AbstractController
             $image1 = new ImageTicketing();
 
             // path le chemin de destination pour l'image 
-            $destination = $this->getParameter('kernel.project_dir') . '/public/imagesTest';
+            $destination = $this->getParameter('kernel.project_dir') . '/public/images/ticketing';
             $image = $request->files->get('ticketing')['image1'];
 
             // slug de l'image
@@ -197,7 +193,7 @@ class RequestBackofficeController extends AbstractController
                 $image2 = new ImageTicketing();
 
                 // path le chemin de destination pour l'image 
-                $destination = $this->getParameter('kernel.project_dir') . '/public/imagesTest';
+                $destination = $this->getParameter('kernel.project_dir') . '/public/images/ticketing';
                 $image = $request->files->get('ticketing')['image2'];
 
                 // slug de l'image
@@ -214,7 +210,7 @@ class RequestBackofficeController extends AbstractController
                 $image3 = new ImageTicketing();
 
                 // path le chemin de destination pour l'image 
-                $destination = $this->getParameter('kernel.project_dir') . '/public/imagesTest';
+                $destination = $this->getParameter('kernel.project_dir') . '/public/images/ticketing';
                 $image = $request->files->get('ticketing')['image3'];
 
                 // slug de l'image
@@ -231,7 +227,7 @@ class RequestBackofficeController extends AbstractController
                 $image4 = new ImageTicketing();
 
                 // path le chemin de destination pour l'image 
-                $destination = $this->getParameter('kernel.project_dir') . '/public/imagesTest';
+                $destination = $this->getParameter('kernel.project_dir') . '/public/images/ticketing';
                 $image = $request->files->get('ticketing')['image4'];
 
                 // slug de l'image
@@ -311,7 +307,7 @@ class RequestBackofficeController extends AbstractController
                 // definition du nom de l'image
                 if (isset($request->files->get('member')['profil'])) {
                     // path le chemin de destination pour l'image 
-                    $destination = $this->getParameter('kernel.project_dir') . '/public/imagesTest';
+                    $destination = $this->getParameter('kernel.project_dir') . '/public/images/member';
                     $image = $request->files->get('member')['profil'];
 
                     // slug de l'image
@@ -349,11 +345,11 @@ class RequestBackofficeController extends AbstractController
 
                     // supprimer l'ancienne image s'il y a
                     if ($member->getProfil() !== null) {
-                        unlink($this->getParameter('kernel.project_dir') . '/public/imagesTest/' . $member->getProfil());
+                        unlink($this->getParameter('kernel.project_dir') . '/public/images/member/' . $member->getProfil());
                     }
 
                     // path le chemin de destination pour l'image 
-                    $destination = $this->getParameter('kernel.project_dir') . '/public/imagesTest';
+                    $destination = $this->getParameter('kernel.project_dir') . '/public/images/member';
                     $image = $request->files->get('member')['profil'];
 
                     // slug de l'image
@@ -382,7 +378,7 @@ class RequestBackofficeController extends AbstractController
 
             // supprimer l'image associé s'il y a
             if ($member->getProfil() !== null) {
-                unlink($this->getParameter('kernel.project_dir') . '/public/imagesTest/' . $member->getProfil());
+                unlink($this->getParameter('kernel.project_dir') . '/public/images/member/' . $member->getProfil());
             }
 
             $memberRepository->remove($member, true);
@@ -411,11 +407,11 @@ class RequestBackofficeController extends AbstractController
                 if (isset($request->files->get('partnership')['image'])) {
                     // supprimer l'ancienne image s'il y a
                     if ($partner->getImage() !== null) {
-                        unlink($this->getParameter('kernel.project_dir') . '/public/imagesTest/' . $partner->getImage());
+                        unlink($this->getParameter('kernel.project_dir') . '/public/images/partnership/' . $partner->getImage());
                     }
 
                     // path le chemin de destination pour l'image 
-                    $destination = $this->getParameter('kernel.project_dir') . '/public/imagesTest';
+                    $destination = $this->getParameter('kernel.project_dir') . '/public/images/partnership';
                     $image = $request->files->get('partnership')['image'];
 
                     // slug de l'image
@@ -450,7 +446,7 @@ class RequestBackofficeController extends AbstractController
                 // definition du nom de l'image 
                 if (isset($request->files->get('partnership')['image'])) {
                     // path le chemin de destination pour l'image 
-                    $destination = $this->getParameter('kernel.project_dir') . '/public/imagesTest';
+                    $destination = $this->getParameter('kernel.project_dir') . '/public/images/partnership';
                     $image = $request->files->get('partnership')['image'];
 
                     // slug de l'image
@@ -479,7 +475,7 @@ class RequestBackofficeController extends AbstractController
             $partner = $partnershipRepo->find($request->get('partnership')['id']);
             // supprimer l'image associé s'il y en a une
             if ($partner->getImage() !== null) {
-                unlink($this->getParameter('kernel.project_dir') . '/public/imagesTest/' . $partner->getImage());
+                unlink($this->getParameter('kernel.project_dir') . '/public/images/partnership/' . $partner->getImage());
             }
 
             $partnershipRepo->remove($partner, true);

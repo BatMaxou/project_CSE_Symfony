@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Entity\Response;
-use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 

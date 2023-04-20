@@ -4,14 +4,9 @@ namespace App\Form;
 
 use App\Entity\Survey;
 use Symfony\Component\Form\AbstractType;
-use FOS\CKEditorBundle\Form\Type\CKEditorType;
-use Symfony\Component\Form\ChoiceList\ChoiceList;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\RadioType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 final class ClientSurveyType extends AbstractType
 {

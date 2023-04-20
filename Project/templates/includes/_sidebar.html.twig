@@ -42,17 +42,17 @@
 						<div class="slider-image">
 							{% if img.image is null %}
 								<a href="{{ img.link }}" target="_blank">
-									<img src="{{ asset('images/no-image-partnership.svg')}}" alt="logo simple pour un partenaire sans image">
+									<img src="{{ asset('images/required/no-image-partnership.svg')}}" alt="logo simple pour un partenaire sans image">
 								</a>
 							{% else %}
 								<a href="{{ img.link }}" target="_blank">
-									<img src="{{ asset("imagesTest/" ~ img.image) }}">
+									<img src="{{ asset("images/partnership/" ~ img.image) }}">
 								</a>
 							{% endif %}
 						</div>
 					{% endfor %}
-					<img class="prev" src="{{ asset("images/slider-arrow-left.svg") }}" alt="arrow direction slider">
-					<img class="next" src="{{ asset("images/slider-arrow-right.svg") }}" alt="arrow direction slider">
+					<img class="prev" src="{{ asset("images/required/slider-arrow-left.svg") }}" alt="arrow direction slider">
+					<img class="next" src="{{ asset("images/required/slider-arrow-right.svg") }}" alt="arrow direction slider">
 				</div>
 				<p>
 					<a href="{{ path("partnership") }}">Découvrir tous nos partenaires</a>

@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use DateTime;
 use DateInterval;
-use App\Entity\Ckeditor;
 use App\Entity\Subscriber;
 use App\Service\Validator;
 use App\Entity\UserResponse;
@@ -14,7 +13,6 @@ use App\Repository\SurveyRepository;
 use App\Repository\CkeditorRepository;
 use App\Repository\ResponseRepository;
 use App\Repository\SubscriberRepository;
-use App\Repository\PartnershipRepository;
 use App\Repository\UserResponseRepository;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;

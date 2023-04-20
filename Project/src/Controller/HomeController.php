@@ -3,28 +3,23 @@
 namespace App\Controller;
 
 use App\Entity\Contact;
-use App\Form\SurveyType;
-use App\Form\ContactType;
 use App\Entity\Subscriber;
-use App\Service\Validator;
-use App\Entity\UserResponse;
+use App\Form\ContactType;
 use App\Form\SubscriberType;
-use App\Entity\ImageTicketing;
 use App\Form\ClientSurveyType;
-use App\Form\UserResponseType;
+use App\Service\Validator;
 use App\Service\StaticPathList;
-use Symfony\Component\Mime\Email;
-use Symfony\Component\Mime\Address;
 use App\Repository\MemberRepository;
 use App\Repository\SurveyRepository;
 use App\Repository\CkeditorRepository;
 use App\Repository\ResponseRepository;
 use App\Repository\TicketingRepository;
 use App\Repository\SubscriberRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\PartnershipRepository;
-use App\Entity\Response as ResponseSurvey;
 use App\Repository\ImageTicketingRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Mime\Email;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -85,7 +80,7 @@ class HomeController extends AbstractController
         // get 3 random image from database
         $imgPartner = $partnerRepo->imagePartner();
 
-        return $this->render('homePage/index.html.twig', [
+        return $this->render('homepage/index.html.twig', [
             'paths' => $paths,
             'ckeditor' => $ckeditor,
             'ticketing' => $ticketing,
@@ -141,7 +136,7 @@ class HomeController extends AbstractController
 
         $members = $memberRep->findAll();
 
-        return $this->render('aboutUs/index.html.twig', [
+        return $this->render('about_us/index.html.twig', [
             'paths' => $paths,
             'image' => $imgPartner,
             'members' => $members,

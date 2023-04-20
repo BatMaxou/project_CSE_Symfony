@@ -4,7 +4,6 @@ namespace App\Repository;
 
 use App\Entity\Survey;
 use App\Entity\Response;
-use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 

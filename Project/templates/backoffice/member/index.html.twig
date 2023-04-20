@@ -71,7 +71,7 @@
 				{{ form_start(addForm, {'attr': {'class': 'add-form'}}) }}
 				<div class="card-body">
 					<div class="card-image">
-						<img src="{{ asset('images/no-image.svg')}}" alt="photo de profil du membre à ajouter">
+						<img src="{{ asset('images/required/no-image.svg')}}" alt="photo de profil du membre à ajouter">
 						{{ form_label(addForm.profil, 'Choisir une image', {'label_attr': {'class': 'form-file-label form-file-label-active'}}) }}
 						{{ form_widget(addForm.profil, { 'disabled': false}) }}
 					</div>
@@ -95,9 +95,9 @@
 						{{ form_start(editForms[key], {'attr': {'class': 'edit-form'}}) }}
 						<div class="card-image">
 							{% if member.profil is null %}
-								<img src="{{ asset('images/no-image.svg')}}" alt="{{ member.firstName }}">
+								<img src="{{ asset('images/required/no-image.svg')}}" alt="{{ member.firstName }}">
 							{% else %}
-								<img src="{{ asset('imagesTest/' ~ member.profil)}}" alt="{{ member.firstName }}">
+								<img src="{{ asset('images/member/' ~ member.profil)}}" alt="{{ member.firstName }}">
 							{% endif %}
 							{{ form_label(editForms[key].profil) }}
 							{{ form_widget(editForms[key].profil) }}

@@ -5,7 +5,6 @@ namespace App\Repository;
 use App\Entity\Ckeditor;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use FOS\CKEditorBundle\Form\Type\CKEditorType;
 
 /**
  * @extends ServiceEntityRepository<Ckeditor>

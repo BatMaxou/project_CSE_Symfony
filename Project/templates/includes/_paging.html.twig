@@ -1,7 +1,7 @@
 <div class="paging-container">
 	{% if nbPage > 0 %}
 		<div class="paging-element">
-			<img class="previous" src="{{ asset('images/slider-arrow-left.svg')}}" alt="left-arrow">
+			<img class="previous" src="{{ asset('images/required/slider-arrow-left.svg')}}" alt="left-arrow">
 		</div>
 		{% if nbPage <= 5 %}
 			{% for i in 1..nbPage %}
@@ -44,7 +44,7 @@
 			{% endfor %}
 		{% endif %}
 		<div class="paging-element">
-			<img class="next" src="{{ asset('images/slider-arrow-right.svg')}}" alt="left-arrow">
+			<img class="next" src="{{ asset('images/required/slider-arrow-right.svg')}}" alt="left-arrow">
 		</div>
 	{% endif %}
 </div>

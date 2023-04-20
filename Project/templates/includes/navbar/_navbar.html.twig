@@ -20,7 +20,7 @@
 			</button>
 			<div class="{{ 'img-container' ~ back }}">
 				<a href="{{ path('home') }}">
-					<img src="{{ asset('images/logo.jpg') }}" alt="logo-SV"/>
+					<img src="{{ asset('images/required/logo.jpg') }}" alt="logo-SV"/>
 				</a>
 			</div>
 			{% block menu %}
@@ -38,14 +38,14 @@
 </div>
 <div id="{{ 'current-navigation' ~ back }}">
 	{% if menu == 'base' %}
-		<img src="{{ asset('images/home.svg') }}" alt="home">
+		<img src="{{ asset('images/required/home.svg') }}" alt="home">
 	{% elseif menu == 'back' %}
-		<img src="{{ asset('images/gear.svg') }}" alt="gear">
+		<img src="{{ asset('images/required/gear.svg') }}" alt="gear">
 	{% endif %}
 	<ul>
 		{% for path in paths %}
 			<li>
-				<img src="{{ asset('images/left-chevron.svg') }}" alt="chevron">
+				<img src="{{ asset('images/required/left-chevron.svg') }}" alt="chevron">
 				{% if path[2] is defined %}
 					<a href="{{ path(path[1], {slug: path[2]}) }}">{{ path[0] }}</a>
 				{% else %}
