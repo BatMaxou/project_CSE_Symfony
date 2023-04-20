@@ -2,12 +2,15 @@
 
 namespace App\Command;
 
+use App\Entity\Ckeditor;
+use App\Repository\CkeditorRepository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(
@@ -15,6 +18,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 )]
 class DatabaseRefreshCommand extends Command
 {
+    function __construct(private CkeditorRepository $ckRep)
+    {
+        parent::__construct();
+    }
+
     protected function configure(): void
     {
         $this
@@ -66,6 +74,28 @@ class DatabaseRefreshCommand extends Command
             return Command::FAILURE;
         }
         $io->success('Succeded to update the database schema');
+
+        // ajouter les ckeditor de base si les datafixtures ne sont pas demandées
+        $ckeditors = [
+            'HomePage' => [
+                1 => 'zone'
+            ],
+            'AboutUs' => [
+                2 => 'actions',
+                3 => 'rules',
+                4 => 'email'
+            ]
+        ];
+
+        foreach ($ckeditors as $pageName => $page) {
+            foreach ($page as $zone) {
+                $ckeditor = new Ckeditor();
+                $ckeditor->setPageName($pageName);
+                $ckeditor->setZone($zone);
+                $ckeditor->setContent('');
+                $this->ckRep->save($ckeditor, true);
+            }
+        }
 
         return Command::SUCCESS;
     }

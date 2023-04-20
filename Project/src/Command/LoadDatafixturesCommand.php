@@ -46,9 +46,11 @@ class LoadDatafixturesCommand extends Command
         }
         $def = new InputDefinition();
         $def->addOption(new InputOption('force'));
+        $def->addOption(new InputOption('datafixtures'));
 
         $refreshInput = new ArrayInput([], $def);
         $refreshInput->setOption('force', true);
+        $refreshInput->setOption('datafixtures', true);
 
         try {
             $refresh = $this->getApplication()->find('app:database:refresh');

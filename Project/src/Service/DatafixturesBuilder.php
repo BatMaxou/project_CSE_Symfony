@@ -46,31 +46,39 @@ class DatafixturesBuilder
 
     public function build(array $yaml, $io = null): bool
     {
-        try {
-            // pour chaque table
-            foreach ($yaml as $table => $inserts) {
-                $compt = 0;
-                // pour chaque INSERT
-                foreach ($inserts as $columns) {
+        // try {
+        // pour chaque table
+        foreach ($yaml as $table => $inserts) {
+            $compt = 0;
+            // pour chaque INSERT
+            foreach ($inserts as $columns) {
+                // exception pour les CkRditor qui sont définis à '' de base (faire un update au lileu d'un insert)
+                // sinon créer une nouvelle entité
+                if ($table === 'ckeditor') {
+                    $entity = $this->repositories['ckeditor']->findByZone($columns['pageName'], $columns['zone']);
+                } else {
                     $entity = new (('App\\Entity\\') . ucfirst($table))();
-                    // pour chaque colones
-                    foreach ($columns as $column => $value) {
-                        if (isset($value['class'])) {
-                            $value = new $value['class']($value['value']);
-                        } elseif (isset($value['entity'])) {
-                            $value = $this->repositories[$value['entity']]->findById($value['id'])[0];
-                        }
-                        $setter = 'set' . ucfirst($column);
-                        $entity->$setter($value);
-                    }
-                    $this->repositories[$table]->save($entity, true);
-                    $compt++;
                 }
-                $io->info($compt . ' row(s) inserted into : ' . ucfirst($table));
+                // pour chaque colones
+                foreach ($columns as $column => $value) {
+                    // gérer les datetime ou autres class basiques
+                    // ou gérer les clés étrangères
+                    if (isset($value['class'])) {
+                        $value = new $value['class']($value['value']);
+                    } elseif (isset($value['entity'])) {
+                        $value = $this->repositories[$value['entity']]->findById($value['id'])[0];
+                    }
+                    $setter = 'set' . ucfirst($column);
+                    $entity->$setter($value);
+                }
+                $this->repositories[$table]->save($entity, true);
+                $compt++;
             }
-        } catch (\Throwable $th) {
-            return false;
+            $io->info($compt . ' row(s) inserted into : ' . ucfirst($table));
         }
+        // } catch (\Throwable $th) {
+        //     return false;
+        // }
         return true;
     }
 }
