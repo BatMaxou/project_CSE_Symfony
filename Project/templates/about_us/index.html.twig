@@ -29,7 +29,11 @@
 				<button class="modal-open-info">Voir le règlement</button>
 			</div>
 			<div class="card-body">
-				<p>{{ actions|raw }}</p>
+				{% if actions %}
+					<p>{{ actions|raw }}</p>
+				{% else %}
+					<p>Pas d'actions précisées</p>
+				{% endif %}
 			</div>
 		</div>
 

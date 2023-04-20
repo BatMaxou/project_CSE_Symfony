@@ -119,6 +119,10 @@ class HomeController extends AbstractController
 
         $ckeditors = $ckeditorRep->findByPage('AboutUs');
 
+        $actions = null;
+        $email = null;
+        $rules = null;
+
         foreach ($ckeditors as $ckeditor) {
             if ($ckeditor->getZone() === "actions") {
                 $actions = $ckeditor->getContent();

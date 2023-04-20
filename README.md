@@ -9,13 +9,13 @@ Pour installer le projet :
 ```
 git clone https://github.com/BatMaxou/project_CSE_Symfony.git
 ```
-2. Installer les dépendances
+2. Se déplacer dans le dossier du projet
+```
+cd Project
+```
+3. Installer les dépendances
 ```
 composer install
-```
-3. Lancer le projet
-```
-symfony serve
 ```
 
 ## Création de la base de données
@@ -29,10 +29,17 @@ php bin/console app:database:refresh --force
     - imagesTest/member -> images/member
     - imagesTest/partnership -> images/partnership
     - imagesTest/ticketing -> images/ticketing
-
 2. Pour créer ou refresh la base de données avec les datafixtures:
 ```
 php bin/console app:load:datafixtures --force
 ```
+3. Le dossier imagesTest peut ensuite être supprimé
 
-3. Le dossier imagesTest peut être ensuite supprimé
+## Lancer le projet
+1. S'assurer que:
+    - Le projet est installé
+    - La base de données est créée
+2. Démarrer le projet
+```
+symfony serve
+```
