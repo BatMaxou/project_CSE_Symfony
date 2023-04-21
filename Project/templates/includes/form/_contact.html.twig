@@ -1,0 +1,36 @@
+{% if formContact is not null %}
+	{{ form_start(formContact) }}
+
+	{{ form_errors(formContact.name) }}
+	{{ form_errors(formContact.firstname) }}
+	{{ form_errors(formContact.email) }}
+	{{ form_errors(formContact.message) }}
+	{{ form_errors(formContact.consent) }}
+
+	{{ form_widget(formContact.name, {'attr': {'class': 'form-input', 'placeholder': 'Prénom'}}) }}
+
+	{{ form_widget(formContact.firstname, {'attr': {'class': 'form-input', 'placeholder': 'Nom'}}) }}
+
+	{{ form_widget(formContact.email, {'attr': {'class': 'form-input', 'placeholder': 'Adresse mail'}}) }}
+
+	{{ form_widget(formContact.message, {'attr': {'class': 'form-input', 'placeholder': 'Message'}}) }}
+
+	<div class="form-contact-checkbox">
+		{{ form_widget(formContact.consent) }}
+		{{ form_label(formContact.consent) }}
+	</div>
+
+	<div class="form-contact-checkbox">
+		<input type="checkbox" name="newsletterConsentFormContact" id="newsletterConsentFormContact">
+		<label for="newsletterConsentFormContact">Je m'inscrit à la newsletter pour recevoir par mail les nouvelles offres</label>
+	</div>
+
+	<div class="form-contact-checkbox">
+		{{ form_widget(formContact.captcha) }}
+		{{ form_label(formContact.captcha) }}
+	</div>
+
+	{{ form_row(formContact.submit, {'attr': {'class': 'submitLogin'}}) }}
+
+	{{ form_end(formContact) }}
+{% endif %}

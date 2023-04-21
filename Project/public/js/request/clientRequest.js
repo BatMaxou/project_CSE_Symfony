@@ -63,3 +63,40 @@ if (surveyForm) {
 
     surveyForm.addEventListener('submit', handleSurveySubmit)
 }
+
+const contactForm = document.querySelector('#contact form')
+
+if (contactForm) {
+    const name = document.querySelector('#contact_name')
+    const firstname = document.querySelector('#contact_firstname')
+    const message = document.querySelector('#contact_message')
+    const email = document.querySelector('#contact_email')
+    const checkbox = document.querySelectorAll('#contact form input[type="checkbox"]')
+
+    const handleContactSubmit = async (e) => {
+        e.preventDefault()
+
+        const response = await fetch(e.target.getAttribute('action'), {
+            method: e.target.getAttribute('method'),
+            body: new FormData(e.target)
+        })
+
+        const msg = await response.text()
+
+        if (response.status === 200) {
+            name.value = ""
+            firstname.value = ""
+            message.value = ""
+            email.value = ""
+            checkbox.forEach((el) => {
+                el.checked = false
+            })
+
+            createFlash('alert-success', msg)
+        } else {
+            createFlash('alert-error', msg)
+        }
+    }
+
+    contactForm.addEventListener('submit', handleContactSubmit)
+}

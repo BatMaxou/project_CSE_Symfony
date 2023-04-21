@@ -67,6 +67,18 @@ class HomeController extends AbstractController
         ]);
     }
 
+    public function formContact(staticPathList $staticPathList): Response
+    {
+        $formContact = $this->createForm(ContactType::class, null, [
+            'action' => $this->generateUrl($staticPathList->getRequestPathByName('envoi_contact')),
+            'method' => 'POST'
+        ]);
+
+        return $this->render('includes/form/_contact.html.twig', [
+            'formContact' => $formContact,
+        ]);
+    }
+
     #[Route(path: '/', name: 'home', methods: ['GET'])]
     public function home(staticPathList $staticPathList, PartnershipRepository $partnerRepo, TicketingRepository $ticketingRep, CkeditorRepository $ckeditorRep): Response
     {
@@ -80,7 +92,7 @@ class HomeController extends AbstractController
         // get 3 random image from database
         $imgPartner = $partnerRepo->imagePartner();
 
-        return $this->render('homepage/index.html.twig', [
+        return $this->render('home_page/index.html.twig', [
             'paths' => $paths,
             'ckeditor' => $ckeditor,
             'ticketing' => $ticketing,
@@ -199,61 +211,15 @@ class HomeController extends AbstractController
     }
 
     #[Route(path: '/contact', name: 'contact', methods: ['GET', 'POST'])]
-    public function contact(staticPathList $staticPathList, MailerInterface $mailer, PartnershipRepository $partnershipRepo, Request $request, EntityManagerInterface $manager, SubscriberRepository $subscriberRepo, Validator $validate): Response
+    public function contact(staticPathList $staticPathList, PartnershipRepository $partnershipRepo): Response
     {
         $paths = [$staticPathList->getClientPathByName('Accueil'), $staticPathList->getClientPathByName('Contact')];
-
         // get 3 random image from database
         $imgPartner = $partnershipRepo->imagePartner();
-
-        $contact = new Contact();
-        $formContact = $this->createForm(ContactType::class, $contact);
-        $formContact->handleRequest($request);
-
-        if ($formContact->isSubmitted() && $formContact->isValid()) {
-            try {
-                if (!empty($request->get('consent')) && $request->get('consent') === 'on') {
-                    if ($validate->checkInputEmail($contact->getEmail())) {
-                        if ($subscriberRepo->countByMail($contact->getEmail()) === 0) {
-                            $sub = new Subscriber();
-                            $sub->setEmail($contact->getEmail());
-                            $sub->setConsent(true);
-                            $subscriberRepo->save($sub, true);
-                        }
-                    } else {
-                        $this->addFlash('error', 'L\'adresse mail saisie n\'est pas conforme.');
-                    }
-                }
-
-                $contact = $formContact->getData();
-
-                $manager->persist($contact);
-                $manager->flush();
-
-                // mailer
-                $email = (new Email())
-                    ->from(new Address($contact->getEmail(), $contact->getName() . ' ' . $contact->getFirstName()))
-                    ->to('maximebatista.lycee@gmail.com')
-                    ->subject('Subject')
-                    ->text($contact->getMessage());
-
-                $mailer->send($email);
-
-                // $send = true;
-                $this->addFlash('success', 'Votre message a bien été envoyé !');
-
-                return $this->redirectToRoute('contact');
-            } catch (\Throwable $th) {
-                // $send = false;
-                $this->addFlash('error', 'Une erreur imprévu est survenu, veillez recharger la puis réessayer.');
-            }
-        }
 
         return $this->render('contact/index.html.twig', [
             'paths' => $paths,
             'image' => $imgPartner,
-            // 'send' => $send,
-            'formContact' => $formContact->createView(),
         ]);
     }
 }

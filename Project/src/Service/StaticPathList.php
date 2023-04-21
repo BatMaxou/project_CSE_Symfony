@@ -46,6 +46,7 @@ class StaticPathList
         'ajout_billeterie' => 'post-add-ticketing',
         'modif_billeterie' => 'post-edit-ticketing',
         'supp_billeterie' => 'post-delete-ticketing',
+        'envoi_contact' => 'post_contact',
     );
 
     public function getClientPathByName(string $name): array

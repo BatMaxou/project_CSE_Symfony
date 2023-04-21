@@ -4,12 +4,14 @@ namespace App\Controller;
 
 use DateTime;
 use DateInterval;
+use App\Entity\Contact;
 use App\Entity\Subscriber;
 use App\Service\Validator;
 use App\Entity\UserResponse;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\Address;
 use App\Repository\SurveyRepository;
+use App\Repository\ContactRepository;
 use App\Repository\CkeditorRepository;
 use App\Repository\ResponseRepository;
 use App\Repository\SubscriberRepository;
@@ -121,6 +123,70 @@ class RequestController extends AbstractController
             return new Response('Réponse enregistrée, merci de votre participation !', 200);
         } catch (\Throwable $th) {
             return new Response($th, 400);
+        }
+    }
+
+    #[Route(path: '/post/contact', name: 'post_contact', methods: ['POST'])]
+    public function postContact(MailerInterface $mailer, SubscriberRepository $subscriberRepo, Request $request, Validator $validate, ContactRepository $contact): Response
+    {
+        try {
+            if (!empty($request->get('contact')['consent']) && $request->get('contact')['consent'] === "1") {
+                if (!empty($request->get('newsletterConsentFormContact')) && $request->get('contact')['newsletterConsentFormContact'] === 'on') {
+                    if ($validate->checkInputEmail($request->get('contact')['email'])) {
+                        if ($subscriberRepo->countByMail($request->get('contact')['email']) === 0) {
+                            $sub = new Subscriber();
+                            $sub->setEmail($request->get('contact')['email']);
+                            $sub->setConsent(true);
+                            $subscriberRepo->save($sub, true);
+
+                            $emailSubcriber = (new Email())
+                                ->from(new Address('maximebatista.lycee@gmail.com', 'CSE Saint-Vincent'))
+                                ->to($request->get('contact')['email'])
+                                ->subject('Abonnement à la newsletter')
+                                ->html(
+                                    '<p>Merci de vous être abonner à la newsletter du CSE de Saint-Vincent.</p>' .
+                                        '<p>Vous recevrez par mail chaque nouvelle offre lors de leur publication sur le site.</p>' .
+                                        '<p>Pour vous désabonner, cliquez <a href="#">ici</a>.</p>'
+                                );
+
+                            $mailer->send($emailSubcriber);
+                        }
+                    } else {
+                        return new Response('L\'adresse mail saisie n\'est pas conforme.', 400);
+                    }
+                } else {
+
+                    $cont = new Contact();
+
+                    if ($validate->checkInputEmail($request->get('contact')['email']) && $validate->checkinputString($request->get('contact')['firstname']) && $validate->checkinputString($request->get('contact')['name']) && $validate->checkinputString($request->get('contact')['message'])) {
+
+                        $cont->setName($request->get('contact')['name']);
+                        $cont->setFirstname($request->get('contact')['firstname']);
+                        $cont->setEmail($request->get('contact')['email']);
+                        $cont->setConsent($request->get('contact')['consent']);
+                        $cont->setMessage($request->get('contact')['message']);
+
+                        $contact->save($cont, true);
+
+                        // mailer
+                        $email = (new Email())
+                            ->from(new Address($request->get('contact')['email'], $request->get('contact')['name'] . ' ' . $request->get('contact')['firstname']))
+                            ->to('maximebatista.lycee@gmail.com')
+                            ->subject('Subject')
+                            ->text($request->get('contact')['message']);
+
+                        $mailer->send($email);
+                    } else {
+                        return new Response('Un des champ est mal renseigné.', 400);
+                    }
+
+                    return new Response('Votre message a bien été envoyé !', 200);
+                }
+            } else {
+                return new Response('Vous devez acceptez les conditions pour pouvoir envoyer un message.', 400);
+            }
+        } catch (\Throwable $th) {
+            return new Response('Un problème innatendu est survenu, rechargez la page puis renvoyez votre message.', 400);
         }
     }
 }

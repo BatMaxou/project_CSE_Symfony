@@ -40,14 +40,6 @@ final class ContactType extends AbstractType
             ->add('captcha', TurnstileType::class, [
                 'attr' => [
                     'data-action' => 'contact',
-                    'data-theme' => 'dark'
-                ],
-                'label' => false,
-                'required' => true,
-            ])
-            ->add('captcha', TurnstileType::class, [
-                'attr' => [
-                    'data-action' => 'contact',
                     'data-theme' => 'ligth'
                 ],
                 'label' => false
