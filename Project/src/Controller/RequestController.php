@@ -131,7 +131,7 @@ class RequestController extends AbstractController
     {
         try {
             if (!empty($request->get('contact')['consent']) && $request->get('contact')['consent'] === "1") {
-                if (!empty($request->get('newsletterConsentFormContact')) && $request->get('contact')['newsletterConsentFormContact'] === 'on') {
+                if (!empty($request->get('newsletterConsentFormContact')) && $request->get('newsletterConsentFormContact') === 'on') {
                     if ($validate->checkInputEmail($request->get('contact')['email'])) {
                         if ($subscriberRepo->countByMail($request->get('contact')['email']) === 0) {
                             $sub = new Subscriber();
@@ -154,39 +154,39 @@ class RequestController extends AbstractController
                     } else {
                         return new Response('L\'adresse mail saisie n\'est pas conforme.', 400);
                     }
-                } else {
-
-                    $cont = new Contact();
-
-                    if ($validate->checkInputEmail($request->get('contact')['email']) && $validate->checkinputString($request->get('contact')['firstname']) && $validate->checkinputString($request->get('contact')['name']) && $validate->checkinputString($request->get('contact')['message'])) {
-
-                        $cont->setName($request->get('contact')['name']);
-                        $cont->setFirstname($request->get('contact')['firstname']);
-                        $cont->setEmail($request->get('contact')['email']);
-                        $cont->setConsent($request->get('contact')['consent']);
-                        $cont->setMessage($request->get('contact')['message']);
-
-                        $contact->save($cont, true);
-
-                        // mailer
-                        $email = (new Email())
-                            ->from(new Address($request->get('contact')['email'], $request->get('contact')['name'] . ' ' . $request->get('contact')['firstname']))
-                            ->to('maximebatista.lycee@gmail.com')
-                            ->subject('Subject')
-                            ->text($request->get('contact')['message']);
-
-                        $mailer->send($email);
-                    } else {
-                        return new Response('Un des champ est mal renseigné.', 400);
-                    }
-
-                    return new Response('Votre message a bien été envoyé !', 200);
                 }
+
+                $cont = new Contact();
+
+                if ($validate->checkInputEmail($request->get('contact')['email']) && $validate->checkinputString($request->get('contact')['firstname']) && $validate->checkinputString($request->get('contact')['name']) && $validate->checkinputString($request->get('contact')['message'])) {
+
+                    $cont->setName($request->get('contact')['name']);
+                    $cont->setFirstname($request->get('contact')['firstname']);
+                    $cont->setEmail($request->get('contact')['email']);
+                    $cont->setConsent($request->get('contact')['consent']);
+                    $cont->setMessage($request->get('contact')['message']);
+
+                    $contact->save($cont, true);
+
+                    // mailer
+                    $email = (new Email())
+                        ->from(new Address($request->get('contact')['email'], $request->get('contact')['name'] . ' ' . $request->get('contact')['firstname']))
+                        ->to('maximebatista.lycee@gmail.com')
+                        ->subject('Subject')
+                        ->text($request->get('contact')['message']);
+
+                    $mailer->send($email);
+                } else {
+                    return new Response('Un des champ est mal renseigné.', 400);
+                }
+
+                return new Response('Votre message a bien été envoyé !', 200);
             } else {
                 return new Response('Vous devez acceptez les conditions pour pouvoir envoyer un message.', 400);
             }
         } catch (\Throwable $th) {
-            return new Response('Un problème innatendu est survenu, rechargez la page puis renvoyez votre message.', 400);
+            // return new Response('Un problème innatendu est survenu, rechargez la page puis renvoyez votre message.', 400);
+            return new Response($th, 400);
         }
     }
 }
