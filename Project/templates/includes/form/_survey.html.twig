@@ -1,0 +1,9 @@
+{% if form is not null and survey is not null %}
+	<h2>Votre avis compte</h2>
+
+	{{form_start(form)}}
+	<legend>{{ survey.question }}</legend>
+	{{ form_widget(form.radio_response)}}
+	<button type="submit">Envoyer ma réponse</button>
+	{{form_end(form)}}
+{% endif %}

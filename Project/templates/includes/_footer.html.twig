@@ -1,0 +1,23 @@
+<div id="footer">
+	<div class="footer-content">
+		<div class="menu">
+			<div class="img-container">
+				<img src="{{ asset('images/required/logo.jpg') }}" alt="logo-SV"/>
+			</div>
+			<div class="links">
+				<h4>CSE Lycée Saint-Vincent</h4>
+				<a href="{{ path('partnership')}}">> Partenariats</a>
+				<a href="{{ path('ticketing')}}">> Billetterie</a>
+				<a href="{{ path('about_us')}}">> A propos de nous</a>
+				<a href="{{ path('contact')}}">> Contact</a>
+			</div>
+		</div>
+
+		<div class="inscription">
+			<h4>Inscrivez-vous aux offres</h4>
+			<p>Recevez un email à chaque nouvelle offre sur le site internet</p>
+
+			{{ render(controller('App\\Controller\\HomeController::formNewsletter')) }}
+		</div>
+	</div>
+</div>

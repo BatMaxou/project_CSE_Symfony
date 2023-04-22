@@ -1,0 +1,37 @@
+<ul class="navbar-menu">
+	<li>
+		<a href="{{ path('backoffice_dashboard') }}">Tableau de bord</a>
+	</li>
+	<li>
+		<a href="{{ path('backoffice_text') }}">Textes enrichis</a>
+	</li>
+	<li>
+		<a href="{{ path('backoffice_member') }}">Membres</a>
+	</li>
+	<li>
+		<a href="{{ path('backoffice_partnership') }}">Partenariats</a>
+	</li>
+	<li>
+		<a href="{{ path('backoffice_ticketing') }}">Billeterie</a>
+	</li>
+	<li>
+		<a href="{{ path('backoffice_survey') }}">Sondage</a>
+	</li>
+	<li>
+		<a href="#">Messages</a>
+	</li>
+
+	{% if is_granted('ROLE_SUPER_ADMIN') %}
+		<li>
+			<a href="{{ path('backoffice_account') }}">Comptes</a>
+		</li>
+	{% endif %}
+
+	<li>
+		<a href="{{ path('home') }}">Retour au site</a>
+	</li>
+
+	<li>
+		<a href="{{ path('app_logout') }}">Déconnexion</a>
+	</li>
+</ul>

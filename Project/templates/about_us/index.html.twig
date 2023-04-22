@@ -1,0 +1,63 @@
+{% extends 'page.html.twig' %}
+
+{% block title %}
+	CSE - A propos de nous
+{% endblock %}
+
+{% block content %}
+	<div id="aboutus">
+		<h1 class="title-about-us">A propos de nous</h1>
+
+		{% block modal %}
+			{% include "includes/_modal.html.twig" with {
+				type: 'info',
+				title: 'Règlement du CSE', 
+				content: rules, 
+				options: {
+					texteFooter: "
+						<p>
+							Pour toutes informations supplémentaires, veuillez nous contacter à l'adresse mail :
+						</p>"
+						~ email, 
+				}
+			} %}
+		{% endblock %}
+
+		<div class="card">
+			<div class="card-header">
+				<h3>Actions menées par le CSE</h3>
+				<button class="modal-open-info">Voir le règlement</button>
+			</div>
+			<div class="card-body">
+				<p>{{ actions|raw }}</p>
+			</div>
+		</div>
+
+		<div class="card">
+			<div class="card-header">
+				<h3>Membres</h3>
+			</div>
+			<div class="card-body">
+				<div class="members-container">
+					{% for member in members %}
+						<div class="profil">
+							<div class="member-profil-container">
+								{% if member.profil is null %}
+									<img src="{{ asset('images/required/no-image-member.svg')}}" alt="{{ member.firstName }}">
+								{% else %}
+									<img src="{{ asset('images/member/' ~ member.profil)}}" alt="{{ member.firstName }}">
+								{% endif %}
+							</div>
+							<div class="member-infos">
+								<h3>{{ member.firstName ~ ' ' ~ member.lastName}}</h3>
+								<p>{{ member.function }}</p>
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="{{ asset('js/modal.js') }}"></script>
+{% endblock %}

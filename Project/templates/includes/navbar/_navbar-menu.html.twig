@@ -1,0 +1,32 @@
+<ul class="navbar-menu">
+	<li>
+		<a href="{{ path('home') }}">Accueil</a>
+	</li>
+
+	<li>
+		<a href="{{ path('partnership') }}">Partenariats</a>
+	</li>
+
+	<li>
+		<a href="{{ path('about_us') }}">A propos de nous</a>
+	</li>
+
+	<li>
+		<a href="{{ path('ticketing') }}">Billeterie</a>
+	</li>
+
+	<li>
+		<a href="{{ path('contact') }}">Contact</a>
+	</li>
+
+	{% if is_granted('ROLE_ADMIN') %}
+		<li>
+			<a href="{{ path('backoffice_dashboard') }}">Tableau de bord</a>
+		</li>
+
+		<li>
+			<a href="{{ path('app_logout') }}">Déconnexion</a>
+		</li>
+	{% endif %}
+
+</ul>

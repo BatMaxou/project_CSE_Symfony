@@ -1,0 +1,134 @@
+{% extends 'backoffice-page.html.twig' %}
+
+{% block title %}
+	CSE - Dashboard
+{% endblock %}
+
+{% block content %}
+
+	<div id="dashboard">
+		<h1>Bienvenue sur votre espace admin</h1>
+		<div id="presentation-logout">
+			<div class="card" id="text-cse-presentation">
+				{{ ckeditor[0].content|raw }}
+			</div>
+			<div class="card" id="profil-logout">
+				<div class="card-body">
+					<div class="card-content">
+						<p>
+							Vous êtes connecté avec l’adresse mail :
+							{{ app.user.email }}
+							avec le
+							{{ app.user.roles[0]|replace({'_': ' '})|lower }}
+						</p>
+						<a href="{{ path('app_logout') }}" class="btn btn-info">Se déconnecter</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="msg-stat-survey">
+			<div id="msg-stat">
+				<h2>Dernier message reçu</h2>
+				{% if message is empty %}
+					<div id="no-message">
+						<div class="card">
+							<h3>Aucun nouveau message pour le moment</h3>
+							<div class="card-content">
+								<a class="btn btn-info" href="{{ path('contact') }}">Consulter tous les messages</a>
+							</div>
+						</div>
+					</div>
+				{% else %}
+					{% for msg in message %}
+						<div class="card" id="last-message">
+							<div class="card-body">
+								<p>
+									De :
+									{{ msg.email }}
+								</p>
+								<p id="p-msg">
+									Message :
+									{{ msg.message }}
+								</p>
+							</div>
+							<div class="card-footer">
+								<a class="btn btn-info" href=" {{ path('contact') }} ">Consulter tous les messages</a>
+							</div>
+						</div>
+					{% endfor %}
+				{% endif %}
+
+				<div id="stat-cse-dashboard">
+					<h2>Le CSE en quelques chiffres</h2>
+					<div class="card">
+						<div class="card-content">
+							<div>
+								<canvas id="stat-cse"></canvas>
+							</div>
+							<div style="display: none">
+								{% for label in stats %}
+									<ul class="r-stat">
+										<li>{{label.question}}</li>
+									</ul>
+								{% endfor %}
+								{% for label in stats %}
+									<ul class="q-stat">
+										<li>{{label.responses}}</li>
+									</ul>
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			{% if responses is empty and survey is empty %}
+				<div id="no-survey">
+					<div class="card">
+						<h3>Pas de sondage activé pour le moment</h3>
+						<div class="card-content">
+							<a class="btn btn-edit" href="{{ path('backoffice_survey') }}">Activer ou ajouter un sondage</a>
+						</div>
+					</div>
+				</div>
+			{% else %}
+				<div id="survey-active-dashboard">
+					<div class="card">
+						<div class="card-header">
+							<h2 class="question">{{ survey.question }}</h2>
+						</div>
+						<div class="card-content">
+							<div class="content-chart">
+								<canvas class="chart" data-question="{{ survey.question }}"></canvas>
+							</div>
+							<ul>
+								{% set i = 1 %}
+								{% for index, response in responses %}
+									<li>
+										{# + 1 car index commence à 0 #}
+										<div class="survey-response-{{index + 1}} survey-response">
+											<div class="label"></div>
+											<p>{{ response.text }}</p>
+											<span class="result-response">{{ response.nbVote * 100 // survey.nbVote }}%</span>
+										</div>
+									</li>
+								{% endfor %}
+							</ul>
+						</div>
+						<div class="card-footer">
+							<p>Sondage crée le {{ survey.datetime|date('d/m/Y') }}</p>
+							<p>
+								<span class="total-response">{{ survey.nbVote }}</span> réponses au total
+							</p>
+						</div>
+					</div>
+				</div>
+			{% endif %}
+		</div>
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script src="{{ asset('js/chartDonut.js') }}"></script>
+	<script src="{{ asset('js/chartBar.js') }}"></script>
+
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	CSE - Client
+{% endblock %}
+
+{% block navbar %}
+	{% include "includes/navbar/_navbar.html.twig" with {'menu': 'base'}%}
+	<script src="{{ asset('js/toggler.js')}}"></script>
+{% endblock %}
+
+{% block sidebar %}
+	{% include "includes/_sidebar.html.twig" %}
+{% endblock %}
+
+{% block content %}
+	{# Override content #}
+{% endblock %}
+
+{% block footer %}
+	{% include "includes/_footer.html.twig" %}
+{% endblock %}
+
+{% block baseJS %}
+	<script src="{{ asset('js/flash.js') }}"></script>
+{% endblock %}
+
+{% block request %}
+	<script src="{{ asset('js/request/clientRequest.js') }}"></script>
+{% endblock %}

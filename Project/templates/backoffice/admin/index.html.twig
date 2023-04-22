@@ -1,0 +1,140 @@
+{% extends 'backoffice-page.html.twig' %}
+
+{% block title %}
+	CSE - Backoffice gestion des administrateurs
+{% endblock %}
+
+{% block content %}
+
+	<div id="backoffice-admin">
+
+		{% block modal %}
+
+			{% include "includes/_modal.html.twig" with {
+				type: 'add',
+				title: 'Attention, ajout en cours !', 
+				content: 
+					"<p class='modal-question'>Vous êtes sur le point d'ajouter l'administrateur : </p>" ~ 
+					"<div class='post-content'>" ~ 
+						"<p class='modal-recap add-admin-email'></p>" ~ 
+						"<p class='modal-recap add-admin-password'></p>" ~ 
+						"<p class='modal-recap add-admin-role'></p>" ~ 
+					"</div>" ~ 
+					"<p class='modal-question'>Êtes-vous sûr de vouloir ajouter cet administrateur ?</p>"
+				, 
+				options: {
+					cancelButton: true,
+					addButton: true
+				}
+			} %}
+
+			{% include "includes/_modal.html.twig" with {
+				type: 'edit',
+				title: 'Attention, modification en cours !', 
+				content: 
+					"<p class='modal-question'>Vous êtes sur le point de modifier l'administrateur : </p>" ~ 
+					"<div class='post-content'>" ~ 
+						"<p class='modal-recap edit-admin-email'></p>" ~ 
+						"<p class='modal-recap edit-admin-password'></p>" ~ 
+						"<p class='modal-recap edit-admin-role'></p>" ~ 
+					"</div>" ~ 
+					"<p class='modal-question'>Êtes-vous sûr de vouloir modifier cet administrateur ?</p>"
+				, 
+				options: {
+					cancelButton: true,
+					editButton: true
+				}
+			} %}
+
+			{% include "includes/_modal.html.twig" with {
+				type: 'delete',
+				title: 'Attention, suppression en cours !', 
+				content: 
+					"<p class='modal-question'>Vous êtes sur le point de supprimer l'administrateur : </p>" ~ 
+					"<div class='post-content'>" ~ 
+						"<p class='modal-recap delete-admin-email'></p>" ~ 
+					"</div>" ~ 
+					"<p class='modal-question'>Êtes-vous sûr de vouloir supprimer cet administrateur ?</p>"
+				, 
+				options: {
+					cancelButton: true,
+					deleteButton: true
+				}
+			} %}
+		{% endblock %}
+
+		<h1>Gestion des administrateurs</h1>
+
+		<div class="div-admin">
+			<h2>Ajouter un administrateur</h2>
+
+			<div class="card">
+				<div class="card-body">
+					<div class="add-admin">
+
+						{{ form_start(formAdd, {'attr': {'class': 'add-form'}}) }}
+						{{ form_row(formAdd.email, { 'attr': { class: 'form-input' }, 'disabled': false}) }}
+						{{ form_row(formAdd.plainPassword, { 'attr': { class: 'form-input' }, 'required': true, 'disabled': false}) }}
+						{{ form_row(formAdd.roles, { 'attr': { class: 'form-input' }, 'disabled': false}) }}
+						<button class="btn btn-add modal-open-add">
+							Ajouter
+						</button>
+						{{ form_end(formAdd, {'render_rest': false}) }}
+					</div>
+
+				</div>
+			</div>
+
+			<h2>Les administrateurs</h2>
+			<div class="div-admin">
+
+				{% for key, admin in admins %}
+
+					<div class="card">
+
+						<div class="card-body">
+
+							{{ form_start(formEdits[key], {'attr': {'class': 'edit-form'}}) }}
+
+							{{ form_widget(formEdits[key].id, {value: admin.id}) }}
+
+							{{ form_row(formEdits[key].email, {value: admin.email}) }}
+
+							{{ form_row(formEdits[key].plainPassword, {required: false}) }}
+
+							{% if admin.roles[0] == "ROLE_ADMIN" %}
+								{{ form_row(formEdits[key].roles, {value: 1}) }}
+							{% else %}
+								{{ form_row(formEdits[key].roles, {value: 2}) }}
+							{% endif %}
+
+							<div class="edit-admin">
+								<button class='btn btn-edit btn-save modal-open-edit'>Sauvegarder</button>
+								<button class='btn btn-edit btn-actived'>Modifier</button>
+							</div>
+							{{ form_end(formEdits[key], {'render_rest': false}) }}
+
+							{{ form_start(formDeletes[key], {'attr': {'class': 'delete-form'}})}}
+
+							{{ form_row(formDeletes[key].id, {value: admin.id}) }}
+							{{ form_widget(formDeletes[key].email, { 'attr': { class: 'form-input-hidden' }, value: admin.email, disabled: false}) }}
+							<div class="delete-admin">
+								<button class="btn btn-delete modal-open-delete">
+									Supprimer
+								</button>
+							</div>
+
+							{{ form_end(formDeletes[key], {'render_rest': false}) }}
+
+						</div>
+
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block request %}
+	<script src="{{ asset('js/request/admin.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	CSE - Tableau de bord
+{% endblock %}
+
+{% block navbar %}
+	{% include "includes/navbar/_navbar.html.twig" with {'menu': 'back'}%}
+	<script src="{{ asset('js/toggler.js')}}"></script>
+{% endblock %}
+
+{% block content %}
+	{# Override content #}
+{% endblock %}
+
+{% block baseJS %}
+	<script src="{{ asset('js/flash.js') }}"></script>
+	<script src="{{ asset('js/modal.js') }}"></script>
+	<script src="{{ asset('js/cardAnimation.js') }}"></script>
+	<script src="{{ asset('js/request/requestBaseModal.js') }}"></script>
+{% endblock %}
+
+{% block request %}
+	{# Override request #}
+{% endblock %}

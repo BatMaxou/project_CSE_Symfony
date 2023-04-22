@@ -1,0 +1,32 @@
+<div class="navbar-responsive">
+	<div class="navbar-divider"></div>
+	{% block menu %}
+		{% if menu == 'base' %}
+			{% include "includes/navbar/_navbar-menu.html.twig" %}
+		{% elseif menu == 'back' %}
+			{% include "includes/navbar/_navbar-backoffice-menu.html.twig" %}
+		{% endif %}
+	{% endblock %}
+	<div class="navbar-divider"></div>
+
+	{% if menu == 'base' %}
+		{% block contact %}
+			<div class="sidebar-contact">
+				<h2>Informations de contact</h2>
+				<ul>
+					<li>
+						Par téléphone :
+						<a href="tel:+33303030303">+33303030303</a>
+					</li>
+					<li>
+						Par mail :
+						<a href="mailto:cse@lyceestvincent.fr">cse@lyceestvincent.fr</a>
+					</li>
+					<li>
+						Au lycée : Bureau du CSE - 1er étage bâtiment Saint-Vincent
+					</li>
+				</ul>
+			</div>
+		{% endblock %}
+	{% endif %}
+</div>

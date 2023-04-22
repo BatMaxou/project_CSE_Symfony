@@ -1,0 +1,146 @@
+INSERT INTO contact (firstname, name, email, message, consent)
+VALUES
+    ("Wyoming", "Blanchard","pede@icloud.couk", "Bonjour, je souhaite me désinscrire de la newslettter, merci.", 1),
+    ("Dorian", "Baker","proin.sed.turpis@protonmail.edu", "Je ne suis plus intéressé par la newsletter, merci.", 1),
+    ("Ignatius", "Chavez","nonummy.ac@icloud.edu", "Bonjour, je souhaite m'inscrire merci.", 1),
+    ("Finn", "Conner","luctus@icloud.ca", "Bonjour, je souhaite postuler pour un stage.", 1),
+    ("Aretha", "Baker","bibendum.sed@protonmail.com", "Bonjour, je suis intéré par l'un de vos ticketing !", 1);
+
+-- pede@icloud.couk : password
+-- proin.sed.turpis@protonmail.edu : babeudi
+-- nonummy.ac@icloud.edu : helloworld
+-- luctus@icloud.ca : admin
+-- bibendum.sed@protonmail.com : 1234
+-- pacolu@proteimail.com : 60pdOulo$
+
+INSERT INTO admin (email, password, roles)
+VALUES
+    ("pede@icloud.couk", "$argon2i$v=19$m=65536,t=4,p=1$ZTJLaGYvdDJtMUVKTFJCWQ$vHhV73SOuPb24C2fg88oQLwUC1a7eKHnfC4CEHV5Ats", '["ROLE_ADMIN"]'),
+    ("proin.sed.turpis@protonmail.edu", "$argon2i$v=19$m=65536,t=4,p=1$ZnplSklHYU13aC9FSEp3eQ$SHRulI8gt/LqmH7MjBJ1lVZJE3Ec4ReBzNX2Jsq5JGg", '["ROLE_ADMIN"]'),
+    ("nonummy.ac@icloud.edu", "$argon2i$v=19$m=65536,t=4,p=1$YWVmdVREdjR6aDJwbkIvaw$ppluxlgtQ1YVgyEG3vWTlaKVxnJ0qb1h20giVPzHp08", '["ROLE_ADMIN"]'),
+    ("luctus@icloud.ca", "$argon2i$v=19$m=65536,t=4,p=1$OFJ4cFllNnRoc3FxbHVXOA$7k9exvWZ2nPIcsWU/v4Z8h6n18LWL6v8RPSsZIsYbLU", '["ROLE_ADMIN"]'),
+    ("bibendum.sed@protonmail.com", "$argon2i$v=19$m=65536,t=4,p=1$dGpLZ2xyZDZpbXJhNzVGWQ$s0X63CtwYOEm7Jjj4gAkCnE7H2ClGg5AdQcMOvt9f1Y", '["ROLE_ADMIN"]'),
+    ("pacolu@proteimail.com", "$argon2i$v=19$m=65536,t=4,p=1$VTZpS21vZEhZeGtEWDZLUw$tO46fN91BV35uNiyc8zw/alUM2LLtyq/vF+4YQTbc+g", '["ROLE_SUPER_ADMIN"]');
+
+INSERT INTO partnership (name, image, description, link)
+VALUES
+    ("Google","googleLogo.png", "1er navigateur utilisé dans le monde !", "https://www.google.com/"),
+    ("Pathé","patheLogo.png", "Plus gros cinéma de france !", "https://www.pathe.fr/"),
+    ("Mental Works","mentalWorksLogo.png", "Entreprise de création de visibilité numérique", "https://www.mentalworks.fr/"),
+    ("Macdonald's","macdonaldsLogo.png", "1er fastfood de france !", "https://www.mcdonalds.fr/"),
+    ("CNIL","logoCNIL.jpg", "Expert en sécurité informatique", "https://www.cnil.fr/"),
+    ("OA", NULL, "Organisation Annonyme", "https://www.oa.fr/");
+
+INSERT INTO subscriber (email, consent)
+VALUES
+    ("malesuada.fames@aol.net", 1),
+    ("integer.in.magna@yahoo.edu", 1),
+    ("erat.eget@protonmail.net", 1),
+    ("faucibus@icloud.org", 1),
+    ("vestibulum@outlook.couk", 1);
+
+INSERT INTO survey (question, is_active, datetime, nb_vote)
+VALUES
+    ("Aimeriez-vous avoir des déjeuner tous les matins ?", 0, "2023-03-07 15:37:33", 5),
+    ("Quel est votre fastfood préféré ?", 0, "2023-05-12 09:30:00", 5),
+    ("Quel est votre parc d'attraction préféré ?", 0, "2023-12-07 18:00:00", 5),
+    ("Quelle est la couleur du cheval blanc d'Henri 4 ?", 0, "2023-03-07 12:00:00", 5),
+    ("Quelle est la couleur de tes chaussettes ?", 1, "2023-03-09 15:00:00", 5);
+
+
+INSERT INTO response (text, id_survey, nb_vote)
+VALUES
+    ("Toujours", 1, 1),
+    ("Jamais", 1, 2),
+    ("De temps en temps", 1, 2),
+    ("Macdo", 2, 2),
+    ("Burger King", 2, 2),
+    ("KFC", 2, 1),
+    ("Disney", 3, 1),
+    ("Astérix", 3, 3),
+    ("La mer de sable", 3, 1),
+    ("Rouge", 4, 4),
+    ("Blanc", 4, 1),
+    ("Noir", 4, 0),
+    ("Bleues", 5, 1),
+    ("Vertes", 5, 1),
+    ("Jaunes", 5, 3),
+    ("Grises", 5, 0),
+    ("Mauves", 5, 0);
+
+
+INSERT INTO user_response (datetime, id_response)
+VALUES
+    ("2023-03-07 15:37:33", 1),
+    ("2023-03-07 12:25:58", 2),
+    ("2023-03-07 09:37:21", 3),
+    ("2023-03-07 11:34:33", 2),
+    ("2023-03-07 15:41:11", 3),
+    ("2023-03-07 17:58:19", 4),
+    ("2023-03-07 16:46:16", 5),
+    ("2023-03-07 08:32:25", 5),
+    ("2023-03-07 03:23:29", 6),
+    ("2023-03-07 11:10:21", 4),
+    ("2023-03-07 16:14:35", 7),
+    ("2023-03-07 23:23:23", 9),
+    ("2023-03-07 22:22:22", 8),
+    ("2023-03-07 15:41:46", 8),
+    ("2023-03-07 12:12:41", 8),
+    ("2023-03-07 14:06:10", 10),
+    ("2023-03-07 19:39:15", 10),
+    ("2023-03-07 20:01:13", 10),
+    ("2023-03-07 21:05:31", 10),
+    ("2023-03-07 00:45:49", 11),
+    ("2023-03-07 05:49:12", 14),
+    ("2023-03-07 06:36:14", 13),
+    ("2023-03-07 09:42:21", 15),
+    ("2023-03-07 10:16:46", 15),
+    ("2023-03-07 12:19:57", 15);
+
+INSERT INTO ticketing (slug, name, text, date_start, date_end, date_create, number_min_place, order_number, type, id_partnership)
+VALUES
+    ('GaumontPathe', 'Cinéma', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', '2023-07-05', '2023-07-05', '2023-07-05', 50, NULL, 'permanente', 2),
+    ('Astérix', 'Parc d\'astérix', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', '2023-07-05', '2023-07-05', '2023-07-05', 20, NULL, 'permanente', NULL),
+    ('Decathlon', 'Bon decathlon', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', '2023-07-05', '2023-07-05', '2023-07-05', 25, NULL, 'permanente', NULL),
+    ('VoyageRome', 'Voyage Rome', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', '2023-07-05', '2023-07-05', '2022-03-01', 10, NULL, 'permanente', NULL),
+    ('ConventionManga', 'Convention manga', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', '2023-07-05', '2023-07-05', '2023-07-05', 30, NULL, 'permanente', NULL),
+    ('Lorem', 'Lorem', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', '2023-07-05', '2023-07-05', '2022-08-07', NULL, 0, 'limitée', NULL),
+    ('Ipsum', 'Ipsum', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', '2023-07-05', '2023-07-05', '2023-07-05', NULL, 1, 'limitée', NULL),
+    ('Dolor', 'Dolor', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', '2023-02-05', '2023-07-05', '2023-07-05', NULL, 7, 'limitée', NULL),
+    ('Sit', 'Sit', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', '2022-08-12', '2023-07-05', '2023-07-05', NULL, 4, 'limitée', NULL),
+    ('Amet', 'Amet', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', '2021-10-06', '2023-07-05', '2023-07-05', NULL, 10, 'limitée', NULL);
+
+INSERT INTO image_ticketing (name, id_ticketing)
+VALUES
+    ("patheLogo.png", 1),
+    ("patheGaumont.jpg", 1),
+    ("patheHome.jpg", 1),
+    ("parcAsterix.jpg", 2),
+    ("decathlonMagasin.jpg", 3),
+    ("decathlonPersonnel.jpg", 3),
+    ("romeColisee.jpg", 4),
+    ("romePont.jpg", 4),
+    ("romeVille.jpg", 4),
+    ("romeVoyage.jpg", 4),
+    ("conventionManga.jpg", 5),
+    ("lorem.png", 6),
+    ("ipsum.png", 7),
+    ("dolor.jpg", 8),
+    ("sit.png", 9),
+    ("amet.jpg", 10);
+
+INSERT INTO ckeditor (page_name, zone, content)
+VALUES
+    ("HomePage", "zone", "<p>Texte de pr&eacute;sentaion du CSE de Saint-Vincent</p>"),
+    ("AboutUs", "actions", "<p>Les diff&eacute;rentes actions men&eacute;es:</p><ul><li>vgberfdgd</li><li>gthdfhdhf</li><li>xbfhx,fgnxd</li><li>fngxfgcnxbfdvbndxwncvlwjds</li><li>fgwfdvcwdcblswdvcw</li><li>dfcvwdnfc jwdfv</li></ul>"),
+    ("AboutUs", "rules", "<h3><strong>Article 1 :</strong></h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In metus magna, cursus nec felis a, mattis malesuada risus. Mauris et mi nec urna accumsan iaculis. In congue erat eu sem finibus eleifend. Duis vestibulum dui nec egestas eleifend. Nulla molestie metus ac orci finibus semper. Nam non commodo risus. Duis sollicitudin et sapien quis interdum. Donec ultrices condimentum lectus, ac pellentesque tellus egestas eu. Sed scelerisque quam et nisl finibus, eu molestie tortor varius. Cras ex nulla, ornare non velit vitae, porta ultricies eros.</p><p>Pellentesque aliquet metus id magna tristique mattis. Nullam nisi augue, auctor non euismod et, tempus id neque. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In rhoncus venenatis lorem, ut mollis erat pellentesque in. Sed tristique odio vel mauris lacinia, sit amet euismod ipsum sollicitudin. Fusce a lectus cursus, luctus elit nec, sagittis tortor. Vestibulum enim nisl, accumsan non imperdiet a, gravida sed purus. Cras tristique lacus augue, placerat finibus nulla volutpat eget. Ut viverra porttitor ultrices. Nullam maximus porta eros eu consectetur. Praesent id lacus orci. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p><h3>&nbsp;</h3><h3><strong>Article 2 :</strong></h3><p>&nbsp;</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In metus magna, cursus nec felis a, mattis malesuada risus. Mauris et mi nec urna accumsan iaculis. In congue erat eu sem finibus eleifend. Duis vestibulum dui nec egestas eleifend. Nulla molestie metus ac orci finibus semper. Nam non commodo risus. Duis sollicitudin et sapien quis interdum. Donec ultrices condimentum lectus, ac pellentesque tellus egestas eu. Sed scelerisque quam et nisl finibus, eu molestie tortor varius. Cras ex nulla, ornare non velit vitae, porta ultricies eros.</p><p>Pellentesque aliquet metus id magna tristique mattis. Nullam nisi augue, auctor non euismod et, tempus id neque. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In rhoncus venenatis lorem, ut mollis erat pellentesque in. Sed tristique odio vel mauris lacinia, sit amet euismod ipsum sollicitudin. Fusce a lectus cursus, luctus elit nec, sagittis tortor. Vestibulum enim nisl, accumsan non imperdiet a, gravida sed purus. Cras tristique lacus augue, placerat finibus nulla volutpat eget. Ut viverra porttitor ultrices. Nullam maximus porta eros eu consectetur. Praesent id lacus orci. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>"),
+    ("AboutUs", "email", "<p><a href='https://google.com'><strong>cse@lyceestvincent.fr</strong></a></p>");
+
+INSERT INTO member (first_name, last_name, profil, function)
+VALUES
+    ('Baby', 'Boss', 'bb.jpg', 'Boss'),
+    ('Jean-Phi', 'Ling', 'Jean-Phi.jpg', 'Responsable sourire'),
+    ('Le', 'Z', 'leZ.jpg', 'Douanier'),
+    ('Charlotte', 'Hofrès', 'Charlotte.jpg', 'Ressource Humaine'),
+    ('Sé', 'Karré', 'CCarre.jpg', 'UX/UI Designer'),
+    ('Anne', 'Nonym', null, 'Arbitre à mi-temps')

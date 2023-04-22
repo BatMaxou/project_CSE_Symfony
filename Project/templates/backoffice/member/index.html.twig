@@ -1,0 +1,135 @@
+{% extends "backoffice-page.html.twig" %}
+
+{% block title %}
+	CSE - Gestion des membres
+{% endblock %}
+
+{% block content %}
+	<div id="backoffice-member">
+
+		{% block modal %}
+
+			{% include "includes/_modal.html.twig" with {
+				type: 'add',
+				title: 'Attention, ajout en cours !', 
+				content: 
+					"<p class='modal-question'>Vous êtes sur le point d'ajouter un membre : </p>" ~ 
+					"<div class='post-content'>" ~ 
+						"<p class='modal-recap add-member-first-name'></p>" ~ 
+						"<p class='modal-recap add-member-last-name'></p>" ~ 
+						"<p class='modal-recap add-member-function'></p>" ~ 
+						"<p class='modal-recap add-member-profil'></p>" ~ 
+					"</div>" ~ 
+					"<p class='modal-question'>Êtes-vous sûr de vouloir ajouter ce membre ?</p>"
+				, 
+				options: {
+					cancelButton: true,
+					addButton: true
+				}
+			} %}
+
+			{% include "includes/_modal.html.twig" with {
+				type: 'edit',
+				title: 'Attention, modification en cours !', 
+				content: 
+					"<p class='modal-question'>Vous êtes sur le point de modifier l'administrateur : </p>" ~ 
+					"<div class='post-content'>" ~ 
+						"<p class='modal-recap edit-member-first-name'></p>" ~ 
+						"<p class='modal-recap edit-member-last-name'></p>" ~ 
+						"<p class='modal-recap edit-member-function'></p>" ~ 
+						"<p class='modal-recap edit-member-profil'></p>" ~ 
+					"</div>" ~ 
+					"<p class='modal-question'>Êtes-vous sûr de vouloir modifier ce membre ?</p>"
+				, 
+				options: {
+					cancelButton: true,
+					editButton: true
+				}
+			} %}
+
+			{% include "includes/_modal.html.twig" with {
+				type: 'delete',
+				title: 'Attention, suppression en cours !', 
+				content: 
+					"<p class='modal-question'>Vous êtes sur le point de supprimer le membre : </p>" ~ 
+					"<div class='post-content'>" ~ 
+						"<p class='modal-recap delete-member-full-name'></p>" ~ 
+					"</div>" ~
+					"<p class='modal-question'>Êtes-vous sûr de vouloir supprimer ce membre ?</p>"
+				, 
+				options: {
+					cancelButton: true,
+					deleteButton: true
+				}
+			} %}
+		{% endblock %}
+
+		<h1>Gestion des membres</h1>
+		<h2>Ajouter un nouveau membre</h2>
+		<div class="add-member">
+			<div class="card">
+				{{ form_start(addForm, {'attr': {'class': 'add-form'}}) }}
+				<div class="card-body">
+					<div class="card-image">
+						<img src="{{ asset('images/required/no-image.svg')}}" alt="photo de profil du membre à ajouter">
+						{{ form_label(addForm.profil, 'Choisir une image', {'label_attr': {'class': 'form-file-label form-file-label-active'}}) }}
+						{{ form_widget(addForm.profil, { 'disabled': false}) }}
+					</div>
+					<div class="card-content">
+						{{ form_widget(addForm.firstName, { 'attr': { class: 'form-input' }, 'disabled': false}) }}
+						{{ form_widget(addForm.lastName, { 'attr': { class: 'form-input' }, 'disabled': false}) }}
+						{{ form_widget(addForm.function, { 'attr': { class: 'form-input' }, 'disabled': false}) }}
+					</div>
+				</div>
+				<div class="card-footer">
+					<button class='btn btn-edit btn-add modal-open-add'>Ajouter</button>
+				</div>
+				{{ form_end(addForm, {'render_rest': false}) }}
+			</div>
+		</div>
+		<h2>Les membres</h2>
+		<div class="members">
+			{% for key, member in members %}
+				<div class="card">
+					<div class="card-body">
+						{{ form_start(editForms[key], {'attr': {'class': 'edit-form'}}) }}
+						<div class="card-image">
+							{% if member.profil is null %}
+								<img src="{{ asset('images/required/no-image.svg')}}" alt="{{ member.firstName }}">
+							{% else %}
+								<img src="{{ asset('images/member/' ~ member.profil)}}" alt="{{ member.firstName }}">
+							{% endif %}
+							{{ form_label(editForms[key].profil) }}
+							{{ form_widget(editForms[key].profil) }}
+						</div>
+						<div class="card-content">
+							{{ form_widget(editForms[key].id, { 'value': member.id }) }}
+							{{ form_widget(editForms[key].firstName, { 'value': member.firstName }) }}
+							{{ form_widget(editForms[key].lastName, { 'value': member.lastName }) }}
+							{{ form_widget(editForms[key].function, { 'value': member.function }) }}
+						</div>
+						{{ form_end(editForms[key], {'render_rest': false}) }}
+
+						{{ form_start(deleteForms[key], {'attr': {'class': 'delete-form'}}) }}
+						{{ form_widget(deleteForms[key].id, { 'value': member.id, 'disabled': false }) }}
+						{{ form_widget(deleteForms[key].firstName, { 'attr': { class: 'form-input-hidden' }, 'value': member.firstName, 'disabled': false }) }}
+						{{ form_widget(deleteForms[key].lastName, { 'attr': { class: 'form-input-hidden' }, 'value': member.lastName, 'disabled': false }) }}
+						{{ form_end(deleteForms[key], {'render_rest': false})}}
+
+					</div>
+					<div class="card-footer">
+						<button class='btn btn-edit btn-save modal-open-edit'>Sauvegarder</button>
+						<button class='btn btn-edit btn-actived'>Modifier</button>
+						<button class='btn btn-delete modal-open-delete'>Supprimer</button>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+
+	<script src="{{ asset('js/imageLoader.js') }}"></script>
+{% endblock %}
+
+{% block request %}
+	<script src="{{ asset('js/request/member.js') }}"></script>
+{% endblock %}

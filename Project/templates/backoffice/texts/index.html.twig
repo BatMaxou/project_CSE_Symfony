@@ -1,0 +1,34 @@
+{% extends "backoffice-page.html.twig" %}
+
+{% block title %}
+	CSE - Backoffice textes enrichis
+{% endblock %}
+
+{% block content %}
+	<div id="texts">
+		<h1>Gestions des textes enrichis</h1>
+		{{ form_start(form) }}
+		{{ form_widget(form.submit, { 'attr': {'class': 'btn btn-edit'}}) }}
+		<div class="card">
+			<h2>{{ form_label(form.email) }}</h2>
+			{{ form_widget(form.email, {'value': texts['email'].content}) }}
+		</div>
+		<div class="card">
+			<h2>{{ form_label(form.homepage) }}</h2>
+			{{ form_widget(form.homepage, {'value': texts['homepage'].content}) }}
+		</div>
+		<div class="card">
+			<h2>{{ form_label(form.actions) }}</h2>
+			{{ form_widget(form.actions, {'value': texts['actions'].content}) }}
+		</div>
+		<div class="card">
+			<h2>{{ form_label(form.rules) }}</h2>
+			{{ form_widget(form.rules, {'value': texts['rules'].content}) }}
+		</div>
+		{{ form_end(form) }}
+	</div>
+{% endblock %}
+
+{% block request %}
+	<script src="{{ asset('js/request/texts.js') }}"></script>
+{% endblock %}

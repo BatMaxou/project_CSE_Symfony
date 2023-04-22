@@ -1,0 +1,60 @@
+{% extends "page.html.twig" %}
+
+{% block title %}
+	CSE - Accueil
+{% endblock %}
+
+{% block content %}
+	<div id="homepage">
+		<h1>CSE - Saint-Vincent</h1>
+
+		{% if ckeditor != null %}
+			<div class="card">{{ ckeditor[0].content|raw }}</div>
+		{% endif %}
+
+		<h2>Dernières offres limitées</h2>
+
+		{% block paging %}
+			{% include "includes/_paging.html.twig" %}
+			{# script placé à la fin car les offres ne sont pas encore crées ici #}
+		{% endblock %}
+
+		{% if ticketing is not null and ticketing is not empty %}
+			{% for offer in ticketing %}
+				<div class="card card-paging">
+					<div class="card-header">
+						<span class="card-tag">offre
+							{{ offer.type }}
+						</span>
+						<span class="card-date">Publié le
+							{{ offer.dateCreate|format_datetime(locale='fr', pattern='dd MMMM')}}
+							- Du
+							{{ offer.dateStart|date('d/m/Y')}}
+							Au
+							{{ offer.dateEnd|date('d/m/Y')}}
+						</span>
+					</div>
+					<div class="card-body">
+						<h3>{{offer.name}}</h3>
+						<p>{{offer.text}}</p>
+					</div>
+					<div class="card-footer">
+						<a href="{{ path('offer', {slug: offer.slug}) }}">
+							<p>en savoir plus</p>
+							<img src="{{ asset('images/required/left-chevron.svg')}}" alt="chevron">
+						</a>
+					</div>
+				</div>
+			{% endfor %}
+		{% else %}
+			<div class="card">
+				<div class="card-body">
+					<h3>Aucune offre limitée disponible pour le moment</h3>
+					<p class="card-description-ticketing">Inscrivez-vous à la newlestter pour être informé lors de l'arrivée d'une offre limitée.</p>
+				</div>
+			</div>
+		{% endif %}
+	</div>
+
+	<script src="{{ asset('js/paging.js') }}"></script>
+{% endblock %}

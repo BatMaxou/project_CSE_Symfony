@@ -1,0 +1,67 @@
+<div class="sidebar">
+	<div class="sidebar-flex">
+		<div class="sidebar-survey">
+			{{ render(controller('App\\Controller\\HomeController::formSurvey')) }}
+		</div>
+		<div class="sidebar-access">
+			<h2>Accès rapide</h2>
+			<ul>
+				<li>
+					{# lien pour la page billeterie #}
+					<a href="{{ path("ticketing") }}">Offres permanentes / Billeterie</a>
+				</li>
+
+				<li>
+					{# lien pour la page contact #}
+					<a href="{{ path("contact") }}">Nous contacter</a>
+				</li>
+			</ul>
+		</div>
+		<div class="sidebar-contact">
+			<h2>Informations de contact</h2>
+			<ul>
+				<li>
+					Par téléphone :
+					<a href="tel:+33303030303">+33303030303</a>
+				</li>
+				<li>
+					Par mail :
+					<a href="mailto:cse@lyceestvincent.fr">cse@lyceestvincent.fr</a>
+				</li>
+				<li>
+					Au lycée : Bureau du CSE - 1er étage bâtiment Saint-Vincent
+				</li>
+			</ul>
+		</div>
+
+		{% if image != null %}
+			<div class="sidebar-slider">
+				<h2>Nos partenaires</h2>
+				<div class="slider">
+					{% for img in image %}
+						<div class="slider-image">
+							{% if img.image is null %}
+								<a href="{{ img.link }}" target="_blank">
+									<img src="{{ asset('images/required/no-image-partnership.svg')}}" alt="logo simple pour un partenaire sans image">
+								</a>
+							{% else %}
+								<a href="{{ img.link }}" target="_blank">
+									<img src="{{ asset("images/partnership/" ~ img.image) }}">
+								</a>
+							{% endif %}
+						</div>
+					{% endfor %}
+					<img class="prev" src="{{ asset("images/required/slider-arrow-left.svg") }}" alt="arrow direction slider">
+					<img class="next" src="{{ asset("images/required/slider-arrow-right.svg") }}" alt="arrow direction slider">
+				</div>
+				<p>
+					<a href="{{ path("partnership") }}">Découvrir tous nos partenaires</a>
+				</p>
+				{% block javascripts %}
+					<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+					<script src="{{ asset('js/slider.js') }}"></script>
+				{% endblock %}
+			</div>
+		{% endif %}
+	</div>
+</div>

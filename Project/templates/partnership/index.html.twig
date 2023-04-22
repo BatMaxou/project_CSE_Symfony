@@ -1,0 +1,50 @@
+{% extends "page.html.twig" %}
+
+{% block title %}
+	CSE - Partenariats
+{% endblock %}
+
+{% block content %}
+	<div id="partnership">
+		<h1>Partenariats</h1>
+
+		{% block paging %}
+			{% include "includes/_paging.html.twig" %}
+			{# script placé à la fin car les offres ne sont pas encore crées ici #}
+		{% endblock %}
+
+		{% if partnerships is not null and partnerships is not empty %}
+			{% for partnership in partnerships %}
+				<div class="card card-paging">
+					<div class="card-body">
+						<div class="card-image">
+							{% if partnership.image is null %}
+								<img src="{{ asset('images/required/no-image-partnership.svg')}}" alt="{{ partnership.name }}">
+							{% else %}
+								<img src="{{ asset('images/partnership/' ~ partnership.image)}}" alt="{{ partnership.name }}">
+							{% endif %}
+						</div>
+						<div class="card-content">
+							<h3>{{ partnership.name }}</h3>
+							<p>{{ partnership.description }}</p>
+						</div>
+					</div>
+					<div class="card-footer">
+						<a href="{{ partnership.link }}" target="_blanck">
+							<p>Consulter le site du partenaire</p>
+							<img src="{{ asset('images/required/left-chevron.svg')}}" alt="chevron">
+						</a>
+					</div>
+				</div>
+			{% endfor %}
+		{% else %}
+			<div class="card">
+				<div class="card-body">
+					<h3>Aucun partenariat recensé à ce jour</h3>
+				</div>
+			</div>
+		{% endif %}
+	</div>
+
+	<script src="{{ asset('js/paging.js') }}"></script>
+{% endblock %}
