@@ -214,7 +214,7 @@ ticketing:
       class: DateTime
       value: "2022-08-07" 
     numberMinPlace: null
-    orderNumber: 0
+    orderNumber: 2
     type: "limitée"
     partnership: null
   7:
@@ -282,7 +282,7 @@ ticketing:
       class: DateTime
       value: "2021-10-06" 
     numberMinPlace: null
-    orderNumber: 10
+    orderNumber: null
     type: "limitée"
     partnership: null
 

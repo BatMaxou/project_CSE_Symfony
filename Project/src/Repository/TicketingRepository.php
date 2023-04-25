@@ -39,6 +39,46 @@ class TicketingRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @return Ticketing[] Returns an array of Ticketing objects
+     */
+    public function findByType($type): array
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.type = :val')
+            ->setParameter('val', $type)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findByPermanentDesc(): array
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere("t.type = 'permanente'")
+            ->addOrderBy('t.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findByLimitedActiveDesc(): array
+    {
+        return $this->createQueryBuilder('t')
+            ->Where("t.type = 'limitée'")
+            ->andWhere("t.orderNumber IS NOT null")
+            ->orderBy('t.orderNumber', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findBySlug($slug): Ticketing
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.slug = :slug')
+            ->setParameter('slug', $slug)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     //    /**
     //     * @return Ticketing[] Returns an array of Ticketing objects
     //     */
@@ -64,43 +104,4 @@ class TicketingRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    /**
-     * @return Ticketing[] Returns an array of Ticketing objects
-     */
-    public function findByType($type): array
-    {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.type = :val')
-            ->setParameter('val', $type)
-            ->getQuery()
-            ->getResult();
-    }
-
-    public function findByPermanent(): array
-    {
-        return $this->createQueryBuilder('t')
-            ->andWhere("t.type = 'permanente'")
-            ->getQuery()
-            ->getResult();
-    }
-
-    public function findByLimited(): array
-    {
-        return $this->createQueryBuilder('t')
-            ->Where("t.type = 'limitée'")
-            ->andWhere("t.orderNumber BETWEEN 1 AND 10")
-            ->orderBy('t.orderNumber', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult();
-    }
-
-    public function findBySlug($slug): Ticketing
-    {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.slug = :slug')
-            ->setParameter('slug', $slug)
-            ->getQuery()
-            ->getOneOrNullResult();
-    }
 }
