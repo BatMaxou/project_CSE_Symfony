@@ -137,7 +137,7 @@
 
 		</div>
 
-		<div class="div-ticketing">
+		<div class="offers">
 
 			<div class="div-ticketing-permanent">
 				{% block paging %}
@@ -165,7 +165,7 @@
 											<img src="{{ asset('images/required/no-image.svg') }}" alt="image de l'offre">
 										{% endif %}
 										{{ form_label(img[ind]) }}
-										{{ form_widget(img[ind])}}
+										{{ form_widget(img[ind], {'disabled': 'disabled'}) }}
 									</div>
 								{% endfor %}
 							</div>
@@ -272,7 +272,7 @@
 	</div>
 
 	<script src="{{ asset('js/imageLoader.js') }}"></script>
-	<script src="{{ asset('js/ticketing.js') }}"></script>
+	<script src="{{ asset('js/handleTypeTicketing.js') }}"></script>
 	<script src="{{ asset('js/paging.js') }}"></script>
 {% endblock %}
 

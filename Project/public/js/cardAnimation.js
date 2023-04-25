@@ -110,7 +110,7 @@ const handleBtnActive = (e, index) => {
     const saveBtn = cards[index].querySelector('.btn-save')
     // precision de .edit-form pour exclure les inputs du formulaire de suppression
     const inputs = cards[index].querySelectorAll('.edit-form input, .edit-form textarea, .edit-form select')
-    const labelImg = cards[index].querySelector('label.form-file-label-disabled')
+    const labelImgs = cards[index].querySelectorAll('label.form-file-label-disabled')
 
     inputs.forEach(input => {
         // rendre les input enabled
@@ -125,16 +125,18 @@ const handleBtnActive = (e, index) => {
         })
     })
 
-    if (labelImg) {
-        // activer les champs
-        activeAnim.to(labelImg, {
-            backgroundColor: 'transparent',
-            borderColor: 'var(--color-primary)',
-            duration: 0.2
-        }).then(() => {
-            labelImg.classList.remove('form-file-label-disabled')
-            labelImg.classList.add('form-file-label-active')
-        })
+    if (labelImgs.length !== 0) {
+        labelImgs.forEach(labelImg => {
+            // activer les champs
+            activeAnim.to(labelImg, {
+                backgroundColor: 'transparent',
+                borderColor: 'var(--color-primary)',
+                duration: 0.2
+            }).then(() => {
+                labelImg.classList.remove('form-file-label-disabled')
+                labelImg.classList.add('form-file-label-active')
+            })
+        });
     }
 
     activeAnim.to(e.target, {
@@ -161,7 +163,7 @@ const handleDesactive = (index) => {
 
     // precision de .edit-form pour exclure les inputs du formulaire de suppression
     const inputs = cards[index].querySelectorAll('.edit-form input, .edit-form textarea, .edit-form select')
-    const labelImg = cards[index].querySelector('label.form-file-label-active')
+    const labelImgs = cards[index].querySelectorAll('label.form-file-label-active')
 
     inputs.forEach(input => {
         // rendre les input disabled
@@ -176,16 +178,18 @@ const handleDesactive = (index) => {
         })
     })
 
-    if (labelImg) {
-        // activer les champs
-        dasactiveAnim.to(labelImg, {
-            backgroundColor: 'var(--color-disabled)',
-            borderColor: 'transparent',
-            duration: 0.2
-        }).then(() => {
-            labelImg.classList.remove('form-file-label-active')
-            labelImg.classList.add('form-file-label-disabled')
-        })
+    if (labelImgs.length !== 0) {
+        labelImgs.forEach(labelImg => {
+            // activer les champs
+            dasactiveAnim.to(labelImg, {
+                backgroundColor: 'var(--color-disabled)',
+                borderColor: 'transparent',
+                duration: 0.2
+            }).then(() => {
+                labelImg.classList.remove('form-file-label-active')
+                labelImg.classList.add('form-file-label-disabled')
+            })
+        });
     }
 
     // on joue la timeline

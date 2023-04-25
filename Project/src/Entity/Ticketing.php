@@ -34,7 +34,7 @@ class Ticketing
     #[ORM\Column(nullable: true)]
     private ?int $numberMinPlace = null;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(nullable: true, unique: true)]
     private ?int $orderNumber = null;
 
     #[ORM\Column(length: 255)]

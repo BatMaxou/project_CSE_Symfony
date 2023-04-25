@@ -33,10 +33,12 @@ const deleteTicketingForms = document.querySelectorAll('#backoffice-ticketing .d
 
 const labelFileAdds = document.querySelectorAll('.add-offer .card .card-image label')
 const ticketingImgAdds = document.querySelectorAll('.add-offer .card .card-image img')
-// const labelsFile = document.querySelectorAll('.members .card .card-image label')
-// const memberImgs = document.querySelectorAll('.members .card .card-image img')
+const permanentLabelsFile = document.querySelectorAll('.offers .div-ticketing-permanent .card .card-image label')
+const permanentOfferImgs = document.querySelectorAll('.offers .div-ticketing-permanent .card .card-image img')
+const limitedLabelsFile = document.querySelectorAll('.offers .div-ticketing-limited .card .card-image label')
+const limitedOfferImgs = document.querySelectorAll('.offers .div-ticketing-limited .card .card-image img')
 
-const handleChangeImageClick = (e, type, nbImage, index = null) => {
+const handleChangeImageClick = (e, type, nbImage, offerType = null, index = null) => {
     e.preventDefault()
     let inputfiles = []
     let inputfile = null
@@ -44,9 +46,10 @@ const handleChangeImageClick = (e, type, nbImage, index = null) => {
         inputfiles = document.querySelectorAll('.add-offer .card input[type=file]')
         inputfile = inputfiles[nbImage]
     }
-    // else if (type === 'edit') {
-    //     inputfile = document.querySelector('.ticketings .card:nth-child(' + (index + 1) + ') input[type=file]')
-    // }
+    else if (type === 'edit') {
+        inputfiles = document.querySelectorAll('.offers .div-ticketing-' + offerType + ' .card:nth-child(' + (index + 1) + ') input[type=file]')
+        inputfile = inputfiles[nbImage]
+    }
     inputfile.click()
 }
 
@@ -58,13 +61,29 @@ ticketingImgAdds.forEach((ticketingImgAdd, nbImage) => {
     ticketingImgAdd.addEventListener('click', (e) => handleChangeImageClick(e, 'add', nbImage))
 });
 
-// labelsFile.forEach((label, index) => {
-//     label.addEventListener('click', (e) => handleChangeImageClick(e, 'edit', index))
-// })
+permanentLabelsFile.forEach((label, index) => {
+    const nbImage = (index % 4)
+    const nbCard = ~~(index / 4) + 1
+    label.addEventListener('click', (e) => handleChangeImageClick(e, 'edit', nbImage, 'permanent', nbCard))
+})
 
-// memberImgs.forEach((img, index) => {
-//     img.addEventListener('click', (e) => handleChangeImageClick(e, 'edit', index))
-// })
+permanentOfferImgs.forEach((img, index) => {
+    const nbImage = (index % 4)
+    const nbCard = ~~(index / 4) + 1
+    img.addEventListener('click', (e) => handleChangeImageClick(e, 'edit', nbImage, 'permanent', nbCard))
+})
+
+limitedLabelsFile.forEach((label, index) => {
+    const nbImage = (index % 4)
+    const nbCard = ~~(index / 4) + 1
+    label.addEventListener('click', (e) => handleChangeImageClick(e, 'edit', nbImage, 'limited', nbCard))
+})
+
+limitedOfferImgs.forEach((img, index) => {
+    const nbImage = (index % 4)
+    const nbCard = ~~(index / 4) + 1
+    img.addEventListener('click', (e) => handleChangeImageClick(e, 'edit', nbImage, 'limited', nbCard))
+})
 
 // gestion CRUD
 // afficher le modal concerné

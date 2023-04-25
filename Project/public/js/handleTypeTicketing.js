@@ -4,14 +4,24 @@ const buttons = document.querySelectorAll(".li-ticketing")
 const ticketingPermanentDiv = document.querySelector(".div-ticketing-permanent")
 const ticketingLimitedDiv = document.querySelector(".div-ticketing-limited")
 
-function showTicketingPermanent() {
+const showTicketingPermanent = (title = null) => {
     ticketingPermanentDiv.style.display = 'block'
     ticketingLimitedDiv.style.display = 'none'
+
+    // si il faut changer le titre de la partie (backoffice)
+    if (title) {
+        title.innerText = 'Les offres permanentes'
+    }
 }
 
-function showTicketingLimited() {
+const showTicketingLimited = (title = null) => {
     ticketingPermanentDiv.style.display = 'none'
     ticketingLimitedDiv.style.display = 'block'
+
+    // si il faut changer le titre de la partie (backoffice)
+    if (title) {
+        title.innerText = 'Les offres limitées'
+    }
 }
 
 const handleClick = (e) => {
@@ -46,8 +56,13 @@ const handleClick = (e) => {
 
 ticketingLimitedDiv.style.display = 'none'
 
-btnPermanentTicketing.addEventListener('click', showTicketingPermanent)
-btnLimitedTicketing.addEventListener('click', showTicketingLimited)
+let title = null
+if (document.querySelector('#backoffice-ticketing')) {
+    title = document.querySelector('.title-ticketing')
+}
+
+btnPermanentTicketing.addEventListener('click', () => showTicketingPermanent(title))
+btnLimitedTicketing.addEventListener('click', () => showTicketingLimited(title))
 
 buttons.forEach(btn => {
     btn.addEventListener('click', handleClick)
