@@ -112,13 +112,13 @@ class TicketingType extends AbstractType
             ->add('image1', FileType::class, [
                 'label' => 'Choisir une image',
                 'disabled' => true,
-                'required' => true,
+                'required' => false,
                 'attr' => [
                     'class' => 'form-file-input'
                 ],
                 'label_attr' => [
                     'class' => 'form-file-label form-file-label-disabled'
-                ],
+                ]
             ])
             ->add('image2', FileType::class, [
                 'label' => 'Choisir une image',
@@ -129,7 +129,7 @@ class TicketingType extends AbstractType
                 ],
                 'label_attr' => [
                     'class' => 'form-file-label form-file-label-disabled'
-                ],
+                ]
             ])
             ->add('image3', FileType::class, [
                 'label' => 'Choisir une image',
@@ -140,7 +140,7 @@ class TicketingType extends AbstractType
                 ],
                 'label_attr' => [
                     'class' => 'form-file-label form-file-label-disabled'
-                ],
+                ]
             ])
             ->add('image4', FileType::class, [
                 'label' => 'Choisir une image',
@@ -151,9 +151,8 @@ class TicketingType extends AbstractType
                 ],
                 'label_attr' => [
                     'class' => 'form-file-label form-file-label-disabled'
-                ],
-            ])
-        ;
+                ]
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

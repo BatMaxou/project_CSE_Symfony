@@ -60,6 +60,15 @@ class TicketingRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findByLimitedDesc(): array
+    {
+        return $this->createQueryBuilder('t')
+            ->Where("t.type = 'limitée'")
+            ->orderBy('t.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
     public function findByLimitedActiveDesc(): array
     {
         return $this->createQueryBuilder('t')

@@ -248,14 +248,34 @@ class BackOfficeController extends AbstractController
 
     // Page d'affichage / modification d'un admin
     #[Route(path: 'billeterie', name: 'backoffice_ticketing')]
-    public function ticketing(StaticPathList $staticPathList, TicketingRepository $ticketingRepository, ImageTicketingRepository $imageTicketingRepository, Request $request): Response
+    public function ticketing(StaticPathList $staticPathList, TicketingRepository $ticketingRep, ImageTicketingRepository $imgTicketingRep, PartnershipRepository $partnershipRep): Response
     {
         $paths = [$staticPathList->getAdminPathByName('Tableau de bord'), $staticPathList->getAdminPathByName('Billeterie')];
 
-        $ticketings = $ticketingRepository->findAll();
-        $ticketingPermanents = $ticketingRepository->findByPermanent();
-        $ticketingLimiteds = $ticketingRepository->findByLimited();
-        $imageTicketings = $imageTicketingRepository->findAll();
+        $ticketingsPermanent = $ticketingRep->findByPermanentDesc();
+        $ticketingsLimited = $ticketingRep->findByLimitedDesc();
+
+        // récupération des images
+        foreach ($ticketingsPermanent as $offer) {
+            foreach ($imgTicketingRep->findByOffer($offer) as $image) {
+                $offer->addImageTicketing($image);
+            };
+        }
+        foreach ($ticketingsLimited as $offer) {
+            foreach ($imgTicketingRep->findByOffer($offer) as $image) {
+                $offer->addImageTicketing($image);
+            };
+        }
+
+        // récupération des partenaires
+        $partnershipRep->findAll();
+
+        $nbLimitedOffers = count($ticketingsLimited);
+        $nbPermanentOffers = count($ticketingsPermanent);
+
+        // counting the number of pages with 4 offers per page
+        $nbPagePermanent = ($nbPermanentOffers % 4 === 0 || $nbPermanentOffers < 0) ? $nbPermanentOffers / 4 : intdiv($nbPermanentOffers, 4) + 1;
+        $nbPageLimited = ($nbLimitedOffers % 4 === 0 || $nbLimitedOffers < 0) ? $nbLimitedOffers / 4 : intdiv($nbLimitedOffers, 4) + 1;
 
         $formAddTicketing = $this->createForm(TicketingType::class, null, [
             'action' => $this->generateUrl($staticPathList->getRequestPathByName('ajout_billeterie')),
@@ -272,44 +292,23 @@ class BackOfficeController extends AbstractController
             'method' => 'POST',
         ]);
 
-        // $formEditImage = $this->createForm(ImageTicketingRepository::class, null, [
-        //     'action' => $this->generateUrl($staticPathList->getRequestPathByName('modif_image_ticketing')),
-        //     'method' => 'POST',
-        // ]);
-
-        // $formDeleteImage = $this->createForm(ImageTicketingRepository::class, null, [
-        //     'action' => $this->generateUrl($staticPathList->getRequestPathByName('supp_image_ticketing')),
-        //     'method' => 'POST',
-        // ]);
-
         $formEditTicketings = array();
         $formDeleteTicketings = array();
 
-        $formAddImages = array();
-        // $formEditImages = array();
-        // $formDeleteImages = array();-
-
-        for ($i = 0; $i < count($ticketings); $i++) {
+        for ($i = 0; $i < (count($ticketingsLimited) + count($ticketingsPermanent)); $i++) {
             $formEditTicketings[] = $formEditTicketing->createView();
             $formDeleteTicketings[] = $formDeleteTicketing->createView();
         }
 
-        // for ($i = 0; $i < count($imageTicketings); $i++) {
-        //     $formEditImages[] = $formEditImage->createView();
-        //     $formDeleteImages[] = $formDeleteImage->createView();
-        // }
-
         return $this->render('/backoffice/ticketing/index.html.twig', [
             'paths' => $paths,
-            'formAddTicketing' => $formAddTicketing,
-            'formEditTicketings' => $formEditTicketings,
-            'formDeleteTicketings' => $formDeleteTicketings,
-            // 'formEditImages' => $formEditImages,
-            // 'formDeleteImages' => $formDeleteImages,
-            'ticketings' => $ticketings,
-            'ticketingPermanents' => $ticketingPermanents,
-            'ticketingLimiteds' => $ticketingPermanents,
-            'imageTicketings' => $imageTicketings,
+            'formAdd' => $formAddTicketing,
+            'formEdits' => $formEditTicketings,
+            'formDeletes' => $formDeleteTicketings,
+            'ticketingsPermanent' => $ticketingsPermanent,
+            'ticketingsLimited' => $ticketingsLimited,
+            'nbPagePermanent' => $nbPagePermanent,
+            'nbPageLimited' => $nbPageLimited,
         ]);
     }
 }

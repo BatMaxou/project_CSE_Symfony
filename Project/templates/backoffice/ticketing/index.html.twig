@@ -5,143 +5,130 @@
 {% endblock %}
 
 {% block content %}
+	<div id="backoffice-ticketing">
+		{% block modal %}
+			{% include "includes/_modal.html.twig" with {
+				type: 'add',
+				title: 'Attention, ajout en cours !',
+				content:
+				"<p class='modal-question'>Vous êtes sur le point d'ajouter l'offre : </p>" ~
+				"<div class='post-content'>" ~
+					"<p class='modal-recap add-ticketing-type'></p>" ~
+					"<p class='modal-recap add-ticketing-name'></p>" ~
+					"<p class='modal-recap add-ticketing-text'></p>" ~
+					"<p class='modal-recap add-ticketing-date-start'></p>" ~
+					"<p class='modal-recap add-ticketing-date-end'></p>" ~
+					"<p class='modal-recap add-ticketing-number-min'></p>" ~
+					"<p class='modal-recap add-ticketing-order-number'></p>" ~
+					"<p class='modal-recap add-ticketing-partnership'></p>" ~
 
-<div id="backoffice-ticketing">
+					"<p class='modal-recap add-ticketing-image-1'></p>" ~
+					"<p class='modal-recap add-ticketing-image-2'></p>" ~
+					"<p class='modal-recap add-ticketing-image-3'></p>" ~
+					"<p class='modal-recap add-ticketing-image-4'></p>" ~
+					"</div>" ~
+				"<p class='modal-question'>Êtes-vous sûr de vouloir ajouter cette offre ?</p>"
+				,
+				options: {
+				cancelButton: true,
+				addButton: true
+				}
+			} %}
 
-	{% block modal %}
+			{% include "includes/_modal.html.twig" with {
+				type: 'edit',
+				title: 'Attention, modification en cours !',
+				content:
+				"<p class='modal-question'>Vous êtes sur le point de modifier l'offre : </p>" ~
+				"<div class='content-offre-edit'>" ~
+					"<p class='modal-recap edit-ticketing-email'></p>" ~
+					"<p class='modal-recap edit-ticketing-password'></p>" ~
+					"<p class='modal-recap edit-ticketing-role'></p>" ~
+					"</div>" ~
+				"<p class='modal-question'>Êtes-vous sûr de vouloir modifier cette offre ?</p>"
+				,
+				options: {
+				cancelButton: true,
+				editButton: true
+				}
+			} %}
 
-		{% include "includes/_modal.html.twig" with {
-	type: 'add',
-	title: 'Attention, ajout en cours !',
-	content:
-	"<p class='modal-question'>Vous êtes sur le point d'ajouter l'offre : </p>" ~
-	"<div class='post-content'>" ~
-		"<p class='modal-recap add-ticketing-type'></p>" ~
-		"<p class='modal-recap add-ticketing-name'></p>" ~
-		"<p class='modal-recap add-ticketing-text'></p>" ~
-		"<p class='modal-recap add-ticketing-date-start'></p>" ~
-		"<p class='modal-recap add-ticketing-date-end'></p>" ~
-		"<p class='modal-recap add-ticketing-number-min'></p>" ~
-		"<p class='modal-recap add-ticketing-order-number'></p>" ~
-		"<p class='modal-recap add-ticketing-partnership'></p>" ~
+			{% include "includes/_modal.html.twig" with {
+				type: 'delete',
+				title: 'Attention, suppression en cours !',
+				content:
+				"<p class='modal-question'>Vous êtes sur le point de supprimer l'offre : </p>" ~
+				"<p class='modal-recap delete-ticketing-email'></p>" ~
+				"<p class='modal-question'>Êtes-vous sûr de vouloir supprimer cette offre ?</p>"
+				,
+				options: {
+				cancelButton: true,
+				deleteButton: true
+				}
+			} %}
+		{% endblock %}
 
-		"<p class='modal-recap add-ticketing-image-1'></p>" ~
-		"<p class='modal-recap add-ticketing-image-2'></p>" ~
-		"<p class='modal-recap add-ticketing-image-3'></p>" ~
-		"<p class='modal-recap add-ticketing-image-4'></p>" ~
-		"</div>" ~
-	"<p class='modal-question'>Êtes-vous sûr de vouloir ajouter cette offre ?</p>"
-	,
-	options: {
-	cancelButton: true,
-	addButton: true
-	}
-	} %}
-
-		{% include "includes/_modal.html.twig" with {
-	type: 'edit',
-	title: 'Attention, modification en cours !',
-	content:
-	"<p class='modal-question'>Vous êtes sur le point de modifier l'offre : </p>" ~
-	"<div class='content-offre-edit'>" ~
-		"<p class='modal-recap edit-ticketing-email'></p>" ~
-		"<p class='modal-recap edit-ticketing-password'></p>" ~
-		"<p class='modal-recap edit-ticketing-role'></p>" ~
-		"</div>" ~
-	"<p class='modal-question'>Êtes-vous sûr de vouloir modifier cette offre ?</p>"
-	,
-	options: {
-	cancelButton: true,
-	editButton: true
-	}
-	} %}
-
-		{% include "includes/_modal.html.twig" with {
-	type: 'delete',
-	title: 'Attention, suppression en cours !',
-	content:
-	"<p class='modal-question'>Vous êtes sur le point de supprimer l'offre : </p>" ~
-	"<p class='modal-recap delete-ticketing-email'></p>" ~
-	"<p class='modal-question'>Êtes-vous sûr de vouloir supprimer cette offre ?</p>"
-	,
-	options: {
-	cancelButton: true,
-	deleteButton: true
-	}
-	} %}
-	{% endblock %}
-
-	<h1>Gestion des offres</h1>
-
-	<div class="div-ticketing">
-		<div class="add-ticketing">
-			<h2>Ajouter une offre</h2>
-
+		<h1>Gestion des offres</h1>
+		<h2>Ajouter une nouvelle offre</h2>
+		<div class="add-offer">
 			<div class="card">
 				<div class="card-header">
 					<h3>Offre</h3>
 				</div>
-				{{ form_start(formAddTicketing, {'attr': {'class': 'add-form'}}) }}
+				{{ form_start(formAdd, {'attr': {'class': 'add-form'}}) }}
 				<div class="card-body">
 					<div class="card-image">
-
-						{% set img = [formAddTicketing.image1, formAddTicketing.image2, formAddTicketing.image3,
-						formAddTicketing.image4] %}
+						{% set img = [formAdd.image1, formAdd.image2, formAdd.image3, formAdd.image4] %}
 						{% for ind in 0..3 %}
+							{# Pour le flex #}
 							<div>
 								<img src="{{ asset('images/required/no-image.svg') }}" alt="image de l'offre">
-								{{ form_label(img[ind], 'Choisir une image', {'label_attr': {'class': 'form-file-label
-							form-file-label-active'}}) }}
-								{{ form_widget(img[ind], { 'disabled': false}) }}
+								{{ form_label(img[ind], 'Choisir une image', {'label_attr': {'class': 'form-file-label form-file-label-active'}}) }}
+								{{ form_widget(img[ind], { 'disabled': false }) }}
 							</div>
-
 						{% endfor %}
 					</div>
-
 					<div class="card-content">
+						{{ form_widget(formAdd.type, {disabled: false}) }}
 
-						{{ form_widget(formAddTicketing.type, {disabled: false}) }}
+						{{ form_widget(formAdd.name, {disabled: false}) }}
+						{{ form_widget(formAdd.text, {disabled: false}) }}
 
-						{{ form_row(formAddTicketing.name, {disabled: false}) }}
-						{{ form_row(formAddTicketing.text, {disabled: false}) }}
+						{{ form_label(formAdd.date_start, 'Date de début de validité :') }}
+						{{ form_widget(formAdd.date_start, {disabled: false}) }}
 
-						<div>
-							{{ form_label(formAddTicketing.date_start, 'Date de début de validité :') }}
-							{{ form_widget(formAddTicketing.date_start, {disabled: false}) }}
-						</div>
-						<div>
-							{{ form_label(formAddTicketing.date_end, 'Date de fin de validité :') }}
-							{{ form_widget(formAddTicketing.date_end, {disabled: false}) }}
-						</div>
-						<div class='number-min'>
-							{{ form_label(formAddTicketing.number_min_place, 'Nombre de place minimum :') }}
-							{{ form_widget(formAddTicketing.number_min_place, {disabled: false, required: false}) }}
-						</div>
-						<div class='order-number'>
-							{{ form_label(formAddTicketing.order_number, 'Ordre d\'affichage :') }}
-							{{ form_widget(formAddTicketing.order_number, {disabled: false}) }}
+						{{ form_label(formAdd.date_end, 'Date de fin de validité :') }}
+						{{ form_widget(formAdd.date_end, {disabled: false}) }}
+
+						{{ form_label(formAdd.partnership, 'Partenaire associé :') }}
+						{{ form_widget(formAdd.partnership, {disabled: false, placeholder: 'Aucun'}) }}
+
+						<div class="number-min">
+							{{ form_label(formAdd.number_min_place, 'Nombre de place minimum :') }}
+							{{ form_widget(formAdd.number_min_place, {disabled: false, required: false}) }}
 						</div>
 
-						{{ form_row(formAddTicketing.partnership, {disabled: false, placeholder: 'Aucun partenaire
-						associé'}) }}
+						<div class="order-number">
+							{{ form_label(formAdd.order_number, "Ordre d'affichage :") }}
+							{{ form_widget(formAdd.order_number, {disabled: false}) }}
+						</div>
 
 					</div>
 				</div>
 				<div class="card-footer">
-					<button class='btn btn-add modal-open-add'>Ajouter</button>
+					<button class='btn btn-edit btn-add modal-open-add'>Ajouter</button>
 				</div>
-				{{ form_end(formAddTicketing, {'render_rest': false}) }}
+				{{ form_end(formAdd, {'render_rest': false}) }}
+
 			</div>
 		</div>
 
 		<div class="div-title-ticketing">
 
-			<h1 class="title-ticketing">Les offres</h1>
+			<h2 class="title-ticketing">Les offres permanentes</h2>
 			<ul class="ul-ticketing">
 
-				<li class="ticketing-all-button li-ticketing li-ticketing-active">Toutes</li>
-				<li class="separator-ticketing">|</li>
-				<li class="ticketing-permanent-button li-ticketing">Permanentes</li>
+				<li class="ticketing-permanent-button li-ticketing li-ticketing-active">Permanentes</li>
 				<li class="separator-ticketing">|</li>
 				<li class="ticketing-limited-button li-ticketing">Limitées</li>
 
@@ -149,156 +136,146 @@
 			</ul>
 
 		</div>
-		<div class="div-ticketing-permanent-backoffice">
 
-			{% for key, ticketing in ticketings %}
+		<div class="div-ticketing">
 
-			{% if ticketing.type is same as('permanente') %}
-			<div class="card card-permanent">
-				<div class="card-header">
-					<div class="card-tag">
-						Offre {{ ticketing.type }}
-					</div>
-				</div>
-				<div class="card-body">
+			<div class="div-ticketing-permanent">
+				{% block paging %}
+					{% include "includes/_paging.html.twig" with {nbPage: nbPagePermanent} %}
+					{# script placé à la fin car les offres ne sont pas encore crées ici #}
+				{% endblock %}
 
-					{{ form_start(formEditTicketings[key], {'attr': {'class': 'edit-form'}}) }}
+				{% for key, offer in ticketingsPermanent %}
+					<div class="card card-paging-multiple card-paging-1">
+						<div class="card-header">
+							<div class="card-tag">
+								Offre
+								{{ offer.type }}
+							</div>
+						</div>
+						<div class="card-body">
+							{{ form_start(formEdits[key], {'attr': {'class': 'edit-form'}}) }}
+							<div class="card-image">
+								{% set img = [formEdits[key].image1, formEdits[key].image2, formEdits[key].image3, formEdits[key].image4] %}
+								{% for ind in 0..3 %}
+									<div>
+										{% if offer.imageTicketings[ind] is defined %}
+											<img src="{{ asset('images/ticketing/' ~ offer.imageTicketings[ind].name) }}" alt="image de l'offre">
+										{% else %}
+											<img src="{{ asset('images/required/no-image.svg') }}" alt="image de l'offre">
+										{% endif %}
+										{{ form_label(img[ind]) }}
+										{{ form_widget(img[ind])}}
+									</div>
+								{% endfor %}
+							</div>
+							<div class="card-content">
+								{{ form_row(formEdits[key].name, {value: offer.name, attr: {class: 'form-input form-input-disabled'}}) }}
+								{{ form_row(formEdits[key].text, {value: offer.text, attr: {class: 'form-input form-input-disabled'}}) }}
 
-					<div class="card-image">
-						{% set img = [formEditTicketings[key].image1, formEditTicketings[key].image2,
-						formEditTicketings[key].image3, formEditTicketings[key].image4] %}
-						{% for ind in 0..3 %}
-						<div>
-							{% if ticketing.imageTicketings[ind] is defined %}
-							<img src="{{ asset('images/ticketing/' ~ ticketing.imageTicketings[ind].name) }}"
-								alt="image de l'offre">
-							{% else %}
-							<img src="{{ asset('images/required/no-image.svg') }}" alt="image de l'offre">
-						{% endif %}
-						{{ form_label(img[ind], 'Choisir une image', {'label_attr': {'class': 'form-file-label
-							form-file-label-active'}}) }}
-						{{ form_widget(img[ind], { 'disabled': false}) }}
-					</div>
-				{% endfor %}
+								{{ form_label(formEdits[key].date_start, 'Date de début de validité :') }}
+								{{ form_widget(formEdits[key].date_start, {value: offer.dateStart|date('Y-m-d'), attr: {class: 'form-input form-input-disabled'}}) }}
 
-			</div>
+								{{ form_label(formEdits[key].date_end, 'Date de fin de validité :') }}
+								{{ form_widget(formEdits[key].date_end, {value: offer.dateEnd|date('Y-m-d'), attr: {class: 'form-input form-input-disabled'}}) }}
 
-			<div class="card-content">
+								{{ form_row(formEdits[key].number_min_place, {value: offer.numberMinPlace, attr: {class: 'form-input form-input-disabled'}}) }}
 
+								{% if offer.partnership is not null %}
+									{{ form_row(formEdits[key].partnership, {value: offer.partnership.id, attr: {class: 'form-input form-input-disabled'}}) }}
+								{% else %}
+									{{ form_row(formEdits[key].partnership, {placeholder: "Aucun partenaire associé", attr: {class: 'form-input form-input-disabled'}}) }}
+								{% endif %}
 
-				{{ form_row(formEditTicketings[key].name, {value: ticketing.name, attr: {class: 'form-input
-						form-input-disabled'}}) }}
-				{{ form_row(formEditTicketings[key].text, {value: ticketing.text, attr: {class: 'form-input
-						form-input-disabled'}}) }}
+							</div>
+							{{ form_end(formEdits[key], {'render_rest': false}) }}
 
-				<div>
-					{{ form_label(formEditTicketings[key].date_start, 'Date de début de validité :') }}
-					{{ form_widget(formEditTicketings[key].date_start, {value:
-							ticketing.dateStart|date('Y-m-d'), attr: {class: 'form-input form-input-disabled'}}) }}
-				</div>
-				<div>
-					{{ form_label(formEditTicketings[key].date_end, 'Date de fin de validité :') }}
-					{{ form_widget(formEditTicketings[key].date_end, {value: ticketing.dateEnd|date('Y-m-d'),
-							attr: {class: 'form-input form-input-disabled'}}) }}
-				</div>
-
-				{{ form_row(formEditTicketings[key].number_min_place, {value: ticketing.numberMinPlace, attr:
-						{class: 'form-input form-input-disabled'}}) }}
-
-				{% if ticketing.partnership is not null %}
-					{{ form_row(formEditTicketings[key].partnership, {value: ticketing.partnership.id, attr: {class:
-						'form-input form-input-disabled'}}) }}
-				{% else %}
-					{{ form_row(formEditTicketings[key].partnership, {placeholder: "Aucun partenaire associé", attr:
-						{class: 'form-input form-input-disabled'}}) }}
-				{% endif %}
-
-			</div>
-			{{ form_end(formEditTicketings[key], {'render_rest': false}) }}
-
-			{{ form_start(formDeleteTicketings[key], {'attr': {'class': 'delete-form'}})}}
-			{{ form_widget(formDeleteTicketings[key].id)}}
-			{{ form_end(formDeleteTicketings[key], {'render_rest': false}) }}
-
-		</div>
-		<div class="card-footer">
-			<button class='btn btn-edit btn-save modal-open-edit'>Sauvegarder</button>
-			<button class='btn btn-edit btn-actived'>Modifier</button>
-			<button class="btn btn-delete modal-open-delete">Supprimer</button>
-		</div>
-	</div>
-{% elseif ticketing.type is same as('limitée') %}
-	<div class="card card-limited">
-		<div class="card-header">
-			<div class="card-tag">
-				Offre
-				{{ ticketing.type }}
-			</div>
-		</div>
-		<div class="card-body">
-
-			{{ form_start(formEditTicketings[key], {'attr': {'class': 'edit-form'}}) }}
-
-			<div class="card-image">
-				{% set img = [formEditTicketings[key].image1, formEditTicketings[key].image2,
-						formEditTicketings[key].image3, formEditTicketings[key].image4] %}
-				{% for ind in 0..3 %}
-					<div>
-						{% if ticketing.imageTicketings[ind] is defined %}
-							<img src="{{ asset('images/ticketing' ~ ticketing.imageTicketings[ind].name) }}" alt="image de l'offre">
-						{% else %}
-							<img src="{{ asset('images/required/no-image.svg') }}" alt="image de l'offre">
-						{% endif %}
-						{{ form_label(img[ind], 'Choisir une image', {'label_attr': {'class': 'form-file-label
-							form-file-label-active'}}) }}
-						{{ form_widget(img[ind], { 'disabled': false}) }}
+							{{ form_start(formDeletes[key], {'attr': {'class': 'delete-form'}})}}
+							{{ form_widget(formDeletes[key].id)}}
+							{{ form_end(formDeletes[key], {'render_rest': false}) }}
+						</div>
+						<div class="card-footer">
+							<button class='btn btn-edit btn-save modal-open-edit'>Sauvegarder</button>
+							<button class='btn btn-edit btn-actived'>Modifier</button>
+							<button class="btn btn-delete modal-open-delete">Supprimer</button>
+						</div>
 					</div>
 				{% endfor %}
 
 			</div>
 
-			<div class="card-content">
+			<div class="div-ticketing-limited">
+				{% block paging_2 %}
+					{% include "includes/_paging.html.twig" with {nbPage: nbPageLimited}%}
+					{# script placé à la fin car les offres ne sont pas encore crées ici #}
+				{% endblock %}
 
+				{% for key, offer in ticketingsLimited %}
+					<div class="card card-paging-multiple card-paging-2">
+						<div class="card-header">
+							<div class="card-tag">
+								Offre
+								{{ offer.type }}
+							</div>
+						</div>
+						<div class="card-body">
+							{{ form_start(formEdits[key + ticketingsPermanent|length], {'attr': {'class': 'edit-form'}}) }}
+							<div class="card-image">
+								{% set img = [formEdits[key + ticketingsPermanent|length].image1, formEdits[key + ticketingsPermanent|length].image2, formEdits[key + ticketingsPermanent|length].image3, formEdits[key + ticketingsPermanent|length].image4] %}
+								{% for ind in 0..3 %}
+									<div>
+										{% if offer.imageTicketings[ind] is defined %}
+											<img src="{{ asset('images/ticketing/' ~ offer.imageTicketings[ind].name) }}" alt="image de l'offre">
+										{% else %}
+											<img src="{{ asset('images/required/no-image.svg') }}" alt="image de l'offre">
+										{% endif %}
+										{{ form_label(img[ind]) }}
+										{{ form_widget(img[ind])}}
+									</div>
+								{% endfor %}
+							</div>
+							<div class="card-content">
+								{{ form_row(formEdits[key + ticketingsPermanent|length].name, {value: offer.name, attr: {class: 'form-input form-input-disabled'}}) }}
+								{{ form_row(formEdits[key + ticketingsPermanent|length].text, {value: offer.text, attr: {class: 'form-input form-input-disabled'}}) }}
 
-				{{ form_row(formEditTicketings[key].name, {value: ticketing.name, attr: {class: 'form-input
-						form-input-disabled'}}) }}
-				{{ form_row(formEditTicketings[key].text, {value: ticketing.text, attr: {class: 'form-input
-						form-input-disabled'}}) }}
+								{{ form_label(formEdits[key + ticketingsPermanent|length].date_start, 'Date de début de validité :') }}
+								{{ form_widget(formEdits[key + ticketingsPermanent|length].date_start, {value: offer.dateStart|date('Y-m-d'), attr: {class: 'form-input form-input-disabled'}}) }}
 
-				<div>
-					{{ form_label(formEditTicketings[key].date_start, 'Date de début de validité :') }}
-					{{ form_widget(formEditTicketings[key].date_start, {value:
-							ticketing.dateStart|date('Y-m-d'), attr: {class: 'form-input form-input-disabled'}}) }}
-				</div>
-				<div>
-					{{ form_label(formEditTicketings[key].date_end, 'Date de fin de validité :') }}
-					{{ form_widget(formEditTicketings[key].date_end, {value: ticketing.dateEnd|date('Y-m-d'),
-							attr: {class: 'form-input form-input-disabled'}}) }}
-				</div>
+								{{ form_label(formEdits[key + ticketingsPermanent|length].date_end, 'Date de fin de validité :') }}
+								{{ form_widget(formEdits[key + ticketingsPermanent|length].date_end, {value: offer.dateEnd|date('Y-m-d'), attr: {class: 'form-input form-input-disabled'}}) }}
 
-				{{ form_row(formEditTicketings[key].order_number, {value: ticketing.orderNumber, attr:
-						{class: 'form-input form-input-disabled'}}) }}
+								{{ form_row(formEdits[key + ticketingsPermanent|length].order_number, {value: offer.orderNumber, attr: {class: 'form-input form-input-disabled'}}) }}
 
-				{% if ticketing.partnership is not null %}
-					{{ form_row(formEditTicketings[key].partnership, {value: ticketing.partnership.id, attr: {class:
-						'form-input form-input-disabled'}}) }}
-				{% else %}
-					{{ form_row(formEditTicketings[key].partnership, {placeholder: "Aucun partenaire associé", attr:
-						{class: 'form-input form-input-disabled'}}) }}
-				{% endif %}
+								{% if offer.partnership is not null %}
+									{{ form_row(formEdits[key + ticketingsPermanent|length].partnership, {value: offer.partnership.id, attr: {class: 'form-input form-input-disabled'}}) }}
+								{% else %}
+									{{ form_row(formEdits[key + ticketingsPermanent|length].partnership, {placeholder: "Aucun partenaire associé", attr: {class: 'form-input form-input-disabled'}}) }}
+								{% endif %}
 
+							</div>
+							{{ form_end(formEdits[key + ticketingsPermanent|length], {'render_rest': false}) }}
+
+							{{ form_start(formDeletes[key + ticketingsPermanent|length], {'attr': {'class': 'delete-form'}})}}
+							{{ form_widget(formDeletes[key + ticketingsPermanent|length].id)}}
+							{{ form_end(formDeletes[key + ticketingsPermanent|length], {'render_rest': false}) }}
+						</div>
+						<div class="card-footer">
+							<button class='btn btn-edit btn-save modal-open-edit'>Sauvegarder</button>
+							<button class='btn btn-edit btn-actived'>Modifier</button>
+							<button class="btn btn-delete modal-open-delete">Supprimer</button>
+						</div>
+					</div>
+				{% endfor %}
 			</div>
-			{{ form_end(formEditTicketings[key], {'render_rest': false}) }}
-
-			{{ form_start(formDeleteTicketings[key], {'attr': {'class': 'delete-form'}})}}
-			{{ form_widget(formDeleteTicketings[key].id)}}
-			{{ form_end(formDeleteTicketings[key], {'render_rest': false}) }}
-
 		</div>
-		<div class="card-footer">
-			<button class='btn btn-edit btn-save modal-open-edit'>Sauvegarder</button>
-			<button class='btn btn-edit btn-actived'>Modifier</button>
-			<button class="btn btn-delete modal-open-delete">Supprimer</button>
-		</div>
+
 	</div>
-{% endif %}{% endfor %}</div></div></div><script src="{{ asset('js/imageLoader.js') }}"></script>{% endblock %}{% block request %}<script src="{{ asset('js/request/ticketing.js') }}"></script>{% endblock %}
+
+	<script src="{{ asset('js/imageLoader.js') }}"></script>
+	<script src="{{ asset('js/ticketing.js') }}"></script>
+	<script src="{{ asset('js/paging.js') }}"></script>
+{% endblock %}
+
+{% block request %}
+	<script src="{{ asset('js/request/ticketing.js') }}"></script>
+{% endblock %}

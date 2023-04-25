@@ -182,7 +182,7 @@ class HomeController extends AbstractController
             };
         }
 
-        // récupération des images
+        // récupération des partenaires
         $partnershipRepo->findAll();
 
         // get 3 random image from database

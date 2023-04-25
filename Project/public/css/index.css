@@ -2031,7 +2031,7 @@ textarea:focus::placeholder {
 }
 
 #backoffice-ticketing .card-body form,
-#backoffice-ticketing .add-ticketing .card-body {
+#backoffice-ticketing .add-offer .card-body {
     display: flex;
     align-items: center;
 }
@@ -2039,51 +2039,53 @@ textarea:focus::placeholder {
 #backoffice-ticketing .card-image {
     margin-top: 15px;
     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     width: 50%;
     gap: 25px;
-    max-width: 100%;
-    justify-content: space-evenly;
-    flex-wrap: wrap;
 }
 
 #backoffice-ticketing .card-content {
     width: 50%;
 }
 
-#backoffice-ticketing .card-content div {
-    display: flex;
-    flex-direction: column;
-    margin: 10px 0;
-}
-
-#backoffice-ticketing .card-content div input {
-    margin: 5px 0;
-}
-
-#backoffice-ticketing .card-content div select {
-    margin: 5px 0;
-}
-
-#backoffice-ticketing .card-content div textarea {
-    margin: 5px 0;
-}
-
-#backoffice-ticketing .card-footer {
-    gap: 5px;
-    display: flex;
-    justify-content: flex-end;
-}
-
-.add-ticketing #ticketing_type {
+#ticketing_type,
+.add-offer .number-min,
+.add-offer .order-number {
     position: absolute;
     top: 12px;
-    left: 60px;
     font-size: 16px;
 }
 
-.add-ticketing .number-min,
-.add-ticketing .order-number {
-    position: absolute;
-    top: 0px;
+#ticketing_type {
+    left: 60px;
+}
+
+.add-offer .number-min,
+.add-offer .order-number {
     right: 10px;
+    align-items: baseline;
+}
+
+.add-offer .number-min input,
+.add-offer #ticketing_order_number {
+    width: auto !important;
+}
+
+#backoffice-ticketing .card-content input[type="text"],
+#backoffice-ticketing .card-content input[type="date"],
+#backoffice-ticketing .card-content input[type="number"],
+#backoffice-ticketing .card-content textarea {
+    width: 95%;
+    margin: 5px 0 15px;
+}
+
+#backoffice-ticketing .card-content textarea {
+    height: 100px;
+}
+
+#ticketing_partnership,
+#ticketing_order_number {
+    width: 97%;
+    margin: 5px 0 15px;
 }

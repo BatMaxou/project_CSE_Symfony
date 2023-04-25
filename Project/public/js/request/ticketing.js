@@ -1,51 +1,7 @@
-// const pour l'animation js permanent/limitée modif
-const btnAllTicketing = document.querySelector(".ticketing-all-button")
-const btnPermanentTicketing = document.querySelector(".ticketing-permanent-button")
-const btnLimitedTicketing = document.querySelector(".ticketing-limited-button")
-const buttons = document.querySelectorAll(".li-ticketing")
-const ticketingPermanentDivs = document.querySelectorAll(".card-permanent")
-const ticketingLimitedDivs = document.querySelectorAll(".card-limited")
-
 // const pour l'animation js permanent/limitée add
-const typeTicketing = document.querySelector(".add-ticketing #ticketing_type")
+const typeTicketing = document.querySelector(".add-offer #ticketing_type")
 const orderNumberTicketing = document.querySelector("#backoffice-ticketing .number-min")
 const numberMinPlaceTicketing = document.querySelector("#backoffice-ticketing .order-number")
-
-// btn declencheurs
-const editTicketingBtns = document.querySelectorAll('#backoffice-ticketing .modal-open-edit')
-const deleteTicketingBtns = document.querySelectorAll('#backoffice-ticketing .modal-open-delete')
-
-// formulaires
-const addTicketingForm = document.querySelector('#backoffice-ticketing .add-form')
-const editTicketingForms = document.querySelectorAll('#backoffice-ticketing .edit-form')
-const deleteTicketingForms = document.querySelectorAll('#backoffice-ticketing .delete-form')
-
-function showAllTicketing() {
-    ticketingPermanentDivs.forEach(ticketingPermanentDiv => {
-        ticketingPermanentDiv.style.display = 'block'
-    });
-    ticketingLimitedDivs.forEach(ticketingLimitedDiv => {
-        ticketingLimitedDiv.style.display = 'block'
-    });
-}
-
-function showTicketingPermanent() {
-    ticketingPermanentDivs.forEach(ticketingPermanentDiv => {
-        ticketingPermanentDiv.style.display = 'block'
-    });
-    ticketingLimitedDivs.forEach(ticketingLimitedDiv => {
-        ticketingLimitedDiv.style.display = 'none'
-    });
-}
-
-function showTicketingLimited() {
-    ticketingPermanentDivs.forEach(ticketingPermanentDiv => {
-        ticketingPermanentDiv.style.display = 'none'
-    });
-    ticketingLimitedDivs.forEach(ticketingLimitedDiv => {
-        ticketingLimitedDiv.style.display = 'block'
-    });
-}
 
 function onChangeTicketingAdd() {
     if (typeTicketing.value === '0') {
@@ -58,54 +14,25 @@ function onChangeTicketingAdd() {
     }
 }
 
-const handleClick = (e) => {
-
-    // Récupération du nouveau bouton cliquer
-    ticketingUnderline = document.querySelector(".ticketing-underline")
-
-    // Récupération de l'ancien bouton cliquer, de sa taille en largeur et de sa position left
-    previous = document.querySelector(".li-ticketing-active")
-    previous.style.width = document.querySelector(".li-ticketing-active").offsetWidth + "px"
-    previous.style.left = document.querySelector(".li-ticketing-active").offsetLeft + "px"
-
-    // On enlève la classe li-ticketing-active de l'ancien bouton cliquer
-    previous.classList.remove("li-ticketing-active")
-
-    // On donne la classe li-ticketing-active au nouveau bouton cliquer
-    e.target.classList.add("li-ticketing-active")
-
-    // On récupère pour l'underline, la taille en largeur et la position left du nouveau bouton cliquer
-    ticketingUnderline.style.width = document.querySelector(".li-ticketing-active").offsetWidth + "px"
-    ticketingUnderline.style.left = document.querySelector(".li-ticketing-active").offsetLeft + "px"
-
-    // Création d'une timeline et paused sur true pour pas que ça se lance des le load de la page
-    const timeline = gsap.timeline({ paused: true });
-
-    // Slide de l'underline de l'ancien bouton au nouveau
-    timeline.fromTo(ticketingUnderline, { width: previous.style.width, left: previous.style.left }, { width: ticketingUnderline.style.width, left: ticketingUnderline.style.left, duration: 0.5 });
-
-    // On joue la timeline
-    timeline.play();
-}
-
-btnAllTicketing.addEventListener('click', showAllTicketing)
-btnPermanentTicketing.addEventListener('click', showTicketingPermanent)
-btnLimitedTicketing.addEventListener('click', showTicketingLimited)
-
 numberMinPlaceTicketing.style.display = 'none'
 typeTicketing.addEventListener('change', onChangeTicketingAdd)
 
-buttons.forEach(btn => {
-    btn.addEventListener('click', handleClick)
-});
-
-
 // Ticketing request
+
+// btn declencheurs
+const editTicketingBtns = document.querySelectorAll('#backoffice-ticketing .modal-open-edit')
+const deleteTicketingBtns = document.querySelectorAll('#backoffice-ticketing .modal-open-delete')
+
+// formulaires
+const addTicketingForm = document.querySelector('#backoffice-ticketing .add-form')
+const editTicketingForms = document.querySelectorAll('#backoffice-ticketing .edit-form')
+const deleteTicketingForms = document.querySelectorAll('#backoffice-ticketing .delete-form')
+
 
 // choix des images
 
-const labelFileAdds = document.querySelectorAll('.add-ticketing .card .card-image label')
-const ticketingImgAdds = document.querySelectorAll('.add-ticketing .card .card-image img')
+const labelFileAdds = document.querySelectorAll('.add-offer .card .card-image label')
+const ticketingImgAdds = document.querySelectorAll('.add-offer .card .card-image img')
 // const labelsFile = document.querySelectorAll('.members .card .card-image label')
 // const memberImgs = document.querySelectorAll('.members .card .card-image img')
 
@@ -114,7 +41,7 @@ const handleChangeImageClick = (e, type, nbImage, index = null) => {
     let inputfiles = []
     let inputfile = null
     if (type === 'add') {
-        inputfiles = document.querySelectorAll('.add-ticketing .card input[type=file]')
+        inputfiles = document.querySelectorAll('.add-offer .card input[type=file]')
         inputfile = inputfiles[nbImage]
     }
     // else if (type === 'edit') {
@@ -124,7 +51,6 @@ const handleChangeImageClick = (e, type, nbImage, index = null) => {
 }
 
 labelFileAdds.forEach((labelFileAdd, nbImage) => {
-    console.log(nbImage);
     labelFileAdd.addEventListener('click', (e) => handleChangeImageClick(e, 'add', nbImage))
 });
 
@@ -241,20 +167,20 @@ const handleTicketingsDisplayModal = (e, index, type, btnSubmit, form) => {
         const formData = new FormData(form)
 
         // Traitement de l'affichage des données modifiées dans la modal
-        const addType = document.querySelector('.modal .add-ticketing-type')
-        const addName = document.querySelector('.modal .add-ticketing-name')
-        const addText = document.querySelector('.modal .add-ticketing-text')
-        const addDateStart = document.querySelector('.modal .add-ticketing-date-start')
-        const addDateEnd = document.querySelector('.modal .add-ticketing-date-end')
+        const addType = document.querySelector('.modal .add-offer-type')
+        const addName = document.querySelector('.modal .add-offer-name')
+        const addText = document.querySelector('.modal .add-offer-text')
+        const addDateStart = document.querySelector('.modal .add-offer-date-start')
+        const addDateEnd = document.querySelector('.modal .add-offer-date-end')
 
-        const addPartnership = document.querySelector('.modal .add-ticketing-partnership')
-        const addNumberMin = document.querySelector('.modal .add-ticketing-number-min')
-        const addOrderNumber = document.querySelector('.modal .add-ticketing-order-number')
+        const addPartnership = document.querySelector('.modal .add-offer-partnership')
+        const addNumberMin = document.querySelector('.modal .add-offer-number-min')
+        const addOrderNumber = document.querySelector('.modal .add-offer-order-number')
 
-        const addImage1 = document.querySelector('.modal .add-ticketing-image-1')
-        const addImage2 = document.querySelector('.modal .add-ticketing-image-2')
-        const addImage3 = document.querySelector('.modal .add-ticketing-image-3')
-        const addImage4 = document.querySelector('.modal .add-ticketing-image-4')
+        const addImage1 = document.querySelector('.modal .add-offer-image-1')
+        const addImage2 = document.querySelector('.modal .add-offer-image-2')
+        const addImage3 = document.querySelector('.modal .add-offer-image-3')
+        const addImage4 = document.querySelector('.modal .add-offer-image-4')
 
 
         // Affichage des champs
