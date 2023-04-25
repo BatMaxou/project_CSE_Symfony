@@ -1,14 +1,8 @@
-const btnAllTicketing = document.querySelector(".ticketing-all-button")
 const btnPermanentTicketing = document.querySelector(".ticketing-permanent-button")
 const btnLimitedTicketing = document.querySelector(".ticketing-limited-button")
 const buttons = document.querySelectorAll(".li-ticketing")
 const ticketingPermanentDiv = document.querySelector(".div-ticketing-permanent")
 const ticketingLimitedDiv = document.querySelector(".div-ticketing-limited")
-
-function showAllTicketing() {
-    ticketingPermanentDiv.style.display = 'block'
-    ticketingLimitedDiv.style.display = 'block'
-}
 
 function showTicketingPermanent() {
     ticketingPermanentDiv.style.display = 'block'
@@ -50,11 +44,11 @@ const handleClick = (e) => {
     timeline.play();
 }
 
-btnAllTicketing.addEventListener('click', showAllTicketing)
+ticketingLimitedDiv.style.display = 'none'
+
 btnPermanentTicketing.addEventListener('click', showTicketingPermanent)
 btnLimitedTicketing.addEventListener('click', showTicketingLimited)
 
 buttons.forEach(btn => {
     btn.addEventListener('click', handleClick)
 });
-

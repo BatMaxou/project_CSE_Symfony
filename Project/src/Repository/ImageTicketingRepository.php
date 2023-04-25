@@ -39,6 +39,18 @@ class ImageTicketingRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @return ImageTicketing[] Returns an array of ImageTicketing objects
+     */
+    public function findByOffer($offer): array
+    {
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.ticketing = :offer')
+            ->setParameter('offer', $offer)
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return ImageTicketing[] Returns an array of ImageTicketing objects
     //     */

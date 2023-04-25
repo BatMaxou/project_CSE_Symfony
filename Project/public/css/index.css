@@ -857,13 +857,14 @@ textarea:focus::placeholder {
 }
 
 /* PAGING SYSTEM */
-.card-paging {
+.card-paging,
+.card-paging-multiple {
     display: none;
 }
 
 .paging-container {
     display: flex;
-    margin: 10px 0 15px;
+    margin-bottom: 15px;
 }
 
 .paging-element {
@@ -1425,7 +1426,7 @@ textarea:focus::placeholder {
 .ticketing-underline {
     border-top: 2px solid var(--color-secondary);
     position: absolute;
-    width: 50px;
+    width: 105px;
     top: 33px;
 }
 
