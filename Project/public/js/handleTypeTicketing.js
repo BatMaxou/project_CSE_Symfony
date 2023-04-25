@@ -5,24 +5,51 @@ const ticketingPermanentDiv = document.querySelector(".div-ticketing-permanent")
 const ticketingLimitedDiv = document.querySelector(".div-ticketing-limited")
 
 const showTicketingPermanent = (title = null) => {
-    ticketingPermanentDiv.style.display = 'block'
-    ticketingLimitedDiv.style.display = 'none'
+    gsap.to(ticketingLimitedDiv, {
+        opacity: 0,
+        display: 'none',
+        duration: 0.2
+    })
 
-    // si il faut changer le titre de la partie (backoffice)
+    gsap.fromTo(ticketingPermanentDiv, {
+        opacity: 0,
+        delay: 0.2
+    }, {
+        opacity: 1,
+        display: 'block',
+        delay: 0.2,
+        duration: 0.5
+    })
+
+    // s'il faut changer le titre de la partie (backoffice)
     if (title) {
         title.innerText = 'Les offres permanentes'
     }
 }
 
 const showTicketingLimited = (title = null) => {
-    ticketingPermanentDiv.style.display = 'none'
-    ticketingLimitedDiv.style.display = 'block'
+    gsap.to(ticketingPermanentDiv, {
+        opacity: 0,
+        display: 'none',
+        duration: 0.2
+    })
 
-    // si il faut changer le titre de la partie (backoffice)
+    gsap.fromTo(ticketingLimitedDiv, {
+        opacity: 0,
+        delay: 0.2
+    }, {
+        opacity: 1,
+        display: 'block',
+        delay: 0.2,
+        duration: 0.5
+    })
+
+    // s'il faut changer le titre de la partie (backoffice)
     if (title) {
         title.innerText = 'Les offres limitées'
     }
 }
+
 
 const handleClick = (e) => {
 

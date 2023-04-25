@@ -58,7 +58,7 @@ const handlePartnershipsDisplayModal = (e, index, type, btnSubmit, form) => {
 
         // garder la fonction submit dans une constante
         const submit = () => {
-            handleSubmit(index, formData, form, type, 0), { once: true }
+            handleSubmit(index, formData, form, type), { once: true }
         }
 
         // ajout de l'event à chaque affichage du modal 
@@ -95,7 +95,7 @@ const handlePartnershipsDisplayModal = (e, index, type, btnSubmit, form) => {
 
         // garder la fonction submit dans une constante
         const submit = () => {
-            handleSubmit(index, formData, form, type, 0), { once: true }
+            handleSubmit(index, formData, form, type), { once: true }
         }
 
         // ajout de l'event à chaque affichage du modal 
@@ -144,7 +144,7 @@ const handlePartnershipsDisplayModal = (e, index, type, btnSubmit, form) => {
 
         // garder la fonction submit dans une constante
         const submit = () => {
-            handleSubmit(index, formData, form, type, 0), { once: true }
+            handleSubmit(index, formData, form, type), { once: true }
         }
 
         // ajout de l'event à chaque affichage du modal 

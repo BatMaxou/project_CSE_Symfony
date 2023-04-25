@@ -20,7 +20,7 @@ const handleSurveysDisplayModal = (e, index, type, btnSubmit, form) => {
 
         // garder la fonction submit dans une constante
         const submit = () => {
-            handleSurveySubmit(index, formData, form, type, 0), { once: true }
+            handleSurveySubmit(index, formData, form, type), { once: true }
         }
 
         // ajout de l'event à chaque affichage du modal 
@@ -59,7 +59,7 @@ const handleSurveysDisplayModal = (e, index, type, btnSubmit, form) => {
 
         // garder la fonction submit dans une constante
         const submit = () => {
-            handleSurveySubmit(index, formData, form, type, 0), { once: true }
+            handleSurveySubmit(index, formData, form, type), { once: true }
         }
 
         // ajout de l'event à chaque affichage du modal 
@@ -106,7 +106,7 @@ const handleSurveysDisplayModal = (e, index, type, btnSubmit, form) => {
 
         // garder la fonction submit dans une constante
         const submit = () => {
-            handleSurveySubmit(index, formData, form, type, 0), { once: true }
+            handleSurveySubmit(index, formData, form, type), { once: true }
         }
 
         // ajout de l'event à chaque affichage du modal 

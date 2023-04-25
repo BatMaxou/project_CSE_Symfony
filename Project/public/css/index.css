@@ -90,8 +90,13 @@ textarea:focus::placeholder {
     color: var(--color-black);
 }
 
+/* pas de display 'none' pour permettre le focus */
 .form-file-input {
-    display: none;
+    display: block;
+    /* ajuster l'affichage du pop up par défaut */
+    width: 1px;
+    height: 1px;
+    margin: 0 auto;
 }
 
 .form-file-label {

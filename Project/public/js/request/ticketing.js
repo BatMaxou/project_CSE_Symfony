@@ -201,14 +201,17 @@ const handleTicketingsDisplayModal = (e, index, type, btnSubmit, form) => {
         const addImage3 = document.querySelector('.modal .add-offer-image-3')
         const addImage4 = document.querySelector('.modal .add-offer-image-4')
 
+        let offerType = null
 
         // Affichage des champs
         addType.innerHTML = '- Type de l\'offre : ' + '<b>' + formData.get('ticketing[type]') + '</b>'
 
         if (formData.get('ticketing[type]') === '0') {
             addType.innerHTML = '- Type de l\'offre : <b>Permanente</b>'
+            offerType = 'permanent'
         } else {
             addType.innerHTML = '- Type de l\'offre : <b>Limitée</b>'
+            offerType = 'limited'
         }
 
         addName.innerHTML = '- Nom : <b>' + formData.get('ticketing[name]') + '</b>'
@@ -220,7 +223,7 @@ const handleTicketingsDisplayModal = (e, index, type, btnSubmit, form) => {
         if (formData.get('ticketing[partnership]') === '') {
             addPartnership.innerHTML = '- Partenaire associé : <b> Aucun partenaire renseigné </b>'
         } else {
-            addPartnership.innerHTML = '- Partenaire associé : <b>' + formData.get('ticketing[partnership]') + '</b>'
+            addPartnership.innerHTML = '- Partenaire associé : <b>' + form.querySelector('#ticketing_partnership option:nth-child(' + (parseInt(formData.get('ticketing[partnership]')) + 1) + ')').innerText + '</b>'
         }
 
         if (formData.get('ticketing[type]') === '0') {
@@ -261,7 +264,7 @@ const handleTicketingsDisplayModal = (e, index, type, btnSubmit, form) => {
 
         // garder la fonction submit dans une constante
         const submit = () => {
-            handleSubmit(index, formData, form, type, 0), { once: true }
+            handleSubmit(index, formData, form, type, { addOffer: offerType }), { once: true }
         }
 
         // ajout de l'event à chaque affichage du modal 
