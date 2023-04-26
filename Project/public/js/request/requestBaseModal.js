@@ -7,7 +7,7 @@ if ((getParameters = window.location.href.split('?')[1])
     && (getParameters[0].split('=')[1] === 'true')) {
     // passer outre la 'card' d'ajout
     // cards est recup dans cardAnimation.js
-    // transform cards de nodelist a array 
+    // transform cards de nodelist a array
     if (getParameters[1]
         && getParameters[1].split('=')[0] === 'offertype'
         && getParameters[1].split('=')[1] === 'limited') {

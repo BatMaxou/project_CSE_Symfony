@@ -12,7 +12,6 @@ use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\Address;
 use App\Repository\SurveyRepository;
 use App\Repository\ContactRepository;
-use App\Repository\CkeditorRepository;
 use App\Repository\ResponseRepository;
 use App\Repository\SubscriberRepository;
 use App\Repository\UserResponseRepository;
@@ -23,9 +22,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+#[Route(path: '/post/')]
 class RequestController extends AbstractController
 {
-    #[Route(path: '/post/newsletter', name: 'post_newsletter', methods: ['POST'])]
+    #[Route(path: 'newsletter', name: 'post-newsletter', methods: ['POST'])]
     public function postNewsletter(MailerInterface $mailer, SubscriberRepository $subRep, Request $request, Validator $validate): Response
     {
         if (isset($request->get('subscriber')['consent']) && $request->get('subscriber')['consent'] === "1") {
@@ -58,17 +58,17 @@ class RequestController extends AbstractController
         return new Response('Veuillez accepter les conditions', 400);
     }
 
-    #[Route(path: '/post/survey', name: 'post_survey', methods: ['POST'])]
+    #[Route(path: 'survey', name: 'post-survey', methods: ['POST'])]
     public function postSurvey(SurveyRepository $surveyRep, ResponseRepository $respRep, UserResponseRepository $userRespRep, Request $request): Response
     {
         try {
             // get id of the respons by a search name for set response of the create UserResponse
-            $response = $respRep->findResponseById($request->get('client_survey')['radio_response']);
+            $response = $respRep->findById($request->get('client_survey')['radio_response']);
 
             // récupérer les infos du survey (car l'objet survey n'est pas encore créé)
             if (
                 isset($response) &&
-                ($survey = $surveyRep->findSurveyById($response->getSurvey()->getId())) &&
+                ($survey = $surveyRep->findById($response->getSurvey()->getId())) &&
                 $survey->isIsActive() &&
                 !isset($_COOKIE['survey-' . $survey->getId()])
             ) {
@@ -104,29 +104,8 @@ class RequestController extends AbstractController
         }
     }
 
-    #[Route(path: '/post/backoffice/texts', name: 'post_texts', methods: ['POST'])]
-    public function postTexts(CkeditorRepository $rep, Request $request): Response
-    {
-        try {
-            $texts = [
-                'homepage' => $rep->findByZone('HomePage', 'zone'),
-                'email' => $rep->findByZone('AboutUs', 'email'),
-                'actions' => $rep->findByZone('AboutUs', 'actions'),
-                'rules' => $rep->findByZone('AboutUs', 'rules'),
-            ];
 
-            $rep->save($texts['homepage']->setContent($request->get('texts')['homepage']), true);
-            $rep->save($texts['email']->setContent($request->get('texts')['email']), true);
-            $rep->save($texts['actions']->setContent($request->get('texts')['actions']), true);
-            $rep->save($texts['rules']->setContent($request->get('texts')['rules']), true);
-
-            return new Response('Réponse enregistrée, merci de votre participation !', 200);
-        } catch (\Throwable $th) {
-            return new Response($th, 400);
-        }
-    }
-
-    #[Route(path: '/post/contact', name: 'post_contact', methods: ['POST'])]
+    #[Route(path: 'contact', name: 'post-contact', methods: ['POST'])]
     public function postContact(MailerInterface $mailer, SubscriberRepository $subscriberRepo, Request $request, Validator $validate, ContactRepository $contact): Response
     {
         try {

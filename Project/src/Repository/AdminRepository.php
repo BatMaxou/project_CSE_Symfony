@@ -67,6 +67,15 @@ class AdminRepository extends ServiceEntityRepository implements PasswordUpgrade
         $this->save($user, true);
     }
 
+    public function findById(int $id): ?Admin
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.id = :val')
+            ->setParameter('val', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     //    /**
     //     * @return Admin[] Returns an array of Admin objects
     //     */

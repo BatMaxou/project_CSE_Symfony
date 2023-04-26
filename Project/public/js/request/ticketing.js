@@ -1,20 +1,22 @@
 // const pour l'animation js permanent/limitée add
 const typeTicketing = document.querySelector(".add-offer #ticketing_type")
-const orderNumberTicketing = document.querySelector("#backoffice-ticketing .number-min")
-const numberMinPlaceTicketing = document.querySelector("#backoffice-ticketing .order-number")
+const numberMinPlaceTicketing = document.querySelector("#backoffice-ticketing .number-min")
+const orderNumberTicketing = document.querySelector("#backoffice-ticketing .order-number")
 
-function onChangeTicketingAdd() {
-    if (typeTicketing.value === '0') {
-        orderNumberTicketing.style.display = 'flex'
+const onChangeTicketingAdd = () => {
+    if (typeTicketing.value === '1') {
+        orderNumberTicketing.style.display = 'block'
         numberMinPlaceTicketing.style.display = 'none'
+        numberMinPlaceTicketing.querySelector('input').value = ''
     }
-    else if (typeTicketing.value === '1') {
+    else if (typeTicketing.value === '0') {
         orderNumberTicketing.style.display = 'none'
-        numberMinPlaceTicketing.style.display = 'flex'
+        numberMinPlaceTicketing.style.display = 'block'
+        orderNumberTicketing.querySelector('select').value = 0
     }
 }
 
-numberMinPlaceTicketing.style.display = 'none'
+orderNumberTicketing.style.display = 'none'
 typeTicketing.addEventListener('change', onChangeTicketingAdd)
 
 // Ticketing request
@@ -96,27 +98,77 @@ const handleTicketingsDisplayModal = (e, index, type, btnSubmit, form) => {
         const formData = new FormData(form)
 
         // Traitement de l'affichage des données modifiées dans la modal
-        const editFirstName = document.querySelector('.modal .edit-member-first-name')
-        const editLastName = document.querySelector('.modal .edit-member-last-name')
-        const editFunction = document.querySelector('.modal .edit-member-function')
-        const editImg = document.querySelector('.modal .edit-member-profil')
+        const editName = document.querySelector('.modal .edit-offer-name')
+        const editText = document.querySelector('.modal .edit-offer-text')
+        const editDateStart = document.querySelector('.modal .edit-offer-date-start')
+        const editDateEnd = document.querySelector('.modal .edit-offer-date-end')
+
+        const editPartnership = document.querySelector('.modal .edit-offer-partnership')
+        const editNumberMin = document.querySelector('.modal .edit-offer-number-min')
+        const editOrderNumber = document.querySelector('.modal .edit-offer-order-number')
+
+        const editImage1 = document.querySelector('.modal .edit-offer-image-1')
+        const editImage2 = document.querySelector('.modal .edit-offer-image-2')
+        const editImage3 = document.querySelector('.modal .edit-offer-image-3')
+        const editImage4 = document.querySelector('.modal .edit-offer-image-4')
 
         // Affichage des champs
-        editFirstName.innerHTML = '- Nouveau Prénom : ' + '<b>' + formData.get('member[firstName]') + '</b>'
-        editLastName.innerHTML = '- Nouveau Nom : ' + '<b>' + formData.get('member[lastName]') + '</b>'
-        editFunction.innerHTML = '- Nouvelle fonction : ' + '<b>' + formData.get('member[function]') + '</b>'
+        editName.innerHTML = '- Nom : <b>' + formData.get('ticketing[name]') + '</b>'
+        editText.innerHTML = '- Text : <b>' + formData.get('ticketing[text]') + '</b>'
+        editDateStart.innerHTML = '- Date de début : <b>' + formData.get('ticketing[date_start]') + '</b>'
+        editDateEnd.innerHTML = '- Date de fin : <b>' + formData.get('ticketing[date_end]') + '</b>'
 
-        if (formData.get('member[profil]').name === '') {
-            editImg.innerHTML = '- <b> Pas de nouvelle photo de profil </b>'
+        if (formData.get('ticketing[partnership]') === '') {
+            editPartnership.innerHTML = '- Partenaire associé : <b> Aucun partenaire renseigné </b>'
         } else {
-            editImg.innerHTML = '- Nouvelle photo de profil : ' + '<b>' + formData.get('member[profil]').name + '</b>'
+            editPartnership.innerHTML = '- Partenaire associé : <b>' + form.querySelector('#ticketing_partnership option:nth-child(' + (parseInt(formData.get('ticketing[partnership]')) + 1) + ')').innerText + '</b>'
         }
 
-        // Fin du traitement de l'affichage 
+        if (formData.get('ticketing[type]') === '0') {
+            if (formData.get('ticketing[number_min_place]') === '0') {
+                editNumberMin.innerHTML = '- Place nécessaire minimum : <b> 0 </b>'
+            } else {
+                editNumberMin.innerHTML = '- Place nécessaire minimum : <b>' + formData.get('ticketing[number_min_place]') + '</b>'
+            }
+        }
+
+        if (formData.get('ticketing[type]') === '1') {
+            if (formData.get('ticketing[order_number]') === '0') {
+                editOrderNumber.innerHTML = '- Ordre d\'affichage : <b> Ne pas apparaître </b>'
+            } else {
+                editOrderNumber.innerHTML = '- Ordre d\'affichage : <b>' + formData.get('ticketing[order_number]') + '</b>'
+            }
+        }
+
+        if (formData.get('ticketing[image1]').name === '') {
+            editImage1.innerHTML = '- <b> Pas de nouvelle première image </b>'
+        } else {
+            editImage1.innerHTML = '- Image 1 : <b>' + formData.get('ticketing[image1]').name + '</b>'
+        }
+
+        if (formData.get('ticketing[image2]').name === '') {
+            editImage2.innerHTML = '- <b> Pas de nouvelle deuxième image </b>'
+        } else {
+            editImage2.innerHTML = '- Image 2 : <b>' + formData.get('ticketing[image2]').name + '</b>'
+        }
+
+        if (formData.get('ticketing[image3]').name === '') {
+            editImage3.innerHTML = '- <b> Pas de nouvelle troisième image </b>'
+        } else {
+            editImage3.innerHTML = '- Image 3 : <b>' + formData.get('ticketing[image3]').name + '</b>'
+        }
+
+        if (formData.get('ticketing[image4]').name === '') {
+            editImage4.innerHTML = '- <b> Pas de nouvelle quatrième image </b>'
+        } else {
+            editImage4.innerHTML = '- Image 4 : <b>' + formData.get('ticketing[image4]').name + '</b>'
+        }
+
+        // Fin du traitement de l'affichage
 
         // garder la fonction submit dans une constante
         const submit = () => {
-            handleSubmit(index, formData, form, type, 0), { once: true }
+            handleSubmit(index, formData, form, type), { once: true }
         }
 
         // ajout de l'event à chaque affichage du modal 
@@ -142,28 +194,29 @@ const handleTicketingsDisplayModal = (e, index, type, btnSubmit, form) => {
         })
     }
     else if (type === 'delete') {
-        // Récupération du form pour le delete
+        // Récupération de form de modification
         const formData = new FormData(form)
 
         // Traitement de l'affichage des données modifiées dans la modal
-        const deleteFullName = document.querySelector('.modal .delete-member-full-name')
+        const editName = document.querySelector('.modal .delete-offer-name')
 
-        // Affichage du champ
-        deleteFullName.innerHTML = '- Membre : <b>' + formData.get('member[firstName]') + ' ' + formData.get('member[lastName]' + '</b>')
+        // Affichage des champs
 
-        // Fin du traitement de l'affichage 
+        editName.innerHTML = '- Nom : <b>' + formData.get('ticketing[name]') + '</b>'
+
+        // Fin du traitement de l'affichage
 
         // garder la fonction submit dans une constante
         const submit = () => {
-            handleSubmit(index, formData, form, type, 0), { once: true }
+            handleSubmit(index, formData, form, type), { once: true }
         }
 
         // ajout de l'event à chaque affichage du modal 
         btnSubmit.addEventListener('click', submit, { once: true })
 
         // récupérer les éléments pemettant la fermeture du modal
-        const modalClose = modalBackgroundDelete.querySelector('.modal-close')
-        const btnClose = modalBackgroundDelete.querySelector('.btn-close')
+        const modalClose = modalBackgroundEdit.querySelector('.modal-close')
+        const btnClose = modalBackgroundEdit.querySelector('.btn-close')
 
         // enlever l'event du btnSubmit lorsqu'il existe pour éviter les doublons
         modalClose.addEventListener('click', () => {
@@ -174,8 +227,8 @@ const handleTicketingsDisplayModal = (e, index, type, btnSubmit, form) => {
         });
 
         // pour fermer lorsqu'on clique en dehors du modal  
-        modalBackgroundDelete.addEventListener('click', (event) => {
-            if (event.target == modalBackgroundDelete) {
+        modalBackgroundEdit.addEventListener('click', (event) => {
+            if (event.target == modalBackgroundEdit) {
                 btnSubmit.removeEventListener('click', submit, { once: true })
             }
         })
@@ -204,8 +257,6 @@ const handleTicketingsDisplayModal = (e, index, type, btnSubmit, form) => {
         let offerType = null
 
         // Affichage des champs
-        addType.innerHTML = '- Type de l\'offre : ' + '<b>' + formData.get('ticketing[type]') + '</b>'
-
         if (formData.get('ticketing[type]') === '0') {
             addType.innerHTML = '- Type de l\'offre : <b>Permanente</b>'
             offerType = 'permanent'
@@ -227,18 +278,18 @@ const handleTicketingsDisplayModal = (e, index, type, btnSubmit, form) => {
         }
 
         if (formData.get('ticketing[type]') === '0') {
-            if (formData.get('ticketing[order_number]') === '0') {
-                addNumberMin.innerHTML = '- Place nécessaire minimum : <b> 0 </b>'
-            } else {
+            if (formData.get('ticketing[number_min_place]')) {
                 addNumberMin.innerHTML = '- Place nécessaire minimum : <b>' + formData.get('ticketing[number_min_place]') + '</b>'
+            } else {
+                addNumberMin.innerHTML = '- Place nécessaire minimum : <b> 0 </b>'
             }
         }
 
         if (formData.get('ticketing[type]') === '1') {
-            if (formData.get('ticketing[order_number]') === '0') {
-                addOrderNumber.innerHTML = '- Ordre d\'affichage : <b> Ne pas apparaître </b>'
-            } else {
+            if (formData.get('ticketing[order_number]')) {
                 addOrderNumber.innerHTML = '- Ordre d\'affichage : <b>' + formData.get('ticketing[order_number]') + '</b>'
+            } else {
+                addOrderNumber.innerHTML = '- Ordre d\'affichage : <b> Ne pas apparaître </b>'
             }
         }
 

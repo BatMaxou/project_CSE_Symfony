@@ -62,6 +62,15 @@ class PartnershipRepository extends ServiceEntityRepository
         return $result->fetchAllAssociative();
     }
 
+    public function findById(int $id): ?Partnership
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.id = :val')
+            ->setParameter('val', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     //    /**
     //     * @return Partnership[] Returns an array of Partnership objects
     //     */

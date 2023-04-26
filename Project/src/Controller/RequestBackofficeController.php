@@ -6,19 +6,20 @@ use DateTime;
 use App\Entity\Admin;
 use App\Entity\Member;
 use App\Entity\Survey;
-use App\Entity\Response as SurveyResponse;
 use App\Entity\Ticketing;
+use App\Service\Validator;
 use App\Entity\Partnership;
 use App\Entity\ImageTicketing;
 use App\Repository\AdminRepository;
 use App\Repository\MemberRepository;
 use App\Repository\SurveyRepository;
+use App\Repository\CkeditorRepository;
 use App\Repository\ResponseRepository;
 use App\Repository\TicketingRepository;
 use App\Repository\PartnershipRepository;
-use App\Repository\ImageTicketingRepository;
+use App\Entity\Response as SurveyResponse;
 use App\Repository\UserResponseRepository;
-use App\Service\Validator;
+use App\Repository\ImageTicketingRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -28,7 +29,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 #[Route(path: '/post/backoffice/')]
 class RequestBackofficeController extends AbstractController
 {
-    #[Route(path: 'admin-add', name: 'post-add-admin', methods: ['POST'])]
+    #[Route(path: 'ajout-admin', name: 'post-add-admin', methods: ['POST'])]
     public function postAddAdmin(AdminRepository $adminRepository, UserPasswordHasherInterface $adminPasswordHasher, Request $request, Validator $validate): Response
     {
         try {
@@ -71,7 +72,7 @@ class RequestBackofficeController extends AbstractController
         }
     }
 
-    #[Route(path: 'admin-edit', name: 'post-edit-admin', methods: ['POST'])]
+    #[Route(path: 'modif-admin', name: 'post-edit-admin', methods: ['POST'])]
     public function postEditAdmin(AdminRepository $adminRepository, UserPasswordHasherInterface $adminPasswordHasher, Request $request, Validator $validate): Response
     {
         try {
@@ -118,8 +119,8 @@ class RequestBackofficeController extends AbstractController
         }
     }
 
-    #[Route(path: 'admin-delete', name: 'post-delete-admin', methods: ['POST'])]
-    public function postDeleteAdmin(AdminRepository $adminRepository, UserPasswordHasherInterface $adminPasswordHasher, Request $request): Response
+    #[Route(path: 'sup-admin', name: 'post-delete-admin', methods: ['POST'])]
+    public function postDeleteAdmin(AdminRepository $adminRepository, Request $request): Response
     {
         try {
             // get id of the respons by a search name for set response of the create UserResponse
@@ -141,158 +142,301 @@ class RequestBackofficeController extends AbstractController
         }
     }
 
-    #[Route(path: 'ticketing-add', name: 'post-add-ticketing', methods: ['POST'])]
-    public function postAddTicketing(TicketingRepository $ticketingRepository, ImageTicketingRepository $imageTicketingRepository, PartnershipRepository $partnershipRepository, Request $request): Response
+    #[Route(path: 'ajout-offre', name: 'post-add-ticketing', methods: ['POST'])]
+    public function postAddTicketing(TicketingRepository $ticketingRepository, ImageTicketingRepository $imageTicketingRepository, PartnershipRepository $partnershipRepository, Validator $validate, Request $request): Response
     {
         try {
-            $ticketing = new Ticketing();
+            if (
+                $validate->checkinputString($request->get('ticketing')['name'])
+                && $validate->checkinputString($request->get('ticketing')['text'])
+            ) {
+                $ticketing = new Ticketing();
 
-            if ($request->get('ticketing')['type'] === "0") {
-                $ticketing->setType("permanente");
-                $ticketing->setNumberMinPlace(intval($request->get('ticketing')['number_min_place']));
+                if ($request->get('ticketing')['type'] === "0") {
+                    $ticketing->setType("permanente");
+                    $ticketing->setNumberMinPlace(intval($request->get('ticketing')['number_min_place']));
+                } else {
+                    $ticketing->setType("limitée");
+                    $ticketing->setOrderNumber(intval($request->get('ticketing')['order_number']));
+                }
+
+                $ticketing->setName($request->get('ticketing')['name']);
+                $ticketing->setText($request->get('ticketing')['text']);
+
+                $time = new DateTime($request->get('ticketing')['date_start']);
+                $ticketing->setDateStart($time);
+
+                $time = new DateTime($request->get('ticketing')['date_end']);
+                $ticketing->setDateEnd($time);
+                $ticketing->setDateCreate(new DateTime('NOW'));
+
+                if ($request->get('ticketing')['partnership']) {
+                    $partnership = $partnershipRepository->find($request->get('ticketing')['partnership']);
+                    $ticketing->setPartnership($partnership);
+                }
+
+                $ticketing->setSlug(str_replace(' ', '', $request->get('ticketing')['name']));
+
+                $ticketingRepository->save($ticketing, true);
+
+                $ticketing->setSlug($ticketing->getId() . '-' . $ticketing->getSlug());
+
+                $ticketingRepository->save($ticketing, true);
+
+                $image1 = new ImageTicketing();
+
+                // path le chemin de destination pour l'image 
+                $destination = $this->getParameter('kernel.project_dir') . '/public/images/ticketing';
+                $image = $request->files->get('ticketing')['image1'];
+
+                // slug de l'image
+                $image1->setName($ticketing->getId() . '-' . $ticketing->getName() . '-image-1' . '.' . $image->guessExtension());
+                $image1->setNumero(1);
+                $image1->setTicketing($ticketing);
+
+                // deplacer l'image dans le fichier 
+                $image->move($destination, $image1->getName());
+
+                $imageTicketingRepository->save($image1, true);
+
+                if (isset($request->files->get('ticketing')['image2'])) {
+                    $image2 = new ImageTicketing();
+
+                    // path le chemin de destination pour l'image 
+                    $destination = $this->getParameter('kernel.project_dir') . '/public/images/ticketing';
+                    $image = $request->files->get('ticketing')['image2'];
+
+                    // slug de l'image
+                    $image2->setName($ticketing->getId() . '-' . $ticketing->getName() . '-image-2' . '.' . $image->guessExtension());
+                    $image2->setNumero(2);
+                    $image2->setTicketing($ticketing);
+
+                    // deplacer l'image dans le fichier 
+                    $image->move($destination, $image2->getName());
+
+                    $imageTicketingRepository->save($image2, true);
+                }
+
+                if (isset($request->files->get('ticketing')['image3'])) {
+                    $image3 = new ImageTicketing();
+
+                    // path le chemin de destination pour l'image 
+                    $destination = $this->getParameter('kernel.project_dir') . '/public/images/ticketing';
+                    $image = $request->files->get('ticketing')['image3'];
+
+                    // slug de l'image
+                    $image3->setName($ticketing->getId() . '-' . $ticketing->getName() . '-image-3' . '.' . $image->guessExtension());
+                    $image3->setNumero(3);
+                    $image3->setTicketing($ticketing);
+
+                    // deplacer l'image dans le fichier 
+                    $image->move($destination, $image3->getName());
+
+                    $imageTicketingRepository->save($image3, true);
+                }
+
+                if (isset($request->files->get('ticketing')['image4'])) {
+                    $image4 = new ImageTicketing();
+
+                    // path le chemin de destination pour l'image 
+                    $destination = $this->getParameter('kernel.project_dir') . '/public/images/ticketing';
+                    $image = $request->files->get('ticketing')['image4'];
+
+                    // slug de l'image
+                    $image4->setName($ticketing->getId() . '-' . $ticketing->getName() . '-image-4' . '.' . $image->guessExtension());
+                    $image4->setNumero(4);
+                    $image4->setTicketing($ticketing);
+
+                    // deplacer l'image dans le fichier 
+                    $image->move($destination, $image4->getName());
+
+                    $imageTicketingRepository->save($image4, true);
+                }
+
+                return new Response('L\'ajout à bien été effectué !', 200);
             } else {
-                $ticketing->setType("limitée");
-                $ticketing->setOrderNumber(intval($request->get('ticketing')['order_number']));
+                return new Response('Les champs nom et description doivent contenir : des lettres minuscules, majuscules et des chiffres, avec un minimum de 2 caractères', 400);
             }
-
-            $ticketing->setName($request->get('ticketing')['name']);
-            $ticketing->setText($request->get('ticketing')['text']);
-
-            $time = new DateTime($request->get('ticketing')['date_start']);
-            $ticketing->setDateStart($time);
-
-            $time = new DateTime($request->get('ticketing')['date_end']);
-            $ticketing->setDateEnd($time);
-            $ticketing->setDateCreate(new DateTime('NOW'));
-
-            if ($request->get('ticketing')['partnership']) {
-                $partnership = $partnershipRepository->find($request->get('ticketing')['partnership']);
-                $ticketing->setPartnership($partnership);
-            }
-
-            $ticketing->setSlug(str_replace(' ', '', $request->get('ticketing')['name']));
-
-            $ticketingRepository->save($ticketing, true);
-
-            $image1 = new ImageTicketing();
-
-            // path le chemin de destination pour l'image 
-            $destination = $this->getParameter('kernel.project_dir') . '/public/images/ticketing';
-            $image = $request->files->get('ticketing')['image1'];
-
-            // slug de l'image
-            $image1->setName($ticketing->getId() . '-' . $ticketing->getName() . '-image-1' . '.' . $image->guessExtension());
-            $image1->setTicketing($ticketing);
-
-            // deplacer l'image dans le fichier 
-            $image->move($destination, $image1->getName());
-
-            $imageTicketingRepository->save($image1, true);
-
-            if (isset($request->files->get('ticketing')['image2'])) {
-                $image2 = new ImageTicketing();
-
-                // path le chemin de destination pour l'image 
-                $destination = $this->getParameter('kernel.project_dir') . '/public/images/ticketing';
-                $image = $request->files->get('ticketing')['image2'];
-
-                // slug de l'image
-                $image2->setName($ticketing->getId() . '-' . $ticketing->getName() . '-image-2' . '.' . $image->guessExtension());
-                $image2->setTicketing($ticketing);
-
-                // deplacer l'image dans le fichier 
-                $image->move($destination, $image2->getName());
-
-                $imageTicketingRepository->save($image2, true);
-            }
-
-            if (isset($request->files->get('ticketing')['image3'])) {
-                $image3 = new ImageTicketing();
-
-                // path le chemin de destination pour l'image 
-                $destination = $this->getParameter('kernel.project_dir') . '/public/images/ticketing';
-                $image = $request->files->get('ticketing')['image3'];
-
-                // slug de l'image
-                $image3->setName($ticketing->getId() . '-' . $ticketing->getName() . '-image-3' . '.' . $image->guessExtension());
-                $image3->setTicketing($ticketing);
-
-                // deplacer l'image dans le fichier 
-                $image->move($destination, $image3->getName());
-
-                $imageTicketingRepository->save($image3, true);
-            }
-
-            if (isset($request->files->get('ticketing')['image4'])) {
-                $image4 = new ImageTicketing();
-
-                // path le chemin de destination pour l'image 
-                $destination = $this->getParameter('kernel.project_dir') . '/public/images/ticketing';
-                $image = $request->files->get('ticketing')['image4'];
-
-                // slug de l'image
-                $image4->setName($ticketing->getId() . '-' . $ticketing->getName() . '-image-4' . '.' . $image->guessExtension());
-                $image4->setTicketing($ticketing);
-
-                // deplacer l'image dans le fichier 
-                $image->move($destination, $image4->getName());
-
-                $imageTicketingRepository->save($image4, true);
-            }
-
-            return new Response('L\'ajout à bien été effectué !', 200);
         } catch (\Throwable $th) {
             return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
         }
     }
 
-    #[Route(path: 'ticketing-edit', name: 'post-edit-ticketing', methods: ['POST'])]
-    public function postEditTicketing(TicketingRepository $ticketingRepository, Request $request): Response
+    #[Route(path: 'modif-offre', name: 'post-edit-ticketing', methods: ['POST'])]
+    public function postEditTicketing(TicketingRepository $ticketingRepository, ImageTicketingRepository $imgTicketingRep, PartnershipRepository $partnershipRep, Validator $validate, Request $request): Response
     {
         try {
-            // get id of the respons by a search name for set response of the create UserResponse
-            $id = $request->get("ticketing")['id'];
 
-            $ticketing = $ticketingRepository->find($id);
+            if (
+                $validate->checkinputString($request->get('ticketing')['name'])
+                && $validate->checkinputString($request->get('ticketing')['text'])
+            ) {
 
-            if (!$ticketing) {
-                throw $this->createNotFoundException(
-                    "Pas d'admin trouvé pour l'id : " . $id
-                );
+                $ticketing = $ticketingRepository->findById($request->get('ticketing')['id']);
+
+                // récupération des images
+                foreach ($imgTicketingRep->findByOffer($ticketing) as $image) {
+                    $ticketing->addImageTicketing($image);
+                };
+
+                // récupération des partenaires
+                $partnershipRep->findAll();
+
+                if ($ticketing->getType() === 'permanente') {
+                    $ticketing->setNumberMinPlace(intval($request->get('ticketing')['number_min_place']));
+                } else {
+                    $ticketing->setOrderNumber(intval($request->get('ticketing')['order_number']));
+                }
+
+                $ticketing->setName($request->get('ticketing')['name']);
+                $ticketing->setText($request->get('ticketing')['text']);
+
+                $time = new DateTime($request->get('ticketing')['date_start']);
+                $ticketing->setDateStart($time);
+
+                $time = new DateTime($request->get('ticketing')['date_end']);
+                $ticketing->setDateEnd($time);
+                $ticketing->setDateCreate(new DateTime('NOW'));
+
+                if ($request->get('ticketing')['partnership']) {
+                    $partnership = $partnershipRep->find($request->get('ticketing')['partnership']);
+                    $ticketing->setPartnership($partnership);
+                }
+
+                $ticketing->setSlug($ticketing->getId() . '-' . str_replace(' ', '', $request->get('ticketing')['name']));
+
+                $ticketingRepository->save($ticketing, true);
+
+                if (isset($request->files->get('ticketing')['image1'])) {
+                    $image1 = new ImageTicketing();
+
+                    // supprimer l'ancienne image s'il y a
+                    if ($ticketing->getImageTicketings()[0] !== null) {
+                        unlink($this->getParameter('kernel.project_dir') . '/public/images/ticketing/' . $ticketing->getImageTicketings()[0]->getName());
+                        $imgTicketingRep->remove($ticketing->getImageTicketings()[0], true);
+                    }
+
+                    // path le chemin de destination pour l'image 
+                    $destination = $this->getParameter('kernel.project_dir') . '/public/images/ticketing';
+                    $image = $request->files->get('ticketing')['image1'];
+
+                    // slug de l'image
+                    $image1->setName($ticketing->getId() . '-' . $ticketing->getName() . '-image-1' . '.' . $image->guessExtension());
+                    $image1->setNumero(1);
+                    $image1->setTicketing($ticketing);
+
+                    // deplacer l'image dans le fichier 
+                    $image->move($destination, $image1->getName());
+
+                    $imgTicketingRep->save($image1, true);
+                }
+
+                if (isset($request->files->get('ticketing')['image2'])) {
+                    $image2 = new ImageTicketing();
+
+                    // supprimer l'ancienne image s'il y a
+                    if ($ticketing->getImageTicketings()[1] !== null) {
+                        unlink($this->getParameter('kernel.project_dir') . '/public/images/ticketing/' . $ticketing->getImageTicketings()[1]->getName());
+                        $imgTicketingRep->remove($ticketing->getImageTicketings()[1], true);
+                    }
+
+                    // path le chemin de destination pour l'image 
+                    $destination = $this->getParameter('kernel.project_dir') . '/public/images/ticketing';
+                    $image = $request->files->get('ticketing')['image2'];
+
+                    // slug de l'image
+                    $image2->setName($ticketing->getId() . '-' . $ticketing->getName() . '-image-2' . '.' . $image->guessExtension());
+                    $image2->setNumero(2);
+                    $image2->setTicketing($ticketing);
+
+                    // deplacer l'image dans le fichier 
+                    $image->move($destination, $image2->getName());
+
+                    $imgTicketingRep->save($image2, true);
+                }
+
+                if (isset($request->files->get('ticketing')['image3'])) {
+                    $image3 = new ImageTicketing();
+
+                    // supprimer l'ancienne image s'il y a
+                    if ($ticketing->getImageTicketings()[2] !== null) {
+                        unlink($this->getParameter('kernel.project_dir') . '/public/images/ticketing/' . $ticketing->getImageTicketings()[2]->getName());
+                        $imgTicketingRep->remove($ticketing->getImageTicketings()[2], true);
+                    }
+
+                    // path le chemin de destination pour l'image 
+                    $destination = $this->getParameter('kernel.project_dir') . '/public/images/ticketing';
+                    $image = $request->files->get('ticketing')['image3'];
+
+                    // slug de l'image
+                    $image3->setName($ticketing->getId() . '-' . $ticketing->getName() . '-image-3' . '.' . $image->guessExtension());
+                    $image3->setNumero(3);
+                    $image3->setTicketing($ticketing);
+
+                    // deplacer l'image dans le fichier 
+                    $image->move($destination, $image3->getName());
+
+                    $imgTicketingRep->save($image3, true);
+                }
+
+                if (isset($request->files->get('ticketing')['image4'])) {
+                    $image4 = new ImageTicketing();
+
+                    // supprimer l'ancienne image s'il y a
+                    if ($ticketing->getImageTicketings()[3] !== null) {
+                        unlink($this->getParameter('kernel.project_dir') . '/public/images/ticketing/' . $ticketing->getImageTicketings()[3]->getName());
+                        $imgTicketingRep->remove($ticketing->getImageTicketings()[3], true);
+                    }
+
+                    // path le chemin de destination pour l'image 
+                    $destination = $this->getParameter('kernel.project_dir') . '/public/images/ticketing';
+                    $image = $request->files->get('ticketing')['image4'];
+
+                    // slug de l'image
+                    $image4->setName($ticketing->getId() . '-' . $ticketing->getName() . '-image-4' . '.' . $image->guessExtension());
+                    $image4->setNumero(4);
+                    $image4->setTicketing($ticketing);
+
+                    // deplacer l'image dans le fichier 
+                    $image->move($destination, $image4->getName());
+
+                    $imgTicketingRep->save($image4, true);
+                }
+
+                return new Response('La modification a bien été effectué !', 200);
+            } else {
+                return new Response('Les champs nom et description doivent contenir : des lettres minuscules, majuscules et des chiffres, avec un minimum de 2 caractères', 400);
             }
-
-            $ticketingRepository->save($ticketing, true);
-
-            return new Response('La modification a bien été effectué !', 200);
         } catch (\Throwable $th) {
             return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
         }
     }
 
-    #[Route(path: 'ticketing-delete', name: 'post-delete-ticketing', methods: ['POST'])]
-    public function postDeleteTicketing(TicketingRepository $ticketingRepository, Request $request): Response
+    #[Route(path: 'sup-offre', name: 'post-delete-ticketing', methods: ['POST'])]
+    public function postDeleteTicketing(TicketingRepository $ticketingRepository, ImageTicketingRepository $imgTicketingRep, Request $request): Response
     {
-        try {
-            // get id of the respons by a search name for set response of the create UserResponse
-            $id = $request->get("admin")['id'];
+        // try {
+        // recupérer l'offre concernée
+        $offer = $ticketingRepository->findById($request->get('ticketing')['id']);
 
-            $ticketing = $ticketingRepository->find($id);
+        // supprimer les images associées s'il y en a
+        if (count($offer->getImageTicketings()) !== 0) {
+            foreach ($offer->getImageTicketings() as $image) {
+                unlink($this->getParameter('kernel.project_dir') . '/public/images/ticketing/' . $image->getName());
 
-            if (!$ticketing) {
-                throw $this->createNotFoundException(
-                    "Pas d'admin trouvé pour l'id : " . $id
-                );
+                $imgTicketingRep->remove($image, true);
             }
-
-            $ticketingRepository->remove($ticketing, true);
-
-            return new Response('La suppression a bien été effectué !', 200);
-        } catch (\Throwable $th) {
-            return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
         }
+
+        $ticketingRepository->remove($offer, true);
+
+        return new Response('La suppression a bien été effectuée !', 200);
+        // } catch (\Throwable $th) {
+        //     return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
+        // }
     }
 
-    #[Route(path: '/post/backoffice/member-add', name: 'post-add-member', methods: ['POST'])]
+    #[Route(path: 'ajout-membre', name: 'post-add-member', methods: ['POST'])]
     public function postAddMember(MemberRepository $memberRepository, Request $request, Validator $validate): Response
     {
         try {
@@ -328,7 +472,7 @@ class RequestBackofficeController extends AbstractController
         }
     }
 
-    #[Route(path: '/post/backoffice/member-edit', name: 'post-edit-member', methods: ['POST'])]
+    #[Route(path: 'modif-membre', name: 'post-edit-member', methods: ['POST'])]
     public function postEditMember(MemberRepository $memberRepository, Request $request, Validator $validate): Response
     {
         try {
@@ -369,7 +513,7 @@ class RequestBackofficeController extends AbstractController
         }
     }
 
-    #[Route(path: '/post/backoffice/member-delete', name: 'post-delete-member', methods: ['POST'])]
+    #[Route(path: 'sup-membre', name: 'post-delete-member', methods: ['POST'])]
     public function postDeleteMember(MemberRepository $memberRepository, Request $request): Response
     {
         try {
@@ -389,7 +533,7 @@ class RequestBackofficeController extends AbstractController
         }
     }
 
-    #[Route(path: '/post/edit-partnership', name: 'post-edit-partnership', methods: ['POST'])]
+    #[Route(path: 'ajout-partenaire', name: 'post-edit-partnership', methods: ['POST'])]
     public function editPartnership(PartnershipRepository $partnershipRepo, Request $request, Validator $validate): Response
     {
         try {
@@ -430,7 +574,7 @@ class RequestBackofficeController extends AbstractController
         }
     }
 
-    #[Route(path: '/post/add-partnership', name: 'post-add-partnership', methods: ['POST'])]
+    #[Route(path: 'modif-partenaire', name: 'post-add-partnership', methods: ['POST'])]
     public function addPartnership(PartnershipRepository $partnershipRepo, Request $request, Validator $validate): Response
     {
         try {
@@ -467,7 +611,7 @@ class RequestBackofficeController extends AbstractController
         }
     }
 
-    #[Route(path: '/post/delete-partnership', name: 'post-delete-partnership', methods: ['POST'])]
+    #[Route(path: 'sup-partenaire', name: 'post-delete-partnership', methods: ['POST'])]
     public function deletePartnership(PartnershipRepository $partnershipRepo, Request $request): Response
     {
         try {
@@ -486,7 +630,7 @@ class RequestBackofficeController extends AbstractController
         }
     }
 
-    #[Route(path: '/post/backoffice/ajout-sondage', name: 'post-add-survey', methods: ['POST'])]
+    #[Route(path: 'ajout-sondage', name: 'post-add-survey', methods: ['POST'])]
     public function addSurvey(SurveyRepository $sureveyRepo, ResponseRepository $respRepo, Request $request, Validator $validate): Response
     {
         try {
@@ -537,11 +681,11 @@ class RequestBackofficeController extends AbstractController
         }
     }
 
-    #[Route(path: '/post/backoffice/modif-sondage', name: 'post-edit-survey', methods: ['POST'])]
+    #[Route(path: 'modif-sondage', name: 'post-edit-survey', methods: ['POST'])]
     public function editSurvey(SurveyRepository $sureveyRepo, Request $request): Response
     {
         try {
-            $survey = $sureveyRepo->findSurveyById($request->get('survey')['id']);
+            $survey = $sureveyRepo->findById($request->get('survey')['id']);
             $survey->setIsActive(false);
 
             $sureveyRepo->save($survey, true);
@@ -552,7 +696,7 @@ class RequestBackofficeController extends AbstractController
         }
     }
 
-    #[Route(path: '/post/backoffice/supp-sondage', name: 'post-delete-survey', methods: ['POST'])]
+    #[Route(path: 'sup-sondage', name: 'post-delete-survey', methods: ['POST'])]
     public function deleteSurvey(SurveyRepository $sureveyRepo, ResponseRepository $respRepo, UserResponseRepository $userRespRepo, Request $request): Response
     {
         try {
@@ -568,12 +712,34 @@ class RequestBackofficeController extends AbstractController
                 $respRepo->remove($response, true);
             }
 
-            $survey = $sureveyRepo->findSurveyById($request->get('survey')['id']);
+            $survey = $sureveyRepo->findById($request->get('survey')['id']);
             $sureveyRepo->remove($survey, true);
 
             return new Response('La suppression a bien été effectuée !', 200);
         } catch (\Throwable $th) {
             return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
+        }
+    }
+
+    #[Route(path: 'texts', name: 'post_texts', methods: ['POST'])]
+    public function postTexts(CkeditorRepository $rep, Request $request): Response
+    {
+        try {
+            $texts = [
+                'homepage' => $rep->findByZone('HomePage', 'zone'),
+                'email' => $rep->findByZone('AboutUs', 'email'),
+                'actions' => $rep->findByZone('AboutUs', 'actions'),
+                'rules' => $rep->findByZone('AboutUs', 'rules'),
+            ];
+
+            $rep->save($texts['homepage']->setContent($request->get('texts')['homepage']), true);
+            $rep->save($texts['email']->setContent($request->get('texts')['email']), true);
+            $rep->save($texts['actions']->setContent($request->get('texts')['actions']), true);
+            $rep->save($texts['rules']->setContent($request->get('texts')['rules']), true);
+
+            return new Response('Réponse enregistrée, merci de votre participation !', 200);
+        } catch (\Throwable $th) {
+            return new Response($th, 400);
         }
     }
 }

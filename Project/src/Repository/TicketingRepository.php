@@ -51,6 +51,9 @@ class TicketingRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * @return Ticketing[] Returns an array of Ticketing objects
+     */
     public function findByPermanentDesc(): array
     {
         return $this->createQueryBuilder('t')
@@ -60,6 +63,9 @@ class TicketingRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * @return Ticketing[] Returns an array of Ticketing objects
+     */
     public function findByLimitedDesc(): array
     {
         return $this->createQueryBuilder('t')
@@ -69,6 +75,9 @@ class TicketingRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * @return Ticketing[] Returns an array of Ticketing objects
+     */
     public function findByLimitedActiveDesc(): array
     {
         return $this->createQueryBuilder('t')
@@ -84,6 +93,15 @@ class TicketingRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('t')
             ->andWhere('t.slug = :slug')
             ->setParameter('slug', $slug)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    public function findById($id): ?Ticketing
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.id = :val')
+            ->setParameter('val', $id)
             ->getQuery()
             ->getOneOrNullResult();
     }

@@ -46,7 +46,15 @@ class ContactRepository extends ServiceEntityRepository
             ->setMaxResults(1)
             ->getQuery()
             ->getResult();
-        // SELECT * FROM contact ORDER BY ID DESC LIMIT 1
+    }
+
+    public function findById(int $id): ?Contact
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.id = :val')
+            ->setParameter('val', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 
     //    /**

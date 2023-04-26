@@ -66,7 +66,7 @@ class DatafixturesBuilder
                         if (isset($value['class'])) {
                             $value = new $value['class']($value['value']);
                         } elseif (isset($value['entity'])) {
-                            $value = $this->repositories[$value['entity']]->findById($value['id'])[0];
+                            $value = $this->repositories[$value['entity']]->findById($value['id']);
                         }
                         $setter = 'set' . ucfirst($column);
                         $entity->$setter($value);

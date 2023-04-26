@@ -70,10 +70,10 @@ class TicketingType extends AbstractType
                 ],
             ])
             ->add('number_min_place', IntegerType::class, [
-                'label' => "Nombre de place minimum :",
+                'label' => "Place minimum :",
                 'disabled' => true,
                 'attr' => [
-                    'placeholder' => "Nombre de place minimum",
+                    'placeholder' => "Place minimum",
                     'class' => 'form-input',
                     'min' => '0'
                 ],

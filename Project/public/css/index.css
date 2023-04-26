@@ -2074,7 +2074,7 @@ textarea:focus::placeholder {
 
 .add-offer .number-min input,
 .add-offer #ticketing_order_number {
-    width: auto !important;
+    width: 140px !important;
 }
 
 #backoffice-ticketing .card-content input[type="text"],
@@ -2093,4 +2093,40 @@ textarea:focus::placeholder {
 #ticketing_order_number {
     width: 97%;
     margin: 5px 0 15px;
+}
+
+@media (max-width: 1000px) {
+
+    #backoffice-ticketing .card-body form,
+    #backoffice-ticketing .add-offer .card-body {
+        flex-direction: column;
+    }
+
+    #backoffice-ticketing .add-offer .number-min,
+    #backoffice-ticketing .add-offer .order-number {
+        top: 50px;
+        left: 16px;
+    }
+
+    #backoffice-ticketing .card-image {
+        width: 100%;
+        margin-top: 50px;
+    }
+
+    #backoffice-ticketing .card-content {
+        width: 90%;
+        margin-top: 20px;
+    }
+
+    #backoffice-ticketing .card-image img {
+        width: 150px;
+        height: 150px;
+    }
+}
+
+@media (max-width: 400px) {
+    #backoffice-ticketing .card-image img {
+        width: 125px;
+        height: 125px;
+    }
 }

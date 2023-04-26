@@ -126,15 +126,12 @@ const handleBtnActive = (e, index) => {
     })
 
     if (labelImgs.length !== 0) {
-        labelImgs.forEach(labelImg => {
+        labelImgs.forEach((labelImg) => {
             // activer les champs
             activeAnim.to(labelImg, {
                 backgroundColor: 'transparent',
                 borderColor: 'var(--color-primary)',
                 duration: 0.2
-            }).then(() => {
-                labelImg.classList.remove('form-file-label-disabled')
-                labelImg.classList.add('form-file-label-active')
             })
         });
     }
@@ -152,7 +149,15 @@ const handleBtnActive = (e, index) => {
     })
 
     // on joue la timeline
-    activeAnim.play()
+    activeAnim.play().then(() => {
+        // renseigner la classe active (ne fonctionne pas avec un then dans le foreach du dessus) 
+        if (labelImgs.length !== 0) {
+            labelImgs.forEach((labelImg) => {
+                labelImg.classList.remove('form-file-label-disabled')
+                labelImg.classList.add('form-file-label-active')
+            });
+        }
+    })
 
 }
 
@@ -179,21 +184,26 @@ const handleDesactive = (index) => {
     })
 
     if (labelImgs.length !== 0) {
-        labelImgs.forEach(labelImg => {
+        labelImgs.forEach((labelImg) => {
             // activer les champs
             dasactiveAnim.to(labelImg, {
                 backgroundColor: 'var(--color-disabled)',
                 borderColor: 'transparent',
                 duration: 0.2
-            }).then(() => {
-                labelImg.classList.remove('form-file-label-active')
-                labelImg.classList.add('form-file-label-disabled')
             })
         });
     }
 
     // on joue la timeline
-    dasactiveAnim.play()
+    dasactiveAnim.play().then(() => {
+        // renseigner la classe disabled (ne fonctionne pas avec un then dans le foreach du dessus) 
+        if (labelImgs.length !== 0) {
+            labelImgs.forEach((labelImg) => {
+                labelImg.classList.remove('form-file-label-active')
+                labelImg.classList.add('form-file-label-disabled')
+            });
+        }
+    })
 }
 
 btnActived.forEach((btn, index) => {

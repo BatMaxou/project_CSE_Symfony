@@ -27,11 +27,11 @@ class StaticPathList
     );
 
     private array $requestPaths = array(
-        'ajout_reponse_sondage' => 'post_survey',
+        'ajout_reponse_sondage' => 'post-survey',
         'ajout_sondage' => 'post-add-survey',
         'modif_sondage' => 'post-edit-survey',
         'supp_sondage' => 'post-delete-survey',
-        'ajout_abonnement_newsletter' => 'post_newsletter',
+        'ajout_abonnement_newsletter' => 'post-newsletter',
         'modif_textes' => 'post_texts',
         'ajout_membre' => 'post-add-member',
         'modif_membre' => 'post-edit-member',
@@ -46,7 +46,7 @@ class StaticPathList
         'ajout_billeterie' => 'post-add-ticketing',
         'modif_billeterie' => 'post-edit-ticketing',
         'supp_billeterie' => 'post-delete-ticketing',
-        'envoi_contact' => 'post_contact',
+        'envoi_contact' => 'post-contact',
     );
 
     public function getClientPathByName(string $name): array

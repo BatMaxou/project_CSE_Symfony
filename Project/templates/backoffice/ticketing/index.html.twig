@@ -21,12 +21,11 @@
 					"<p class='modal-recap add-offer-number-min'></p>" ~
 					"<p class='modal-recap add-offer-order-number'></p>" ~
 					"<p class='modal-recap add-offer-partnership'></p>" ~
-
 					"<p class='modal-recap add-offer-image-1'></p>" ~
 					"<p class='modal-recap add-offer-image-2'></p>" ~
 					"<p class='modal-recap add-offer-image-3'></p>" ~
 					"<p class='modal-recap add-offer-image-4'></p>" ~
-					"</div>" ~
+				"</div>" ~
 				"<p class='modal-question'>Êtes-vous sûr de vouloir ajouter cette offre ?</p>"
 				,
 				options: {
@@ -40,11 +39,19 @@
 				title: 'Attention, modification en cours !',
 				content:
 				"<p class='modal-question'>Vous êtes sur le point de modifier l'offre : </p>" ~
-				"<div class='content-offre-edit'>" ~
-					"<p class='modal-recap edit-ticketing-email'></p>" ~
-					"<p class='modal-recap edit-ticketing-password'></p>" ~
-					"<p class='modal-recap edit-ticketing-role'></p>" ~
-					"</div>" ~
+				"<div class='post-content'>" ~
+					"<p class='modal-recap edit-offer-name'></p>" ~
+					"<p class='modal-recap edit-offer-text'></p>" ~
+					"<p class='modal-recap edit-offer-date-start'></p>" ~
+					"<p class='modal-recap edit-offer-date-end'></p>" ~
+					"<p class='modal-recap edit-offer-number-min'></p>" ~
+					"<p class='modal-recap edit-offer-order-number'></p>" ~
+					"<p class='modal-recap edit-offer-partnership'></p>" ~
+					"<p class='modal-recap edit-offer-image-1'></p>" ~
+					"<p class='modal-recap edit-offer-image-2'></p>" ~
+					"<p class='modal-recap edit-offer-image-3'></p>" ~
+					"<p class='modal-recap edit-offer-image-4'></p>" ~
+				"</div>" ~
 				"<p class='modal-question'>Êtes-vous sûr de vouloir modifier cette offre ?</p>"
 				,
 				options: {
@@ -58,7 +65,9 @@
 				title: 'Attention, suppression en cours !',
 				content:
 				"<p class='modal-question'>Vous êtes sur le point de supprimer l'offre : </p>" ~
-				"<p class='modal-recap delete-ticketing-email'></p>" ~
+				"<div class='post-content'>" ~
+					"<p class='modal-recap delete-offer-name'></p>" ~
+				"</div>" ~
 				"<p class='modal-question'>Êtes-vous sûr de vouloir supprimer cette offre ?</p>"
 				,
 				options: {
@@ -104,7 +113,7 @@
 						{{ form_widget(formAdd.partnership, {disabled: false, placeholder: 'Aucun'}) }}
 
 						<div class="number-min">
-							{{ form_label(formAdd.number_min_place, 'Nombre de place minimum :') }}
+							{{ form_label(formAdd.number_min_place, 'Place minimum :') }}
 							{{ form_widget(formAdd.number_min_place, {disabled: false, required: false}) }}
 						</div>
 
@@ -159,17 +168,26 @@
 								{% set img = [formEdits[key].image1, formEdits[key].image2, formEdits[key].image3, formEdits[key].image4] %}
 								{% for ind in 0..3 %}
 									<div>
-										{% if offer.imageTicketings[ind] is defined %}
-											<img src="{{ asset('images/ticketing/' ~ offer.imageTicketings[ind].name) }}" alt="image de l'offre">
-										{% else %}
+
+										{% set imgDisplay = false %}
+										{% for image in offer.imageTicketings %}
+											{% if image.numero == (ind + 1) %}
+												{% set imgDisplay = true %}
+												<img src="{{ asset('images/ticketing/' ~ image.name) }}" alt="image de l'offre">
+											{% endif %}
+										{% endfor %}
+										{% if not imgDisplay %}
 											<img src="{{ asset('images/required/no-image.svg') }}" alt="image de l'offre">
 										{% endif %}
+
 										{{ form_label(img[ind]) }}
-										{{ form_widget(img[ind], {'disabled': 'disabled'}) }}
+										{# required false pour ne pas empecher la modification quand on laisse l'image de base #}
+										{{ form_widget(img[ind], {'disabled': 'disabled', 'required': false}) }}
 									</div>
 								{% endfor %}
 							</div>
 							<div class="card-content">
+								{{ form_widget(formEdits[key].id, { 'value': offer.id })}}
 								{{ form_row(formEdits[key].name, {value: offer.name, attr: {class: 'form-input form-input-disabled'}}) }}
 								{{ form_row(formEdits[key].text, {value: offer.text, attr: {class: 'form-input form-input-disabled'}}) }}
 
@@ -191,7 +209,8 @@
 							{{ form_end(formEdits[key], {'render_rest': false}) }}
 
 							{{ form_start(formDeletes[key], {'attr': {'class': 'delete-form'}})}}
-							{{ form_widget(formDeletes[key].id)}}
+							{{ form_widget(formDeletes[key].id, { 'value': offer.id })}}
+							{{ form_widget(formDeletes[key].name, { 'attr': { class: 'form-input-hidden' }, 'value': offer.name, 'disabled': false })}}
 							{{ form_end(formDeletes[key], {'render_rest': false}) }}
 						</div>
 						<div class="card-footer">
@@ -235,6 +254,7 @@
 								{% endfor %}
 							</div>
 							<div class="card-content">
+								{{ form_widget(formEdits[key + ticketingsPermanent|length].id, { 'value': offer.id })}}
 								{{ form_row(formEdits[key + ticketingsPermanent|length].name, {value: offer.name, attr: {class: 'form-input form-input-disabled'}}) }}
 								{{ form_row(formEdits[key + ticketingsPermanent|length].text, {value: offer.text, attr: {class: 'form-input form-input-disabled'}}) }}
 
@@ -256,7 +276,8 @@
 							{{ form_end(formEdits[key + ticketingsPermanent|length], {'render_rest': false}) }}
 
 							{{ form_start(formDeletes[key + ticketingsPermanent|length], {'attr': {'class': 'delete-form'}})}}
-							{{ form_widget(formDeletes[key + ticketingsPermanent|length].id)}}
+							{{ form_widget(formDeletes[key + ticketingsPermanent|length].id, { 'value': offer.id })}}
+							{{ form_widget(formDeletes[key + ticketingsPermanent|length].name, { 'attr': { class: 'form-input-hidden' }, 'value': offer.name, 'disabled': false })}}
 							{{ form_end(formDeletes[key + ticketingsPermanent|length], {'render_rest': false}) }}
 						</div>
 						<div class="card-footer">
@@ -275,7 +296,6 @@
 	<script src="{{ asset('js/handleTypeTicketing.js') }}"></script>
 	<script src="{{ asset('js/paging.js') }}"></script>
 {% endblock %}
-
 {% block request %}
 	<script src="{{ asset('js/request/ticketing.js') }}"></script>
 {% endblock %}
