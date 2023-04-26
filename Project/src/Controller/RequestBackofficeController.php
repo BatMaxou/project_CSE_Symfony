@@ -415,25 +415,25 @@ class RequestBackofficeController extends AbstractController
     #[Route(path: 'sup-offre', name: 'post-delete-ticketing', methods: ['POST'])]
     public function postDeleteTicketing(TicketingRepository $ticketingRepository, ImageTicketingRepository $imgTicketingRep, Request $request): Response
     {
-        // try {
-        // recupérer l'offre concernée
-        $offer = $ticketingRepository->findById($request->get('ticketing')['id']);
+        try {
+            // recupérer l'offre concernée
+            $offer = $ticketingRepository->findById($request->get('ticketing')['id']);
 
-        // supprimer les images associées s'il y en a
-        if (count($offer->getImageTicketings()) !== 0) {
-            foreach ($offer->getImageTicketings() as $image) {
-                unlink($this->getParameter('kernel.project_dir') . '/public/images/ticketing/' . $image->getName());
+            // supprimer les images associées s'il y en a
+            if (count($offer->getImageTicketings()) !== 0) {
+                foreach ($offer->getImageTicketings() as $image) {
+                    unlink($this->getParameter('kernel.project_dir') . '/public/images/ticketing/' . $image->getName());
 
-                $imgTicketingRep->remove($image, true);
+                    $imgTicketingRep->remove($image, true);
+                }
             }
+
+            $ticketingRepository->remove($offer, true);
+
+            return new Response('La suppression a bien été effectuée !', 200);
+        } catch (\Throwable $th) {
+            return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
         }
-
-        $ticketingRepository->remove($offer, true);
-
-        return new Response('La suppression a bien été effectuée !', 200);
-        // } catch (\Throwable $th) {
-        //     return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
-        // }
     }
 
     #[Route(path: 'ajout-membre', name: 'post-add-member', methods: ['POST'])]
