@@ -17,6 +17,15 @@ cd Project
 ```
 composer install
 ```
+4. Modifier le fichier .env
+```
+DATABASE_URL="mysql://YOUR_LOGIN:YOUR_PASSWORD@YOUR_SERVER/YOUR_TABLE"
+
+MAILER_DSN=""
+
+TURNSTILE_KEY="YOUR_KEY"
+TURNSTILE_SECRET="YOUR_SECRET"
+```
 
 ## Création de la base de données
 Pour créer ou refresh la base de données:

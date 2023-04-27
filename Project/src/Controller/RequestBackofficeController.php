@@ -261,8 +261,8 @@ class RequestBackofficeController extends AbstractController
             }
 
             $email = (new Email())
-                ->from(new Address('maximebatista.lycee@gmail.com', 'CSE Saint-Vincent'))
-                ->subject('Abonnement à la newsletter')
+                ->from(new Address($_ENV['APP_EMAIL'], 'CSE Saint-Vincent'))
+                ->subject('Nouvelle offre disponible')
                 ->html(
                     '<p>Une nouvelle offre est disponible sur le site du CSE Saint-Vincent!</p>' .
                         '<p>Offre : ' . $ticketing->getName() . '</p>' .

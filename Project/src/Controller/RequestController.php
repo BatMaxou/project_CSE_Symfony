@@ -38,7 +38,7 @@ class RequestController extends AbstractController
 
                     // mailer
                     $email = (new Email())
-                        ->from(new Address('maximebatista.lycee@gmail.com', 'CSE Saint-Vincent'))
+                        ->from(new Address($_ENV['APP_EMAIL'], 'CSE Saint-Vincent'))
                         ->to($sub->getEmail())
                         ->subject('Abonnement à la newsletter')
                         ->html(
@@ -118,8 +118,8 @@ class RequestController extends AbstractController
                             $sub->setConsent(true);
                             $subscriberRepo->save($sub, true);
 
-                            $emailSubcriber = (new Email())
-                                ->from(new Address('maximebatista.lycee@gmail.com', 'CSE Saint-Vincent'))
+                            $email = (new Email())
+                                ->from(new Address($_ENV['APP_EMAIL'], 'CSE Saint-Vincent'))
                                 ->to($request->get('contact')['email'])
                                 ->subject('Abonnement à la newsletter')
                                 ->html(
@@ -128,7 +128,7 @@ class RequestController extends AbstractController
                                         '<p>Pour vous désabonner, cliquez <a href="#">ici</a>.</p>'
                                 );
 
-                            $mailer->send($emailSubcriber);
+                            $mailer->send($email);
                         }
                     } else {
                         return new Response('L\'adresse mail saisie n\'est pas conforme.', 400);
@@ -150,7 +150,7 @@ class RequestController extends AbstractController
                     // mailer
                     $email = (new Email())
                         ->from(new Address($request->get('contact')['email'], $request->get('contact')['name'] . ' ' . $request->get('contact')['firstname']))
-                        ->to('maximebatista.lycee@gmail.com')
+                        ->to($_ENV['APP_EMAIL'])
                         ->subject('Subject')
                         ->text($request->get('contact')['message']);
 
