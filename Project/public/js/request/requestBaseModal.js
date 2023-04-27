@@ -35,8 +35,18 @@ const handleSubmit = async (index, formData, form, type, options = {}) => {
 
         if (response.status === 200) {
             // Card animation
-            // index + 1 pour passer outre la première card d'ajout
-            handleBtnEdit(index + 1)
+            if (options.survey && options.survey === true) {
+                // Card animation
+                handleBtnEditDesactivateSurvey(index)
+                const cardFooter = document.createElement('div')
+                cardFooter.classList.add('card-footer')
+                cardFooter.innerHTML =
+                    '<p>Recharger la page afin de pouvoir supprimer ce sondage</p>'
+                cards[index].appendChild(cardFooter)
+            } else {
+                // index + 1 pour passer outre la première card d'ajout
+                handleBtnEdit(index + 1)
+            }
 
             createFlash('alert-success', msg, 1)
         } else {
@@ -56,7 +66,13 @@ const handleSubmit = async (index, formData, form, type, options = {}) => {
         if (response.status === 200) {
             // Card animation
             // 'cards' est défini dans cardAnimation.js
-            handleBtnDelete(index, Array.from(cards))
+            if (options.member && options.member === true) {
+                handleBtnDelete(index, Array.from(cards), { fade: true, ignoredFirst: true })
+            } else if (options.message && options.message === true) {
+                handleBtnDelete(index, Array.from(cards), { ignoredFirst: false })
+            } else {
+                handleBtnDelete(index, Array.from(cards))
+            }
 
             createFlash('alert-success', msg, 1)
         } else {

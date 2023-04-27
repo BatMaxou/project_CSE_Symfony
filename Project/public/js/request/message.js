@@ -41,7 +41,6 @@ const handlePartnershipsDisplayModal = (e, index, type, btnSubmit, form) => {
 
         // garder la fonction submit dans une constante
         const submit = () => {
-            console.log('ok');
             handleSubmit(index, formData, form, type, { message: true }), { once: true }
         }
 

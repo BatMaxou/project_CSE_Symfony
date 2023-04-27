@@ -39,13 +39,11 @@ const handleAddCard = (cards, fade = false) => {
 const deleteAnim = gsap.timeline({ paused: true });
 
 const handleBtnDelete = (index, cards, options = { 'fade': false, 'ignoredFirst': true }) => {
-    console.log(options);
-    console.log(cards);
+    
     if (options.ignoredFirst) {
         // enlever la card d'ajout
         cards.splice(0, 1)
     }
-    console.log(cards);
 
     cards.forEach((card, i) => {
         if (i === index) {

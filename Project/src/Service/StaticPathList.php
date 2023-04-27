@@ -47,7 +47,7 @@ class StaticPathList
         'modif_billeterie' => 'post-edit-ticketing',
         'supp_billeterie' => 'post-delete-ticketing',
         // utiliser pour le form contact client
-        'envoi_contact' => 'post_contact',
+        'envoi_contact' => 'post-contact',
         // utiliser pour la partie message du backoffice
         'rep_msg' => 'post-rep-msg',
         'supprimer_msg' => 'post-delete-msg',
