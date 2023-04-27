@@ -99,7 +99,7 @@ const handleMembersDisplayModal = (e, index, type, btnSubmit, form) => {
 
         // garder la fonction submit dans une constante
         const submit = () => {
-            handleSubmit(index, formData, form, type), { once: true }
+            handleSubmit(index, formData, form, type, {member: true}), { once: true }
         }
 
         // ajout de l'event à chaque affichage du modal 

@@ -146,7 +146,9 @@ textarea:focus::placeholder {
 #texts,
 #backoffice-survey,
 #dashboard,
-#backoffice-member {
+#backoffice-member,
+#backoffice-message,
+#backoffice-messages {
     width: 100%;
     position: relative;
 }
@@ -2102,31 +2104,81 @@ textarea:focus::placeholder {
         flex-direction: column;
     }
 
+    
     #backoffice-ticketing .add-offer .number-min,
     #backoffice-ticketing .add-offer .order-number {
         top: 50px;
         left: 16px;
     }
 
+    
     #backoffice-ticketing .card-image {
         width: 100%;
         margin-top: 50px;
     }
 
+    
     #backoffice-ticketing .card-content {
         width: 90%;
         margin-top: 20px;
     }
 
+    
     #backoffice-ticketing .card-image img {
         width: 150px;
         height: 150px;
     }
 }
 
+
 @media (max-width: 400px) {
     #backoffice-ticketing .card-image img {
         width: 125px;
         height: 125px;
     }
+}
+
+
+/* backoffice message */
+
+
+#backoffice-messages .card .card-footer a {
+    position: initial;
+    color: var(--color-white);
+    text-transform: capitalize;
+}
+
+#backoffice-message .form-input {
+    width: 100%;
+}
+
+#backoffice-message #contact_email {
+    display: none;
+}
+
+#backoffice-message textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+/* backoffice message */
+
+
+#backoffice-messages .card .card-footer a {
+    position: initial;
+    color: var(--color-white);
+    text-transform: capitalize;
+}
+
+#backoffice-message .form-input {
+    width: 100%;
+}
+
+#backoffice-message #contact_email {
+    display: none;
+}
+
+#backoffice-message textarea {
+    min-height: 150px;
+    resize: vertical;
 }

@@ -20,7 +20,7 @@ class StaticPathList
         'Partenariats' => 'backoffice_partnership',
         'Billeterie' => 'backoffice_ticketing',
         'Sondage' => 'backoffice_survey',
-        'Messages' => 'backoffice_contact',
+        'Messages' => 'backoffice_messages',
         'Comptes' => 'backoffice_account',
         'Retour au site' => 'home',
         'Déconnexion' => 'app_logout'
@@ -46,7 +46,11 @@ class StaticPathList
         'ajout_billeterie' => 'post-add-ticketing',
         'modif_billeterie' => 'post-edit-ticketing',
         'supp_billeterie' => 'post-delete-ticketing',
-        'envoi_contact' => 'post-contact',
+        // utiliser pour le form contact client
+        'envoi_contact' => 'post_contact',
+        // utiliser pour la partie message du backoffice
+        'rep_msg' => 'post-rep-msg',
+        'supprimer_msg' => 'post-delete-msg',
     );
 
     public function getClientPathByName(string $name): array

@@ -15,6 +15,7 @@ use App\Repository\AdminRepository;
 use Symfony\Component\Mime\Address;
 use App\Repository\MemberRepository;
 use App\Repository\SurveyRepository;
+use App\Repository\ContactRepository;
 use App\Repository\CkeditorRepository;
 use App\Repository\ResponseRepository;
 use App\Repository\TicketingRepository;
@@ -22,7 +23,9 @@ use App\Repository\PartnershipRepository;
 use App\Entity\Response as SurveyResponse;
 use App\Repository\UserResponseRepository;
 use App\Repository\ImageTicketingRepository;
+use App\Repository\UserResponseRepository;
 use App\Repository\SubscriberRepository;
+use App\Service\Validator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -747,25 +750,51 @@ class RequestBackofficeController extends AbstractController
         }
     }
 
-    #[Route(path: 'texts', name: 'post_texts', methods: ['POST'])]
-    public function postTexts(CkeditorRepository $rep, Request $request): Response
+    #[Route(path: 'supprimer_msg', name: 'post-delete-msg', methods: ['POST'])]
+    public function postDeleteMessage(ContactRepository $contactRepo, Request $request): Response
     {
         try {
-            $texts = [
-                'homepage' => $rep->findByZone('HomePage', 'zone'),
-                'email' => $rep->findByZone('AboutUs', 'email'),
-                'actions' => $rep->findByZone('AboutUs', 'actions'),
-                'rules' => $rep->findByZone('AboutUs', 'rules'),
-            ];
+            $id = $request->get("contact")['id'];
 
-            $rep->save($texts['homepage']->setContent($request->get('texts')['homepage']), true);
-            $rep->save($texts['email']->setContent($request->get('texts')['email']), true);
-            $rep->save($texts['actions']->setContent($request->get('texts')['actions']), true);
-            $rep->save($texts['rules']->setContent($request->get('texts')['rules']), true);
+            $message = $contactRepo->find($id);
 
-            return new Response('Réponse enregistrée, merci de votre participation !', 200);
+            if (!$message) {
+                throw $this->createNotFoundException(
+                    "Pas de message trouvé pour l'id : " . $id
+                );
+            }
+
+            $contactRepo->remove($message, true);
+
+            return new Response('La suppression a bien été effectué !', 200);
         } catch (\Throwable $th) {
-            return new Response($th, 400);
+            return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
+        }
+    }
+
+    #[Route(path: 'rep_msg', name: 'post-rep-msg', methods: ['POST'])]
+    public function postResponseMessage(Validator $validate, Request $request, MailerInterface $mailer): Response
+    {
+        if ($validate->checkInputEmail($request->get('contact')['email'])) {
+            if (!empty($request->get('contact')['message'])) {
+                try {
+                    $email = (new Email())
+                        ->from(new Address('maximebatista.lycee@gmail.com', 'CSE Saint-Vincent'))
+                        ->to($request->get('contact')['email'])
+                        ->subject('Réponse à votre précédent mail')
+                        ->text($request->get('contact')['message']);
+
+                    $mailer->send($email);
+
+                    return new Response('Votre message a bien été envoyé !', 200);
+                } catch (\Throwable $th) {
+                    return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
+                }
+            } else {
+                return new Response('Vous ne pouvez pas envoyer un message vide.', 400);
+            }
+        } else {
+            return new Response('L\'daresse mail n\'est pas correcte.', 400);
         }
     }
 }

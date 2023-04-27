@@ -74,6 +74,8 @@ class HomeController extends AbstractController
             'method' => 'POST'
         ]);
 
+        $formContact->remove('id');
+
         return $this->render('includes/form/_contact.html.twig', [
             'formContact' => $formContact,
         ]);
