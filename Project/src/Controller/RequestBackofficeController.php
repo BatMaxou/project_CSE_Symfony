@@ -6,20 +6,24 @@ use DateTime;
 use App\Entity\Admin;
 use App\Entity\Member;
 use App\Entity\Survey;
-use App\Entity\Response as SurveyResponse;
 use App\Entity\Ticketing;
+use App\Service\Validator;
 use App\Entity\Partnership;
 use App\Entity\ImageTicketing;
+use Symfony\Component\Mime\Email;
 use App\Repository\AdminRepository;
+use Symfony\Component\Mime\Address;
 use App\Repository\MemberRepository;
 use App\Repository\SurveyRepository;
+use App\Repository\ContactRepository;
 use App\Repository\ResponseRepository;
 use App\Repository\TicketingRepository;
 use App\Repository\PartnershipRepository;
-use App\Repository\ImageTicketingRepository;
+use App\Entity\Response as SurveyResponse;
 use App\Repository\UserResponseRepository;
-use App\Service\Validator;
+use App\Repository\ImageTicketingRepository;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -574,6 +578,54 @@ class RequestBackofficeController extends AbstractController
             return new Response('La suppression a bien été effectuée !', 200);
         } catch (\Throwable $th) {
             return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
+        }
+    }
+
+    #[Route(path: 'supprimer_msg', name: 'post-delete-msg', methods: ['POST'])]
+    public function postDeleteMessage(ContactRepository $contactRepo, Request $request): Response
+    {
+        try {
+            $id = $request->get("contact")['id'];
+
+            $message = $contactRepo->find($id);
+
+            if (!$message) {
+                throw $this->createNotFoundException(
+                    "Pas de message trouvé pour l'id : " . $id
+                );
+            }
+
+            $contactRepo->remove($message, true);
+
+            return new Response('La suppression a bien été effectué !', 200);
+        } catch (\Throwable $th) {
+            return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
+        }
+    }
+
+    #[Route(path: 'rep_msg', name: 'post-rep-msg', methods: ['POST'])]
+    public function postResponseMessage(Validator $validate, Request $request, MailerInterface $mailer): Response
+    {
+        if ($validate->checkInputEmail($request->get('contact')['email'])) {
+            if (!empty($request->get('contact')['message'])) {
+                try {
+                    $email = (new Email())
+                        ->from(new Address('maximebatista.lycee@gmail.com', 'CSE Saint-Vincent'))
+                        ->to($request->get('contact')['email'])
+                        ->subject('Réponse à votre précédent mail')
+                        ->text($request->get('contact')['message']);
+
+                    $mailer->send($email);
+
+                    return new Response('Votre message a bien été envoyé !', 200);
+                } catch (\Throwable $th) {
+                    return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
+                }
+            } else {
+                return new Response('Vous ne pouvez pas envoyer un message vide.', 400);
+            }
+        } else {
+            return new Response('L\'daresse mail n\'est pas correcte.', 400);
         }
     }
 }

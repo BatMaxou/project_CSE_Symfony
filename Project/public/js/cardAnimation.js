@@ -38,9 +38,14 @@ const handleAddCard = (cards, fade = false) => {
 // création d'une timeline et paused sur true pour pas que ça se lance des le load de la page
 const deleteAnim = gsap.timeline({ paused: true });
 
-const handleBtnDelete = (index, cards, fade = false) => {
-    // enlever la card d'ajout
-    cards.splice(0, 1)
+const handleBtnDelete = (index, cards, options = { 'fade': false, 'ignoredFirst': true }) => {
+    console.log(options);
+    console.log(cards);
+    if (options.ignoredFirst) {
+        // enlever la card d'ajout
+        cards.splice(0, 1)
+    }
+    console.log(cards);
 
     cards.forEach((card, i) => {
         if (i === index) {
@@ -56,7 +61,7 @@ const handleBtnDelete = (index, cards, fade = false) => {
                 duration: 1
             }).then(() => cards[index].style.display = 'none')
 
-        } else if (i > index && window.innerWidth >= 850 && fade) {
+        } else if (i > index && window.innerWidth >= 850 && options.fade) {
             gsap.to(card, {
                 opacity: 0,
                 duration: 1

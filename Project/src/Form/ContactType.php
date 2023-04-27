@@ -12,15 +12,17 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use PixelOpen\CloudflareTurnstileBundle\Type\TurnstileType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 final class ContactType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->add('name', TextType::class, [
-            'label' => 'Prénom',
-            'required' => true,
-        ])
+        $builder->add('id', HiddenType::class, ['required' => false])
+            ->add('name', TextType::class, [
+                'label' => 'Prénom',
+                'required' => true,
+            ])
             ->add('firstname', TextType::class, [
                 'label' => 'Nom',
                 'required' => true,

@@ -64,13 +64,12 @@ class ContactRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?Contact
-    //    {
-    //        return $this->createQueryBuilder('c')
-    //            ->andWhere('c.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    public function findByEmail($email): ?Contact
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.email = :email')
+            ->setParameter('email', $email)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

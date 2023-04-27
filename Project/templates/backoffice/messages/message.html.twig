@@ -1,0 +1,46 @@
+{% extends 'backoffice-page.html.twig' %}
+
+{% block title %}
+	CSE - Backoffice messages
+{% endblock %}
+
+{% block content %}
+	<div id="backoffice-message">
+		<h1>Réponse à envoyer à
+			{{ message.email }}</h1>
+		<div class="message">
+			<div class="card">
+				<div class="card-header">
+					<p>
+						De :
+						{{ message.email }}
+					</p>
+				</div>
+				<div class="card-body">
+					<p id="p-msg">
+						Message :
+						{{ message.message }}
+					</p>
+				</div>
+			</div>
+		</div>
+		<h2>Votre message :</h2>
+		{{ form_start(repForm) }}
+		<div class="card">
+			<div class="card-header">
+				{{ form_widget(repForm.email, {'value': message.email, 'attr': {'class': 'form-input', 'placeholder': 'Adresse mail'}}) }}
+			</div>
+			<div class="card-body">
+				{{ form_widget(repForm.message, {'attr': {'class': 'form-input', 'placeholder': 'Message'}}) }}
+			</div>
+			<div class="card-footer">
+				{{ form_row(repForm.submit, {'attr': {'class': 'btn btn-info'}}) }}
+			</div>
+		</div>
+		{{ form_end(repForm) }}
+	</div>
+{% endblock %}
+
+{% block request %}
+	<script src="{{ asset('js/request/message.js') }}"></script>
+{% endblock %}

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Form\AdminType;
+use App\Form\ContactType;
 use App\Form\TextsType;
 use App\Form\MemberType;
 use App\Form\SurveyType;
@@ -244,6 +245,66 @@ class BackOfficeController extends AbstractController
             'deleteForm' => $deleteForms,
             'addFormPartner' => $addFormPartner
         ]);
+    }
+
+    #[Route(path: 'messages', name: 'backoffice_messages')]
+    public function messages(StaticPathList $staticPathList, ContactRepository $contactRepo): Response
+    {
+        $paths = [$staticPathList->getAdminPathByName('Tableau de bord'), $staticPathList->getAdminPathByName('Messages')];
+
+        // regupère tous les messages par ordre desc
+        $messages = $contactRepo->findBy(array(), array('id' => 'DESC'));
+
+        $deleteForm = $this->createForm(ContactType::class, null, [
+            'action' => $this->generateUrl($staticPathList->getRequestPathByName('supprimer_msg')),
+            'method' => 'POST',
+        ]);
+
+        // pour retirer les inputs qu'on ne va pas utiliser
+        $deleteForm->remove('name');
+        $deleteForm->remove('firstname');
+        $deleteForm->remove('captcha');
+        $deleteForm->remove('consent');
+
+        $deleteForms = array();
+
+        for ($i = 0; $i < count($messages); $i++) {
+            $deleteForms[] = $deleteForm->createView();
+        }
+
+        return $this->render('backoffice/messages/index.html.twig', [
+            'paths' => $paths,
+            'messages' => $messages,
+            'deleteForm' => $deleteForms,
+        ]);
+    }
+
+    #[Route(path: 'messages/{id}', name: 'backoffice_message')]
+    public function message(string $id, StaticPathList $staticPathList, ContactRepository $contactRepo): Response
+    {
+        $message = $contactRepo->find($id);
+
+        $paths = [$staticPathList->getAdminPathByName('Tableau de bord'), $staticPathList->getAdminPathByName('Messages'), array('Message de ' . $message->getEmail(), 'backoffice_message', $message->getId())];
+
+        $repForm = $this->createForm(ContactType::class, null, [
+            'action' => $this->generateUrl($staticPathList->getRequestPathByName('rep_msg')),
+            'method' => 'POST',
+        ]);
+
+        $repForm->remove('name');
+        $repForm->remove('firstname');
+        $repForm->remove('captcha');
+        $repForm->remove('consent');
+
+        if ($message != NULL) {
+            return $this->render('backoffice/messages/message.html.twig', [
+                'paths' => $paths,
+                'message' => $message,
+                'repForm' => $repForm,
+            ]);
+        }
+
+        return $this->redirectToRoute('home');
     }
 
     // Page d'affichage / modification d'un admin

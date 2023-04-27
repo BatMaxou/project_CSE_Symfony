@@ -141,7 +141,9 @@ textarea:focus::placeholder {
 #texts,
 #backoffice-survey,
 #dashboard,
-#backoffice-member {
+#backoffice-member,
+#backoffice-message,
+#backoffice-messages {
     width: 100%;
     position: relative;
 }
@@ -2085,4 +2087,26 @@ textarea:focus::placeholder {
     position: absolute;
     top: 0px;
     right: 10px;
+}
+
+/* backoffice message */
+
+
+#backoffice-messages .card .card-footer a {
+    position: initial;
+    color: var(--color-white);
+    text-transform: capitalize;
+}
+
+#backoffice-message .form-input {
+    width: 100%;
+}
+
+#backoffice-message #contact_email {
+    display: none;
+}
+
+#backoffice-message textarea {
+    min-height: 150px;
+    resize: vertical;
 }
