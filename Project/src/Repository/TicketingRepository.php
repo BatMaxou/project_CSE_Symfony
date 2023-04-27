@@ -106,6 +106,15 @@ class TicketingRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
+    public function findByOrderNumber($num): ?Ticketing
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.orderNumber = :val')
+            ->setParameter('val', $num)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     //    /**
     //     * @return Ticketing[] Returns an array of Ticketing objects
     //     */

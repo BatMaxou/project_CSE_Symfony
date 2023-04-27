@@ -249,7 +249,7 @@
 											<img src="{{ asset('images/required/no-image.svg') }}" alt="image de l'offre">
 										{% endif %}
 										{{ form_label(img[ind]) }}
-										{{ form_widget(img[ind])}}
+										{{ form_widget(img[ind], {'disabled': 'disabled', 'required': false})}}
 									</div>
 								{% endfor %}
 							</div>
