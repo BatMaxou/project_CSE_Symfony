@@ -75,7 +75,17 @@ const handleSubmit = async (index, formData, form, type, options = {}) => {
             }
 
             createFlash('alert-success', msg, 1)
-        } else {
+        }
+        else if (response.status === 301) {
+            if (options.deleteSelfAdmin && options.deleteSelfAdmin === true) {
+                window.location.replace('/')
+                createFlash('alert-success', msg)
+            }
+            else {
+                createFlash('alert-error', msg)
+            }
+        }
+        else {
             createFlash('alert-error', msg)
         }
     }

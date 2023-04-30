@@ -36,23 +36,25 @@
 		{% endblock %}
 	</div>
 </div>
-<div id="{{ 'current-navigation' ~ back }}">
-	{% if menu == 'base' %}
-		<img src="{{ asset('images/required/home.svg') }}" alt="home">
-	{% elseif menu == 'back' %}
-		<img src="{{ asset('images/required/gear.svg') }}" alt="gear">
-	{% endif %}
-	<ul>
-		{% for path in paths %}
-			<li>
-				<img src="{{ asset('images/required/left-chevron.svg') }}" alt="chevron">
-				{% if path[2] is defined %}
-					<a href="{{ path(path[1], {slug: path[2], id: path[2]}) }}">{{ path[0] }}</a>
-				{% else %}
-					<a href="{{ path(path[1]) }}">{{ path[0] }}</a>
-				{% endif %}
+{% if paths is defined %}
+	<div id="{{ 'current-navigation' ~ back }}">
+		{% if menu == 'base' %}
+			<img src="{{ asset('images/required/home.svg') }}" alt="home">
+		{% elseif menu == 'back' %}
+			<img src="{{ asset('images/required/gear.svg') }}" alt="gear">
+		{% endif %}
+		<ul>
+			{% for path in paths %}
+				<li>
+					<img src="{{ asset('images/required/left-chevron.svg') }}" alt="chevron">
+					{% if path[2] is defined %}
+						<a href="{{ path(path[1], {slug: path[2], id: path[2]}) }}">{{ path[0] }}</a>
+					{% else %}
+						<a href="{{ path(path[1]) }}">{{ path[0] }}</a>
+					{% endif %}
 
-			</li>
-		{% endfor %}
-	</ul>
-</div>
+				</li>
+			{% endfor %}
+		</ul>
+	</div>
+{% endif %}

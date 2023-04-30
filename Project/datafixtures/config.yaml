@@ -1,31 +1,37 @@
 admin:
   1:
     email: "pede@icloud.couk"
+    # password: password
     password: "$argon2i$v=19$m=65536,t=4,p=1$ZTJLaGYvdDJtMUVKTFJCWQ$vHhV73SOuPb24C2fg88oQLwUC1a7eKHnfC4CEHV5Ats"
     roles: 
       - "ROLE_ADMIN"
   2:
     email: "proin.sed.turpis@protonmail.edu"
+    # password: babeudi
     password: "$argon2i$v=19$m=65536,t=4,p=1$ZnplSklHYU13aC9FSEp3eQ$SHRulI8gt/LqmH7MjBJ1lVZJE3Ec4ReBzNX2Jsq5JGg"
     roles:
       - "ROLE_ADMIN"
   3:
     email: "nonummy.ac@icloud.edu"
+    # password: helloworld
     password: "$argon2i$v=19$m=65536,t=4,p=1$YWVmdVREdjR6aDJwbkIvaw$ppluxlgtQ1YVgyEG3vWTlaKVxnJ0qb1h20giVPzHp08"
     roles:
       - "ROLE_ADMIN"
   4:
     email: "luctus@icloud.ca"
+    # password: admin
     password: "$argon2i$v=19$m=65536,t=4,p=1$OFJ4cFllNnRoc3FxbHVXOA$7k9exvWZ2nPIcsWU/v4Z8h6n18LWL6v8RPSsZIsYbLU"
     roles:
       - "ROLE_ADMIN"
   5:
     email: "bibendum.sed@protonmail.com"
+    # password: 1234
     password: "$argon2i$v=19$m=65536,t=4,p=1$dGpLZ2xyZDZpbXJhNzVGWQ$s0X63CtwYOEm7Jjj4gAkCnE7H2ClGg5AdQcMOvt9f1Y"
     roles:
       - "ROLE_ADMIN"
   6:
     email: "pacolu@proteimail.com"
+    # password: 60pdOulo$
     password: "$argon2i$v=19$m=65536,t=4,p=1$VTZpS21vZEhZeGtEWDZLUw$tO46fN91BV35uNiyc8zw/alUM2LLtyq/vF+4YQTbc+g"
     roles:
       - "ROLE_SUPER_ADMIN"
@@ -707,30 +713,35 @@ contact:
     firstname: "Wyoming"
     name: "Blachard"
     email: "pede@icloud.couk"
+    subject: "Désincription newsletter"
     message: "Bonjour, je souhaite me désinscrire de la newslettter, merci."
     consent: 1
   2:
     firstname: "Dorian"
     name: "Baker"
     email: "proin.sed.turpis@protonmail.edu"
+    subject: "Désincription newsletter"
     message: "Je ne suis plus intéressé par la newsletter, merci."
     consent: 1
   3:
     firstname: "Ignatius"
     name: "Chavez"
     email: "nonummy.ac@icloud.edu"
+    subject: "Inscription newsletter"
     message: "Bonjour, je souhaite m'inscrire merci."
     consent: 1
   4:
     firstname: "Finn"
     name: "Conner"
     email: "luctus@icloud.ca"
+    subject: "Stage"
     message: "Bonjour, je souhaite postuler pour un stage."
     consent: 1
   5:
     firstname: "Aretha"
     name: "Baker"
     email: "bibendum.sed@protonmail.com"
+    subject: "Offre intéressante"
     message: "Bonjour, je suis intéréssé par l'une de vos offres !"
     consent: 1
 

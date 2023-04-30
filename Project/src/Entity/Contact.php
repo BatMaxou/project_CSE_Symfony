@@ -48,6 +48,9 @@ class Contact
     )]
     private ?string $email = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $Subject = null;
+
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\Length(
         min: 2,
@@ -101,6 +104,18 @@ class Contact
     public function setEmail(string $email): self
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    public function getSubject(): ?string
+    {
+        return $this->Subject;
+    }
+
+    public function setSubject(string $Subject): self
+    {
+        $this->Subject = $Subject;
 
         return $this;
     }

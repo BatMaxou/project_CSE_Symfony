@@ -30,6 +30,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 #[Route(path: '/post/backoffice/')]
 class RequestBackofficeController extends AbstractController
@@ -139,9 +140,22 @@ class RequestBackofficeController extends AbstractController
                 );
             }
 
+            $adminEmail = $this->getUser()->getUserIdentifier();
+
+            $currentUserId = $this->getUser()->getId();
+            if ($currentUserId == $admin->getId()) {
+                $session = $request->getSession();
+                $session = new Session();
+                $session->invalidate();
+            }
+
             $adminRepository->remove($admin, true);
 
-            return new Response('La suppression a bien été effectué !', 200);
+            if ($adminEmail === $admin->getEmail()) {
+                return new Response('La suppression a bien été effectué !', 301);
+            } else {
+                return new Response('La suppression a bien été effectué !', 200);
+            }
         } catch (\Throwable $th) {
             return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
         }
@@ -150,150 +164,159 @@ class RequestBackofficeController extends AbstractController
     #[Route(path: 'ajout-offre', name: 'post-add-ticketing', methods: ['POST'])]
     public function postAddTicketing(TicketingRepository $ticketingRepository, ImageTicketingRepository $imageTicketingRepository, PartnershipRepository $partnershipRepository, SubscriberRepository $subRep, Validator $validate, MailerInterface $mailer, Request $request): Response
     {
-        // try {
-        if (
-            $validate->checkinputString($request->get('ticketing')['name'])
-            && $validate->checkinputString($request->get('ticketing')['text'])
-        ) {
-            $ticketing = new Ticketing();
+        try {
+            $name = $validate->transformInputString($request->get('ticketing')['name']);
+            $text = $validate->transformInputString($request->get('ticketing')['text']);
+            if (
+                $validate->checkInputString($request->get('ticketing')['name'])
+                && $validate->checkInputString($request->get('ticketing')['text'])
+                && $validate->checkInputDate(new DateTime($request->get('ticketing')['date_start']), new DateTime($request->get('ticketing')['date_end']))
+            ) {
+                $ticketing = new Ticketing();
 
-            if ($request->get('ticketing')['type'] === "0") {
-                $ticketing->setType("permanente");
-                $ticketing->setNumberMinPlace(intval($request->get('ticketing')['number_min_place']));
-            } else {
-                $ticketing->setType("limitée");
-                if ($ticketingRepository->findByOrderNumber(intval($request->get('ticketing')['order_number']))) {
-                    return new Response('Ce numero d\'affichage est déjà attribué.', 400);
+                if ($request->get('ticketing')['type'] === "0") {
+                    $ticketing->setType("permanente");
+                    if ($request->get('ticketing')['number_min_place'] <= 0) {
+                        return new Response('Le nombre de place minimum ne peut pas être négatif !', 400);
+                    } else {
+                        $ticketing->setNumberMinPlace(intval($request->get('ticketing')['number_min_place']));
+                    }
+                } else {
+                    $ticketing->setType("limitée");
+                    if ($ticketingRepository->findByOrderNumber(intval($request->get('ticketing')['order_number']))) {
+                        return new Response('Ce numero d\'affichage est déjà attribué.', 400);
+                    }
+                    $ticketing->setOrderNumber(intval($request->get('ticketing')['order_number']));
                 }
-                $ticketing->setOrderNumber(intval($request->get('ticketing')['order_number']));
-            }
 
-            $ticketing->setName($request->get('ticketing')['name']);
-            $ticketing->setText($request->get('ticketing')['text']);
+                $ticketing->setName($name);
+                $ticketing->setText($text);
 
-            $time = new DateTime($request->get('ticketing')['date_start']);
-            $ticketing->setDateStart($time);
+                $time = new DateTime($request->get('ticketing')['date_start']);
+                $ticketing->setDateStart($time);
 
-            $time = new DateTime($request->get('ticketing')['date_end']);
-            $ticketing->setDateEnd($time);
-            $ticketing->setDateCreate(new DateTime('NOW'));
+                $time = new DateTime($request->get('ticketing')['date_end']);
+                $ticketing->setDateEnd($time);
+                $ticketing->setDateCreate(new DateTime('NOW'));
 
-            if ($request->get('ticketing')['partnership']) {
-                $partnership = $partnershipRepository->find($request->get('ticketing')['partnership']);
-                $ticketing->setPartnership($partnership);
-            }
+                if ($request->get('ticketing')['partnership']) {
+                    $partnership = $partnershipRepository->find($request->get('ticketing')['partnership']);
+                    $ticketing->setPartnership($partnership);
+                }
 
-            $ticketing->setSlug(str_replace(' ', '', $request->get('ticketing')['name']));
+                $ticketing->setSlug(str_replace(' ', '', $request->get('ticketing')['name']));
 
-            $ticketingRepository->save($ticketing, true);
+                $ticketingRepository->save($ticketing, true);
 
-            $ticketing->setSlug($ticketing->getId() . '-' . $ticketing->getSlug());
+                $ticketing->setSlug($ticketing->getId() . '-' . $ticketing->getSlug());
 
-            $ticketingRepository->save($ticketing, true);
+                $ticketingRepository->save($ticketing, true);
 
-            $image1 = new ImageTicketing();
-
-            // path le chemin de destination pour l'image 
-            $destination = $this->getParameter('kernel.project_dir') . '/public/images/ticketing';
-            $image = $request->files->get('ticketing')['image1'];
-
-            // slug de l'image
-            $image1->setName($ticketing->getId() . '-' . $ticketing->getName() . '-image-1' . '.' . $image->guessExtension());
-            $image1->setNumero(1);
-            $image1->setTicketing($ticketing);
-
-            // deplacer l'image dans le fichier 
-            $image->move($destination, $image1->getName());
-
-            $imageTicketingRepository->save($image1, true);
-
-            if (isset($request->files->get('ticketing')['image2'])) {
-                $image2 = new ImageTicketing();
+                $image1 = new ImageTicketing();
 
                 // path le chemin de destination pour l'image 
                 $destination = $this->getParameter('kernel.project_dir') . '/public/images/ticketing';
-                $image = $request->files->get('ticketing')['image2'];
+                $image = $request->files->get('ticketing')['image1'];
 
                 // slug de l'image
-                $image2->setName($ticketing->getId() . '-' . $ticketing->getName() . '-image-2' . '.' . $image->guessExtension());
-                $image2->setNumero(2);
-                $image2->setTicketing($ticketing);
+                $image1->setName($ticketing->getId() . '-' . $ticketing->getName() . '-image-1' . '.' . $image->guessExtension());
+                $image1->setNumero(1);
+                $image1->setTicketing($ticketing);
 
                 // deplacer l'image dans le fichier 
-                $image->move($destination, $image2->getName());
+                $image->move($destination, $image1->getName());
 
-                $imageTicketingRepository->save($image2, true);
-            }
+                $imageTicketingRepository->save($image1, true);
 
-            if (isset($request->files->get('ticketing')['image3'])) {
-                $image3 = new ImageTicketing();
+                if (isset($request->files->get('ticketing')['image2'])) {
+                    $image2 = new ImageTicketing();
 
-                // path le chemin de destination pour l'image 
-                $destination = $this->getParameter('kernel.project_dir') . '/public/images/ticketing';
-                $image = $request->files->get('ticketing')['image3'];
+                    // path le chemin de destination pour l'image 
+                    $destination = $this->getParameter('kernel.project_dir') . '/public/images/ticketing';
+                    $image = $request->files->get('ticketing')['image2'];
 
-                // slug de l'image
-                $image3->setName($ticketing->getId() . '-' . $ticketing->getName() . '-image-3' . '.' . $image->guessExtension());
-                $image3->setNumero(3);
-                $image3->setTicketing($ticketing);
+                    // slug de l'image
+                    $image2->setName($ticketing->getId() . '-' . $ticketing->getName() . '-image-2' . '.' . $image->guessExtension());
+                    $image2->setNumero(2);
+                    $image2->setTicketing($ticketing);
 
-                // deplacer l'image dans le fichier 
-                $image->move($destination, $image3->getName());
+                    // deplacer l'image dans le fichier 
+                    $image->move($destination, $image2->getName());
 
-                $imageTicketingRepository->save($image3, true);
-            }
+                    $imageTicketingRepository->save($image2, true);
+                }
 
-            if (isset($request->files->get('ticketing')['image4'])) {
-                $image4 = new ImageTicketing();
+                if (isset($request->files->get('ticketing')['image3'])) {
+                    $image3 = new ImageTicketing();
 
-                // path le chemin de destination pour l'image 
-                $destination = $this->getParameter('kernel.project_dir') . '/public/images/ticketing';
-                $image = $request->files->get('ticketing')['image4'];
+                    // path le chemin de destination pour l'image 
+                    $destination = $this->getParameter('kernel.project_dir') . '/public/images/ticketing';
+                    $image = $request->files->get('ticketing')['image3'];
 
-                // slug de l'image
-                $image4->setName($ticketing->getId() . '-' . $ticketing->getName() . '-image-4' . '.' . $image->guessExtension());
-                $image4->setNumero(4);
-                $image4->setTicketing($ticketing);
+                    // slug de l'image
+                    $image3->setName($ticketing->getId() . '-' . $ticketing->getName() . '-image-3' . '.' . $image->guessExtension());
+                    $image3->setNumero(3);
+                    $image3->setTicketing($ticketing);
 
-                // deplacer l'image dans le fichier 
-                $image->move($destination, $image4->getName());
+                    // deplacer l'image dans le fichier 
+                    $image->move($destination, $image3->getName());
 
-                $imageTicketingRepository->save($image4, true);
-            }
+                    $imageTicketingRepository->save($image3, true);
+                }
 
-            $email = (new Email())
-                ->from(new Address($_ENV['APP_EMAIL'], 'CSE Saint-Vincent'))
-                ->subject('Nouvelle offre disponible')
-                ->html(
-                    '<p>Une nouvelle offre est disponible sur le site du CSE Saint-Vincent!</p>' .
+                if (isset($request->files->get('ticketing')['image4'])) {
+                    $image4 = new ImageTicketing();
+
+                    // path le chemin de destination pour l'image 
+                    $destination = $this->getParameter('kernel.project_dir') . '/public/images/ticketing';
+                    $image = $request->files->get('ticketing')['image4'];
+
+                    // slug de l'image
+                    $image4->setName($ticketing->getId() . '-' . $ticketing->getName() . '-image-4' . '.' . $image->guessExtension());
+                    $image4->setNumero(4);
+                    $image4->setTicketing($ticketing);
+
+                    // deplacer l'image dans le fichier 
+                    $image->move($destination, $image4->getName());
+
+                    $imageTicketingRepository->save($image4, true);
+                }
+
+                $email = (new Email())
+                    ->from(new Address($_ENV['APP_EMAIL'], 'CSE Saint-Vincent'))
+                    ->subject('Nouvelle offre disponible')
+                    ->html(
+                        '<p>Une nouvelle offre est disponible sur le site du CSE Saint-Vincent!</p>' .
                         '<p>Offre : ' . $ticketing->getName() . '</p>' .
                         '<p>' . $ticketing->getText() . '</p>' .
                         '<p>Pour vous désabonner, cliquez <a href="#">ici</a>.</p>'
-                );
+                    );
 
-            foreach ($subRep->findAll() as $subscriber) {
-                $email->addTo($subscriber->getEmail());
+                foreach ($subRep->findAll() as $subscriber) {
+                    $email->addTo($subscriber->getEmail());
+                }
+
+                $mailer->send($email);
+
+                return new Response('L\'ajout à bien été effectué !', 200);
+            } else {
+                return new Response('Les champs nom et description doivent contenir : des lettres minuscules, majuscules et des chiffres, avec un minimum de 2 caractères, la date de début doit être postérieur à aujourd\'hui et inférieur à la date de fin.', 400);
             }
-
-            $mailer->send($email);
-
-            return new Response('L\'ajout à bien été effectué !', 200);
-        } else {
-            return new Response('Les champs nom et description doivent contenir : des lettres minuscules, majuscules et des chiffres, avec un minimum de 2 caractères', 400);
+        } catch (\Throwable $th) {
+            return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
         }
-        // } catch (\Throwable $th) {
-        //     return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
-        // }
     }
 
     #[Route(path: 'modif-offre', name: 'post-edit-ticketing', methods: ['POST'])]
     public function postEditTicketing(TicketingRepository $ticketingRepository, ImageTicketingRepository $imgTicketingRep, PartnershipRepository $partnershipRep, Validator $validate, Request $request): Response
     {
         try {
-
+            $name = $validate->transformInputString($request->get('ticketing')['name']);
+            $text = $validate->transformInputString($request->get('ticketing')['text']);
             if (
-                $validate->checkinputString($request->get('ticketing')['name'])
-                && $validate->checkinputString($request->get('ticketing')['text'])
+                $validate->checkInputString($request->get('ticketing')['name'])
+                && $validate->checkInputString($request->get('ticketing')['text'])
+                && $validate->checkInputDate(new DateTime($request->get('ticketing')['date_start']), new DateTime($request->get('ticketing')['date_end']))
             ) {
 
                 $ticketing = $ticketingRepository->findById($request->get('ticketing')['id']);
@@ -301,7 +324,8 @@ class RequestBackofficeController extends AbstractController
                 // récupération des images
                 foreach ($imgTicketingRep->findByOffer($ticketing) as $image) {
                     $ticketing->addImageTicketing($image);
-                };
+                }
+                ;
 
                 // récupération des partenaires
                 $partnershipRep->findAll();
@@ -315,8 +339,8 @@ class RequestBackofficeController extends AbstractController
                     $ticketing->setOrderNumber(intval($request->get('ticketing')['order_number']));
                 }
 
-                $ticketing->setName($request->get('ticketing')['name']);
-                $ticketing->setText($request->get('ticketing')['text']);
+                $ticketing->setName($name);
+                $ticketing->setText($text);
 
                 $time = new DateTime($request->get('ticketing')['date_start']);
                 $ticketing->setDateStart($time);
@@ -432,7 +456,7 @@ class RequestBackofficeController extends AbstractController
 
                 return new Response('La modification a bien été effectué !', 200);
             } else {
-                return new Response('Les champs nom et description doivent contenir : des lettres minuscules, majuscules et des chiffres, avec un minimum de 2 caractères', 400);
+                return new Response('Les champs nom et description doivent contenir : des lettres minuscules, majuscules et des chiffres, avec un minimum de 2 caractères, la date de début doit être postérieur à aujourd\'hui et inférieur à la date de fin.', 400);
             }
         } catch (\Throwable $th) {
             return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
@@ -469,10 +493,14 @@ class RequestBackofficeController extends AbstractController
         try {
             $member = new Member();
 
-            if ($validate->checkinputString($request->get('member')['firstName']) && $validate->checkinputString($request->get('member')['lastName']) && $validate->checkinputString($request->get('member')['function'])) {
-                $member->setFirstName($request->get('member')['firstName']);
-                $member->setLastName($request->get('member')['lastName']);
-                $member->setFunction($request->get('member')['function']);
+            $firstname = $validate->transformInputString($request->get('member')['firstName']);
+            $lastname = $validate->transformInputString($request->get('member')['lastName']);
+            $function = $validate->transformInputString($request->get('member')['function']);
+
+            if ($validate->checkInputString($firstname) && $validate->checkInputString($lastname) && $validate->checkInputString($function)) {
+                $member->setFirstName($firstname);
+                $member->setLastName($lastname);
+                $member->setFunction($function);
                 $memberRepository->save($member, true);
 
                 // definition du nom de l'image
@@ -502,14 +530,17 @@ class RequestBackofficeController extends AbstractController
     #[Route(path: 'modif-membre', name: 'post-edit-member', methods: ['POST'])]
     public function postEditMember(MemberRepository $memberRepository, Request $request, Validator $validate): Response
     {
+        $firstname = $validate->transformInputString($request->get('member')['firstName']);
+        $lastname = $validate->transformInputString($request->get('member')['lastName']);
+        $function = $validate->transformInputString($request->get('member')['function']);
         try {
             // recupérer le membre concerné
             $member = $memberRepository->findById($request->get('member')['id']);
 
-            if ($validate->checkinputString($request->get('member')['firstName']) && $validate->checkinputString($request->get('member')['lastName']) && $validate->checkinputString($request->get('member')['function'])) {
-                $member->setFirstName($request->get('member')['firstName']);
-                $member->setLastName($request->get('member')['lastName']);
-                $member->setFunction($request->get('member')['function']);
+            if ($validate->checkInputString($firstname) && $validate->checkInputString($lastname) && $validate->checkInputString($function)) {
+                $member->setFirstName($firstname);
+                $member->setLastName($lastname);
+                $member->setFunction($function);
 
                 // si une image est précisée
                 if (isset($request->files->get('member')['profil'])) {
@@ -564,12 +595,14 @@ class RequestBackofficeController extends AbstractController
     public function editPartnership(PartnershipRepository $partnershipRepo, Request $request, Validator $validate): Response
     {
         try {
+            $name = $validate->transformInputString($request->get('partnership')['name']);
+            $description = $validate->transformInputString($request->get('partnership')['description']);
             // recupérer le membre concerné
             $partner = $partnershipRepo->find($request->get('partnership')['id']);
 
-            if ($validate->checkinputString($request->get('partnership')['name']) && $validate->checkinputString($request->get('partnership')['description']) && $validate->checkinputString($request->get('partnership')['link'])) {
-                $partner->setName($request->get('partnership')['name']);
-                $partner->setDescription($request->get('partnership')['description']);
+            if ($validate->checkInputString($name) && $validate->checkInputString($description) && $validate->checkInputString($request->get('partnership')['link'])) {
+                $partner->setName($name);
+                $partner->setDescription($description);
                 $partner->setLink($request->get('partnership')['link']);
 
                 $partnershipRepo->save($partner, true);
@@ -607,9 +640,12 @@ class RequestBackofficeController extends AbstractController
         try {
             $partner = new Partnership();
 
-            if ($validate->checkinputString($request->get('partnership')['name']) && $validate->checkinputString($request->get('partnership')['description']) && $validate->checkinputString($request->get('partnership')['link'])) {
-                $partner->setName($request->get('partnership')['name']);
-                $partner->setDescription($request->get('partnership')['description']);
+            $name = $validate->transformInputString($request->get('partnership')['name']);
+            $description = $validate->transformInputString($request->get('partnership')['description']);
+
+            if ($validate->checkInputString($name) && $validate->checkInputString($description) && $validate->checkInputString($request->get('partnership')['link'])) {
+                $partner->setName($name);
+                $partner->setDescription($description);
                 $partner->setLink($request->get('partnership')['link']);
 
                 $partnershipRepo->save($partner, true);
@@ -664,8 +700,10 @@ class RequestBackofficeController extends AbstractController
 
             $survey = new Survey();
 
-            if ($validate->checkinputString($request->get('survey')['question'])) {
-                $survey->setQuestion($request->get('survey')['question']);
+            $question = $validate->transformInputString($request->get('survey')['question']);
+
+            if ($validate->checkInputString($question)) {
+                $survey->setQuestion($question);
                 $survey->setDatetime(new DateTime());
                 $survey->setIsActive(true);
 
@@ -681,8 +719,10 @@ class RequestBackofficeController extends AbstractController
                     for ($i = 1; $i < count($request->get('survey')); $i++) {
                         $response = new SurveyResponse();
 
-                        if ($validate->checkinputString($request->get('survey')['response_' . $i])) {
-                            $response->setText($request->get('survey')['response_' . $i]);
+                        $responseSurvey = $validate->transformInputString($request->get('survey')['response_' . $i]);
+
+                        if ($validate->checkInputString($responseSurvey)) {
+                            $response->setText($responseSurvey);
                             $response->setSurvey($survey);
 
                             $responses[] = $response;
@@ -773,14 +813,15 @@ class RequestBackofficeController extends AbstractController
     #[Route(path: 'rep_msg', name: 'post-rep-msg', methods: ['POST'])]
     public function postResponseMessage(Validator $validate, Request $request, MailerInterface $mailer): Response
     {
+        $message = $validate->transformInputString($request->get('contact')['message']);
         if ($validate->checkInputEmail($request->get('contact')['email'])) {
-            if (!empty($request->get('contact')['message'])) {
+            if (!empty($message)) {
                 try {
                     $email = (new Email())
                         ->from(new Address('maximebatista.lycee@gmail.com', 'CSE Saint-Vincent'))
                         ->to($request->get('contact')['email'])
                         ->subject('Réponse à votre précédent mail')
-                        ->text($request->get('contact')['message']);
+                        ->text($message);
 
                     $mailer->send($email);
 

@@ -2104,26 +2104,26 @@ textarea:focus::placeholder {
         flex-direction: column;
     }
 
-    
+
     #backoffice-ticketing .add-offer .number-min,
     #backoffice-ticketing .add-offer .order-number {
         top: 50px;
         left: 16px;
     }
 
-    
+
     #backoffice-ticketing .card-image {
         width: 100%;
         margin-top: 50px;
     }
 
-    
+
     #backoffice-ticketing .card-content {
         width: 90%;
         margin-top: 20px;
     }
 
-    
+
     #backoffice-ticketing .card-image img {
         width: 150px;
         height: 150px;
@@ -2181,4 +2181,51 @@ textarea:focus::placeholder {
 #backoffice-message textarea {
     min-height: 150px;
     resize: vertical;
+}
+
+/* Page error 404 */
+
+#error-page {
+    background-color: var(--color-card);
+    width: 100%;
+    margin: 150px 0 50px;
+    padding: 50px 200px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+#error-page h1 {
+    font-weight: normal;
+    color: var(--color-black);
+}
+
+#error-page h2 {
+    font-weight: normal;
+    color: var(--color-black);
+}
+
+#error-page a {
+    color: var(--color-black);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+#error-page img {
+    width: 20%;
+}
+
+.span-error-page {
+    color: var(--color-secondary);
+    font-size: 200px;
+    position: relative;
+}
+
+.span-error-page span {
+    position: absolute;
+    font-size: 32px;
+    color: var(--color-black);
 }

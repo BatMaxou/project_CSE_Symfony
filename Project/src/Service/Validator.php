@@ -13,9 +13,9 @@ class Validator
         return False;
     }
 
-    public function checkinputString(string $name): bool
+    public function checkInputString(string $name): bool
     {
-        $regexInputString = '/^[a-zA-Z0-9^@&"().!_$£`~\-çàéèà°¤ù%*µ§:{}+=\/;? #]{2,}$/i';
+        $regexInputString = '/^[a-zA-Z0-9^@&"().!_$£`~-°¤#,%*µ§:{}+=\/;? #]{2,}$/i';
         if (preg_match($regexInputString, $name)) {
             return True;
         }
@@ -29,5 +29,28 @@ class Validator
             return True;
         }
         return False;
+    }
+
+    public function checkInputDate(\DateTime $firstDate, ?\Datetime $secondDate = null): bool
+    {
+        $currentDate = new \Datetime('NOW');
+        if ($firstDate >= $currentDate) {
+            if ($secondDate !== null) {
+                if ($secondDate > $firstDate) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return true;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    public function transformInputString(string $string): string
+    {
+        return trim(htmlentities($string));
     }
 }

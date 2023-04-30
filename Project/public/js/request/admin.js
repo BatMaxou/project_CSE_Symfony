@@ -77,7 +77,7 @@ const handleAdminsDisplayModal = (e, index, type, btnSubmit) => {
 
         // garder la fonction submit dans une constante
         const submit = () => {
-            handleSubmit(index, formData, e.target, type), { once: true }
+            handleSubmit(index, formData, e.target, type, { deleteSelfAdmin: true }), { once: true }
         }
 
         // ajout de l'event à chaque affichage du modal 

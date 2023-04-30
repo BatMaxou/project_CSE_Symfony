@@ -43,8 +43,8 @@ class RequestController extends AbstractController
                         ->subject('Abonnement à la newsletter')
                         ->html(
                             '<p>Merci de vous être abonner à la newsletter du CSE de Saint-Vincent.</p>' .
-                                '<p>Vous recevrez par mail chaque nouvelle offre lors de leur publication sur le site.</p>' .
-                                '<p>Pour vous désabonner, cliquez <a href="#">ici</a>.</p>'
+                            '<p>Vous recevrez par mail chaque nouvelle offre lors de leur publication sur le site.</p>' .
+                            '<p>Pour vous désabonner, cliquez <a href="#">ici</a>.</p>'
                         );
 
                     $mailer->send($email);
@@ -97,8 +97,6 @@ class RequestController extends AbstractController
             } else {
                 return new Response('Vous avez déjà participé à ce sondage ou celui-ci n\'est plus disponible.', 400);
             }
-
-            return new Response('Cette réponse ne correspond pas à ce formulaire', 400);
         } catch (\Throwable $th) {
             return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
         }
@@ -124,8 +122,8 @@ class RequestController extends AbstractController
                                 ->subject('Abonnement à la newsletter')
                                 ->html(
                                     '<p>Merci de vous être abonner à la newsletter du CSE de Saint-Vincent.</p>' .
-                                        '<p>Vous recevrez par mail chaque nouvelle offre lors de leur publication sur le site.</p>' .
-                                        '<p>Pour vous désabonner, cliquez <a href="#">ici</a>.</p>'
+                                    '<p>Vous recevrez par mail chaque nouvelle offre lors de leur publication sur le site.</p>' .
+                                    '<p>Pour vous désabonner, cliquez <a href="#">ici</a>.</p>'
                                 );
 
                             $mailer->send($email);
@@ -137,22 +135,28 @@ class RequestController extends AbstractController
 
                 $cont = new Contact();
 
-                if ($validate->checkInputEmail($request->get('contact')['email']) && $validate->checkinputString($request->get('contact')['firstname']) && $validate->checkinputString($request->get('contact')['name']) && $validate->checkinputString($request->get('contact')['message'])) {
+                $name = $validate->transformInputString($request->get('contact')['name']);
+                $firstname = $validate->transformInputString($request->get('contact')['firstname']);
+                $subject = $validate->transformInputString($request->get('contact')['subject']);
+                $message = $validate->transformInputString($request->get('contact')['message']);
 
-                    $cont->setName($request->get('contact')['name']);
-                    $cont->setFirstname($request->get('contact')['firstname']);
+                if ($validate->checkInputEmail($request->get('contact')['email']) && $validate->checkinputString($firstname) && $validate->checkinputString($name) && $validate->checkinputString($subject) && $validate->checkinputString($message)) {
+
+                    $cont->setName($name);
+                    $cont->setFirstname($firstname);
                     $cont->setEmail($request->get('contact')['email']);
+                    $cont->setSubject($subject);
                     $cont->setConsent($request->get('contact')['consent']);
-                    $cont->setMessage($request->get('contact')['message']);
+                    $cont->setMessage($message);
 
                     $contact->save($cont, true);
 
                     // mailer
                     $email = (new Email())
-                        ->from(new Address($request->get('contact')['email'], $request->get('contact')['name'] . ' ' . $request->get('contact')['firstname']))
+                        ->from(new Address($request->get('contact')['email'], $name . ' ' . $firstname))
                         ->to($_ENV['APP_EMAIL'])
-                        ->subject('Subject')
-                        ->text($request->get('contact')['message']);
+                        ->subject($subject)
+                        ->text($message);
 
                     $mailer->send($email);
                 } else {

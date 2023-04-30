@@ -1,1 +1,28 @@
-<p>Test 403</p>
+{% extends "error.html.twig" %}
+
+{% block title %}
+	Erreur 403
+{% endblock %}
+
+{% block content %}
+	<div id="error-page">
+		<h1>
+			<span class="span-error-page">
+				<span>Erreur</span>
+				403
+			</span>
+			<p>Accès refusé</p>
+		</h1>
+		<h2>
+			Vous n'avez pas les droits pour
+			<br>
+			accéder à cette page, veuillez revenir
+			<br>
+			sur le site.
+		</h2>
+		<a href="{{ path('home') }}">
+			<img src="{{ asset('images/required/left-arrow-error.svg')}}" alt="Left arrow">
+			Retour
+		</a>
+	</div>
+{% endblock %}

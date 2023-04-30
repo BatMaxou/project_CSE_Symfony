@@ -4,6 +4,7 @@
 	{{ form_errors(formContact.name) }}
 	{{ form_errors(formContact.firstname) }}
 	{{ form_errors(formContact.email) }}
+	{{ form_errors(formContact.subject) }}
 	{{ form_errors(formContact.message) }}
 	{{ form_errors(formContact.consent) }}
 
@@ -12,6 +13,8 @@
 	{{ form_widget(formContact.firstname, {'attr': {'class': 'form-input', 'placeholder': 'Nom'}}) }}
 
 	{{ form_widget(formContact.email, {'attr': {'class': 'form-input', 'placeholder': 'Adresse mail'}}) }}
+
+	{{ form_widget(formContact.subject, {'attr': {'class': 'form-input', 'placeholder': 'Sujet'}}) }}
 
 	{{ form_widget(formContact.message, {'attr': {'class': 'form-input', 'placeholder': 'Message'}}) }}
 

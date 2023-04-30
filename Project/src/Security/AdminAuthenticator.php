@@ -2,6 +2,7 @@
 
 namespace App\Security;
 
+use App\Repository\AdminRepository;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,7 +22,7 @@ class AdminAuthenticator extends AbstractLoginFormAuthenticator
 
     public const LOGIN_ROUTE = 'app_login';
 
-    public function __construct(private UrlGeneratorInterface $urlGenerator)
+    public function __construct(private UrlGeneratorInterface $urlGenerator, private AdminRepository $adminRepository)
     {
     }
 
@@ -30,6 +31,11 @@ class AdminAuthenticator extends AbstractLoginFormAuthenticator
         $email = $request->request->get('email', '');
 
         $request->getSession()->set(Security::LAST_USERNAME, $email);
+
+        $admin = $this->adminRepository->findOneBy(['email' => $email]);
+        $admin->setLastLogin(new \DateTime("NOW"));
+
+        $this->adminRepository->save($admin, true);
 
         return new Passport(
             new UserBadge($email),
