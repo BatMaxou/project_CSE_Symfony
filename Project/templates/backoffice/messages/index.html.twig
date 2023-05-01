@@ -50,9 +50,7 @@
 
 					{{ form_end(deleteForm[key], {'render_rest': false})}}
 					<div class="card-footer">
-						<button class="btn btn-info">
-							<a href="{{ path('backoffice_message', {id: msg.id}) }}">Répondre</a>
-						</button>
+						<a href="{{ path('backoffice_message', {id: msg.id}) }}" class="btn btn-info">Répondre</a>
 						<button class='btn btn-delete modal-open-delete'>Supprimer</button>
 					</div>
 				</div>

@@ -66,50 +66,6 @@ class RequestBackofficeController extends AbstractController
             $admin = new Admin();
 
             if ($validate->checkInputEmail($request->get('admin')['email'])) {
-                $admin->setEmail($request->get('admin')['email']);
-
-                if (!empty($request->get('admin')['plainPassword']) && $validate->checkInputPassword($request->get('admin')['plainPassword'])) {
-                    $admin->setPassword(
-                        $adminPasswordHasher->hashPassword(
-                            $admin,
-                            $request->get('admin')['plainPassword']
-                        )
-                    );
-
-                    if ($request->get('admin')['roles'] == 1) {
-                        $admin->setRoles(
-                            ["ROLE_ADMIN"]
-                        );
-                    } else {
-                        $admin->setRoles(
-                            ["ROLE_SUPER_ADMIN"]
-                        );
-                    }
-
-                    $adminRepository->save($admin, true);
-
-                    return new Response('L\'ajout a bien été effectué !', 200);
-                } else {
-                    return new Response('Le mot de passe doit contenir au minimum : 12 caractères, une majuscule, une minuscule, un chiffre et un caractère spéacial.', 400);
-                }
-            } else {
-                return new Response('L\'adresse mail saisie n\'est pas conforme.', 400);
-            }
-        } catch (\Throwable $th) {
-            return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
-        }
-    }
-
-    #[Route(path: 'modif-admin', name: 'post-edit-admin', methods: ['POST'])]
-    public function postEditAdmin(AdminRepository $adminRepository, UserPasswordHasherInterface $adminPasswordHasher, Request $request, Validator $validate): Response
-    {
-        try {
-            // get id of the respons by a search name for set response of the create UserResponse
-            $id = $request->get("admin")['id'];
-
-            $admin = $adminRepository->find($id);
-
-            if ($validate->checkInputEmail($request->get('admin')['email'])) {
 
                 $admin->setEmail($request->get('admin')['email']);
 
@@ -145,6 +101,53 @@ class RequestBackofficeController extends AbstractController
         } catch (\Throwable $th) {
             return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
         }
+    }
+
+    #[Route(path: 'modif-admin', name: 'post-edit-admin', methods: ['POST'])]
+    public function postEditAdmin(AdminRepository $adminRepository, UserPasswordHasherInterface $adminPasswordHasher, Request $request, Validator $validate): Response
+    {
+        // try {
+        // get id of the respons by a search name for set response of the create UserResponse
+        $id = $request->get("admin")['id'];
+
+        $admin = $adminRepository->find($id);
+
+        if ($validate->checkInputEmail($request->get('admin')['email'])) {
+
+            $admin->setEmail($request->get('admin')['email']);
+
+            if (!empty($request->get('admin')['plainPassword'])) {
+                if ($validate->checkInputPassword($request->get('admin')['plainPassword'])) {
+                    $admin->setPassword(
+                        $adminPasswordHasher->hashPassword(
+                            $admin,
+                            $request->get('admin')['plainPassword']
+                        )
+                    );
+                } else {
+                    return new Response('Le mot de passe doit contenir au minimum : 12 caractères, une majuscule, une minuscule, un chiffre et un caractère spéacial.', 400);
+                }
+            }
+
+            if ($request->get('admin')['roles'] == 1) {
+                $admin->setRoles(
+                    ["ROLE_ADMIN"]
+                );
+            } else {
+                $admin->setRoles(
+                    ["ROLE_SUPER_ADMIN"]
+                );
+            }
+
+            $adminRepository->save($admin, true);
+
+            return new Response('La modification a bien été effectué !', 200);
+        } else {
+            return new Response('L\'adresse mail saisie n\'est pas conforme.', 400);
+        }
+        // } catch (\Throwable $th) {
+        //     return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
+        // }
     }
 
     #[Route(path: 'sup-admin', name: 'post-delete-admin', methods: ['POST'])]

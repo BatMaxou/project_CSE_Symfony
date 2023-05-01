@@ -331,13 +331,6 @@ class BackOfficeController extends AbstractController
         // récupération des partenaires
         $partnershipRep->findAll();
 
-        $nbLimitedOffers = count($ticketingsLimited);
-        $nbPermanentOffers = count($ticketingsPermanent);
-
-        // counting the number of pages with 4 offers per page
-        $nbPagePermanent = ($nbPermanentOffers % 4 === 0 || $nbPermanentOffers < 0) ? $nbPermanentOffers / 4 : intdiv($nbPermanentOffers, 4) + 1;
-        $nbPageLimited = ($nbLimitedOffers % 4 === 0 || $nbLimitedOffers < 0) ? $nbLimitedOffers / 4 : intdiv($nbLimitedOffers, 4) + 1;
-
         $formAddTicketing = $this->createForm(TicketingType::class, null, [
             'action' => $this->generateUrl($staticPathList->getRequestPathByName('ajout_billeterie')),
             'method' => 'POST',
@@ -367,9 +360,7 @@ class BackOfficeController extends AbstractController
             'formEdits' => $formEditTicketings,
             'formDeletes' => $formDeleteTicketings,
             'ticketingsPermanent' => $ticketingsPermanent,
-            'ticketingsLimited' => $ticketingsLimited,
-            'nbPagePermanent' => $nbPagePermanent,
-            'nbPageLimited' => $nbPageLimited,
+            'ticketingsLimited' => $ticketingsLimited
         ]);
     }
 }

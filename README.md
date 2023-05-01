@@ -11,7 +11,7 @@ git clone https://github.com/BatMaxou/project_CSE_Symfony.git
 ```
 2. Se déplacer dans le dossier du projet
 ```
-cd Project
+cd project_CSE_Symfony/Project
 ```
 3. Installer les dépendances
 ```
@@ -48,7 +48,7 @@ php bin/console app:load:datafixtures --force
 
 ## Lancer le projet
 1. S'assurer que:
-    - Avoir une version de PHP 8.1 ou plus
+    - une version de PHP 8.1 ou plus est installée
     - Le projet est installé
     - La base de données est créée
 2. Démarrer le projet
