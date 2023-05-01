@@ -20,6 +20,9 @@ class ImageTicketing
     #[ORM\JoinColumn(name: 'id_ticketing', referencedColumnName: 'id', nullable: false)]
     private ?Ticketing $ticketing = null;
 
+    #[ORM\Column]
+    private ?int $numero = null;
+
     public function getTicketing(): ?Ticketing
     {
         return $this->ticketing;
@@ -45,6 +48,18 @@ class ImageTicketing
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getNumero(): ?int
+    {
+        return $this->numero;
+    }
+
+    public function setNumero(int $numero): self
+    {
+        $this->numero = $numero;
 
         return $this;
     }

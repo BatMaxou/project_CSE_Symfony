@@ -1,7 +1,7 @@
 {% extends "error.html.twig" %}
 
 {% block title %}
-	Erreur 403
+	Erreur 500
 {% endblock %}
 
 {% block content %}
@@ -9,16 +9,14 @@
 		<h1>
 			<span class="span-error-page">
 				<span>Erreur</span>
-				403
+				500
 			</span>
-			<p>Accès refusé</p>
+			<p>Erreur serveur</p>
 		</h1>
 		<h2>
-			Vous n'avez pas les droits pour
+			Le serveur a rencontré un problème inattendu,
 			<br>
-			accéder à cette page, veuillez revenir
-			<br>
-			sur le site.
+			veuillez revenir sur le site.
 		</h2>
 		<a href="{{ path('home') }}">
 			<img src="{{ asset('images/required/left-arrow-error.svg')}}" alt="Left arrow">

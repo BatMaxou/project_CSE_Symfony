@@ -38,9 +38,12 @@ const handleAddCard = (cards, fade = false) => {
 // création d'une timeline et paused sur true pour pas que ça se lance des le load de la page
 const deleteAnim = gsap.timeline({ paused: true });
 
-const handleBtnDelete = (index, cards, fade = false) => {
-    // enlever la card d'ajout
-    cards.splice(0, 1)
+const handleBtnDelete = (index, cards, options = { 'fade': false, 'ignoredFirst': true }) => {
+    
+    if (options.ignoredFirst) {
+        // enlever la card d'ajout
+        cards.splice(0, 1)
+    }
 
     cards.forEach((card, i) => {
         if (i === index) {
@@ -56,7 +59,7 @@ const handleBtnDelete = (index, cards, fade = false) => {
                 duration: 1
             }).then(() => cards[index].style.display = 'none')
 
-        } else if (i > index && window.innerWidth >= 850 && fade) {
+        } else if (i > index && window.innerWidth >= 850 && options.fade) {
             gsap.to(card, {
                 opacity: 0,
                 duration: 1
@@ -110,7 +113,7 @@ const handleBtnActive = (e, index) => {
     const saveBtn = cards[index].querySelector('.btn-save')
     // precision de .edit-form pour exclure les inputs du formulaire de suppression
     const inputs = cards[index].querySelectorAll('.edit-form input, .edit-form textarea, .edit-form select')
-    const labelImg = cards[index].querySelector('label.form-file-label-disabled')
+    const labelImgs = cards[index].querySelectorAll('label.form-file-label-disabled')
 
     inputs.forEach(input => {
         // rendre les input enabled
@@ -125,16 +128,15 @@ const handleBtnActive = (e, index) => {
         })
     })
 
-    if (labelImg) {
-        // activer les champs
-        activeAnim.to(labelImg, {
-            backgroundColor: 'transparent',
-            borderColor: 'var(--color-primary)',
-            duration: 0.2
-        }).then(() => {
-            labelImg.classList.remove('form-file-label-disabled')
-            labelImg.classList.add('form-file-label-active')
-        })
+    if (labelImgs.length !== 0) {
+        labelImgs.forEach((labelImg) => {
+            // activer les champs
+            activeAnim.to(labelImg, {
+                backgroundColor: 'transparent',
+                borderColor: 'var(--color-primary)',
+                duration: 0.2
+            })
+        });
     }
 
     activeAnim.to(e.target, {
@@ -150,7 +152,15 @@ const handleBtnActive = (e, index) => {
     })
 
     // on joue la timeline
-    activeAnim.play()
+    activeAnim.play().then(() => {
+        // renseigner la classe active (ne fonctionne pas avec un then dans le foreach du dessus) 
+        if (labelImgs.length !== 0) {
+            labelImgs.forEach((labelImg) => {
+                labelImg.classList.remove('form-file-label-disabled')
+                labelImg.classList.add('form-file-label-active')
+            });
+        }
+    })
 
 }
 
@@ -161,7 +171,7 @@ const handleDesactive = (index) => {
 
     // precision de .edit-form pour exclure les inputs du formulaire de suppression
     const inputs = cards[index].querySelectorAll('.edit-form input, .edit-form textarea, .edit-form select')
-    const labelImg = cards[index].querySelector('label.form-file-label-active')
+    const labelImgs = cards[index].querySelectorAll('label.form-file-label-active')
 
     inputs.forEach(input => {
         // rendre les input disabled
@@ -176,20 +186,27 @@ const handleDesactive = (index) => {
         })
     })
 
-    if (labelImg) {
-        // activer les champs
-        dasactiveAnim.to(labelImg, {
-            backgroundColor: 'var(--color-disabled)',
-            borderColor: 'transparent',
-            duration: 0.2
-        }).then(() => {
-            labelImg.classList.remove('form-file-label-active')
-            labelImg.classList.add('form-file-label-disabled')
-        })
+    if (labelImgs.length !== 0) {
+        labelImgs.forEach((labelImg) => {
+            // activer les champs
+            dasactiveAnim.to(labelImg, {
+                backgroundColor: 'var(--color-disabled)',
+                borderColor: 'transparent',
+                duration: 0.2
+            })
+        });
     }
 
     // on joue la timeline
-    dasactiveAnim.play()
+    dasactiveAnim.play().then(() => {
+        // renseigner la classe disabled (ne fonctionne pas avec un then dans le foreach du dessus) 
+        if (labelImgs.length !== 0) {
+            labelImgs.forEach((labelImg) => {
+                labelImg.classList.remove('form-file-label-active')
+                labelImg.classList.add('form-file-label-disabled')
+            });
+        }
+    })
 }
 
 btnActived.forEach((btn, index) => {

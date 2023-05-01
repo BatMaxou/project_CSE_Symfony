@@ -1,1 +1,28 @@
-<p>Test 404</p>
+{% extends "error.html.twig" %}
+
+{% block title %}
+	Erreur 404
+{% endblock %}
+
+{% block content %}
+	<div id="error-page">
+		<h1>
+			<span class="span-error-page">
+				<span>Erreur</span>
+				404
+			</span>
+			<p>Page introuvable</p>
+		</h1>
+		<h2>
+			La page recherchée n'existe pas,
+			<br>
+			veuillez revenir sur le site.
+		</h2>
+		<a href="{{ path('home') }}">
+			<img src="{{ asset('images/required/left-arrow-error.svg')}}" alt="Left arrow">
+			Retour
+		</a>
+	</div>
+
+	<script src="{{ asset('js/errorPage.js') }}"></script>
+{% endblock %}

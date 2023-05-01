@@ -74,6 +74,8 @@ class HomeController extends AbstractController
             'method' => 'POST'
         ]);
 
+        $formContact->remove('id');
+
         return $this->render('includes/form/_contact.html.twig', [
             'formContact' => $formContact,
         ]);
@@ -85,7 +87,7 @@ class HomeController extends AbstractController
         $paths = [$staticPathList->getClientPathByName('Accueil')];
 
         $ckeditor = $ckeditorRep->findByPage('HomePage');
-        $ticketing = $ticketingRep->findByType('limitée');
+        $ticketing = $ticketingRep->findByLimitedActiveDesc();
         $nbOffer = count($ticketing);
         // counting the number of pages with 4 offers per page
         $nbPage = ($nbOffer % 4 === 0 || $nbOffer < 0) ? $nbOffer / 4 : intdiv($nbOffer, 4) + 1;
@@ -112,9 +114,9 @@ class HomeController extends AbstractController
         // get 3 random image from database
         $imgPartner = $partnershipRepo->imagePartner();
 
-        $nbOffer = count($partnership);
+        $nbPartnership = count($partnership);
         // counting the number of pages with 4 offers per page
-        $nbPage = ($nbOffer % 4 === 0 || $nbOffer < 0) ? $nbOffer / 4 : intdiv($nbOffer, 4) + 1;
+        $nbPage = ($nbPartnership % 4 === 0 || $nbPartnership < 0) ? $nbPartnership / 4 : intdiv($nbPartnership, 4) + 1;
 
         return $this->render('partnership/index.html.twig', [
             'paths' => $paths,
@@ -163,25 +165,46 @@ class HomeController extends AbstractController
     }
 
     #[Route(path: '/billeterie', name: 'ticketing', methods: ['GET'])]
-    public function ticketing(staticPathList $staticPathList, PartnershipRepository $partnershipRepo, SurveyRepository $surveyRepo, ResponseRepository $responseRepo, EntityManagerInterface $manager, TicketingRepository $ticketingRep, ImageTicketingRepository $imageTicketingRepository): Response
+    public function ticketing(staticPathList $staticPathList, PartnershipRepository $partnershipRepo, TicketingRepository $ticketingRep, ImageTicketingRepository $imgTicketingRep): Response
     {
         $paths = [$staticPathList->getClientPathByName('Accueil'), $staticPathList->getClientPathByName('Billeterie')];
 
-        $ticketingsPermanent = $ticketingRep->findByPermanent();
-        $ticketingsLimited = $ticketingRep->findByLimited();
-        $imageTicketing = $imageTicketingRepository->findAll();
+        $ticketingsPermanent = $ticketingRep->findByPermanentDesc();
+        $ticketingsLimited = $ticketingRep->findByLimitedActiveDesc();
 
-        $partnership = $partnershipRepo->findAll();
+        // récupération des images
+        foreach ($ticketingsPermanent as $offer) {
+            foreach ($imgTicketingRep->findByOffer($offer) as $image) {
+                $offer->addImageTicketing($image);
+            };
+        }
+        foreach ($ticketingsLimited as $offer) {
+            foreach ($imgTicketingRep->findByOffer($offer) as $image) {
+                $offer->addImageTicketing($image);
+            };
+        }
+
+        // récupération des partenaires
+        $partnershipRepo->findAll();
+
         // get 3 random image from database
         $imgPartner = $partnershipRepo->imagePartner();
+
+        $nbLimitedOffers = count($ticketingsLimited);
+        $nbPermanentOffers = count($ticketingsPermanent);
+
+        // counting the number of pages with 4 offers per page
+        $nbPagePermanent = ($nbPermanentOffers % 4 === 0 || $nbPermanentOffers < 0) ? $nbPermanentOffers / 4 : intdiv($nbPermanentOffers, 4) + 1;
+        $nbPageLimited = ($nbLimitedOffers % 4 === 0 || $nbLimitedOffers < 0) ? $nbLimitedOffers / 4 : intdiv($nbLimitedOffers, 4) + 1;
+
 
         return $this->render('ticketing/index.html.twig', [
             'paths' => $paths,
             'ticketingsPermanent' => $ticketingsPermanent,
             'ticketingsLimited' => $ticketingsLimited,
-            'imageTicketing' => $imageTicketing,
-            'partnership' => $partnership,
-            'image' => $imgPartner
+            'image' => $imgPartner,
+            'nbPagePermanent' => $nbPagePermanent,
+            'nbPageLimited' => $nbPageLimited,
         ]);
     }
 

@@ -1,0 +1,65 @@
+{% extends 'backoffice-page.html.twig' %}
+
+{% block title %}
+	CSE - Backoffice messages
+{% endblock %}
+
+{% block content %}
+	<div id="backoffice-messages">
+
+		{% block modal %}
+			{% include "includes/_modal.html.twig" with {
+				type: 'delete',
+				title: 'Attention, suppression en cours !', 
+				content: 
+					"<p class='modal-question'>Vous êtes sur le point de supprimer un message : </p>" ~ 
+					"<div class='post-content'>" ~ 
+						"<p class='modal-recap delete-message'></p>" ~ 
+					"</div>" ~
+					"<p class='modal-question'><b>Cette action est irréversible et les données associé à ce message sondage seront écrasées définitivement.</b>" ~
+					"<p class='modal-question'>Êtes-vous sûr de vouloir supprimer ce message ?</p>"
+				, 
+				options: {
+					cancelButton: true,
+					deleteButton: true
+				}
+			} %}
+		{% endblock %}
+
+		<h1>Gestion des messages</h1>
+		<div class="message">
+			{% for key, msg in messages %}
+				<div class="card">
+					<div class="card-header">
+						<p>
+							De :
+							{{ msg.email }}
+						</p>
+					</div>
+					<div class="card-body">
+						<p id="p-msg">
+							Message :
+							{{ msg.message }}
+						</p>
+					</div>
+					{{ form_start(deleteForm[key], {'attr': {'class': 'delete-form'}}) }}
+
+					{{ form_widget(deleteForm[key].id, { 'value': msg.id, 'disabled': false }) }}
+					{{ form_widget(deleteForm[key].email, { 'attr': { class: 'form-input-hidden' }, 'value': msg.email, 'disabled': false }) }}
+					{{ form_widget(deleteForm[key].message, { 'attr': { class: 'form-input-hidden' }, 'value': msg.message, 'disabled': false }) }}
+
+					{{ form_end(deleteForm[key], {'render_rest': false})}}
+					<div class="card-footer">
+						<a href="{{ path('backoffice_message', {id: msg.id}) }}" class="btn btn-info">Répondre</a>
+						<button class='btn btn-delete modal-open-delete'>Supprimer</button>
+					</div>
+				</div>
+			{% endfor %}
+
+		</div>
+	</div>
+{% endblock %}
+
+{% block request %}
+	<script src="{{ asset('js/request/message.js') }}"></script>
+{% endblock %}

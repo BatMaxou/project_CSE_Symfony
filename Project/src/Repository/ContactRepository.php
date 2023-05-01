@@ -46,7 +46,15 @@ class ContactRepository extends ServiceEntityRepository
             ->setMaxResults(1)
             ->getQuery()
             ->getResult();
-        // SELECT * FROM contact ORDER BY ID DESC LIMIT 1
+    }
+
+    public function findById(int $id): ?Contact
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.id = :val')
+            ->setParameter('val', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 
     //    /**
@@ -64,13 +72,12 @@ class ContactRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?Contact
-    //    {
-    //        return $this->createQueryBuilder('c')
-    //            ->andWhere('c.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    public function findByEmail($email): ?Contact
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.email = :email')
+            ->setParameter('email', $email)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

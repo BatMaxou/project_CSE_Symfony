@@ -90,8 +90,13 @@ textarea:focus::placeholder {
     color: var(--color-black);
 }
 
+/* pas de display 'none' pour permettre le focus */
 .form-file-input {
-    display: none;
+    display: block;
+    /* ajuster l'affichage du pop up par défaut */
+    width: 1px;
+    height: 1px;
+    margin: 0 auto;
 }
 
 .form-file-label {
@@ -141,7 +146,9 @@ textarea:focus::placeholder {
 #texts,
 #backoffice-survey,
 #dashboard,
-#backoffice-member {
+#backoffice-member,
+#backoffice-message,
+#backoffice-messages {
     width: 100%;
     position: relative;
 }
@@ -857,13 +864,14 @@ textarea:focus::placeholder {
 }
 
 /* PAGING SYSTEM */
-.card-paging {
+.card-paging,
+.card-paging-multiple {
     display: none;
 }
 
 .paging-container {
     display: flex;
-    margin: 10px 0 15px;
+    margin-bottom: 15px;
 }
 
 .paging-element {
@@ -1425,7 +1433,7 @@ textarea:focus::placeholder {
 .ticketing-underline {
     border-top: 2px solid var(--color-secondary);
     position: absolute;
-    width: 50px;
+    width: 105px;
     top: 33px;
 }
 
@@ -1437,10 +1445,6 @@ textarea:focus::placeholder {
     align-items: center;
     color: var(--color-primary);
     justify-content: center;
-}
-
-.ticketing-all-button {
-    width: 50px;
 }
 
 .ticketing-permanent-button {
@@ -2029,8 +2033,12 @@ textarea:focus::placeholder {
     width: 100%
 }
 
+#backoffice-ticketing .offers {
+    margin-top: 10px;
+}
+
 #backoffice-ticketing .card-body form,
-#backoffice-ticketing .add-ticketing .card-body {
+#backoffice-ticketing .add-offer .card-body {
     display: flex;
     align-items: center;
 }
@@ -2038,51 +2046,186 @@ textarea:focus::placeholder {
 #backoffice-ticketing .card-image {
     margin-top: 15px;
     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     width: 50%;
     gap: 25px;
-    max-width: 100%;
-    justify-content: space-evenly;
-    flex-wrap: wrap;
 }
 
 #backoffice-ticketing .card-content {
     width: 50%;
 }
 
-#backoffice-ticketing .card-content div {
-    display: flex;
-    flex-direction: column;
-    margin: 10px 0;
-}
-
-#backoffice-ticketing .card-content div input {
-    margin: 5px 0;
-}
-
-#backoffice-ticketing .card-content div select {
-    margin: 5px 0;
-}
-
-#backoffice-ticketing .card-content div textarea {
-    margin: 5px 0;
-}
-
-#backoffice-ticketing .card-footer {
-    gap: 5px;
-    display: flex;
-    justify-content: flex-end;
-}
-
-.add-ticketing #ticketing_type {
+#ticketing_type,
+.add-offer .number-min,
+.add-offer .order-number {
     position: absolute;
     top: 12px;
-    left: 60px;
     font-size: 16px;
 }
 
-.add-ticketing .number-min,
-.add-ticketing .order-number {
-    position: absolute;
-    top: 0px;
+#ticketing_type {
+    left: 60px;
+}
+
+.add-offer .number-min,
+.add-offer .order-number {
     right: 10px;
+    align-items: baseline;
+}
+
+.add-offer .number-min input,
+.add-offer #ticketing_order_number {
+    width: 140px !important;
+}
+
+#backoffice-ticketing .card-content input[type="text"],
+#backoffice-ticketing .card-content input[type="date"],
+#backoffice-ticketing .card-content input[type="number"],
+#backoffice-ticketing .card-content textarea {
+    width: 95%;
+    margin: 5px 0 15px;
+}
+
+#backoffice-ticketing .card-content textarea {
+    height: 100px;
+}
+
+#ticketing_partnership,
+#ticketing_order_number {
+    width: 97%;
+    margin: 5px 0 15px;
+}
+
+@media (max-width: 1000px) {
+
+    #backoffice-ticketing .card-body form,
+    #backoffice-ticketing .add-offer .card-body {
+        flex-direction: column;
+    }
+
+
+    #backoffice-ticketing .add-offer .number-min,
+    #backoffice-ticketing .add-offer .order-number {
+        top: 50px;
+        left: 16px;
+    }
+
+
+    #backoffice-ticketing .card-image {
+        width: 100%;
+        margin-top: 50px;
+    }
+
+
+    #backoffice-ticketing .card-content {
+        width: 90%;
+        margin-top: 20px;
+    }
+
+
+    #backoffice-ticketing .card-image img {
+        width: 150px;
+        height: 150px;
+    }
+}
+
+
+@media (max-width: 400px) {
+    #backoffice-ticketing .card-image img {
+        width: 125px;
+        height: 125px;
+    }
+}
+
+
+/* backoffice message */
+
+
+#backoffice-messages .card .card-footer a {
+    position: initial;
+    color: var(--color-white);
+    text-transform: capitalize;
+}
+
+#backoffice-message .form-input {
+    width: 100%;
+}
+
+#backoffice-message #contact_email {
+    display: none;
+}
+
+#backoffice-message textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+/* backoffice message */
+
+
+#backoffice-messages .card .card-footer a {
+    position: initial;
+    color: var(--color-white);
+    text-transform: capitalize;
+}
+
+#backoffice-message .form-input {
+    width: 100%;
+}
+
+#backoffice-message #contact_email {
+    display: none;
+}
+
+#backoffice-message textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+/* Page error 404 */
+
+#error-page {
+    background-color: var(--color-card);
+    width: 100%;
+    margin-bottom: 50px;
+    padding: 50px 200px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+#error-page h1 {
+    font-weight: normal;
+    color: var(--color-black);
+}
+
+#error-page h2 {
+    font-weight: normal;
+    color: var(--color-black);
+}
+
+#error-page a {
+    color: var(--color-black);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+#error-page img {
+    width: 20%;
+}
+
+.span-error-page {
+    color: var(--color-secondary);
+    font-size: 200px;
+    position: relative;
+}
+
+.span-error-page span {
+    position: absolute;
+    font-size: 32px;
+    color: var(--color-black);
 }

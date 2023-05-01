@@ -20,19 +20,19 @@ class StaticPathList
         'Partenariats' => 'backoffice_partnership',
         'Billeterie' => 'backoffice_ticketing',
         'Sondage' => 'backoffice_survey',
-        'Messages' => 'backoffice_contact',
+        'Messages' => 'backoffice_messages',
         'Comptes' => 'backoffice_account',
         'Retour au site' => 'home',
         'Déconnexion' => 'app_logout'
     );
 
     private array $requestPaths = array(
-        'ajout_reponse_sondage' => 'post_survey',
+        'ajout_reponse_sondage' => 'post-survey',
         'ajout_sondage' => 'post-add-survey',
         'modif_sondage' => 'post-edit-survey',
         'supp_sondage' => 'post-delete-survey',
-        'ajout_abonnement_newsletter' => 'post_newsletter',
-        'modif_textes' => 'post_texts',
+        'ajout_abonnement_newsletter' => 'post-newsletter',
+        'modif_textes' => 'post-texts',
         'ajout_membre' => 'post-add-member',
         'modif_membre' => 'post-edit-member',
         'sup_membre' => 'post-delete-member',
@@ -46,7 +46,11 @@ class StaticPathList
         'ajout_billeterie' => 'post-add-ticketing',
         'modif_billeterie' => 'post-edit-ticketing',
         'supp_billeterie' => 'post-delete-ticketing',
-        'envoi_contact' => 'post_contact',
+        // utiliser pour le form contact client
+        'envoi_contact' => 'post-contact',
+        // utiliser pour la partie message du backoffice
+        'rep_msg' => 'post-rep-msg',
+        'supprimer_msg' => 'post-delete-msg',
     );
 
     public function getClientPathByName(string $name): array

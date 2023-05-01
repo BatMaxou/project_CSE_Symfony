@@ -17,6 +17,17 @@ cd Project
 ```
 composer install
 ```
+4. Modifier le fichier .env
+```
+DATABASE_URL="mysql://YOUR_LOGIN:YOUR_PASSWORD@YOUR_SERVER/YOUR_TABLE"
+
+APP_EMAIL="YOUR_EMAIL"
+
+MAILER_DSN="YOUR_MAILER_DSN"
+
+TURNSTILE_KEY="YOUR_KEY"
+TURNSTILE_SECRET="YOUR_SECRET"
+```
 
 ## Création de la base de données
 Pour créer ou refresh la base de données:
@@ -37,6 +48,7 @@ php bin/console app:load:datafixtures --force
 
 ## Lancer le projet
 1. S'assurer que:
+    - Avoir une version de PHP 8.1 ou plus
     - Le projet est installé
     - La base de données est créée
 2. Démarrer le projet

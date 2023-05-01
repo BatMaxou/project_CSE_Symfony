@@ -51,11 +51,11 @@ class ResponseRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findResponseById($id): ?Response
+    public function findById(int $id): ?Response
     {
         return $this->createQueryBuilder('r')
-            ->andWhere('r.id = :id')
-            ->setParameter('id', $id)
+            ->andWhere('r.id = :val')
+            ->setParameter('val', $id)
             ->getQuery()
             ->getOneOrNullResult();
     }

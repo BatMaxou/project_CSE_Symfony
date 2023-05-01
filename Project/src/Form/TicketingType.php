@@ -70,10 +70,10 @@ class TicketingType extends AbstractType
                 ],
             ])
             ->add('number_min_place', IntegerType::class, [
-                'label' => "Nombre de place minimum :",
+                'label' => "Place minimum :",
                 'disabled' => true,
                 'attr' => [
-                    'placeholder' => "Nombre de place minimum",
+                    'placeholder' => "Place minimum",
                     'class' => 'form-input',
                     'min' => '0'
                 ],
@@ -118,7 +118,7 @@ class TicketingType extends AbstractType
                 ],
                 'label_attr' => [
                     'class' => 'form-file-label form-file-label-disabled'
-                ],
+                ]
             ])
             ->add('image2', FileType::class, [
                 'label' => 'Choisir une image',
@@ -129,7 +129,7 @@ class TicketingType extends AbstractType
                 ],
                 'label_attr' => [
                     'class' => 'form-file-label form-file-label-disabled'
-                ],
+                ]
             ])
             ->add('image3', FileType::class, [
                 'label' => 'Choisir une image',
@@ -140,7 +140,7 @@ class TicketingType extends AbstractType
                 ],
                 'label_attr' => [
                     'class' => 'form-file-label form-file-label-disabled'
-                ],
+                ]
             ])
             ->add('image4', FileType::class, [
                 'label' => 'Choisir une image',
@@ -151,9 +151,8 @@ class TicketingType extends AbstractType
                 ],
                 'label_attr' => [
                     'class' => 'form-file-label form-file-label-disabled'
-                ],
-            ])
-        ;
+                ]
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

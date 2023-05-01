@@ -20,7 +20,7 @@ const handleSurveysDisplayModal = (e, index, type, btnSubmit, form) => {
 
         // garder la fonction submit dans une constante
         const submit = () => {
-            handleSurveySubmit(index, formData, form, type, 0), { once: true }
+            handleSubmit(index, formData, form, type, {survey: true}), { once: true }
         }
 
         // ajout de l'event à chaque affichage du modal 
@@ -59,7 +59,7 @@ const handleSurveysDisplayModal = (e, index, type, btnSubmit, form) => {
 
         // garder la fonction submit dans une constante
         const submit = () => {
-            handleSurveySubmit(index, formData, form, type, 0), { once: true }
+            handleSurveySubmit(index, formData, form, type), { once: true }
         }
 
         // ajout de l'event à chaque affichage du modal 
@@ -106,7 +106,7 @@ const handleSurveysDisplayModal = (e, index, type, btnSubmit, form) => {
 
         // garder la fonction submit dans une constante
         const submit = () => {
-            handleSurveySubmit(index, formData, form, type, 0), { once: true }
+            handleSurveySubmit(index, formData, form, type), { once: true }
         }
 
         // ajout de l'event à chaque affichage du modal 
@@ -130,64 +130,6 @@ const handleSurveysDisplayModal = (e, index, type, btnSubmit, form) => {
                 btnSubmit.removeEventListener('click', submit, { once: true })
             }
         })
-    }
-}
-
-// gérer la requête en ajax
-const handleSurveySubmit = async (index, formData, form, type) => {
-
-    let response = null
-
-    if (type === 'edit') {
-        response = await fetch(form.getAttribute('action'), {
-            method: form.getAttribute('method'),
-            body: formData
-        })
-
-        closeModal(document.querySelector('.modal-background-edit'))
-    }
-    else if (type === 'delete') {
-        response = await fetch(form.getAttribute('action'), {
-            method: form.getAttribute('method'),
-            body: formData
-        })
-
-        closeModal(document.querySelector('.modal-background-delete'))
-    }
-    else if (type === 'add') {
-        response = await fetch(form.getAttribute('action'), {
-            method: form.getAttribute('method'),
-            body: formData
-        })
-
-        closeModal(document.querySelector('.modal-background-add'))
-    }
-
-    const msg = await response.text()
-
-    if (response.status === 200) {
-        if (type === 'edit') {
-            // Card animation
-            handleBtnEditDesactivateSurvey(index)
-            const cardFooter = document.createElement('div')
-            cardFooter.classList.add('card-footer')
-            cardFooter.innerHTML =
-                '<p>Recharger la page afin de pouvoir supprimer ce sondage</p>'
-            cards[index].appendChild(cardFooter)
-        }
-        else if (type === 'delete') {
-            // Card animation
-            // 'cards' est défini dans cardAnimation.js
-            handleBtnDelete(index, Array.from(cards))
-        }
-        else if (type === 'add') {
-            setTimeout(() => {
-                window.location.replace(window.location.href + '?new=true')
-            }, 1000);
-        }
-        createFlash('alert-success', msg, 0.5)
-    } else {
-        createFlash('alert-error', msg)
     }
 }
 

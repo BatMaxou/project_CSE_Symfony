@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Form\AdminType;
+use App\Form\ContactType;
 use App\Form\TextsType;
 use App\Form\MemberType;
 use App\Form\SurveyType;
@@ -246,16 +247,89 @@ class BackOfficeController extends AbstractController
         ]);
     }
 
+    #[Route(path: 'messages', name: 'backoffice_messages')]
+    public function messages(StaticPathList $staticPathList, ContactRepository $contactRepo): Response
+    {
+        $paths = [$staticPathList->getAdminPathByName('Tableau de bord'), $staticPathList->getAdminPathByName('Messages')];
+
+        // regupère tous les messages par ordre desc
+        $messages = $contactRepo->findBy(array(), array('id' => 'DESC'));
+
+        $deleteForm = $this->createForm(ContactType::class, null, [
+            'action' => $this->generateUrl($staticPathList->getRequestPathByName('supprimer_msg')),
+            'method' => 'POST',
+        ]);
+
+        // pour retirer les inputs qu'on ne va pas utiliser
+        $deleteForm->remove('name');
+        $deleteForm->remove('firstname');
+        $deleteForm->remove('captcha');
+        $deleteForm->remove('consent');
+
+        $deleteForms = array();
+
+        for ($i = 0; $i < count($messages); $i++) {
+            $deleteForms[] = $deleteForm->createView();
+        }
+
+        return $this->render('backoffice/messages/index.html.twig', [
+            'paths' => $paths,
+            'messages' => $messages,
+            'deleteForm' => $deleteForms,
+        ]);
+    }
+
+    #[Route(path: 'messages/{id}', name: 'backoffice_message')]
+    public function message(string $id, StaticPathList $staticPathList, ContactRepository $contactRepo): Response
+    {
+        $message = $contactRepo->find($id);
+
+        $paths = [$staticPathList->getAdminPathByName('Tableau de bord'), $staticPathList->getAdminPathByName('Messages'), array('Message de ' . $message->getEmail(), 'backoffice_message', $message->getId())];
+
+        $repForm = $this->createForm(ContactType::class, null, [
+            'action' => $this->generateUrl($staticPathList->getRequestPathByName('rep_msg')),
+            'method' => 'POST',
+        ]);
+
+        $repForm->remove('name');
+        $repForm->remove('firstname');
+        $repForm->remove('captcha');
+        $repForm->remove('consent');
+
+        if ($message != NULL) {
+            return $this->render('backoffice/messages/message.html.twig', [
+                'paths' => $paths,
+                'message' => $message,
+                'repForm' => $repForm,
+            ]);
+        }
+
+        return $this->redirectToRoute('home');
+    }
+
     // Page d'affichage / modification d'un admin
     #[Route(path: 'billeterie', name: 'backoffice_ticketing')]
-    public function ticketing(StaticPathList $staticPathList, TicketingRepository $ticketingRepository, ImageTicketingRepository $imageTicketingRepository, Request $request): Response
+    public function ticketing(StaticPathList $staticPathList, TicketingRepository $ticketingRep, ImageTicketingRepository $imgTicketingRep, PartnershipRepository $partnershipRep): Response
     {
         $paths = [$staticPathList->getAdminPathByName('Tableau de bord'), $staticPathList->getAdminPathByName('Billeterie')];
 
-        $ticketings = $ticketingRepository->findAll();
-        $ticketingPermanents = $ticketingRepository->findByPermanent();
-        $ticketingLimiteds = $ticketingRepository->findByLimited();
-        $imageTicketings = $imageTicketingRepository->findAll();
+        $ticketingsPermanent = $ticketingRep->findByPermanentDesc();
+        $ticketingsLimited = $ticketingRep->findByLimitedDesc();
+
+        // récupération des images
+        foreach ($ticketingsPermanent as $offer) {
+            foreach ($imgTicketingRep->findByOffer($offer) as $image) {
+                $offer->addImageTicketing($image);
+            };
+        }
+        foreach ($ticketingsLimited as $offer) {
+            foreach ($imgTicketingRep->findByOffer($offer) as $image) {
+                $offer->addImageTicketing($image);
+            };
+        }
+
+        // récupération des partenaires
+        $partnershipRep->findAll();
 
         $formAddTicketing = $this->createForm(TicketingType::class, null, [
             'action' => $this->generateUrl($staticPathList->getRequestPathByName('ajout_billeterie')),
@@ -272,44 +346,21 @@ class BackOfficeController extends AbstractController
             'method' => 'POST',
         ]);
 
-        // $formEditImage = $this->createForm(ImageTicketingRepository::class, null, [
-        //     'action' => $this->generateUrl($staticPathList->getRequestPathByName('modif_image_ticketing')),
-        //     'method' => 'POST',
-        // ]);
-
-        // $formDeleteImage = $this->createForm(ImageTicketingRepository::class, null, [
-        //     'action' => $this->generateUrl($staticPathList->getRequestPathByName('supp_image_ticketing')),
-        //     'method' => 'POST',
-        // ]);
-
         $formEditTicketings = array();
         $formDeleteTicketings = array();
 
-        $formAddImages = array();
-        // $formEditImages = array();
-        // $formDeleteImages = array();-
-
-        for ($i = 0; $i < count($ticketings); $i++) {
+        for ($i = 0; $i < (count($ticketingsLimited) + count($ticketingsPermanent)); $i++) {
             $formEditTicketings[] = $formEditTicketing->createView();
             $formDeleteTicketings[] = $formDeleteTicketing->createView();
         }
 
-        // for ($i = 0; $i < count($imageTicketings); $i++) {
-        //     $formEditImages[] = $formEditImage->createView();
-        //     $formDeleteImages[] = $formDeleteImage->createView();
-        // }
-
         return $this->render('/backoffice/ticketing/index.html.twig', [
             'paths' => $paths,
-            'formAddTicketing' => $formAddTicketing,
-            'formEditTicketings' => $formEditTicketings,
-            'formDeleteTicketings' => $formDeleteTicketings,
-            // 'formEditImages' => $formEditImages,
-            // 'formDeleteImages' => $formDeleteImages,
-            'ticketings' => $ticketings,
-            'ticketingPermanents' => $ticketingPermanents,
-            'ticketingLimiteds' => $ticketingPermanents,
-            'imageTicketings' => $imageTicketings,
+            'formAdd' => $formAddTicketing,
+            'formEdits' => $formEditTicketings,
+            'formDeletes' => $formDeleteTicketings,
+            'ticketingsPermanent' => $ticketingsPermanent,
+            'ticketingsLimited' => $ticketingsLimited
         ]);
     }
 }

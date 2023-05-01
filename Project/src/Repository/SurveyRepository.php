@@ -40,7 +40,7 @@ class SurveyRepository extends ServiceEntityRepository
         }
     }
 
-    public function findSurveyById(int $id): ?Survey
+    public function findById(int $id): ?Survey
     {
         return $this->createQueryBuilder('s')
             ->andWhere('s.id = :id')
