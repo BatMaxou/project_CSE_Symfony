@@ -115,6 +115,15 @@ class TicketingRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
+    public function countLinkToPartnershipId($id): ?int
+    {
+        return count($this->createQueryBuilder('t')
+            ->andWhere('t.partnership = :val')
+            ->setParameter('val', $id)
+            ->getQuery()
+            ->getResult());
+    }
+
     //    /**
     //     * @return Ticketing[] Returns an array of Ticketing objects
     //     */

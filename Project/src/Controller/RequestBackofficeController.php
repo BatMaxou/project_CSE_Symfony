@@ -693,11 +693,16 @@ class RequestBackofficeController extends AbstractController
     }
 
     #[Route(path: 'sup-partenaire', name: 'post-delete-partnership', methods: ['POST'])]
-    public function deletePartnership(PartnershipRepository $partnershipRepo, Request $request): Response
+    public function deletePartnership(PartnershipRepository $partnershipRepo, TicketingRepository $ticketingRepo, Request $request): Response
     {
         try {
             // recupérer le partenaire concerné
             $partner = $partnershipRepo->find($request->get('partnership')['id']);
+
+            if ($ticketingRepo->countLinkToPartnershipId($partner->getId()) !== 0) {
+                return new Response('Ce partenaire est relié à une ou plusieurs offres et ne peut donc pas être supprimé', 400);
+            }
+
             // supprimer l'image associé s'il y en a une
             if ($partner->getImage() !== null) {
                 unlink($this->getParameter('kernel.project_dir') . '/public/images/partnership/' . $partner->getImage());
