@@ -24,8 +24,13 @@ class Validator
 
     public function checkInputPassword(string $password): bool
     {
-        $regexInputPassword = '/^[a-zA-Z0-9^@&"().!_$£`~\-çàéèà°¤ù%*µ§:{}+=\/;? #]{12,}$/i';
-        if (preg_match($regexInputPassword, $password)) {
+        if (
+            strlen($password) >= 12
+            && preg_match('/[a-z]/', $password)
+            && preg_match('/[A-Z]/', $password)
+            && preg_match('/[0-9]/', $password)
+            && preg_match('/\W/', $password)
+        ) {
             return True;
         }
         return False;

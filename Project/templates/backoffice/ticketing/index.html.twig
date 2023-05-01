@@ -149,13 +149,9 @@
 		<div class="offers">
 
 			<div class="div-ticketing-permanent">
-				{% block paging %}
-					{% include "includes/_paging.html.twig" with {nbPage: nbPagePermanent} %}
-					{# script placé à la fin car les offres ne sont pas encore crées ici #}
-				{% endblock %}
 
 				{% for key, offer in ticketingsPermanent %}
-					<div class="card card-paging-multiple card-paging-1">
+					<div class="card">
 						<div class="card-header">
 							<div class="card-tag">
 								Offre
@@ -224,13 +220,9 @@
 			</div>
 
 			<div class="div-ticketing-limited">
-				{% block paging_2 %}
-					{% include "includes/_paging.html.twig" with {nbPage: nbPageLimited}%}
-					{# script placé à la fin car les offres ne sont pas encore crées ici #}
-				{% endblock %}
 
 				{% for key, offer in ticketingsLimited %}
-					<div class="card card-paging-multiple card-paging-2">
+					<div class="card">
 						<div class="card-header">
 							<div class="card-tag">
 								Offre
@@ -294,7 +286,6 @@
 
 	<script src="{{ asset('js/imageLoader.js') }}"></script>
 	<script src="{{ asset('js/handleTypeTicketing.js') }}"></script>
-	<script src="{{ asset('js/paging.js') }}"></script>
 {% endblock %}
 {% block request %}
 	<script src="{{ asset('js/request/ticketing.js') }}"></script>

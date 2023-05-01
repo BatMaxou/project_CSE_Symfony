@@ -1447,10 +1447,6 @@ textarea:focus::placeholder {
     justify-content: center;
 }
 
-.ticketing-all-button {
-    width: 50px;
-}
-
 .ticketing-permanent-button {
     width: 105px;
 }
@@ -2035,6 +2031,10 @@ textarea:focus::placeholder {
 /* BACKOFFICE TICKETING */
 #backoffice-ticketing {
     width: 100%
+}
+
+#backoffice-ticketing .offers {
+    margin-top: 10px;
 }
 
 #backoffice-ticketing .card-body form,
