@@ -43,8 +43,8 @@ class RequestController extends AbstractController
                         ->subject('Abonnement à la newsletter')
                         ->html(
                             '<p>Merci de vous être abonner à la newsletter du CSE de Saint-Vincent.</p>' .
-                            '<p>Vous recevrez par mail chaque nouvelle offre lors de leur publication sur le site.</p>' .
-                            '<p>Pour vous désabonner, cliquez <a href="#">ici</a>.</p>'
+                                '<p>Vous recevrez par mail chaque nouvelle offre lors de leur publication sur le site.</p>' .
+                                '<p>Pour vous désabonner, cliquez <a href="#">ici</a>.</p>'
                         );
 
                     $mailer->send($email);
@@ -122,8 +122,8 @@ class RequestController extends AbstractController
                                 ->subject('Abonnement à la newsletter')
                                 ->html(
                                     '<p>Merci de vous être abonner à la newsletter du CSE de Saint-Vincent.</p>' .
-                                    '<p>Vous recevrez par mail chaque nouvelle offre lors de leur publication sur le site.</p>' .
-                                    '<p>Pour vous désabonner, cliquez <a href="#">ici</a>.</p>'
+                                        '<p>Vous recevrez par mail chaque nouvelle offre lors de leur publication sur le site.</p>' .
+                                        '<p>Pour vous désabonner, cliquez <a href="#">ici</a>.</p>'
                                 );
 
                             $mailer->send($email);
@@ -168,8 +168,7 @@ class RequestController extends AbstractController
                 return new Response('Vous devez acceptez les conditions pour pouvoir envoyer un message.', 400);
             }
         } catch (\Throwable $th) {
-            // return new Response('Un problème innatendu est survenu, rechargez la page puis renvoyez votre message.', 400);
-            return new Response($th, 400);
+            return new Response('Un problème innatendu est survenu, rechargez la page puis renvoyez votre message.', 400);
         }
     }
 }

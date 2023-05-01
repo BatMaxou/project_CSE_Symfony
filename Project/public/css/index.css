@@ -2188,7 +2188,7 @@ textarea:focus::placeholder {
 #error-page {
     background-color: var(--color-card);
     width: 100%;
-    margin: 150px 0 50px;
+    margin-bottom: 50px;
     padding: 50px 200px;
     text-align: center;
     display: flex;

@@ -56,9 +56,9 @@ ckeditor:
 
 member:
   1:
-    firstName: "Baby"
-    lastName: "Boss"
-    profil: "bb.jpg"
+    firstName: "Greg"
+    lastName: "Lefils"
+    profil: "Greg.jpg"
     function: "Boss"
   2:
     firstName: "Jean-Phi"
@@ -66,21 +66,16 @@ member:
     profil: "Jean-Phi.jpg"
     function: "Responsable sourire"
   3:
-    firstName: "Le"
-    lastName: "Z"
-    profil: "leZ.jpg"
-    function: "Dounier"
-  4:
-    firstName: "Sé"
-    lastName: "Carré"
-    profil: "CCarre.jpg"
+    firstName: "Walter"
+    lastName: "Deloris"
+    profil: "Walter.jpg"
     function: UX/UI Designer
-  5:
+  4:
     firstName: "Charlotte"
     lastName: "Hofrès"
     profil: "Charlotte.jpg"
     function: "Ressource humaine"
-  6:
+  5:
     firstName: "Anne"
     lastName: "Nonym"
     profil: null

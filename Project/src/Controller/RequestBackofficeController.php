@@ -35,6 +35,28 @@ use Symfony\Component\HttpFoundation\Session\Session;
 #[Route(path: '/post/backoffice/')]
 class RequestBackofficeController extends AbstractController
 {
+    #[Route(path: 'texts', name: 'post-texts', methods: ['POST'])]
+    public function postTexts(CkeditorRepository $rep, Request $request): Response
+    {
+        try {
+            $texts = [
+                'homepage' => $rep->findByZone('HomePage', 'zone'),
+                'email' => $rep->findByZone('AboutUs', 'email'),
+                'actions' => $rep->findByZone('AboutUs', 'actions'),
+                'rules' => $rep->findByZone('AboutUs', 'rules'),
+            ];
+
+            $rep->save($texts['homepage']->setContent($request->get('texts')['homepage']), true);
+            $rep->save($texts['email']->setContent($request->get('texts')['email']), true);
+            $rep->save($texts['actions']->setContent($request->get('texts')['actions']), true);
+            $rep->save($texts['rules']->setContent($request->get('texts')['rules']), true);
+
+            return new Response('Les modifications ont bien été effectuées !', 200);
+        } catch (\Throwable $th) {
+            return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
+        }
+    }
+
     #[Route(path: 'ajout-admin', name: 'post-add-admin', methods: ['POST'])]
     public function postAddAdmin(AdminRepository $adminRepository, UserPasswordHasherInterface $adminPasswordHasher, Request $request, Validator $validate): Response
     {
@@ -142,18 +164,15 @@ class RequestBackofficeController extends AbstractController
 
             $adminEmail = $this->getUser()->getUserIdentifier();
 
-            $currentUserId = $this->getUser()->getId();
-            if ($currentUserId == $admin->getId()) {
+            if ($adminEmail === $admin->getEmail()) {
                 $session = $request->getSession();
                 $session = new Session();
                 $session->invalidate();
-            }
 
-            $adminRepository->remove($admin, true);
-
-            if ($adminEmail === $admin->getEmail()) {
+                $adminRepository->remove($admin, true);
                 return new Response('La suppression a bien été effectué !', 301);
             } else {
+                $adminRepository->remove($admin, true);
                 return new Response('La suppression a bien été effectué !', 200);
             }
         } catch (\Throwable $th) {
@@ -287,9 +306,9 @@ class RequestBackofficeController extends AbstractController
                     ->subject('Nouvelle offre disponible')
                     ->html(
                         '<p>Une nouvelle offre est disponible sur le site du CSE Saint-Vincent!</p>' .
-                        '<p>Offre : ' . $ticketing->getName() . '</p>' .
-                        '<p>' . $ticketing->getText() . '</p>' .
-                        '<p>Pour vous désabonner, cliquez <a href="#">ici</a>.</p>'
+                            '<p>Offre : ' . $ticketing->getName() . '</p>' .
+                            '<p>' . $ticketing->getText() . '</p>' .
+                            '<p>Pour vous désabonner, cliquez <a href="#">ici</a>.</p>'
                     );
 
                 foreach ($subRep->findAll() as $subscriber) {
@@ -324,8 +343,7 @@ class RequestBackofficeController extends AbstractController
                 // récupération des images
                 foreach ($imgTicketingRep->findByOffer($ticketing) as $image) {
                     $ticketing->addImageTicketing($image);
-                }
-                ;
+                };
 
                 // récupération des partenaires
                 $partnershipRep->findAll();

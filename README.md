@@ -48,6 +48,7 @@ php bin/console app:load:datafixtures --force
 
 ## Lancer le projet
 1. S'assurer que:
+    - Avoir une version de PHP 8.1 ou plus
     - Le projet est installé
     - La base de données est créée
 2. Démarrer le projet

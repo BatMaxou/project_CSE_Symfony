@@ -32,7 +32,7 @@ class StaticPathList
         'modif_sondage' => 'post-edit-survey',
         'supp_sondage' => 'post-delete-survey',
         'ajout_abonnement_newsletter' => 'post-newsletter',
-        'modif_textes' => 'post_texts',
+        'modif_textes' => 'post-texts',
         'ajout_membre' => 'post-add-member',
         'modif_membre' => 'post-edit-member',
         'sup_membre' => 'post-delete-member',
