@@ -293,6 +293,7 @@ class BackOfficeController extends AbstractController
 
         $repForm->remove('name');
         $repForm->remove('firstname');
+        $repForm->remove('subject');
         $repForm->remove('captcha');
         $repForm->remove('consent');
 
