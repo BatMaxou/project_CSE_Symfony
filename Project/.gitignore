@@ -10,6 +10,12 @@
 /migrations/
 ###< symfony/framework-bundle ###
 
+###> images-datafixtures ###
+/public/images/member
+/public/images/partnership
+/public/images/ticketing
+###< images-datafixtures ###
+
 ###> phpunit/phpunit ###
 /phpunit.xml
 .phpunit.result.cache

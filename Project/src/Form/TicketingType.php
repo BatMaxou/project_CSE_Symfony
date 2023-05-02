@@ -73,7 +73,7 @@ class TicketingType extends AbstractType
                 'label' => "Place minimum :",
                 'disabled' => true,
                 'attr' => [
-                    'placeholder' => "Place minimum",
+                    'placeholder' => "Places minimum",
                     'class' => 'form-input',
                     'min' => '0'
                 ],
