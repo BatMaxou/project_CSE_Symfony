@@ -8,7 +8,7 @@ class StaticPathList
         'Accueil' => 'home',
         'Partenariats' => 'partnership',
         'A propos de nous' => 'about_us',
-        'Billeterie' => 'ticketing',
+        'Billetterie' => 'ticketing',
         'Contact' => 'contact',
     );
 
@@ -18,7 +18,7 @@ class StaticPathList
         'Textes enrichis' => 'backoffice_text',
         'Membres' => 'backoffice_member',
         'Partenariats' => 'backoffice_partnership',
-        'Billeterie' => 'backoffice_ticketing',
+        'Billetterie' => 'backoffice_ticketing',
         'Sondage' => 'backoffice_survey',
         'Messages' => 'backoffice_messages',
         'Comptes' => 'backoffice_account',
@@ -43,9 +43,9 @@ class StaticPathList
         'modif_admin' => 'post-edit-admin',
         'supp_admin' => 'post-delete-admin',
         'supprimer_admin' => 'post-delete-admin',
-        'ajout_billeterie' => 'post-add-ticketing',
-        'modif_billeterie' => 'post-edit-ticketing',
-        'supp_billeterie' => 'post-delete-ticketing',
+        'ajout_billetterie' => 'post-add-ticketing',
+        'modif_billetterie' => 'post-edit-ticketing',
+        'supp_billetterie' => 'post-delete-ticketing',
         // utiliser pour le form contact client
         'envoi_contact' => 'post-contact',
         // utiliser pour la partie message du backoffice

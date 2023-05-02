@@ -164,10 +164,10 @@ class HomeController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/billeterie', name: 'ticketing', methods: ['GET'])]
+    #[Route(path: '/billetterie', name: 'ticketing', methods: ['GET'])]
     public function ticketing(staticPathList $staticPathList, PartnershipRepository $partnershipRepo, TicketingRepository $ticketingRep, ImageTicketingRepository $imgTicketingRep): Response
     {
-        $paths = [$staticPathList->getClientPathByName('Accueil'), $staticPathList->getClientPathByName('Billeterie')];
+        $paths = [$staticPathList->getClientPathByName('Accueil'), $staticPathList->getClientPathByName('Billetterie')];
 
         $ticketingsPermanent = $ticketingRep->findByPermanentDesc();
         $ticketingsLimited = $ticketingRep->findByLimitedActiveDesc();
@@ -208,12 +208,12 @@ class HomeController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/billeterie/{slug}', name: 'offer', methods: ['GET'])]
+    #[Route(path: '/billetterie/{slug}', name: 'offer', methods: ['GET'])]
     public function offer(staticPathList $staticPathList, PartnershipRepository $partnershipRepo, TicketingRepository $ticketingRepo, string $slug): Response
     {
         $offer = $ticketingRepo->findBySlug($slug);
 
-        $paths = [$staticPathList->getClientPathByName('Accueil'), $staticPathList->getClientPathByName('Billeterie'), array($offer->getName(), 'offer', $offer->getSlug())];
+        $paths = [$staticPathList->getClientPathByName('Accueil'), $staticPathList->getClientPathByName('Billetterie'), array($offer->getName(), 'offer', $offer->getSlug())];
 
         // get info associated at the id in the url of the ticketing
         $imgPartner = $partnershipRepo->imagePartner();

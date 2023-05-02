@@ -309,10 +309,10 @@ class BackOfficeController extends AbstractController
     }
 
     // Page d'affichage / modification d'un admin
-    #[Route(path: 'billeterie', name: 'backoffice_ticketing')]
+    #[Route(path: 'billetterie', name: 'backoffice_ticketing')]
     public function ticketing(StaticPathList $staticPathList, TicketingRepository $ticketingRep, ImageTicketingRepository $imgTicketingRep, PartnershipRepository $partnershipRep): Response
     {
-        $paths = [$staticPathList->getAdminPathByName('Tableau de bord'), $staticPathList->getAdminPathByName('Billeterie')];
+        $paths = [$staticPathList->getAdminPathByName('Tableau de bord'), $staticPathList->getAdminPathByName('Billetterie')];
 
         $ticketingsPermanent = $ticketingRep->findByPermanentDesc();
         $ticketingsLimited = $ticketingRep->findByLimitedDesc();
@@ -333,17 +333,17 @@ class BackOfficeController extends AbstractController
         $partnershipRep->findAll();
 
         $formAddTicketing = $this->createForm(TicketingType::class, null, [
-            'action' => $this->generateUrl($staticPathList->getRequestPathByName('ajout_billeterie')),
+            'action' => $this->generateUrl($staticPathList->getRequestPathByName('ajout_billetterie')),
             'method' => 'POST',
         ]);
 
         $formEditTicketing = $this->createForm(TicketingType::class, null, [
-            'action' => $this->generateUrl($staticPathList->getRequestPathByName('modif_billeterie')),
+            'action' => $this->generateUrl($staticPathList->getRequestPathByName('modif_billetterie')),
             'method' => 'POST',
         ]);
 
         $formDeleteTicketing = $this->createForm(TicketingType::class, null, [
-            'action' => $this->generateUrl($staticPathList->getRequestPathByName('supp_billeterie')),
+            'action' => $this->generateUrl($staticPathList->getRequestPathByName('supp_billetterie')),
             'method' => 'POST',
         ]);
 
