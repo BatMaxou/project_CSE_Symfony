@@ -70,7 +70,22 @@ const handleSubmit = async (index, formData, form, type, options = {}) => {
                 handleBtnDelete(index, Array.from(cards), { fade: true, ignoredFirst: true })
             } else if (options.message && options.message === true) {
                 handleBtnDelete(index, Array.from(cards), { ignoredFirst: false })
+            } if (options.survey && options.survey === true) {
+                // Card animation
+                let isActive = false
+                Array.from(cards).forEach(el => {
+                    if (el.querySelector('.card-date')) {
+                        isActive = true
+                    }
+                })
+
+                if (isActive) {
+                    handleBtnDelete(index + 1, Array.from(cards))
+                } else {
+                    handleBtnDelete(index, Array.from(cards))
+                }
             } else {
+                console.log('hugo');
                 handleBtnDelete(index, Array.from(cards))
             }
 
