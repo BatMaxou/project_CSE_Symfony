@@ -86,7 +86,7 @@ const handleSurveysDisplayModal = (e, index, type, btnSubmit, form) => {
     }
     else if (type === 'add') {
 
-        // Récupération de form de modification
+        // Récupération de form d'ajout
         const formData = new FormData(form)
 
         // Traitement de l'affichage des données modifiées dans la modal

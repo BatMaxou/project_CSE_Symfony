@@ -2,26 +2,17 @@
 
 namespace App\Controller;
 
-use App\Entity\Contact;
-use App\Entity\Subscriber;
 use App\Form\ContactType;
 use App\Form\SubscriberType;
 use App\Form\ClientSurveyType;
-use App\Service\Validator;
 use App\Service\StaticPathList;
 use App\Repository\MemberRepository;
 use App\Repository\SurveyRepository;
 use App\Repository\CkeditorRepository;
 use App\Repository\ResponseRepository;
 use App\Repository\TicketingRepository;
-use App\Repository\SubscriberRepository;
 use App\Repository\PartnershipRepository;
 use App\Repository\ImageTicketingRepository;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Mime\Email;
-use Symfony\Component\Mime\Address;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -196,7 +187,6 @@ class HomeController extends AbstractController
         // counting the number of pages with 4 offers per page
         $nbPagePermanent = ($nbPermanentOffers % 4 === 0 || $nbPermanentOffers < 0) ? $nbPermanentOffers / 4 : intdiv($nbPermanentOffers, 4) + 1;
         $nbPageLimited = ($nbLimitedOffers % 4 === 0 || $nbLimitedOffers < 0) ? $nbLimitedOffers / 4 : intdiv($nbLimitedOffers, 4) + 1;
-
 
         return $this->render('ticketing/index.html.twig', [
             'paths' => $paths,
