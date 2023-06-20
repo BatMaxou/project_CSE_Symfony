@@ -4,7 +4,7 @@ admin:
     # password: password
     password: "$argon2i$v=19$m=65536,t=4,p=1$ZTJLaGYvdDJtMUVKTFJCWQ$vHhV73SOuPb24C2fg88oQLwUC1a7eKHnfC4CEHV5Ats"
     roles: 
-      - "ROLE_ADMIN"
+      - "ROLE_SUPER_ADMIN"
   2:
     email: "proin.sed.turpis@protonmail.edu"
     # password: babeudi
