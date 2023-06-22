@@ -1,5 +1,20 @@
 {% extends 'page.html.twig' %}
 
+{% set months = {
+	'January': 'Janvier',
+	'February': 'Février',
+	'March': 'Mars',
+	'April': 'Avril',
+	'May': 'Mai',
+	'June': 'Juin',
+	'July': 'Juillet',
+	'August': 'Août',
+	'September': 'Septembre',
+	'October': 'Octobre',
+	'November': 'Novembre',
+	'December': 'Décembre'
+} %}
+
 {% block title %}
 	CSE - Billetterie
 {% endblock %}
@@ -56,7 +71,7 @@
 										{{ ticketingPermanent.type }}
 									</span>
 									<p class="card-date">Publié le
-										{{ ticketingPermanent.dateCreate|format_datetime(locale='fr', pattern='dd MMMM')}}
+										{{ offer.dateCreate|date('d') ~ ' ' ~ months[offer.dateCreate|format_datetime(pattern='MMMM')] }}
 										- Du
 										{{ ticketingPermanent.dateStart|date('d/m/Y')}}
 										au
@@ -113,7 +128,7 @@
 										{{ ticketingLimited.type }}
 									</span>
 									<p class="card-date">Publié le
-										{{ ticketingLimited.dateCreate|format_datetime(locale='fr', pattern='dd MMMM')}}
+										{{ offer.dateCreate|date('d') ~ ' ' ~ months[offer.dateCreate|format_datetime(pattern='MMMM')] }}
 										- Du
 										{{ ticketingLimited.dateStart|date('d/m/Y')}}
 										au{{ ticketingLimited.dateEnd|date('d/m/Y')}}
