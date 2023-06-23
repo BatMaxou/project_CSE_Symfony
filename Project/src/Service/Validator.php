@@ -15,7 +15,7 @@ class Validator
 
     public function checkInputString(string $name): bool
     {
-        $regexInputString = '/^[a-zA-Z0-9^@&"().!_$£`~-°¤#,%*µ§:{}+=\/;? #]{2,}$/i';
+        $regexInputString = '/^[a-zA-Z0-9\W]{2,}$/i';
         if (preg_match($regexInputString, $name)) {
             return True;
         }
