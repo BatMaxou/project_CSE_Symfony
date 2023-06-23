@@ -153,7 +153,7 @@ class RequestController extends AbstractController
 
                     // mailer
                     $email = (new Email())
-                        ->from(new Address($request->get('contact')['email'], $name . ' ' . $firstname))
+                        ->from(new Address($_ENV['APP_EMAIL'], $request->get('contact')['email']))
                         ->to($_ENV['APP_EMAIL'])
                         ->subject($subject)
                         ->text($message);
