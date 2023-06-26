@@ -354,7 +354,7 @@ class RequestBackofficeController extends AbstractController
                 if ($ticketing->getType() === 'permanente') {
                     $ticketing->setNumberMinPlace(intval($request->get('ticketing')['number_min_place']));
                 } else {
-                    if ($ticketingRepository->findByOrderNumber(intval($request->get('ticketing')['order_number']))) {
+                    if (($ticketingRepository->findByOrderNumber(intval($request->get('ticketing')['order_number']))) && ($ticketing->getOrderNumber() !== intval($request->get('ticketing')['order_number']))) {
                         return new Response('Ce numero d\'affichage est déjà attribué.', 400);
                     }
                     $ticketing->setOrderNumber(intval($request->get('ticketing')['order_number']));
