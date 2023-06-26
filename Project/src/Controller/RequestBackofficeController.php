@@ -477,7 +477,7 @@ class RequestBackofficeController extends AbstractController
 
                 return new Response('La modification a bien été effectué !', 200);
             } else {
-                return new Response('Les champs nom et description doivent contenir : des lettres minuscules, majuscules et des chiffres, avec un minimum de 2 caractères, la date de début doit être postérieur à aujourd\'hui et inférieur à la date de fin.', 400);
+                return new Response('Les champs nom et description doivent contenir au moins 2 caractères; la date de début doit être postérieur à aujourd\'hui et inférieur à la date de fin.', 400);
             }
         } catch (\Throwable $th) {
             return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
@@ -844,7 +844,7 @@ class RequestBackofficeController extends AbstractController
             if (!empty($message)) {
                 try {
                     $email = (new Email())
-                        ->from(new Address('maximebatista.lycee@gmail.com', 'CSE Saint-Vincent'))
+                        ->from(new Address($_ENV['APP_EMAIL'], 'CSE Saint-Vincent'))
                         ->to($request->get('contact')['email'])
                         ->subject('Réponse à votre précédent mail')
                         ->text($message);
