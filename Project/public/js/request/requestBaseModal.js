@@ -85,7 +85,6 @@ const handleSubmit = async (index, formData, form, type, options = {}) => {
                     handleBtnDelete(index, Array.from(cards))
                 }
             } else {
-                console.log('hugo');
                 handleBtnDelete(index, Array.from(cards))
             }
 

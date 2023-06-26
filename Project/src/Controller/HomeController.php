@@ -203,7 +203,7 @@ class HomeController extends AbstractController
     {
         $offer = $ticketingRepo->findBySlug($slug);
 
-        $paths = [$staticPathList->getClientPathByName('Accueil'), $staticPathList->getClientPathByName('Billetterie'), array($offer->getName(), 'offer', $offer->getSlug())];
+        $paths = [$staticPathList->getClientPathByName('Accueil'), $staticPathList->getClientPathByName('Billetterie'), array(html_entity_decode($offer->getName()), 'offer', $offer->getSlug())];
 
         // get info associated at the id in the url of the ticketing
         $imgPartner = $partnershipRepo->imagePartner();

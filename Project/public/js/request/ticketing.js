@@ -49,7 +49,7 @@ const handleChangeImageClick = (e, type, nbImage, offerType = null, index = null
         inputfile = inputfiles[nbImage]
     }
     else if (type === 'edit') {
-        inputfiles = document.querySelectorAll('.offers .div-ticketing-' + offerType + ' .card:nth-child(' + (index + 1) + ') input[type=file]')
+        inputfiles = document.querySelectorAll('.offers .div-ticketing-' + offerType + ' .card:nth-child(' + (index) + ') input[type=file]')
         inputfile = inputfiles[nbImage]
     }
     inputfile.click()
