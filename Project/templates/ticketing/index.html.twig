@@ -64,7 +64,7 @@
 						<div class="card card-paging-multiple card-paging-1">
 							<div class="card-body">
 								<div class="card-image">
-									<img src={{ asset('images/ticketing/' ~ ticketingPermanent.imageTicketings[0].name) }} alt="{{ ticketingPermanent.name }}">
+									<img src={{ asset('images/ticketing/' ~ ticketingPermanent.imageTicketings[0].name) }} alt="{{ ticketingPermanent.name|html_entity_decode }}">
 								</div>
 								<div class="card-content">
 									<span class="card-tag">offre
@@ -77,8 +77,8 @@
 										au
 										{{ ticketingPermanent.dateEnd|date('d/m/Y')}}
 									</p>
-									<h3>{{ ticketingPermanent.name }}</h3>
-									<p class="card-description-ticketing">{{ ticketingPermanent.text }}</p>
+									<h3>{{ ticketingPermanent.name|html_entity_decode }}</h3>
+									<p class="card-description-ticketing">{{ ticketingPermanent.text|html_entity_decode }}</p>
 									<p>Nombre de places minimum requis :
 										{{ ticketingPermanent.numberMinPlace }}.
 									</p>
@@ -121,7 +121,7 @@
 						<div class="card card-paging-multiple card-paging-2">
 							<div class="card-body">
 								<div class="card-image">
-									<img src={{ asset('images/ticketing/' ~ ticketingLimited.imageTicketings[0].name) }} alt="{{ ticketingLimited.name }}">
+									<img src={{ asset('images/ticketing/' ~ ticketingLimited.imageTicketings[0].name) }} alt="{{ ticketingLimited.name|html_entity_decode }}">
 								</div>
 								<div class="card-content">
 									<span class="card-tag">offre
@@ -134,8 +134,8 @@
 										au
 										{{ ticketingLimited.dateEnd|date('d/m/Y')}}
 									</p>
-									<h3>{{ ticketingLimited.name }}</h3>
-									<p class="card-description-ticketing">{{ ticketingLimited.text }}</p>
+									<h3>{{ ticketingLimited.name|html_entity_decode }}</h3>
+									<p class="card-description-ticketing">{{ ticketingLimited.text|html_entity_decode }}</p>
 								</div>
 							</div>
 							<div class="card-footer">

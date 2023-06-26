@@ -131,7 +131,7 @@
 							</div>
 						</div>
 						<div class="card-content">
-							<h2 class="question">{{ survey.question }}</h2>
+							<h2 class="question">{{ survey.question|html_entity_decode }}</h2>
 							<ul>
 								{% for index, response in responses[survey.id] %}
 
@@ -140,7 +140,7 @@
 										<div class="survey-response-{{index + 1}} survey-response">
 											<div class="label"></div>
 											<p>
-												{{ response.text }}
+												{{ response.text|html_entity_decode }}
 											</p>
 											<span class="result-response">
 												{% if survey.nbVote == 0 %}
@@ -171,7 +171,7 @@
 						<div class="card-footer">
 							{{ form_start(deleteForms[key], {'attr': {'class': 'delete-form'}}) }}
 							{{ form_widget(deleteForms[key].id, { 'value': survey.id, 'disabled': false }) }}
-							{{ form_widget(deleteForms[key].question, { 'attr': { class: 'form-input-hidden' }, 'value': survey.question, 'disabled': false }) }}
+							{{ form_widget(deleteForms[key].question, { 'attr': { class: 'form-input-hidden' }, 'value': survey.question|html_entity_decode , 'disabled': false }) }}
 							<button class='btn btn-delete modal-open-delete'>Supprimer</button>
 							{{ form_end(deleteForms[key], {'render_rest': false})}}
 						</div>

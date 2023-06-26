@@ -19,7 +19,7 @@
 				<div class="card-body">
 					<p id="p-msg">
 						Message :
-						{{ message.message }}
+						{{ message.message|html_entity_decode }}
 					</p>
 				</div>
 			</div>
