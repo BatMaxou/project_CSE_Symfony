@@ -44,8 +44,8 @@ class RequestController extends AbstractController
                         ->subject('Abonnement à la newsletter')
                         ->html(
                             '<p>Merci de vous être abonner à la newsletter du CSE de Saint-Vincent.</p>' .
-                                '<p>Vous recevrez par mail chaque nouvelle offre lors de leur publication sur le site.</p>' .
-                                '<p>Pour vous désabonner, cliquez <a href="#">ici</a>.</p>'
+                                '<p>Vous recevrez par mail chaque nouvelle offre lors de leur publication sur le site.</p>'
+                            // '<p>Pour vous désabonner, cliquez <a href="#">ici</a>.</p>'
                         );
 
                     $mailer->send($email);
@@ -123,8 +123,8 @@ class RequestController extends AbstractController
                                 ->subject('Abonnement à la newsletter')
                                 ->html(
                                     '<p>Merci de vous être abonner à la newsletter du CSE de Saint-Vincent.</p>' .
-                                        '<p>Vous recevrez par mail chaque nouvelle offre lors de leur publication sur le site.</p>' .
-                                        '<p>Pour vous désabonner, cliquez <a href="#">ici</a>.</p>'
+                                        '<p>Vous recevrez par mail chaque nouvelle offre lors de leur publication sur le site.</p>'
+                                    // '<p>Pour vous désabonner, cliquez <a href="#">ici</a>.</p>'
                                 );
 
                             $mailer->send($email);

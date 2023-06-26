@@ -309,9 +309,9 @@ class RequestBackofficeController extends AbstractController
                     ->subject('Nouvelle offre disponible')
                     ->html(
                         '<p>Une nouvelle offre est disponible sur le site du CSE Saint-Vincent!</p>' .
-                            '<p>Offre : ' . $ticketing->getName() . '</p>' .
-                            '<p>' . $ticketing->getText() . '</p>' .
-                            '<p>Pour vous désabonner, cliquez <a href="#">ici</a>.</p>'
+                            '<p>Offre : ' . html_entity_decode($ticketing->getName()) . '</p>' .
+                            '<p>' . html_entity_decode($ticketing->getText()) . '</p>'
+                        // '<p>Pour vous désabonner, cliquez <a href="#">ici</a>.</p>'
                     );
 
                 foreach ($subRep->findAll() as $subscriber) {
