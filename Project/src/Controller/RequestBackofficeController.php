@@ -241,7 +241,7 @@ class RequestBackofficeController extends AbstractController
                 $image = $request->files->get('ticketing')['image1'];
 
                 // slug de l'image
-                $image1->setName($ticketing->getId() . '-' . $ticketing->getName() . '-image-1' . '.' . $image->guessExtension());
+                $image1->setName($ticketing->getId() . '-' . html_entity_decode($ticketing->getName()) . '-image-1' . '.' . $image->guessExtension());
                 $image1->setNumero(1);
                 $image1->setTicketing($ticketing);
 
@@ -258,7 +258,7 @@ class RequestBackofficeController extends AbstractController
                     $image = $request->files->get('ticketing')['image2'];
 
                     // slug de l'image
-                    $image2->setName($ticketing->getId() . '-' . $ticketing->getName() . '-image-2' . '.' . $image->guessExtension());
+                    $image2->setName($ticketing->getId() . '-' . html_entity_decode($ticketing->getName()) . '-image-2' . '.' . $image->guessExtension());
                     $image2->setNumero(2);
                     $image2->setTicketing($ticketing);
 
@@ -276,7 +276,7 @@ class RequestBackofficeController extends AbstractController
                     $image = $request->files->get('ticketing')['image3'];
 
                     // slug de l'image
-                    $image3->setName($ticketing->getId() . '-' . $ticketing->getName() . '-image-3' . '.' . $image->guessExtension());
+                    $image3->setName($ticketing->getId() . '-' . html_entity_decode($ticketing->getName()) . '-image-3' . '.' . $image->guessExtension());
                     $image3->setNumero(3);
                     $image3->setTicketing($ticketing);
 
@@ -294,7 +294,7 @@ class RequestBackofficeController extends AbstractController
                     $image = $request->files->get('ticketing')['image4'];
 
                     // slug de l'image
-                    $image4->setName($ticketing->getId() . '-' . $ticketing->getName() . '-image-4' . '.' . $image->guessExtension());
+                    $image4->setName($ticketing->getId() . '-' . html_entity_decode($ticketing->getName()) . '-image-4' . '.' . $image->guessExtension());
                     $image4->setNumero(4);
                     $image4->setTicketing($ticketing);
 
@@ -393,7 +393,7 @@ class RequestBackofficeController extends AbstractController
                     $image = $request->files->get('ticketing')['image1'];
 
                     // slug de l'image
-                    $image1->setName($ticketing->getId() . '-' . $ticketing->getName() . '-image-1' . '.' . $image->guessExtension());
+                    $image1->setName($ticketing->getId() . '-' . html_entity_decode($ticketing->getName()) . '-image-1' . '.' . $image->guessExtension());
                     $image1->setNumero(1);
                     $image1->setTicketing($ticketing);
 
@@ -417,7 +417,7 @@ class RequestBackofficeController extends AbstractController
                     $image = $request->files->get('ticketing')['image2'];
 
                     // slug de l'image
-                    $image2->setName($ticketing->getId() . '-' . $ticketing->getName() . '-image-2' . '.' . $image->guessExtension());
+                    $image2->setName($ticketing->getId() . '-' . html_entity_decode($ticketing->getName()) . '-image-2' . '.' . $image->guessExtension());
                     $image2->setNumero(2);
                     $image2->setTicketing($ticketing);
 
@@ -441,7 +441,7 @@ class RequestBackofficeController extends AbstractController
                     $image = $request->files->get('ticketing')['image3'];
 
                     // slug de l'image
-                    $image3->setName($ticketing->getId() . '-' . $ticketing->getName() . '-image-3' . '.' . $image->guessExtension());
+                    $image3->setName($ticketing->getId() . '-' . html_entity_decode($ticketing->getName()) . '-image-3' . '.' . $image->guessExtension());
                     $image3->setNumero(3);
                     $image3->setTicketing($ticketing);
 
@@ -465,7 +465,7 @@ class RequestBackofficeController extends AbstractController
                     $image = $request->files->get('ticketing')['image4'];
 
                     // slug de l'image
-                    $image4->setName($ticketing->getId() . '-' . $ticketing->getName() . '-image-4' . '.' . $image->guessExtension());
+                    $image4->setName($ticketing->getId() . '-' . html_entity_decode($ticketing->getName()) . '-image-4' . '.' . $image->guessExtension());
                     $image4->setNumero(4);
                     $image4->setTicketing($ticketing);
 
@@ -531,7 +531,7 @@ class RequestBackofficeController extends AbstractController
                     $image = $request->files->get('member')['profil'];
 
                     // slug de l'image
-                    $member->setProfil($member->getId() . '-' . $member->getFirstName() . '-' . $member->getLastName() . '.' . $image->guessExtension());
+                    $member->setProfil($member->getId() . '-' . html_entity_decode($member->getFirstName()) . '-' . html_entity_decode($member->getLastName()) . '.' . $image->guessExtension());
 
                     // deplacer l'image dans le fichier 
                     $image->move($destination, $member->getProfil());
@@ -576,7 +576,7 @@ class RequestBackofficeController extends AbstractController
                     $image = $request->files->get('member')['profil'];
 
                     // slug de l'image
-                    $member->setProfil($member->getId() . '-' . $member->getFirstName() . '-' . $member->getLastName() . '.' . $image->guessExtension());
+                    $member->setProfil($member->getId() . '-' . html_entity_decode($member->getFirstName()) . '-' . html_entity_decode($member->getLastName()) . '.' . $image->guessExtension());
 
                     // deplacer l'image dans le fichier 
                     $image->move($destination, $member->getProfil());
@@ -640,7 +640,7 @@ class RequestBackofficeController extends AbstractController
                     $image = $request->files->get('partnership')['image'];
 
                     // slug de l'image
-                    $partner->setImage($partner->getId() . '-' . $partner->getName() . '.' . $image->guessExtension());
+                    $partner->setImage($partner->getId() . '-' . html_entity_decode($partner->getName()) . '.' . $image->guessExtension());
                     // deplacer l'image dans le fichier 
                     $image->move($destination, $partner->getImage());
 
@@ -678,7 +678,7 @@ class RequestBackofficeController extends AbstractController
                     $image = $request->files->get('partnership')['image'];
 
                     // slug de l'image
-                    $partner->setImage($partner->getId() . '-' . $partner->getName() . '.' . $image->guessExtension());
+                    $partner->setImage($partner->getId() . '-' . html_entity_decode($partner->getName()) . '.' . $image->guessExtension());
 
                     // deplacer l'image dans le fichier 
                     $image->move($destination, $partner->getImage());
