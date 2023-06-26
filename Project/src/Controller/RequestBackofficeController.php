@@ -192,14 +192,13 @@ class RequestBackofficeController extends AbstractController
             if (
                 $validate->checkInputString($request->get('ticketing')['name'])
                 && $validate->checkInputString($request->get('ticketing')['text'])
-                && $validate->checkInputDate(new DateTime($request->get('ticketing')['date_start']), new DateTime($request->get('ticketing')['date_end']))
             ) {
                 $ticketing = new Ticketing();
 
                 if ($request->get('ticketing')['type'] === "0") {
                     $ticketing->setType("permanente");
-                    if ($request->get('ticketing')['number_min_place'] <= 0) {
-                        return new Response('Le nombre de place minimum ne peut pas être négatif !', 400);
+                    if ($request->get('ticketing')['number_min_place'] < 0) {
+                        return new Response('Un nombre de place minimum doit être renseigné et ne peut pas être négatif !', 400);
                     } else {
                         $ticketing->setNumberMinPlace(intval($request->get('ticketing')['number_min_place']));
                     }
@@ -209,16 +208,25 @@ class RequestBackofficeController extends AbstractController
                         return new Response('Ce numero d\'affichage est déjà attribué.', 400);
                     }
                     $ticketing->setOrderNumber(intval($request->get('ticketing')['order_number']));
+
+                    if (isset($request->get('ticketing')['date_start']) && isset($request->get('ticketing')['date_end'])) {
+                        if ($validate->checkInputDate(new DateTime($request->get('ticketing')['date_start']), new DateTime($request->get('ticketing')['date_end']))) {
+                            $time = new DateTime($request->get('ticketing')['date_start']);
+                            $ticketing->setDateStart($time);
+
+                            $time = new DateTime($request->get('ticketing')['date_end']);
+                            $ticketing->setDateEnd($time);
+                        } else {
+                            return new Response('La date de début doit être postérieur à aujourd\'hui et inférieur à la date de fin.', 400);
+                        }
+                    } else {
+                        return new Response('Les dates de début et de fin de validité douvent être renseignées pour les offres limitées.', 400);
+                    }
                 }
 
                 $ticketing->setName($name);
                 $ticketing->setText($text);
 
-                $time = new DateTime($request->get('ticketing')['date_start']);
-                $ticketing->setDateStart($time);
-
-                $time = new DateTime($request->get('ticketing')['date_end']);
-                $ticketing->setDateEnd($time);
                 $ticketing->setDateCreate(new DateTime('NOW'));
 
                 if ($request->get('ticketing')['partnership']) {
@@ -322,7 +330,7 @@ class RequestBackofficeController extends AbstractController
 
                 return new Response('L\'ajout à bien été effectué !', 200);
             } else {
-                return new Response('Les champs nom et description doivent contenir : des lettres minuscules, majuscules et des chiffres, avec un minimum de 2 caractères, la date de début doit être postérieur à aujourd\'hui et inférieur à la date de fin.', 400);
+                return new Response('Les champs nom et description doivent contenir : des lettres minuscules, majuscules et des chiffres, avec un minimum de 2 caractères.', 400);
             }
         } catch (\Throwable $th) {
             return new Response('Une erreur imprévue est survenue, veuillez recharger la page et réessayer.', 400);
@@ -338,7 +346,6 @@ class RequestBackofficeController extends AbstractController
             if (
                 $validate->checkInputString($request->get('ticketing')['name'])
                 && $validate->checkInputString($request->get('ticketing')['text'])
-                && $validate->checkInputDate(new DateTime($request->get('ticketing')['date_start']), new DateTime($request->get('ticketing')['date_end']))
             ) {
 
                 $ticketing = $ticketingRepository->findById($request->get('ticketing')['id']);
@@ -353,22 +360,34 @@ class RequestBackofficeController extends AbstractController
 
                 if ($ticketing->getType() === 'permanente') {
                     $ticketing->setNumberMinPlace(intval($request->get('ticketing')['number_min_place']));
+                    if ($request->get('ticketing')['number_min_place'] < 0) {
+                        return new Response('Un nombre de place minimum doit être renseigné et ne peut pas être négatif !', 400);
+                    } else {
+                        $ticketing->setNumberMinPlace(intval($request->get('ticketing')['number_min_place']));
+                    }
                 } else {
                     if (($ticketingRepository->findByOrderNumber(intval($request->get('ticketing')['order_number']))) && ($ticketing->getOrderNumber() !== intval($request->get('ticketing')['order_number']))) {
                         return new Response('Ce numero d\'affichage est déjà attribué.', 400);
                     }
                     $ticketing->setOrderNumber(intval($request->get('ticketing')['order_number']));
+
+                    if (isset($request->get('ticketing')['date_start']) && isset($request->get('ticketing')['date_end'])) {
+                        if ($validate->checkInputDate(new DateTime($request->get('ticketing')['date_start']), new DateTime($request->get('ticketing')['date_end']))) {
+                            $time = new DateTime($request->get('ticketing')['date_start']);
+                            $ticketing->setDateStart($time);
+
+                            $time = new DateTime($request->get('ticketing')['date_end']);
+                            $ticketing->setDateEnd($time);
+                        } else {
+                            return new Response('La date de début doit être postérieur à aujourd\'hui et inférieur à la date de fin.', 400);
+                        }
+                    } else {
+                        return new Response('Les dates de début et de fin de validité douvent être renseignées pour les offres limitées.', 400);
+                    }
                 }
 
                 $ticketing->setName($name);
                 $ticketing->setText($text);
-
-                $time = new DateTime($request->get('ticketing')['date_start']);
-                $ticketing->setDateStart($time);
-
-                $time = new DateTime($request->get('ticketing')['date_end']);
-                $ticketing->setDateEnd($time);
-                $ticketing->setDateCreate(new DateTime('NOW'));
 
                 if ($request->get('ticketing')['partnership']) {
                     $partnership = $partnershipRep->find($request->get('ticketing')['partnership']);

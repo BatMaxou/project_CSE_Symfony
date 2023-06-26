@@ -2091,6 +2091,10 @@ textarea:focus::placeholder {
     height: 100px;
 }
 
+#backoffice-ticketing .date-ticketing {
+    display: none;
+}
+
 #ticketing_partnership,
 #ticketing_order_number {
     width: 97%;

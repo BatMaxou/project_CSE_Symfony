@@ -53,7 +53,7 @@ class TicketingType extends AbstractType
 
             ->add('date_start', DateType::class, [
                 'label' => "Date de début de validité :",
-                'required' => true,
+                'required' => false,
                 'disabled' => true,
                 'widget' => 'single_text',
                 'attr' => [
@@ -62,7 +62,7 @@ class TicketingType extends AbstractType
             ])
             ->add('date_end', DateType::class, [
                 'label' => "Date de fin de validité :",
-                'required' => true,
+                'required' => false,
                 'disabled' => true,
                 'widget' => 'single_text',
                 'attr' => [

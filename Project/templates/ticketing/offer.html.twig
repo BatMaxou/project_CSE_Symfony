@@ -39,10 +39,12 @@
 						Publié le
 						{{ offer.dateCreate|date('d') ~ ' ' ~ months[offer.dateCreate|format_datetime(pattern='MMMM')] }}
 					</span>
-					Disponible du
-					{{ offer.dateStart|date('d/m/Y')}}
-					au
-					{{ offer.dateEnd|date('d/m/Y')}}
+					{% if offer.type != 'permanente' %}
+						Disponible du
+						{{ offer.dateStart|date('d/m/Y')}}
+						au
+						{{ offer.dateEnd|date('d/m/Y')}}
+					{% endif %}
 				</div>
 				<div class="offer-card-place">
 					{% if offer.type == "permanente" %}

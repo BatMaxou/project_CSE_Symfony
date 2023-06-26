@@ -103,11 +103,11 @@
 						{{ form_widget(formAdd.name, {disabled: false}) }}
 						{{ form_widget(formAdd.text, {disabled: false}) }}
 
-						{{ form_label(formAdd.date_start, 'Date de début de validité :') }}
-						{{ form_widget(formAdd.date_start, {disabled: false}) }}
+						{{ form_label(formAdd.date_start, 'Date de début de validité :', {'label_attr': {'class': 'date-ticketing'}}) }}
+						{{ form_widget(formAdd.date_start, {disabled: false, 'attr': {'class': 'form-input date-ticketing'}}) }}
 
-						{{ form_label(formAdd.date_end, 'Date de fin de validité :') }}
-						{{ form_widget(formAdd.date_end, {disabled: false}) }}
+						{{ form_label(formAdd.date_end, 'Date de fin de validité :', {'label_attr': {'class': 'date-ticketing'}}) }}
+						{{ form_widget(formAdd.date_end, {disabled: false, 'attr': {'class': 'form-input date-ticketing'}}) }}
 
 						{{ form_label(formAdd.partnership, 'Partenaire associé :') }}
 						{{ form_widget(formAdd.partnership, {disabled: false, placeholder: 'Aucun'}) }}
@@ -186,12 +186,6 @@
 								{{ form_widget(formEdits[key].id, { 'value': offer.id })}}
 								{{ form_row(formEdits[key].name, {value: offer.name|html_entity_decode , attr: {class: 'form-input form-input-disabled'}}) }}
 								{{ form_row(formEdits[key].text, {value: offer.text|html_entity_decode , attr: {class: 'form-input form-input-disabled'}}) }}
-
-								{{ form_label(formEdits[key].date_start, 'Date de début de validité :') }}
-								{{ form_widget(formEdits[key].date_start, {value: offer.dateStart|date('Y-m-d'), attr: {class: 'form-input form-input-disabled'}}) }}
-
-								{{ form_label(formEdits[key].date_end, 'Date de fin de validité :') }}
-								{{ form_widget(formEdits[key].date_end, {value: offer.dateEnd|date('Y-m-d'), attr: {class: 'form-input form-input-disabled'}}) }}
 
 								{{ form_row(formEdits[key].number_min_place, {value: offer.numberMinPlace, attr: {class: 'form-input form-input-disabled'}}) }}
 

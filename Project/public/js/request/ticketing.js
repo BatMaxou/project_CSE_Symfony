@@ -2,17 +2,28 @@
 const typeTicketing = document.querySelector(".add-offer #ticketing_type")
 const numberMinPlaceTicketing = document.querySelector("#backoffice-ticketing .number-min")
 const orderNumberTicketing = document.querySelector("#backoffice-ticketing .order-number")
+const dateElements = document.querySelectorAll("#backoffice-ticketing .date-ticketing")
 
 const onChangeTicketingAdd = () => {
     if (typeTicketing.value === '1') {
         orderNumberTicketing.style.display = 'block'
         numberMinPlaceTicketing.style.display = 'none'
         numberMinPlaceTicketing.querySelector('input').value = ''
+
+        dateElements.forEach(element => {
+            console.log(element);
+            element.style.display = 'block'
+        })
     }
     else if (typeTicketing.value === '0') {
         orderNumberTicketing.style.display = 'none'
         numberMinPlaceTicketing.style.display = 'block'
         orderNumberTicketing.querySelector('select').value = 0
+
+        dateElements.forEach(element => {
+            console.log(element);
+            element.style.display = 'none'
+        })
     }
 }
 
@@ -115,8 +126,6 @@ const handleTicketingsDisplayModal = (e, index, type, btnSubmit, form) => {
         // Affichage des champs
         editName.innerHTML = '- Nom : <b>' + formData.get('ticketing[name]') + '</b>'
         editText.innerHTML = '- Text : <b>' + formData.get('ticketing[text]') + '</b>'
-        editDateStart.innerHTML = '- Date de début : <b>' + formData.get('ticketing[date_start]') + '</b>'
-        editDateEnd.innerHTML = '- Date de fin : <b>' + formData.get('ticketing[date_end]') + '</b>'
 
         if (formData.get('ticketing[partnership]') === '') {
             editPartnership.innerHTML = '- Partenaire associé : <b> Aucun partenaire renseigné </b>'
@@ -138,6 +147,9 @@ const handleTicketingsDisplayModal = (e, index, type, btnSubmit, form) => {
             } else {
                 editOrderNumber.innerHTML = '- Ordre d\'affichage : <b>' + formData.get('ticketing[order_number]') + '</b>'
             }
+
+            editDateStart.innerHTML = '- Date de début : <b>' + formData.get('ticketing[date_start]') + '</b>'
+            editDateEnd.innerHTML = '- Date de fin : <b>' + formData.get('ticketing[date_end]') + '</b>'
         }
 
         if (formData.get('ticketing[image1]').name === '') {
@@ -262,13 +274,13 @@ const handleTicketingsDisplayModal = (e, index, type, btnSubmit, form) => {
             offerType = 'permanent'
         } else {
             addType.innerHTML = '- Type de l\'offre : <b>Limitée</b>'
+            addDateStart.innerHTML = '- Date de début : <b>' + formData.get('ticketing[date_start]') + '</b>'
+            addDateEnd.innerHTML = '- Date de fin : <b>' + formData.get('ticketing[date_end]') + '</b>'
             offerType = 'limited'
         }
 
         addName.innerHTML = '- Nom : <b>' + formData.get('ticketing[name]') + '</b>'
         addText.innerHTML = '- Text : <b>' + formData.get('ticketing[text]') + '</b>'
-        addDateStart.innerHTML = '- Date de début : <b>' + formData.get('ticketing[date_start]') + '</b>'
-        addDateEnd.innerHTML = '- Date de fin : <b>' + formData.get('ticketing[date_end]') + '</b>'
         addImage1.innerHTML = '- Image 1 : <b>' + formData.get('ticketing[image1]').name + '</b>'
 
         if (formData.get('ticketing[partnership]') === '') {

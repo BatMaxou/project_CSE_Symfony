@@ -72,10 +72,6 @@
 									</span>
 									<p class="card-date">Publié le
 										{{ ticketingPermanent.dateCreate|date('d') ~ ' ' ~ months[ticketingPermanent.dateCreate|format_datetime(pattern='MMMM')] }}
-										- Du
-										{{ ticketingPermanent.dateStart|date('d/m/Y')}}
-										au
-										{{ ticketingPermanent.dateEnd|date('d/m/Y')}}
 									</p>
 									<h3>{{ ticketingPermanent.name|html_entity_decode }}</h3>
 									<p class="card-description-ticketing">{{ ticketingPermanent.text|html_entity_decode }}</p>
