@@ -31,7 +31,7 @@
 			<div class="card-header">
 				{% if offer.partnership.image is defined and offer.partnership.image is not null %}
 					<div class="offer-card-img-partnership">
-						<img src="{{ asset('images/partnership/' ~ offer.partnership.image) }}" alt="image offer">
+						<img src="{{ asset('images/partnership/' ~ offer.partnership.image|html_entity_decode ) }}" alt="image offer">
 					</div>
 				{% endif %}
 				<div class="offer-card-date">
@@ -56,7 +56,7 @@
 				<p>{{offer.text|html_entity_decode }}</p>
 				<div class="offer-card-showroom">
 					{% for img in imgOffer %}
-						<img src="{{ asset('images/ticketing/' ~ img.name) }}" alt="image offer">
+						<img src="{{ asset('images/ticketing/' ~ img.name|html_entity_decode ) }}" alt="image offer">
 					{% endfor %}
 				</div>
 			</div>

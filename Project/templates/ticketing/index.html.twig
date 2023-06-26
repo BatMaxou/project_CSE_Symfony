@@ -64,7 +64,7 @@
 						<div class="card card-paging-multiple card-paging-1">
 							<div class="card-body">
 								<div class="card-image">
-									<img src={{ asset('images/ticketing/' ~ ticketingPermanent.imageTicketings[0].name) }} alt="{{ ticketingPermanent.name|html_entity_decode }}">
+									<img src={{ asset('images/ticketing/' ~ ticketingPermanent.imageTicketings[0].name|html_entity_decode ) }} alt="{{ ticketingPermanent.name|html_entity_decode }}">
 								</div>
 								<div class="card-content">
 									<span class="card-tag">offre
@@ -121,7 +121,7 @@
 						<div class="card card-paging-multiple card-paging-2">
 							<div class="card-body">
 								<div class="card-image">
-									<img src={{ asset('images/ticketing/' ~ ticketingLimited.imageTicketings[0].name) }} alt="{{ ticketingLimited.name|html_entity_decode }}">
+									<img src={{ asset('images/ticketing/' ~ ticketingLimited.imageTicketings[0].name|html_entity_decode ) }} alt="{{ ticketingLimited.name|html_entity_decode }}">
 								</div>
 								<div class="card-content">
 									<span class="card-tag">offre

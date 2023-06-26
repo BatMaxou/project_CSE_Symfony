@@ -97,7 +97,7 @@
 							{% if member.profil is null %}
 								<img src="{{ asset('images/required/no-image.svg')}}" alt="{{ member.firstName|html_entity_decode }}">
 							{% else %}
-								<img src="{{ asset('images/member/' ~ member.profil)}}" alt="{{ member.firstName|html_entity_decode }}">
+								<img src="{{ asset('images/member/' ~ member.profil|html_entity_decode )}}" alt="{{ member.firstName|html_entity_decode }}">
 							{% endif %}
 							{{ form_label(editForms[key].profil) }}
 							{{ form_widget(editForms[key].profil) }}

@@ -169,7 +169,7 @@
 										{% for image in offer.imageTicketings %}
 											{% if image.numero == (ind + 1) %}
 												{% set imgDisplay = true %}
-												<img src="{{ asset('images/ticketing/' ~ image.name) }}" alt="image de l'offre">
+												<img src="{{ asset('images/ticketing/' ~ image.name|html_entity_decode ) }}" alt="image de l'offre">
 											{% endif %}
 										{% endfor %}
 										{% if not imgDisplay %}
@@ -236,7 +236,7 @@
 								{% for ind in 0..3 %}
 									<div>
 										{% if offer.imageTicketings[ind] is defined %}
-											<img src="{{ asset('images/ticketing/' ~ offer.imageTicketings[ind].name) }}" alt="image de l'offre">
+											<img src="{{ asset('images/ticketing/' ~ offer.imageTicketings[ind].name|html_entity_decode ) }}" alt="image de l'offre">
 										{% else %}
 											<img src="{{ asset('images/required/no-image.svg') }}" alt="image de l'offre">
 										{% endif %}
