@@ -21,7 +21,7 @@
 							{% if partnership.image is null %}
 								<img src="{{ asset('images/required/no-image-partnership.svg')}}" alt="{{ partnership.name }}">
 							{% else %}
-								<img src="{{ asset('images/partnership/' ~ partnership.image)}}" alt="{{ partnership.name }}">
+								<img src="{{ asset('images/partnership/' ~ partnership.image|html_entity_decode )}}" alt="{{ partnership.name }}">
 							{% endif %}
 						</div>
 						<div class="card-content">

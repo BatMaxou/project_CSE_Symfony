@@ -93,7 +93,7 @@
 							{% if partnership.image is null %}
 								<img src="{{ asset('images/required/no-image.svg')}}" alt="{{ partnership.name|html_entity_decode }}">
 							{% else %}
-								<img src="{{ asset('images/partnership/' ~ partnership.image)}}" alt="{{ partnership.name|html_entity_decode }}">
+								<img src="{{ asset('images/partnership/' ~ partnership.image|html_entity_decode )}}" alt="{{ partnership.name|html_entity_decode }}">
 							{% endif %}
 							{{ form_label(formPartnership[key].image) }}
 							{{ form_widget(formPartnership[key].image) }}

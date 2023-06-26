@@ -43,14 +43,14 @@
 						<div class="profil">
 							<div class="member-profil-container">
 								{% if member.profil is null %}
-									<img src="{{ asset('images/required/no-image-member.svg')}}" alt="{{ member.firstName }}">
+									<img src="{{ asset('images/required/no-image-member.svg')}}" alt="{{ member.firstName|html_entity_decode }}">
 								{% else %}
-									<img src="{{ asset('images/member/' ~ member.profil)}}" alt="{{ member.firstName }}">
+									<img src="{{ asset('images/member/' ~ member.profil|html_entity_decode )}}" alt="{{ member.firstName|html_entity_decode }}">
 								{% endif %}
 							</div>
 							<div class="member-infos">
-								<h3>{{ member.firstName ~ ' ' ~ member.lastName}}</h3>
-								<p>{{ member.function }}</p>
+								<h3>{{ member.firstName|html_entity_decode ~ ' ' ~ member.lastName|html_entity_decode }}</h3>
+								<p>{{ member.function|html_entity_decode }}</p>
 							</div>
 						</div>
 					{% endfor %}

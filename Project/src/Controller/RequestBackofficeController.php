@@ -315,7 +315,7 @@ class RequestBackofficeController extends AbstractController
                     );
 
                 foreach ($subRep->findAll() as $subscriber) {
-                    $email->addTo($subscriber->getEmail());
+                    $email->addBcc($subscriber->getEmail());
                 }
 
                 $mailer->send($email);
