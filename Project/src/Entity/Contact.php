@@ -67,6 +67,9 @@ class Contact
     )]
     private ?bool $consent = false;
 
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: false)]
+    private ?\DateTimeInterface $dateSend = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -140,6 +143,18 @@ class Contact
     public function setConsent(?bool $consent): self
     {
         $this->consent = $consent;
+
+        return $this;
+    }
+
+    public function getDateSend(): ?\DateTimeInterface
+    {
+        return $this->dateSend;
+    }
+
+    public function setDateSend(?\DateTimeInterface $dateSend): self
+    {
+        $this->dateSend = $dateSend;
 
         return $this;
     }

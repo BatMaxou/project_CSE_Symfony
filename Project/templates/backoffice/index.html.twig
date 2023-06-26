@@ -46,6 +46,10 @@
 								<p>
 									De :
 									{{ msg.email }}
+									-
+									<small>Message reçu le
+										{{ msg.dateSend|date('Y-m-d') }}
+									</small>
 								</p>
 								<p id="p-msg">
 									Message :

@@ -14,6 +14,10 @@
 					<p>
 						De :
 						{{ message.email }}
+						-
+						<small>Message reçu le
+							{{ message.dateSend|date('d-m-Y') }}
+						</small>
 					</p>
 				</div>
 				<div class="card-body">
