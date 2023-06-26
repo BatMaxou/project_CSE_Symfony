@@ -155,8 +155,8 @@ class RequestController extends AbstractController
                     $email = (new Email())
                         ->from(new Address($_ENV['APP_EMAIL'], $request->get('contact')['email']))
                         ->to($_ENV['APP_EMAIL'])
-                        ->subject($subject)
-                        ->text($message);
+                        ->subject(html_entity_decode($subject))
+                        ->text(html_entity_decode($message));
 
                     $mailer->send($email);
                 } else {
