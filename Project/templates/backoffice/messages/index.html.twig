@@ -43,14 +43,14 @@
 					<div class="card-body">
 						<p id="p-msg">
 							Message :
-							{{ msg.message }}
+							{{ msg.message|html_entity_decode }}
 						</p>
 					</div>
 					{{ form_start(deleteForm[key], {'attr': {'class': 'delete-form'}}) }}
 
 					{{ form_widget(deleteForm[key].id, { 'value': msg.id, 'disabled': false }) }}
 					{{ form_widget(deleteForm[key].email, { 'attr': { class: 'form-input-hidden' }, 'value': msg.email, 'disabled': false }) }}
-					{{ form_widget(deleteForm[key].message, { 'attr': { class: 'form-input-hidden' }, 'value': msg.message, 'disabled': false }) }}
+					{{ form_widget(deleteForm[key].message, { 'attr': { class: 'form-input-hidden' }, 'value': msg.message|html_entity_decode , 'disabled': false }) }}
 
 					{{ form_end(deleteForm[key], {'render_rest': false})}}
 					<div class="card-footer">

@@ -847,7 +847,7 @@ class RequestBackofficeController extends AbstractController
                         ->from(new Address($_ENV['APP_EMAIL'], 'CSE Saint-Vincent'))
                         ->to($request->get('contact')['email'])
                         ->subject('Réponse à votre précédent mail')
-                        ->text($message);
+                        ->text(html_entity_decode($message));
 
                     $mailer->send($email);
 

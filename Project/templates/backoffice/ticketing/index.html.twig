@@ -184,8 +184,8 @@
 							</div>
 							<div class="card-content">
 								{{ form_widget(formEdits[key].id, { 'value': offer.id })}}
-								{{ form_row(formEdits[key].name, {value: offer.name, attr: {class: 'form-input form-input-disabled'}}) }}
-								{{ form_row(formEdits[key].text, {value: offer.text, attr: {class: 'form-input form-input-disabled'}}) }}
+								{{ form_row(formEdits[key].name, {value: offer.name|html_entity_decode , attr: {class: 'form-input form-input-disabled'}}) }}
+								{{ form_row(formEdits[key].text, {value: offer.text|html_entity_decode , attr: {class: 'form-input form-input-disabled'}}) }}
 
 								{{ form_label(formEdits[key].date_start, 'Date de début de validité :') }}
 								{{ form_widget(formEdits[key].date_start, {value: offer.dateStart|date('Y-m-d'), attr: {class: 'form-input form-input-disabled'}}) }}
@@ -206,7 +206,7 @@
 
 							{{ form_start(formDeletes[key], {'attr': {'class': 'delete-form'}})}}
 							{{ form_widget(formDeletes[key].id, { 'value': offer.id })}}
-							{{ form_widget(formDeletes[key].name, { 'attr': { class: 'form-input-hidden' }, 'value': offer.name, 'disabled': false })}}
+							{{ form_widget(formDeletes[key].name, { 'attr': { class: 'form-input-hidden' }, 'value': offer.name|html_entity_decode , 'disabled': false })}}
 							{{ form_end(formDeletes[key], {'render_rest': false}) }}
 						</div>
 						<div class="card-footer">
@@ -247,8 +247,8 @@
 							</div>
 							<div class="card-content">
 								{{ form_widget(formEdits[key + ticketingsPermanent|length].id, { 'value': offer.id })}}
-								{{ form_row(formEdits[key + ticketingsPermanent|length].name, {value: offer.name, attr: {class: 'form-input form-input-disabled'}}) }}
-								{{ form_row(formEdits[key + ticketingsPermanent|length].text, {value: offer.text, attr: {class: 'form-input form-input-disabled'}}) }}
+								{{ form_row(formEdits[key + ticketingsPermanent|length].name, {value: offer.name|html_entity_decode , attr: {class: 'form-input form-input-disabled'}}) }}
+								{{ form_row(formEdits[key + ticketingsPermanent|length].text, {value: offer.text|html_entity_decode , attr: {class: 'form-input form-input-disabled'}}) }}
 
 								{{ form_label(formEdits[key + ticketingsPermanent|length].date_start, 'Date de début de validité :') }}
 								{{ form_widget(formEdits[key + ticketingsPermanent|length].date_start, {value: offer.dateStart|date('Y-m-d'), attr: {class: 'form-input form-input-disabled'}}) }}
@@ -269,7 +269,7 @@
 
 							{{ form_start(formDeletes[key + ticketingsPermanent|length], {'attr': {'class': 'delete-form'}})}}
 							{{ form_widget(formDeletes[key + ticketingsPermanent|length].id, { 'value': offer.id })}}
-							{{ form_widget(formDeletes[key + ticketingsPermanent|length].name, { 'attr': { class: 'form-input-hidden' }, 'value': offer.name, 'disabled': false })}}
+							{{ form_widget(formDeletes[key + ticketingsPermanent|length].name, { 'attr': { class: 'form-input-hidden' }, 'value': offer.name|html_entity_decode , 'disabled': false })}}
 							{{ form_end(formDeletes[key + ticketingsPermanent|length], {'render_rest': false}) }}
 						</div>
 						<div class="card-footer">

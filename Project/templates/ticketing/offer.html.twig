@@ -24,7 +24,7 @@
 
 {% block content %}
 	<div id="offer">
-		<h1>{{ offer.name }}
+		<h1>{{ offer.name|html_entity_decode }}
 			- Offre
 			{{ offer.type }}</h1>
 		<div class="card">
@@ -53,7 +53,7 @@
 			</div>
 			<div class="card-body">
 				<h3>Description</h3>
-				<p>{{offer.text}}</p>
+				<p>{{offer.text|html_entity_decode }}</p>
 				<div class="offer-card-showroom">
 					{% for img in imgOffer %}
 						<img src="{{ asset('images/ticketing/' ~ img.name) }}" alt="image offer">

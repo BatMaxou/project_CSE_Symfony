@@ -91,19 +91,19 @@
 					<div class="card-body">
 						<div class="card-image">
 							{% if partnership.image is null %}
-								<img src="{{ asset('images/required/no-image.svg')}}" alt="{{ partnership.name }}">
+								<img src="{{ asset('images/required/no-image.svg')}}" alt="{{ partnership.name|html_entity_decode }}">
 							{% else %}
-								<img src="{{ asset('images/partnership/' ~ partnership.image)}}" alt="{{ partnership.name }}">
+								<img src="{{ asset('images/partnership/' ~ partnership.image)}}" alt="{{ partnership.name|html_entity_decode }}">
 							{% endif %}
 							{{ form_label(formPartnership[key].image) }}
 							{{ form_widget(formPartnership[key].image) }}
 						</div>
 						<div class="card-content">
-							{{form_widget(formPartnership[key].name, {'value': partnership.name})}}
-							{{form_widget(formPartnership[key].description, {'value': partnership.description})}}
+							{{form_widget(formPartnership[key].name, {'value': partnership.name|html_entity_decode })}}
+							{{form_widget(formPartnership[key].description, {'value': partnership.description|html_entity_decode })}}
 							<div id="form-link">
 								{{form_label(formPartnership[key].link)}}
-								{{form_widget(formPartnership[key].link, {'value': partnership.link})}}
+								{{form_widget(formPartnership[key].link, {'value': partnership.link|html_entity_decode })}}
 							</div>
 						</div>
 					</div>
@@ -112,9 +112,7 @@
 					{{ form_start(deleteForm[key], {'attr': {'class': 'delete-form'}}) }}
 
 					{{ form_widget(deleteForm[key].id, { 'value': partnership.id, 'disabled': false }) }}
-					{{ form_widget(deleteForm[key].name, { 'attr': { class: 'form-input-hidden' }, 'value': partnership.name, 'disabled': false }) }}
-					{{ form_widget(deleteForm[key].description, { 'attr': { class: 'form-input-hidden' }, 'value': partnership.description, 'disabled': false }) }}
-					{{ form_widget(deleteForm[key].link, { 'attr': { class: 'form-input-hidden' }, 'value': partnership.link, 'disabled': false }) }}
+					{{ form_widget(deleteForm[key].name, { 'attr': { class: 'form-input-hidden' }, 'value': partnership.name|html_entity_decode , 'disabled': false }) }}
 
 					{{ form_end(deleteForm[key], {'render_rest': false})}}
 

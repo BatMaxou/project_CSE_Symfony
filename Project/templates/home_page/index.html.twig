@@ -50,8 +50,8 @@
 						</span>
 					</div>
 					<div class="card-body">
-						<h3>{{offer.name}}</h3>
-						<p>{{offer.text}}</p>
+						<h3>{{offer.name|html_entity_decode }}</h3>
+						<p>{{offer.text|html_entity_decode }}</p>
 					</div>
 					<div class="card-footer">
 						<a href="{{ path('offer', {slug: offer.slug}) }}">

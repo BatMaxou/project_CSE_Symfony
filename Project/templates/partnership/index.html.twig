@@ -25,12 +25,12 @@
 							{% endif %}
 						</div>
 						<div class="card-content">
-							<h3>{{ partnership.name }}</h3>
-							<p>{{ partnership.description }}</p>
+							<h3>{{ partnership.name|html_entity_decode }}</h3>
+							<p>{{ partnership.description|html_entity_decode }}</p>
 						</div>
 					</div>
 					<div class="card-footer">
-						<a href="{{ partnership.link }}" target="_blanck">
+						<a href="{{ partnership.link|html_entity_decode }}" target="_blanck">
 							<p>Consulter le site du partenaire</p>
 							<img src="{{ asset('images/required/left-chevron.svg')}}" alt="chevron">
 						</a>

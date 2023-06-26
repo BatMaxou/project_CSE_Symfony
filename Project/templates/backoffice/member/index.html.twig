@@ -95,18 +95,18 @@
 						{{ form_start(editForms[key], {'attr': {'class': 'edit-form'}}) }}
 						<div class="card-image">
 							{% if member.profil is null %}
-								<img src="{{ asset('images/required/no-image.svg')}}" alt="{{ member.firstName }}">
+								<img src="{{ asset('images/required/no-image.svg')}}" alt="{{ member.firstName|html_entity_decode }}">
 							{% else %}
-								<img src="{{ asset('images/member/' ~ member.profil)}}" alt="{{ member.firstName }}">
+								<img src="{{ asset('images/member/' ~ member.profil)}}" alt="{{ member.firstName|html_entity_decode }}">
 							{% endif %}
 							{{ form_label(editForms[key].profil) }}
 							{{ form_widget(editForms[key].profil) }}
 						</div>
 						<div class="card-content">
 							{{ form_widget(editForms[key].id, { 'value': member.id }) }}
-							{{ form_widget(editForms[key].firstName, { 'value': member.firstName }) }}
-							{{ form_widget(editForms[key].lastName, { 'value': member.lastName }) }}
-							{{ form_widget(editForms[key].function, { 'value': member.function }) }}
+							{{ form_widget(editForms[key].firstName, { 'value': member.firstName|html_entity_decode }) }}
+							{{ form_widget(editForms[key].lastName, { 'value': member.lastName|html_entity_decode }) }}
+							{{ form_widget(editForms[key].function, { 'value': member.function|html_entity_decode }) }}
 						</div>
 						{{ form_end(editForms[key], {'render_rest': false}) }}
 

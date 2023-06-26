@@ -53,7 +53,7 @@
 								</p>
 								<p id="p-msg">
 									Message :
-									{{ msg.message }}
+									{{ msg.message|html_entity_decode }}
 								</p>
 							</div>
 							<div class="card-footer">
@@ -73,12 +73,12 @@
 							<div style="display: none">
 								{% for label in stats %}
 									<ul class="r-stat">
-										<li>{{label.question}}</li>
+										<li>{{label.question|html_entity_decode }}</li>
 									</ul>
 								{% endfor %}
 								{% for label in stats %}
 									<ul class="q-stat">
-										<li>{{label.responses}}</li>
+										<li>{{label.responses|html_entity_decode }}</li>
 									</ul>
 								{% endfor %}
 							</div>
@@ -99,11 +99,11 @@
 				<div id="survey-active-dashboard">
 					<div class="card">
 						<div class="card-header">
-							<h2 class="question">{{ survey.question }}</h2>
+							<h2 class="question">{{ survey.question|html_entity_decode }}</h2>
 						</div>
 						<div class="card-content">
 							<div class="content-chart">
-								<canvas class="chart" data-question="{{ survey.question }}"></canvas>
+								<canvas class="chart" data-question="{{ survey.question|html_entity_decode }}"></canvas>
 							</div>
 							<ul>
 								{% set i = 1 %}
@@ -112,7 +112,7 @@
 										{# + 1 car index commence à 0 #}
 										<div class="survey-response-{{index + 1}} survey-response">
 											<div class="label"></div>
-											<p>{{ response.text }}</p>
+											<p>{{ response.text|html_entity_decode }}</p>
 											<span class="result-response">{{ response.nbVote * 100 // survey.nbVote }}%</span>
 										</div>
 									</li>
