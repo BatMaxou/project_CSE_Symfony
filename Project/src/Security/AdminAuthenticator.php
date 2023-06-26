@@ -32,11 +32,6 @@ class AdminAuthenticator extends AbstractLoginFormAuthenticator
 
         $request->getSession()->set(Security::LAST_USERNAME, $email);
 
-        $admin = $this->adminRepository->findOneBy(['email' => $email]);
-        $admin->setLastLogin(new \DateTime("NOW"));
-
-        $this->adminRepository->save($admin, true);
-
         return new Passport(
             new UserBadge($email),
             new PasswordCredentials($request->request->get('password', '')),
@@ -51,6 +46,11 @@ class AdminAuthenticator extends AbstractLoginFormAuthenticator
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
         }
+
+        $admin = $this->adminRepository->findOneBy(['email' => $request->request->get('email', '')]);
+        $admin->setLastLogin(new \DateTime("NOW"));
+
+        $this->adminRepository->save($admin, true);
 
         // For example:
         return new RedirectResponse($this->urlGenerator->generate('backoffice_dashboard'));
