@@ -42,6 +42,15 @@ p {
 h1 {
     color: var(--color-primary);
     margin-bottom: 10px;
+    overflow-x: scroll;
+}
+
+h1::-webkit-scrollbar-track {
+    height: 0;
+}
+
+h1::-webkit-scrollbar {
+    height: 0;
 }
 
 h2 {
@@ -769,7 +778,12 @@ textarea:focus::placeholder {
     gap: 20px;
 }
 
-@media(max-width: 850px) {
+#partnership .card-content,
+#ticketing .card-content {
+    width: 100%;
+}
+
+@media(max-width: 600px) {
 
     #partnership .card-body,
     #backoffice-partnership .card-body,
@@ -859,6 +873,7 @@ textarea:focus::placeholder {
 
     .card .card-header .card-date {
         padding-left: 0;
+        margin-top: 5px;
         width: 100%;
     }
 }
@@ -2187,13 +2202,13 @@ textarea:focus::placeholder {
     resize: vertical;
 }
 
-/* Page error 404 */
+/* Page error */
 
 #error-page {
     background-color: var(--color-card);
     width: 100%;
     margin-bottom: 50px;
-    padding: 50px 200px;
+    padding: 50px 0;
     text-align: center;
     display: flex;
     flex-direction: column;
