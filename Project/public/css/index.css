@@ -1494,7 +1494,7 @@ textarea:focus::placeholder {
     height: calc(80px);
     position: relative;
     margin-bottom: 10px;
-    max-width: 75%;
+    max-width: 500px;
 }
 
 .div-ticketing .card-description-ticketing::after {
@@ -1505,6 +1505,12 @@ textarea:focus::placeholder {
     height: 24px;
     width: 75%;
     background: linear-gradient(90deg, transparent, var(--color-card));
+}
+
+@media (max-width: 1050px) and (min-width: 850px) {
+    .div-ticketing .card-description-ticketing {
+        max-width: 335px;
+    }
 }
 
 @media (max-width: 650px) {
