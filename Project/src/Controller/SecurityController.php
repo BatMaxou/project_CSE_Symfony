@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\CkeditorRepository;
 use App\Service\StaticPathList;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -11,9 +12,29 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class SecurityController extends AbstractController
 {
     #[Route(path: '/login', name: 'app_login', methods: ['GET', 'POST'])]
-    public function login(StaticPathList $staticPathList, AuthenticationUtils $authenticationUtils): Response
+    public function login(StaticPathList $staticPathList, AuthenticationUtils $authenticationUtils, CkeditorRepository $ckeditorRep): Response
     {
         $paths = [$staticPathList->getClientPathByName('Accueil'), $staticPathList->getAdminPathByName('Connexion')];
+
+        $ckeditors = $ckeditorRep->findByPage('Client');
+
+        $email = null;
+        $phone = null;
+        $place = null;
+
+        foreach ($ckeditors as $ckeditor) {
+            if ($ckeditor->getZone() === "email") {
+                $email = $ckeditor->getContent();
+            }
+            if ($ckeditor->getZone() === "phone") {
+                $phone = $ckeditor->getContent();
+            }
+            if ($ckeditor->getZone() === "place") {
+                $place = $ckeditor->getContent();
+            }
+        }
+
+        $sideCkeditors = array('email' => $email, 'phone' => $phone, 'place' => $place);
 
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
@@ -24,6 +45,7 @@ class SecurityController extends AbstractController
             'last_username' => $lastUsername,
             'error' => $error,
             'paths' => $paths,
+            'sideCkeditors' => $sideCkeditors,
         ]);
     }
 
