@@ -72,12 +72,36 @@ class HomeController extends AbstractController
         ]);
     }
 
+    public function sidebarCkeditors(CkeditorRepository $rep): array
+    {
+        $ckeditors = $rep->findByPage('Client');
+
+        $email = null;
+        $phone = null;
+        $place = null;
+
+        foreach ($ckeditors as $ckeditor) {
+            if ($ckeditor->getZone() === "email") {
+                $email = $ckeditor->getContent();
+            }
+            if ($ckeditor->getZone() === "phone") {
+                $phone = $ckeditor->getContent();
+            }
+            if ($ckeditor->getZone() === "place") {
+                $place = $ckeditor->getContent();
+            }
+        }
+
+        return array('email' => $email, 'phone' => $phone, 'place' => $place);
+    }
+
     #[Route(path: '/', name: 'home', methods: ['GET'])]
     public function home(staticPathList $staticPathList, PartnershipRepository $partnerRepo, TicketingRepository $ticketingRep, CkeditorRepository $ckeditorRep): Response
     {
         $paths = [$staticPathList->getClientPathByName('Accueil')];
 
-        $ckeditor = $ckeditorRep->findByPage('HomePage');
+        $presentation = $ckeditorRep->findByPage('HomePage');
+        $sideCkeditors = $this->sidebarCkeditors($ckeditorRep);
         $ticketing = $ticketingRep->findByLimitedActiveDesc();
         $nbOffer = count($ticketing);
         // counting the number of pages with 4 offers per page
@@ -87,7 +111,8 @@ class HomeController extends AbstractController
 
         return $this->render('home_page/index.html.twig', [
             'paths' => $paths,
-            'ckeditor' => $ckeditor,
+            'presentation' => $presentation,
+            'sideCkeditors' => $sideCkeditors,
             'ticketing' => $ticketing,
             'nbOffer' => $nbOffer,
             'nbPage' => $nbPage,
@@ -96,11 +121,13 @@ class HomeController extends AbstractController
     }
 
     #[Route(path: '/partenariat', name: 'partnership', methods: ['GET'])]
-    public function partnership(staticPathList $staticPathList, PartnershipRepository $partnershipRepo): Response
+    public function partnership(staticPathList $staticPathList, PartnershipRepository $partnershipRepo, CkeditorRepository $ckeditorRep): Response
     {
         $paths = [$staticPathList->getClientPathByName('Accueil'), $staticPathList->getClientPathByName('Partenariats')];
 
         $partnership = $partnershipRepo->findAll();
+
+        $sideCkeditors = $this->sidebarCkeditors($ckeditorRep);
 
         // get 3 random image from database
         $imgPartner = $partnershipRepo->imagePartner();
@@ -111,6 +138,7 @@ class HomeController extends AbstractController
 
         return $this->render('partnership/index.html.twig', [
             'paths' => $paths,
+            'sideCkeditors' => $sideCkeditors,
             'partnerships' => $partnership,
             'image' => $imgPartner,
             'nbPage' => $nbPage,
@@ -140,6 +168,8 @@ class HomeController extends AbstractController
             }
         }
 
+        $sideCkeditors = $this->sidebarCkeditors($ckeditorRep);
+
         // get 3 random image from database
         $imgPartner = $partnershipRepo->imagePartner();
 
@@ -147,6 +177,7 @@ class HomeController extends AbstractController
 
         return $this->render('about_us/index.html.twig', [
             'paths' => $paths,
+            'sideCkeditors' => $sideCkeditors,
             'image' => $imgPartner,
             'members' => $members,
             'actions' => $actions,
@@ -156,7 +187,7 @@ class HomeController extends AbstractController
     }
 
     #[Route(path: '/billetterie', name: 'ticketing', methods: ['GET'])]
-    public function ticketing(staticPathList $staticPathList, PartnershipRepository $partnershipRepo, TicketingRepository $ticketingRep, ImageTicketingRepository $imgTicketingRep): Response
+    public function ticketing(staticPathList $staticPathList, PartnershipRepository $partnershipRepo, TicketingRepository $ticketingRep, ImageTicketingRepository $imgTicketingRep, CkeditorRepository $ckeditorRep): Response
     {
         $paths = [$staticPathList->getClientPathByName('Accueil'), $staticPathList->getClientPathByName('Billetterie')];
 
@@ -178,6 +209,8 @@ class HomeController extends AbstractController
         // récupération des partenaires
         $partnershipRepo->findAll();
 
+        $sideCkeditors = $this->sidebarCkeditors($ckeditorRep);
+
         // get 3 random image from database
         $imgPartner = $partnershipRepo->imagePartner();
 
@@ -192,6 +225,7 @@ class HomeController extends AbstractController
             'paths' => $paths,
             'ticketingsPermanent' => $ticketingsPermanent,
             'ticketingsLimited' => $ticketingsLimited,
+            'sideCkeditors' => $sideCkeditors,
             'image' => $imgPartner,
             'nbPagePermanent' => $nbPagePermanent,
             'nbPageLimited' => $nbPageLimited,
@@ -199,11 +233,13 @@ class HomeController extends AbstractController
     }
 
     #[Route(path: '/billetterie/{slug}', name: 'offer', methods: ['GET'])]
-    public function offer(staticPathList $staticPathList, PartnershipRepository $partnershipRepo, TicketingRepository $ticketingRepo, string $slug): Response
+    public function offer(staticPathList $staticPathList, PartnershipRepository $partnershipRepo, TicketingRepository $ticketingRepo, CkeditorRepository $ckeditorRep, string $slug): Response
     {
         $offer = $ticketingRepo->findBySlug($slug);
 
         $paths = [$staticPathList->getClientPathByName('Accueil'), $staticPathList->getClientPathByName('Billetterie'), array(html_entity_decode($offer->getName()), 'offer', $offer->getSlug())];
+
+        $sideCkeditors = $this->sidebarCkeditors($ckeditorRep);
 
         // get info associated at the id in the url of the ticketing
         $imgPartner = $partnershipRepo->imagePartner();
@@ -214,6 +250,7 @@ class HomeController extends AbstractController
 
             return $this->render('ticketing/offer.html.twig', [
                 'paths' => $paths,
+                'sideCkeditors' => $sideCkeditors,
                 'image' => $imgPartner,
                 'offer' => $offer,
                 'imgOffer' => $imgOffer
@@ -224,14 +261,18 @@ class HomeController extends AbstractController
     }
 
     #[Route(path: '/contact', name: 'contact', methods: ['GET', 'POST'])]
-    public function contact(staticPathList $staticPathList, PartnershipRepository $partnershipRepo): Response
+    public function contact(staticPathList $staticPathList, PartnershipRepository $partnershipRepo, CkeditorRepository $ckeditorRep): Response
     {
         $paths = [$staticPathList->getClientPathByName('Accueil'), $staticPathList->getClientPathByName('Contact')];
+
+        $sideCkeditors = $this->sidebarCkeditors($ckeditorRep);
+
         // get 3 random image from database
         $imgPartner = $partnershipRepo->imagePartner();
 
         return $this->render('contact/index.html.twig', [
             'paths' => $paths,
+            'sideCkeditors' => $sideCkeditors,
             'image' => $imgPartner,
         ]);
     }

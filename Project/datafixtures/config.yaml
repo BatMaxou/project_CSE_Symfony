@@ -50,9 +50,17 @@ ckeditor:
     zone: "rules"
     content: "<h3><strong>Article 1 :</strong></h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In metus magna, cursus nec felis a, mattis malesuada risus. Mauris et mi nec urna accumsan iaculis. In congue erat eu sem finibus eleifend. Duis vestibulum dui nec egestas eleifend. Nulla molestie metus ac orci finibus semper. Nam non commodo risus. Duis sollicitudin et sapien quis interdum. Donec ultrices condimentum lectus, ac pellentesque tellus egestas eu. Sed scelerisque quam et nisl finibus, eu molestie tortor varius. Cras ex nulla, ornare non velit vitae, porta ultricies eros.</p><p>Pellentesque aliquet metus id magna tristique mattis. Nullam nisi augue, auctor non euismod et, tempus id neque. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In rhoncus venenatis lorem, ut mollis erat pellentesque in. Sed tristique odio vel mauris lacinia, sit amet euismod ipsum sollicitudin. Fusce a lectus cursus, luctus elit nec, sagittis tortor. Vestibulum enim nisl, accumsan non imperdiet a, gravida sed purus. Cras tristique lacus augue, placerat finibus nulla volutpat eget. Ut viverra porttitor ultrices. Nullam maximus porta eros eu consectetur. Praesent id lacus orci. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p><h3>&nbsp;</h3><h3><strong>Article 2 :</strong></h3><p>&nbsp;</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In metus magna, cursus nec felis a, mattis malesuada risus. Mauris et mi nec urna accumsan iaculis. In congue erat eu sem finibus eleifend. Duis vestibulum dui nec egestas eleifend. Nulla molestie metus ac orci finibus semper. Nam non commodo risus. Duis sollicitudin et sapien quis interdum. Donec ultrices condimentum lectus, ac pellentesque tellus egestas eu. Sed scelerisque quam et nisl finibus, eu molestie tortor varius. Cras ex nulla, ornare non velit vitae, porta ultricies eros.</p><p>Pellentesque aliquet metus id magna tristique mattis. Nullam nisi augue, auctor non euismod et, tempus id neque. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In rhoncus venenatis lorem, ut mollis erat pellentesque in. Sed tristique odio vel mauris lacinia, sit amet euismod ipsum sollicitudin. Fusce a lectus cursus, luctus elit nec, sagittis tortor. Vestibulum enim nisl, accumsan non imperdiet a, gravida sed purus. Cras tristique lacus augue, placerat finibus nulla volutpat eget. Ut viverra porttitor ultrices. Nullam maximus porta eros eu consectetur. Praesent id lacus orci. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>"
   4:
-    pageName: "AboutUs"
+    pageName: "Client"
     zone: "email"
-    content: "<p><a href='https://google.com'><strong>cse@lyceestvincent.fr</strong></a></p>"
+    content: "<p><strong>cse@lyceestvincent.net</strong></p>"
+  5:
+    pageName: "Client"
+    zone: "phone"
+    content: "<p><strong>0623456789</strong></p>"
+  6:
+    pageName: "Client"
+    zone: "place"
+    content: "<p>Bureau du CSE - 1er &eacute;tage b&acirc;timent Saint-Vincent</p>"
 
 member:
   1:

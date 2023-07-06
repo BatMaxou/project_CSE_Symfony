@@ -35,9 +35,11 @@ class BackOfficeController extends AbstractController
 
         $texts = [
             'homepage' => $rep->findByZone('HomePage', 'zone'),
-            'email' => $rep->findByZone('AboutUs', 'email'),
             'actions' => $rep->findByZone('AboutUs', 'actions'),
             'rules' => $rep->findByZone('AboutUs', 'rules'),
+            'email' => $rep->findByZone('Client', 'email'),
+            'phone' => $rep->findByZone('Client', 'phone'),
+            'place' => $rep->findByZone('Client', 'place'),
         ];
 
         $form = $this->createForm(TextsType::class, null, [

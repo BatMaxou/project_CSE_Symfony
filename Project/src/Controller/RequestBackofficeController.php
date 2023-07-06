@@ -41,15 +41,19 @@ class RequestBackofficeController extends AbstractController
         try {
             $texts = [
                 'homepage' => $rep->findByZone('HomePage', 'zone'),
-                'email' => $rep->findByZone('AboutUs', 'email'),
                 'actions' => $rep->findByZone('AboutUs', 'actions'),
                 'rules' => $rep->findByZone('AboutUs', 'rules'),
+                'email' => $rep->findByZone('Client', 'email'),
+                'phone' => $rep->findByZone('Client', 'phone'),
+                'place' => $rep->findByZone('Client', 'place'),
             ];
 
             $rep->save($texts['homepage']->setContent($request->get('texts')['homepage']), true);
-            $rep->save($texts['email']->setContent($request->get('texts')['email']), true);
             $rep->save($texts['actions']->setContent($request->get('texts')['actions']), true);
             $rep->save($texts['rules']->setContent($request->get('texts')['rules']), true);
+            $rep->save($texts['email']->setContent($request->get('texts')['email']), true);
+            $rep->save($texts['phone']->setContent($request->get('texts')['phone']), true);
+            $rep->save($texts['place']->setContent($request->get('texts')['place']), true);
 
             return new Response('Les modifications ont bien été effectuées !', 200);
         } catch (\Throwable $th) {

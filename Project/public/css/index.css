@@ -624,6 +624,9 @@ textarea:focus::placeholder {
 }
 
 .contact-header li {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
     padding: 5px 0;
     list-style-image: url(../images/required/left-chevron.svg);
 }
@@ -764,6 +767,7 @@ textarea:focus::placeholder {
     background-color: var(--color-card);
     margin-bottom: 20px;
     padding: 15px;
+    overflow: hidden;
 }
 
 .card ul {
@@ -987,6 +991,10 @@ textarea:focus::placeholder {
 }
 
 /* OFFER */
+
+#offer .card {
+    overflow-x: scroll;
+}
 
 #offer .card-header {
     flex-direction: column;
@@ -1400,6 +1408,7 @@ textarea:focus::placeholder {
 
 #aboutus .member-infos {
     text-align: center;
+    max-width: 200px;
 }
 
 #aboutus .member-infos h3 {
@@ -1485,6 +1494,7 @@ textarea:focus::placeholder {
     height: calc(80px);
     position: relative;
     margin-bottom: 10px;
+    max-width: 75%;
 }
 
 .div-ticketing .card-description-ticketing::after {
@@ -1880,7 +1890,7 @@ textarea:focus::placeholder {
 }
 
 #presentation-logout #text-cse-presentation {
-    height: 60px;
+    height: 75px;
     overflow: hidden;
     width: 60%;
 }

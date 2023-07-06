@@ -82,8 +82,12 @@ class DatabaseRefreshCommand extends Command
             ],
             'AboutUs' => [
                 2 => 'actions',
-                3 => 'rules',
-                4 => 'email'
+                3 => 'rules'
+            ],
+            'Client' => [
+                4 => 'email',
+                5 => 'phone',
+                6 => 'place'
             ]
         ];
 

@@ -18,6 +18,14 @@ final class TextsType extends AbstractType
                 'label' => 'Mail',
                 'required' => true,
             ])
+            ->add('phone', CKEditorType::class, [
+                'label' => 'Téléphone',
+                'required' => true,
+            ])
+            ->add('place', CKEditorType::class, [
+                'label' => 'Emplacement',
+                'required' => true,
+            ])
             ->add('homepage', CKEditorType::class, [
                 'label' => 'Texte de présentation',
                 'required' => true,

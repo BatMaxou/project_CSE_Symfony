@@ -14,6 +14,14 @@
 			{{ form_widget(form.email, {'value': texts['email'].content}) }}
 		</div>
 		<div class="card">
+			<h2>{{ form_label(form.phone) }}</h2>
+			{{ form_widget(form.phone, {'value': texts['phone'].content}) }}
+		</div>
+		<div class="card">
+			<h2>{{ form_label(form.place) }}</h2>
+			{{ form_widget(form.place, {'value': texts['place'].content}) }}
+		</div>
+		<div class="card">
 			<h2>{{ form_label(form.homepage) }}</h2>
 			{{ form_widget(form.homepage, {'value': texts['homepage'].content}) }}
 		</div>
